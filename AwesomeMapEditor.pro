@@ -45,14 +45,19 @@ unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
 #
 SOURCES += \
         src/main.cpp \
-        src/Forms/MainWindow.cpp
+        src/Forms/MainWindow.cpp \
+    src/System/WriteEntry.cpp \
+    src/System/ErrorStack.cpp
 
 
 #
 # Header Files
 #
 HEADERS  += \
-        include/AME/Forms/MainWindow.h
+        include/AME/Forms/MainWindow.h \
+    include/AME/Structures/WildPokemonTable.hpp \
+    include/AME/System/ErrorStack.hpp \
+    include/AME/System/WriteEntry.hpp
 
 
 #
