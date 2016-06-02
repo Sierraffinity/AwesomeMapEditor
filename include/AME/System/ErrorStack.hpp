@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////
+﻿//////////////////////////////////////////////////////////////////////////////////
 //
 //
 //                     d88b         888b           d888  888888888888
@@ -50,11 +50,12 @@ namespace ame
     /// \author  Pokedude
     /// \version 1.0.0.0
     /// \date    6/2/2016
-    /// \brief   Stores errors thrown
+    /// \brief   Stores errors thrown during loading/writing.
     ///
-    /// The wild pokémon table consists of sub-tables which
-    /// again hold four fixed-size tables for each area in
-    /// which the Pokémon can appear.
+    /// This class is capable of tracking errors, storing them
+    /// in a list and retrieving them alltogether to display
+    /// them in an error box eventually. Can also generate a 
+    /// log file that can be shared across the community.
     ///
     ///////////////////////////////////////////////////////////
     class ErrorStack {
