@@ -182,7 +182,7 @@ namespace ame
         /// \brief Undoes the most recent add or remove action.
         ///
         /// Either undoes the adding of a table entry or the
-        /// removing of a table entry.
+        /// removal of a table entry.
         ///
         ///////////////////////////////////////////////////////////
         void undo() Q_DECL_OVERRIDE;
@@ -191,7 +191,7 @@ namespace ame
         /// \brief Redoes the most recently undone action.
         ///
         /// Either redoes the adding of a table entry or the
-        /// removing of a table entry.
+        /// removal of a table entry.
         ///
         ///////////////////////////////////////////////////////////
         void redo() Q_DECL_OVERRIDE;
