@@ -54,4 +54,50 @@ namespace ame
         : offset(0)
     {
     }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/3/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void WriteEntry::addHWord(UInt16 hword)
+    {
+        data.push_back((Int8)(hword & 0xFF));
+        data.push_back((Int8)(hword >> 0x8));
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/3/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void WriteEntry::addWord(UInt32 word)
+    {
+        data.push_back((Int8)(word & 0xFF));
+        data.push_back((Int8)(word >> 0x08));
+        data.push_back((Int8)(word >> 0x10));
+        data.push_back((Int8)(word >> 0x18));
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/3/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void WriteEntry::addPointer(UInt32 offset)
+    {
+        if (offset == 0x00000000)
+            addWord(offset);
+        else
+            addWord(offset + 0x08000000)
+    }
 }
