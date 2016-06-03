@@ -59,11 +59,17 @@ namespace ame
     // Added a conversion for template strings.
     //
     ///////////////////////////////////////////////////////////
-    bool ErrorStack::add(const QString &method, const QString &error, UInt32 offset)
+    bool ErrorStack::add(QString &method, QString &error, UInt32 offset)
     {
         // If the offset is zero, converts the error string
         if (offset == 0)
             error.replace("%offset%", QString::number(offset, 16));
+
+        // Converts the __PRETTY_FUNCTION__ macro string
+        Int32 whiteSpace = method.indexOf(' ');
+        Int32 firstBrack = method.indexOf('(');
+        method.remove(0, whiteSpace);
+        method.remove(firstBrack, 69);
 
         // Copies the string to the stack
         s_Stack.append(error);
@@ -81,6 +87,19 @@ namespace ame
     const QStringList &ErrorStack::errors()
     {
         return s_Stack;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const QStringList &ErrorStack::methods()
+    {
+        return s_Methods;
     }
 
 

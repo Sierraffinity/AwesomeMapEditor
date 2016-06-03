@@ -73,7 +73,7 @@ namespace ame
         /// \returns always false in order to maintain code flow.
         ///
         ///////////////////////////////////////////////////////////
-        static bool add(const QString &method, const QString &error, UInt32 offset = 0);
+        static bool add(QString &method, QString &error, UInt32 offset = 0);
 
         ///////////////////////////////////////////////////////////
         /// \brief Retrieves all errors on the stack.
@@ -82,11 +82,21 @@ namespace ame
         static const QStringList &errors();
 
         ///////////////////////////////////////////////////////////
+        /// \brief Retrieves all erroneous methods (with class).
+        ///
+        ///////////////////////////////////////////////////////////
+        static const QStringList &methods();
+
+        ///////////////////////////////////////////////////////////
         /// \brief Puts the errors into one, copyable log string.
         ///
         ///////////////////////////////////////////////////////////
         static const QString log();
     };
+
+
+    #define AME_THROW(err, off)     { return ErrorStack::add(Q_FUNC_INFO, err, off); }
+    #define AME_THROW2(err)         { return ErrorStack::add(Q_FUNC_INFO, err); }
 }
 
 
