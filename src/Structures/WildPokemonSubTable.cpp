@@ -157,6 +157,7 @@ namespace ame
 
 
         // Loading successful
+        m_Offset = offset;
         return true;
     }
 

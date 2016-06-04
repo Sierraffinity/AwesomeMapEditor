@@ -211,6 +211,16 @@ namespace ame
             m_Offset = offset;
         }
 
+        // If table is smaller than before, clear unused space
+        if (m_Tables.size() < m_Count)
+        {
+            WriteEntry clearEntry { m_Offset + m_Tables.size() * 4 };
+            for (int i = 0; i < m_Count - m_Tables.size(); i++)
+                clearEntry.data.push_back((char)0xFF);
+
+            entries.append(clearEntry);
+        }
+
 
         // Writes all the pointers to the table
         WriteEntry tableEntry { m_Offset };

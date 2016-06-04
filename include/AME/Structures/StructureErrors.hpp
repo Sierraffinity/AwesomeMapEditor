@@ -39,11 +39,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Core/Rom.hpp>
-#include <AME/System/IUndoable.hpp>
-#include <AME/System/WriteEntry.hpp>
 #include <AME/System/ErrorStack.hpp>
-#include <AME/Structures/WildPokemonSubTable.hpp>
 
 
 namespace ame
@@ -56,6 +52,7 @@ namespace ame
     /// \brief   Defines all errors for 'Structure' classes.
     ///
     ///////////////////////////////////////////////////////////
+
 
     ///////////////////////////////////////////////////////////
     // Class: WildPokemonTable

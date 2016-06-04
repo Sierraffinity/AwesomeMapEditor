@@ -39,7 +39,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Config.hpp>
+#include <QBoy/Core/Rom.hpp>
 #include <AME/System/IUndoable.hpp>
 #include <AME/System/WriteEntry.hpp>
 #include <AME/Structures/WildPokemonEncounter.hpp>
