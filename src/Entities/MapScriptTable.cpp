@@ -297,4 +297,85 @@ namespace ame
         // Now removes the script
         m_Scripts.removeAt(index);
     }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MapScriptTable::undo()
+    {
+        // Removes the action from the undo stack and
+        // adds it to the redo stack afterwards.
+        UndoEntry entry = s_UndoStack.last();
+        s_UndoStack.removeLast();
+
+        // Now reverses the process of the action
+        if (entry.action == URA_ACTION_ADD)
+        {
+            // Removes the given script
+            m_Scripts.removeAt(entry.index);
+            s_RedoStack.push_back(entry);
+        }
+        else if (entry.action == URA_ACTION_REMOVE)
+        {
+            // Adds the given table again
+            m_Scripts.insert(entry.index, entry.script);
+            s_RedoStack.push_back(entry);
+        }
+        else
+        {
+            // Modifies the values within that entry
+            // and reverses the process of modifying
+            MapScript *old = entry.script;
+            entry.script = m_Scripts[entry.index];
+            m_Scripts[entry.index] = old;
+
+            // Adds the modified entry to the redo stack
+            s_RedoStack.push_back(entry);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MapScriptTable::redo()
+    {
+        // Removes the action from the redo stack and
+        // adds it to the undo stack afterwards.
+        UndoEntry entry = s_RedoStack.last();
+        s_RedoStack.removeLast();
+
+        // Now redoes the previous action
+        if (entry.action == URA_ACTION_ADD)
+        {
+            // Adds the given script, as before
+            m_Scripts.insert(entry.index, entry.script);
+            s_UndoStack.push_back(entry);
+        }
+        else if (entry.action == URA_ACTION_REMOVE)
+        {
+            // Removes the given table, as before
+            m_Scripts.removeAt(entry.index);
+            s_UndoStack.push_back(entry);
+        }
+        else
+        {
+            // Modifies the values within that entry
+            // and reverses the process of undoing
+            MapScript *current = entry.script;
+            entry.script = m_Scripts[entry.index];
+            m_Scripts[entry.index] = current;
+
+            // Adds the modified entry to the redo stack
+            s_UndoStack.push_back(entry);
+        }
+    }
 }
