@@ -42,6 +42,7 @@
 #include <QBoy/Core/Rom.hpp>
 #include <AME/System/IUndoable.hpp>
 #include <AME/System/WriteEntry.hpp>
+#include <AME/System/ErrorStack.hpp>
 #include <AME/Structures/WildPokemonSubTable.hpp>
 
 
@@ -60,8 +61,20 @@ namespace ame
     // Class: WildPokemonTable
     //
     ///////////////////////////////////////////////////////////
-    #define WPT_ERROR_OFFSET    "The location of the wildpokemon head table (%offset%) is invalid."
+    #define WPT_ERROR_OFFSET    "The location of the wildpokemon head table (ref: 0x%offset%) is invalid."
     #define WPT_ERROR_RANGE     "The wildpokemon head table exceeded the ROM's range."
+
+    ///////////////////////////////////////////////////////////
+    // Class: WildPokemonTable
+    //
+    ///////////////////////////////////////////////////////////
+    #define WPST_ERROR_OFFSET   "The location of a wildpokemon sub table (ref: 0x%offset%) is invalid."
+    #define WPST_ERROR_RANGE    "While having attempted to read the encounter data, ROM's range was exceeded."
+    #define WPST_ERROR_GRASS    "The location of the grass encounters (ref: 0x%offset%) is invalid."
+    #define WPST_ERROR_WATER    "The location of the water encounters (ref: 0x%offset%) is invalid."
+    #define WPST_ERROR_ROCK     "The location of the rock-smash encounters (ref: 0x%offset%) is invalid."
+    #define WPST_ERROR_FISH     "The location of the fishing encounters (ref: 0x%offset%) is invalid."
+    #define WPST_ERROR_DATA     "The location of the encounter data (ref: 0x%offset%) is invalid."
 }
 
 

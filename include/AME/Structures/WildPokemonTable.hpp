@@ -197,6 +197,26 @@ namespace ame
         void redo() Q_DECL_OVERRIDE;
 
 
+    protected:
+
+        ///////////////////////////////////////////////////////////
+        struct UndoEntry
+        {
+            WildPokemonSubTable *table; ///< Holds the actual entry
+            UndoRedoAction action;      ///< Holds the causing action
+            Int32 index;                ///< Holds the entry position
+            UInt32 offset;              ///< Holds the old offset
+        };
+
+
+        ///////////////////////////////////////////////////////////
+        // Undo/redo variables
+        //
+        ///////////////////////////////////////////////////////////
+        QList<UndoEntry> s_UndoStack;
+        QList<UndoEntry> s_RedoStack;
+
+
     private:
 
         ///////////////////////////////////////////////////////////

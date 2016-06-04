@@ -87,7 +87,8 @@ namespace ame
         URA_ACTION_MODIFY   = 2,    ///< e.g. Map block modified
         URA_ACTION_CLEAR    = 3,    ///< e.g. Entire table cleared
         URA_ACTION_WRITE    = 4,    ///< e.g. Writing process to file
-        URA_ACTION_DELETE   = 5     ///< e.g. Deleting a map, tileset, etc
+        URA_ACTION_DELETE   = 5,    ///< e.g. Deleting a map, tileset, etc
+        URA_ACTION_REPOINT  = 6     ///< e.g. Repointing a table
     };
 
 }

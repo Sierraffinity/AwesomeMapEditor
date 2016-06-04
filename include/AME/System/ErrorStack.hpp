@@ -73,7 +73,7 @@ namespace ame
         /// \returns always false in order to maintain code flow.
         ///
         ///////////////////////////////////////////////////////////
-        static bool add(QString &method, QString &error, UInt32 offset = 0);
+        static bool add(QString method, QString error, UInt32 offset = 0);
 
         ///////////////////////////////////////////////////////////
         /// \brief Retrieves all errors on the stack.

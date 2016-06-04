@@ -50,8 +50,8 @@ namespace ame
     // Set offset to zero; data is null by default
     //
     ///////////////////////////////////////////////////////////
-    WriteEntry::WriteEntry()
-        : offset(0)
+    WriteEntry::WriteEntry(UInt32 offset)
+        : offset(offset)
     {
     }
 
@@ -98,6 +98,6 @@ namespace ame
         if (offset == 0x00000000)
             addWord(offset);
         else
-            addWord(offset + 0x08000000)
+            addWord(offset + 0x08000000);
     }
 }

@@ -59,7 +59,7 @@ namespace ame
     // Added a conversion for template strings.
     //
     ///////////////////////////////////////////////////////////
-    bool ErrorStack::add(QString &method, QString &error, UInt32 offset)
+    bool ErrorStack::add(QString method, QString error, UInt32 offset)
     {
         // If the offset is zero, converts the error string
         if (offset == 0)
@@ -74,6 +74,8 @@ namespace ame
         // Copies the string to the stack
         s_Stack.append(error);
         s_Methods.append(method);
+
+        return false; // Maintain code flow
     }
 
 

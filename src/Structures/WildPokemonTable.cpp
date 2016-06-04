@@ -35,35 +35,12 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <AME/System/ErrorStack.hpp>
 #include <AME/Structures/StructureErrors.hpp>
 #include <AME/Structures/WildPokemonTable.hpp>
 
 
 namespace ame
 {
-    ///////////////////////////////////////////////////////////
-    /// \author Pokedude
-    /// \date   6/3/2016
-    /// \brief  Stores an undo- or redo entry.
-    ///
-    ///////////////////////////////////////////////////////////
-    struct UndoEntry
-    {
-        WildPokemonSubTable *table; ///< Holds the actual entry
-        UndoRedoAction action;      ///< Holds the causing action
-        Int32 index;                ///< Holds the entry position
-    };
-
-
-    ///////////////////////////////////////////////////////////
-    // Defines variables exclusively used by this code file
-    //
-    ///////////////////////////////////////////////////////////
-    QList<UndoEntry> s_UndoStack;
-    QList<UndoEntry> s_RedoStack;
-
-
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
     // Contributers:   Pokedude
@@ -119,6 +96,12 @@ namespace ame
     {
         foreach (WildPokemonSubTable *subTable, m_Tables)
             delete subTable;
+
+        for (int i = 0; i < s_UndoStack.size(); i++)
+            delete s_UndoStack.at(i).table;
+
+        for (int i = 0; i < s_RedoStack.size(); i++)
+            delete s_RedoStack.at(i).table;
     }
 
 
@@ -161,6 +144,7 @@ namespace ame
 
 
         // Loading successful
+        m_Offset = offset;
         return true;
     }
 
@@ -196,7 +180,10 @@ namespace ame
     // Function type:  I/O
     // Contributers:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/3/2016
+    // Date of edit:   6/4/2016
+    // Comment:
+    //
+    // Added the ending sequence (0x0000FFFF) to the entries.
     //
     ///////////////////////////////////////////////////////////
     QList<WriteEntry> WildPokemonTable::write(UInt32 offset)
@@ -209,12 +196,19 @@ namespace ame
         {
             // Each pointer is sized four bytes
             WriteEntry clearEntry { m_Offset };
-            for (int i = 0; i < m_Count*4; i++)
+            for (int i = 0; i < m_Count * 4; i++)
                 clearEntry.data.push_back(0xFF);
 
             entries.push_back(clearEntry);
+
+            // Adds an undo entry for the repoint
+            UndoEntry repEntry;
+            repEntry.action = URA_ACTION_REPOINT;
+            repEntry.offset = m_Offset;
+            s_UndoStack.append(repEntry);
+
+            // Sets the repointed offset as new offset
             m_Offset = offset;
-            /* TODO: Undo/Redo for repoint */
         }
 
 
@@ -222,13 +216,14 @@ namespace ame
         WriteEntry tableEntry { m_Offset };
         for (int i = 0; i < m_Tables.size(); i++)
         {
-            const WildPokemonSubTable *sub = m_Tables.at(i);
+            WildPokemonSubTable *sub = m_Tables[i];
             tableEntry.addPointer(sub->offset());
             entries.append(sub->write());
         }
 
 
         // Appends all table pointers as one entry
+        tableEntry.addWord(0x0000FFFF);
         entries.append(tableEntry);
         return entries;
     }
@@ -250,7 +245,10 @@ namespace ame
     // Function type:  Setter
     // Contributers:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/3/2016
+    // Date of edit:   6/4/2016
+    // Comment:
+    //
+    // Fixed the index; previously took s_UndoStack.size.
     //
     ///////////////////////////////////////////////////////////
     void WildPokemonTable::add(WildPokemonSubTable *subTable)
@@ -258,7 +256,7 @@ namespace ame
         // Generates an undo entry out of the given information
         UndoEntry entry;
         entry.table = subTable;
-        entry.index = s_UndoStack.size();
+        entry.index = m_Tables.size();
         entry.action = URA_ACTION_ADD;
         s_UndoStack.append(entry);
 
@@ -300,18 +298,27 @@ namespace ame
         // adds it to the redo stack afterwards.
         UndoEntry entry = s_UndoStack.last();
         s_UndoStack.removeLast();
-        s_RedoStack.append(entry);
 
         // Now reverses the process of the action
         if (entry.action == URA_ACTION_ADD)
         {
             // Removes the given table
             m_Tables.removeAt(entry.index);
+            s_RedoStack.append(entry);
         }
-        else
+        else if (entry.action == URA_ACTION_REMOVE)
         {
             // Adds the given table again
             m_Tables.insert(entry.index, entry.table);
+            s_RedoStack.append(entry);
+        }
+        else
+        {
+            // Replaces the new offset with the old one
+            UInt32 newOffset = m_Offset;
+            m_Offset = entry.offset;
+            entry.offset = newOffset;
+            s_RedoStack.append(entry);
         }
     }
 
@@ -328,18 +335,27 @@ namespace ame
         // adds it to the undo stack afterwards.
         UndoEntry entry = s_RedoStack.last();
         s_RedoStack.removeLast();
-        s_UndoStack.append(entry);
 
         // Now does the same action again
         if (entry.action == URA_ACTION_ADD)
         {
             // Adds the given table, as before
             m_Tables.insert(entry.index, entry.table);
+            s_UndoStack.append(entry);
         }
-        else
+        else if (entry.action == URA_ACTION_REMOVE)
         {
             // Removes the given table, as before
             m_Tables.removeAt(entry.index);
+            s_UndoStack.append(entry);
+        }
+        else
+        {
+            // Replaces the old offset with the new one
+            UInt32 oldOffset = m_Offset;
+            m_Offset = entry.offset;
+            entry.offset = oldOffset;
+            s_UndoStack.append(entry);
         }
     }
 }

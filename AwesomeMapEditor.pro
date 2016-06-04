@@ -48,7 +48,9 @@ SOURCES += \
         src/Forms/MainWindow.cpp \
     src/System/WriteEntry.cpp \
     src/System/ErrorStack.cpp \
-    src/Structures/WildPokemonTable.cpp
+    src/Structures/WildPokemonTable.cpp \
+    src/Structures/WildPokemonSubTable.cpp \
+    src/Structures/WildPokemonArea.cpp
 
 
 #
@@ -61,7 +63,9 @@ HEADERS  += \
     include/AME/System/WriteEntry.hpp \
     include/AME/System/IUndoable.hpp \
     include/AME/Structures/WildPokemonSubTable.hpp \
-    include/AME/Structures/StructureErrors.hpp
+    include/AME/Structures/StructureErrors.hpp \
+    include/AME/Structures/WildPokemonArea.hpp \
+    include/AME/Structures/WildPokemonEncounter.hpp
 
 
 #

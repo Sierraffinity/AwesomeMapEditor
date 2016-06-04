@@ -67,7 +67,7 @@ namespace ame
         /// data to null and the length to zero.
         ///
         ///////////////////////////////////////////////////////////
-        WriteEntry();
+        WriteEntry(UInt32 offset = 0);
 
         ///////////////////////////////////////////////////////////
         /// \brief Adds a half-word to the data array.
