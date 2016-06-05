@@ -144,6 +144,7 @@ namespace ame
             if (direction > DIR_Emerge)
             {
                 AME_SILENT_THROW(COT_ERROR_DIRVAL, m_PtrData);
+                delete entry;
                 continue;
             }
             else
