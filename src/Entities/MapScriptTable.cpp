@@ -108,7 +108,11 @@ namespace ame
     // Function type:  I/O
     // Contributers:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/4/2016
+    // Date of edit:   6/5/2016
+    // Comment:
+    //
+    // Fixed leak; allocating MapScript object but not freeing
+    // it when throwing an error via AME_THROW.
     //
     ///////////////////////////////////////////////////////////
     bool MapScriptTable::read(const qboy::Rom &rom, UInt32 offset)
@@ -144,7 +148,10 @@ namespace ame
 
             // Determines whether the script-or-structure offset is valid
             if (!rom.seek(script->ptrVoid))
+            {
+                delete script;
                 AME_THROW(MST_ERROR_SCRIPT, rom.offset() - 4);
+            }
 
             // Determines the script type; if it is a structure, requires extra loading
             if (script->type == MST_HandlerEB0 || script->type == MST_HandlerF28)
@@ -179,6 +186,7 @@ namespace ame
 
 
         // Loading successful
+        m_Offset = offset;
         return true;
     }
 

@@ -51,7 +51,8 @@ SOURCES += \
     src/Structures/WildPokemonTable.cpp \
     src/Structures/WildPokemonSubTable.cpp \
     src/Structures/WildPokemonArea.cpp \
-    src/Entities/MapScriptTable.cpp
+    src/Entities/MapScriptTable.cpp \
+    src/Entities/ConnectionTable.cpp
 
 
 #
@@ -76,7 +77,8 @@ HEADERS  += \
     include/AME/Entities/MapScript.hpp \
     include/AME/Entities/AutoScript.hpp \
     include/AME/Entities/Tables/EntityErrors.hpp \
-    include/AME/Entities/Tables/MapScriptTable.hpp
+    include/AME/Entities/Tables/MapScriptTable.hpp \
+    include/AME/Entities/Tables/ConnectionTable.hpp
 
 
 #
