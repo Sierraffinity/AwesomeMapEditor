@@ -97,6 +97,19 @@ namespace ame
         DIR_Dive        =  5,
         DIR_Emerge      =  6
     };
+
+    ///////////////////////////////////////////////////////////
+    // Struct: EventTable
+    //
+    ///////////////////////////////////////////////////////////
+    enum EntityType
+    {
+        ET_Invalid      =  0,
+        ET_Npc          =  1,
+        ET_Warp         =  2,
+        ET_Sign         =  4,
+        ET_Trigger      =  8
+    };
 }
 
 
