@@ -19,7 +19,7 @@ DEFINES    += AME_EDITOR
 # QMake Settings, 2
 #
 VERSION = 1.0
-win:QMAKE_TARGET_COMPANY     = <placeholder>
+win:QMAKE_TARGET_COMPANY     = Domoreawesome
 win:QMAKE_TARGET_PRODUCT     = AwesomeMapEditor
 win:QMAKE_TARGET_DESCRIPTION = A map editor for GBA Pokémon games.
 win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 diegoisawesome, Pokedude
@@ -44,22 +44,23 @@ unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
 # Source Files
 #
 SOURCES += \
-        src/main.cpp \
-        src/Forms/MainWindow.cpp \
+    src/main.cpp \
+    src/Forms/MainWindow.cpp \
     src/System/WriteEntry.cpp \
     src/System/ErrorStack.cpp \
     src/Structures/WildPokemonTable.cpp \
     src/Structures/WildPokemonSubTable.cpp \
     src/Structures/WildPokemonArea.cpp \
     src/Entities/MapScriptTable.cpp \
-    src/Entities/ConnectionTable.cpp
+    src/Entities/ConnectionTable.cpp \
+    src/Entities/EventTable.cpp
 
 
 #
 # Header Files
 #
 HEADERS  += \
-        include/AME/Forms/MainWindow.h \
+    include/AME/Forms/MainWindow.h \
     include/AME/Structures/WildPokemonTable.hpp \
     include/AME/System/ErrorStack.hpp \
     include/AME/System/WriteEntry.hpp \
@@ -78,7 +79,8 @@ HEADERS  += \
     include/AME/Entities/AutoScript.hpp \
     include/AME/Entities/Tables/EntityErrors.hpp \
     include/AME/Entities/Tables/MapScriptTable.hpp \
-    include/AME/Entities/Tables/ConnectionTable.hpp
+    include/AME/Entities/Tables/ConnectionTable.hpp \
+    include/AME/Entities/Tables/EventTable.hpp
 
 
 #
