@@ -53,7 +53,8 @@ SOURCES += \
     src/Structures/WildPokemonArea.cpp \
     src/Entities/MapScriptTable.cpp \
     src/Entities/ConnectionTable.cpp \
-    src/Entities/EventTable.cpp
+    src/Entities/EventTable.cpp \
+    src/Graphics/Tileset.cpp
 
 
 #
@@ -80,7 +81,11 @@ HEADERS  += \
     include/AME/Entities/Tables/EntityErrors.hpp \
     include/AME/Entities/Tables/MapScriptTable.hpp \
     include/AME/Entities/Tables/ConnectionTable.hpp \
-    include/AME/Entities/Tables/EventTable.hpp
+    include/AME/Entities/Tables/EventTable.hpp \
+    include/AME/Graphics/Tileset.hpp \
+    include/AME/Graphics/Tile.hpp \
+    include/AME/Graphics/Block.hpp \
+    include/AME/Graphics/GraphicsErrors.hpp
 
 
 #
