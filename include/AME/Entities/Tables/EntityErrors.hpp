@@ -61,6 +61,7 @@ namespace ame
     #define EVT_ERROR_OFFSET    "The location of the event table (ref: 0x%offset%) is invalid."
     #define EVT_ERROR_SUBEVT    "The location of a sub event (ref: 0x%offset%) is invalid."
     #define EVT_ERROR_SCRIPT    "The location of a script (ref: 0x%offset%) is invalid."
+    #define EVT_ERROR_TYPE      "The type of the sign-post (ref: 0x%offset%) is invalid."
 
     ///////////////////////////////////////////////////////////
     // Class: ConnectionTable

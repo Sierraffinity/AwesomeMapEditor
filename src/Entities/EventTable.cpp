@@ -282,7 +282,7 @@ namespace ame
                 sign->hiddenID = rom.readByte();
                 sign->amount = rom.readByte();
             }
-            else if (type >= ST_Script && type <= ST_ScriptLeft)
+            else if (type <= ST_ScriptLeft)
             {
                 sign->ptrScript = rom.readPointer();
 
@@ -376,7 +376,7 @@ namespace ame
 
 
         // Returns an OR combination of all types to be repointed
-        return toRepoint;
+        return static_cast<EntityType>(toRepoint);
     }
 
     ///////////////////////////////////////////////////////////
@@ -393,7 +393,7 @@ namespace ame
          */
 
         // Placeholder
-        Q_UNUSED(offset);
+        Q_UNUSED(offsets);
         return QList<WriteEntry>();
     }
 
@@ -502,6 +502,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void EventTable::addEvent(EntityType type, void *event)
     {
+        Q_UNUSED(type);
+        Q_UNUSED(event);
     }
 
     ///////////////////////////////////////////////////////////
@@ -513,6 +515,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void EventTable::removeEvent(Int32 index)
     {
+        Q_UNUSED(index);
     }
 
 
