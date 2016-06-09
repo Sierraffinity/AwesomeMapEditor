@@ -12,7 +12,7 @@
 //
 //
 // AwesomeMapEditor: A map editor for GBA Pokémon games.
-// Copyright (C) 2016 diegoisawesome, Pokedude
+// Copyright (C) 2016 Diegoisawesome, Pokedude
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -51,6 +51,7 @@
 ///////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
+    qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
     QApplication a(argc, argv);
     ame::MainWindow w;
     w.show();

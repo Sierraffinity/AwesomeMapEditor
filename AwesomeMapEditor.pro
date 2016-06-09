@@ -1,6 +1,6 @@
 #
 # AwesomeMapEditor: A map editor for GBA Pokémon games.
-# Copyright (C) 2016 diegoisawesome, Pokedude
+# Copyright (C) 2016 Diegoisawesome, Pokedude
 # License: General Public License 3.0
 #
 
@@ -22,7 +22,7 @@ VERSION = 1.0
 win:QMAKE_TARGET_COMPANY     = Domoreawesome
 win:QMAKE_TARGET_PRODUCT     = AwesomeMapEditor
 win:QMAKE_TARGET_DESCRIPTION = A map editor for GBA Pokémon games.
-win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 diegoisawesome, Pokedude
+win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
 
 
 #
@@ -92,5 +92,8 @@ HEADERS  += \
 # Forms
 #
 FORMS    += resources/UI/MainWindow.ui
+
+RESOURCES += \
+    resources/images.qrc
 
 

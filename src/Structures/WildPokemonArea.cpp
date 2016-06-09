@@ -12,7 +12,7 @@
 //
 //
 // AwesomeMapEditor: A map editor for GBA Pokémon games.
-// Copyright (C) 2016 diegoisawesome, Pokedude
+// Copyright (C) 2016 Diegoisawesome, Pokedude
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -57,7 +57,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -72,7 +72,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -87,7 +87,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Destructor
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -107,7 +107,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -144,7 +144,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -186,7 +186,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -198,7 +198,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -210,7 +210,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -222,7 +222,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Setter
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -242,7 +242,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //
@@ -267,7 +267,7 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/4/2016
     //

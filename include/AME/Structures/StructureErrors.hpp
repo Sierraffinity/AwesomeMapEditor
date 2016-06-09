@@ -12,7 +12,7 @@
 //
 //
 // AwesomeMapEditor: A map editor for GBA Pokémon games.
-// Copyright (C) 2016 diegoisawesome, Pokedude
+// Copyright (C) 2016 Diegoisawesome, Pokedude
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -12,7 +12,7 @@
 //
 //
 // AwesomeMapEditor: A map editor for GBA Pokémon games.
-// Copyright (C) 2016 diegoisawesome, Pokedude
+// Copyright (C) 2016 Diegoisawesome, Pokedude
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/2/2016
     // Comment:
@@ -51,13 +51,20 @@ namespace ame
         QMainWindow(parent),
         ui(new Ui::MainWindow)
     {
+        /*
+        QSplitter* mainSplit = ui->mainSplitter;
+        mainSplit->setStretchFactor(0, 0);
+        mainSplit->setStretchFactor(1,1);
+        QList<int> sizes = mainSplit->sizes();
+        sizes[0] = 250;
+        mainSplit->setSizes(sizes);*/
         ui->setupUi(this);
     }
 
 
     ///////////////////////////////////////////////////////////
     // Function type:  Destructor
-    // Contributers:   Pokedude
+    // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/2/2016
     // Comment:
