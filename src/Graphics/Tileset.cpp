@@ -264,6 +264,19 @@ namespace ame
     // Function type:  Getter
     // Contributers:   Pokedude
     // Last edit by:   Pokedude
+    // Date of edit:   6/10/2016
+    //
+    ///////////////////////////////////////////////////////////
+    UInt32 Tileset::offset() const
+    {
+        return m_Offset;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributers:   Pokedude
+    // Last edit by:   Pokedude
     // Date of edit:   6/7/2016
     //
     ///////////////////////////////////////////////////////////

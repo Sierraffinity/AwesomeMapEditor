@@ -54,7 +54,8 @@ SOURCES += \
     src/Entities/MapScriptTable.cpp \
     src/Entities/ConnectionTable.cpp \
     src/Entities/EventTable.cpp \
-    src/Graphics/Tileset.cpp
+    src/Graphics/Tileset.cpp \
+    src/Graphics/TilesetManager.cpp
 
 
 #
@@ -85,7 +86,10 @@ HEADERS  += \
     include/AME/Graphics/Tileset.hpp \
     include/AME/Graphics/Tile.hpp \
     include/AME/Graphics/Block.hpp \
-    include/AME/Graphics/GraphicsErrors.hpp
+    include/AME/Graphics/GraphicsErrors.hpp \
+    include/AME/Mapping/MapBlock.hpp \
+    include/AME/Mapping/MapHeader.hpp \
+    include/AME/Graphics/TilesetManager.hpp
 
 
 #
