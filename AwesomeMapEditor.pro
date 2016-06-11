@@ -19,7 +19,7 @@ DEFINES    += AME_EDITOR
 # QMake Settings, 2
 #
 VERSION = 1.0
-win:QMAKE_TARGET_COMPANY     = Domoreawesome
+win:QMAKE_TARGET_COMPANY     = DoMoreAwesome
 win:QMAKE_TARGET_PRODUCT     = AwesomeMapEditor
 win:QMAKE_TARGET_DESCRIPTION = A map editor for GBA Pokémon games.
 win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
@@ -30,6 +30,7 @@ win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
 #
 INCLUDEPATH += include
 INCLUDEPATH += include/AME/Forms
+INCLUDEPATH += include/AME/Widgets
 INCLUDEPATH += $$PWD/../QBoy/include
 DEPENDPATH  += $$PWD/../QBoy/include
 
@@ -55,7 +56,8 @@ SOURCES += \
     src/Entities/ConnectionTable.cpp \
     src/Entities/EventTable.cpp \
     src/Graphics/Tileset.cpp \
-    src/Graphics/TilesetManager.cpp
+    src/Graphics/TilesetManager.cpp \
+    src/Widgets/qtoolbuttonlastused.cpp
 
 
 #
@@ -89,7 +91,8 @@ HEADERS  += \
     include/AME/Graphics/GraphicsErrors.hpp \
     include/AME/Mapping/MapBlock.hpp \
     include/AME/Mapping/MapHeader.hpp \
-    include/AME/Graphics/TilesetManager.hpp
+    include/AME/Graphics/TilesetManager.hpp \
+    include/AME/Widgets/qtoolbuttonlastused.h
 
 
 #

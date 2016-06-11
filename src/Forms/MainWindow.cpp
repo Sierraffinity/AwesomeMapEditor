@@ -51,13 +51,7 @@ namespace ame
         QMainWindow(parent),
         ui(new Ui::MainWindow)
     {
-        /*
-        QSplitter* mainSplit = ui->mainSplitter;
-        mainSplit->setStretchFactor(0, 0);
-        mainSplit->setStretchFactor(1,1);
-        QList<int> sizes = mainSplit->sizes();
-        sizes[0] = 250;
-        mainSplit->setSizes(sizes);*/
+
         ui->setupUi(this);
     }
 
