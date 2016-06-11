@@ -28,10 +28,11 @@ win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
 #
 # QMake Settings, 3
 #
-INCLUDEPATH += include
-INCLUDEPATH += include/AME/Forms
-INCLUDEPATH += $$PWD/../QBoy/include
-DEPENDPATH  += $$PWD/../QBoy/include
+INCLUDEPATH  += include
+INCLUDEPATH  += include/AME/Forms
+INCLUDEPATH  += $$PWD/../QBoy/include
+DEPENDPATH   += $$PWD/../QBoy/include
+QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
 
 #
@@ -55,7 +56,9 @@ SOURCES += \
     src/Entities/ConnectionTable.cpp \
     src/Entities/EventTable.cpp \
     src/Graphics/Tileset.cpp \
-    src/Graphics/TilesetManager.cpp
+    src/Graphics/TilesetManager.cpp \
+    src/Mapping/MapBorder.cpp \
+    src/Mapping/MapHeader.cpp
 
 
 #
@@ -89,7 +92,9 @@ HEADERS  += \
     include/AME/Graphics/GraphicsErrors.hpp \
     include/AME/Mapping/MapBlock.hpp \
     include/AME/Mapping/MapHeader.hpp \
-    include/AME/Graphics/TilesetManager.hpp
+    include/AME/Graphics/TilesetManager.hpp \
+    include/AME/Mapping/MapBorder.hpp \
+    include/AME/Mapping/MappingErrors.hpp
 
 
 #
