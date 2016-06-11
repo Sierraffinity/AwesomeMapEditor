@@ -1,6 +1,6 @@
 #include <QToolButtonLastUsed.h>
 
-QToolButtonLastUsed::QToolButtonLastUsedToolButton(QWidget *parent) :
+QToolButtonLastUsed::QToolButtonLastUsed(QWidget *parent) :
     QToolButton(parent)
 {
     setPopupMode(QToolButton::MenuButtonPopup);
