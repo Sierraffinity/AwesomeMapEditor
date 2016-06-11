@@ -12,7 +12,6 @@
 - [ ] Map loading
 - [ ] Pencil tool
 - [ ] Eyedropper tool
-- [ ] 
 - [ ] Fill bucket
 - [ ] Fill All bucket
 - [ ] Connect toolbar tools to actions

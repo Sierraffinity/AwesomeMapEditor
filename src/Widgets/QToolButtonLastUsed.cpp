@@ -1,4 +1,4 @@
-#include <qtoolbuttonlastused.h>
+#include <QToolButtonLastUsed.h>
 
 QToolButtonLastUsed::QToolButtonLastUsedToolButton(QWidget *parent) :
     QToolButton(parent)

@@ -33,6 +33,7 @@ INCLUDEPATH += include/AME/Forms
 INCLUDEPATH += include/AME/Widgets
 INCLUDEPATH += $$PWD/../QBoy/include
 DEPENDPATH  += $$PWD/../QBoy/include
+QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
 
 #
@@ -57,7 +58,9 @@ SOURCES += \
     src/Entities/EventTable.cpp \
     src/Graphics/Tileset.cpp \
     src/Graphics/TilesetManager.cpp \
-    src/Widgets/qtoolbuttonlastused.cpp
+    src/Mapping/MapBorder.cpp \
+    src/Mapping/MapHeader.cpp \
+    src/Widgets/QToolButtonLastUsed.cpp
 
 
 #
@@ -92,7 +95,9 @@ HEADERS  += \
     include/AME/Mapping/MapBlock.hpp \
     include/AME/Mapping/MapHeader.hpp \
     include/AME/Graphics/TilesetManager.hpp \
-    include/AME/Widgets/qtoolbuttonlastused.h
+    include/AME/Mapping/MapBorder.hpp \
+    include/AME/Mapping/MappingErrors.hpp \
+    include/AME/Widgets/QToolButtonLastUsed.h
 
 
 #
