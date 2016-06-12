@@ -60,7 +60,8 @@ SOURCES += \
     src/Graphics/TilesetManager.cpp \
     src/Mapping/MapBorder.cpp \
     src/Mapping/MapHeader.cpp \
-    src/Widgets/QToolButtonLastUsed.cpp
+    src/Widgets/QToolButtonLastUsed.cpp \
+    src/Mapping/Map.cpp
 
 
 #
@@ -97,7 +98,8 @@ HEADERS  += \
     include/AME/Graphics/TilesetManager.hpp \
     include/AME/Mapping/MapBorder.hpp \
     include/AME/Mapping/MappingErrors.hpp \
-    include/AME/Widgets/QToolButtonLastUsed.h
+    include/AME/Widgets/QToolButtonLastUsed.h \
+    include/AME/Mapping/Map.hpp
 
 
 #

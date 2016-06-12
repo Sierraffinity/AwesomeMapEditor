@@ -224,8 +224,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>616</width>
-              <height>614</height>
+              <width>614</width>
+              <height>622</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -458,8 +458,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>128</width>
-                    <height>524</height>
+                    <width>125</width>
+                    <height>541</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
@@ -559,8 +559,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>84</width>
-                    <height>70</height>
+                    <width>81</width>
+                    <height>71</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -595,8 +595,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>82</width>
-                        <height>68</height>
+                        <width>79</width>
+                        <height>69</height>
                        </rect>
                       </property>
                       <layout class="QGridLayout" name="gridLayout_4">
@@ -716,8 +716,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>550</width>
-              <height>614</height>
+              <width>461</width>
+              <height>622</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -944,6 +944,12 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>286</width>
+                   <height>0</height>
+                  </size>
+                 </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
@@ -958,8 +964,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>198</width>
-                    <height>576</height>
+                    <width>284</width>
+                    <height>584</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -1975,8 +1981,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>198</width>
-                    <height>576</height>
+                    <width>98</width>
+                    <height>28</height>
                    </rect>
                   </property>
                  </widget>
