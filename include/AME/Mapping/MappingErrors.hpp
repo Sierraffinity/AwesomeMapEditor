@@ -70,6 +70,17 @@ namespace ame
     #define HDR_ERROR_BLOCKS    "The location of the map blocks (ref: 0x%offset%) is invalid."
     #define HDR_ERROR_PRIMARY   "The location of the primary tileset (ref: 0x%offset%) is invalid."
     #define HDR_ERROR_SECONDARY "The location of the secondary tileset (ref: 0x%offset%) is invalid."
+
+    ///////////////////////////////////////////////////////////
+    // Class: Map
+    //
+    ///////////////////////////////////////////////////////////
+    #define MAP_ERROR_OFFSET    "The location of the map (ref: 0x%offset%) is invalid."
+    #define MAP_ERROR_HEADER    "The location of the map header (ref: 0x%offset%) is invalid."
+    #define MAP_ERROR_EVENTS    "The location of the map events (ref: 0x%offset%) is invalid."
+    #define MAP_ERROR_SCRIPTS   "The location of the map scripts (ref: 0x%offset%) is invalid."
+    #define MAP_ERROR_CONNEX    "The location of the map connections (ref: 0x%offset%) is invalid."
+    #define MAP_ERROR_NAME      "The location of the map name (ref: 0x%offset%) is invalid."
 }
 
 
