@@ -40,6 +40,8 @@ QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 # QMake Settings, 4
 #
 unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
+
+
 #
 # Source Files
 #
@@ -62,7 +64,8 @@ SOURCES += \
     src/Mapping/Map.cpp \
     src/Widgets/qhexedit.cpp \
     src/Widgets/chunks.cpp \
-    src/Widgets/commands.cpp
+    src/Widgets/commands.cpp \
+    src/Mapping/MapBank.cpp
 
 
 #
@@ -101,6 +104,7 @@ HEADERS  += \
     include/AME/Mapping/MappingErrors.hpp \
     include/AME/Widgets/QToolButtonLastUsed.h \
     include/AME/Mapping/Map.hpp \
+    include/AME/Mapping/MapBank.hpp \
     include/AME/Widgets/qhexedit.h \
     include/AME/Widgets/chunks.h \
     include/AME/Widgets/commands.h
