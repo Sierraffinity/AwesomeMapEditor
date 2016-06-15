@@ -88,6 +88,13 @@ namespace ame
     ///////////////////////////////////////////////////////////
     #define BNK_ERROR_OFFSET    "The location of the map bank (ref: 0x%offset%) is invalid."
     #define BNK_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank's maps."
+
+    ///////////////////////////////////////////////////////////
+    // Class: MapBankTable
+    //
+    ///////////////////////////////////////////////////////////
+    #define MBT_ERROR_OFFSET    "The location of the map bank table (ref: 0x%offset%) is invalid."
+    #define MBT_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank table."
 }
 
 

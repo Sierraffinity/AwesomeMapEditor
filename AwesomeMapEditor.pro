@@ -65,7 +65,8 @@ SOURCES += \
     src/Widgets/qhexedit.cpp \
     src/Widgets/chunks.cpp \
     src/Widgets/commands.cpp \
-    src/Mapping/MapBank.cpp
+    src/Mapping/MapBank.cpp \
+    src/Mapping/MapBankTable.cpp
 
 
 #
@@ -107,7 +108,8 @@ HEADERS  += \
     include/AME/Mapping/MapBank.hpp \
     include/AME/Widgets/qhexedit.h \
     include/AME/Widgets/chunks.h \
-    include/AME/Widgets/commands.h
+    include/AME/Widgets/commands.h \
+    include/AME/Mapping/MapBankTable.hpp
 
 
 #

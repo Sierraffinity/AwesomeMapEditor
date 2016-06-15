@@ -36,7 +36,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/Mapping/MappingErrors.hpp>
-#include <AME/Mapping/MapBank.hpp>
+#include <AME/Mapping/MapBankTable.hpp>
 
 
 namespace ame
@@ -48,7 +48,7 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank::MapBank()
+    MapBankTable::MapBankTable()
         : /*IUndoable(),*/
           m_Offset(0),
           m_Count(-1)
@@ -62,7 +62,7 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank::MapBank(const MapBank &rvalue)
+    MapBankTable::MapBankTable(const MapBankTable &rvalue)
         : /*IUndoable(),*/
           m_Offset(rvalue.m_Offset),
           m_Count(rvalue.m_Count)
@@ -76,7 +76,7 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank &MapBank::operator=(const MapBank &rvalue)
+    MapBankTable &MapBankTable::operator=(const MapBankTable &rvalue)
     {
         m_Offset = rvalue.m_Offset;
         m_Count = rvalue.m_Count;
@@ -90,10 +90,10 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank::~MapBank()
+    MapBankTable::~MapBankTable()
     {
-        foreach (Map *map, m_Maps)
-            delete map;
+        foreach (MapBankTable *bank, m_Banks)
+            delete bank;
     }
 
 
@@ -104,134 +104,47 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    bool MapBank::read(const qboy::Rom &rom, UInt32 offset, UInt32 next)
+    bool MapBankTable::read(const qboy::Rom &rom, UInt32 offset)
     {
         if (!rom.seek(offset))
-            AME_THROW(BNK_ERROR_OFFSET, rom.redirected());
+            AME_THROW(MBT_ERROR_OFFSET, rom.redirected());
 
 
-        // TODO: Setting >> speed vs accuracy
-        // User can choose whether to retrieve the map-count
-        // on a fast or accurate way (horiz. slider)
-        // Level 0: Checks for next bank and ptr validity +
-        // Level 1: Checks for ptr validity within map +
-        // Level 2: Checks for ptr validity within the header +
-        // Level 3: Checks for ptr validity within the events +
-        // Level 4: Checks certain properties in tilesets and events
-        int accLevel = 4; // = CONFIG(MapAccuracy);
-
-        // Retrieves the map count through various checks
+        // Retrieves the amount of map banks
         while (true)
         {
             if (!rom.seek(offset + (++m_Count) * 4))
-                AME_THROW(BNK_ERROR_WHILE, offset + m_Count * 4);
+                AME_THROW(MBT_ERROR_WHILE, offset + m_Count * 4);
 
-            // =============  LEVEL 0  =============
-            // Checks if current offset is start of bank-table
-            /*if (rom.offset() == CONFIG(MapBankTable))
-                break;*/
-
-            // Checks if current offset is next bank
-            if (rom.offset() == next)
+            // Determines whether the offset of the bank is valid
+            unsigned bank = rom.readPointer();
+            if (!rom.checkOffset(bank))
                 break;
 
-            // Checks if map pointer is valid
-            unsigned map = rom.readPointer();
-            if (!rom.seek(map))
-                break;
-
-
-            // =============  LEVEL 1  =============
-            if (accLevel == 0)
-                continue;
-
-            // Checks if the footer and event pointers are valid
-            unsigned footer = rom.readPointer();
-            if (!rom.checkOffset(footer))
-                break;
-
-            unsigned events = rom.readPointer();
-            if (!rom.checkOffset(events))
-                break;
-
-
-            // =============  LEVEL 2  =============
-            if (accLevel == 1)
-                continue;
-
-            // Checks if the border, blocks, primary and secondary pointers are valid
-            rom.seek(footer);
+            // Determines whether the bank contains at least one map
+            rom.seek(bank);
             if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            unsigned primary = rom.readPointer();
-            if (!rom.checkOffset(primary))
-                break;
-
-            unsigned secondary = rom.readPointer();
-            if (!rom.checkOffset(secondary))
-                break;
-
-
-            // =============  LEVEL 3  =============
-            if (accLevel == 2)
-                continue;
-
-            // Checks if the npc, warp, trigger and sign pointers are valid
-            rom.seek(events);
-            rom.readWord();
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-
-            // =============  LEVEL 4  =============
-            if (accLevel == 3)
-                continue;
-
-            // Checks the first two tileset settings
-            rom.seek(primary);
-            if (rom.readByte() >= 2) // compression can only be 0/1
-                break;
-            if (rom.readByte() != 0) // must be primary tileset!
-                break;
-
-            rom.seek(secondary);
-            if (rom.readByte() >= 2) // compression can only be 0/1
-                break;
-            if (rom.readByte() != 1) // must be secondary tileset!
                 break;
         }
 
 
-        // Now attempts to read all the maps
+        // Reads all the banks
         for (unsigned i = 0; i < m_Count; i++)
         {
             rom.seek(offset + i * 4);
 
-            // Retrieves the pointer to the map
-            Map *map = new Map;
-            UInt32 mapOff = rom.readPointerRef();
+            // Retrieves the current and next bank
+            UInt32 bankC = rom.readPointerRef();
+            UInt32 bankN = rom.readPointer();
+            MapBank *bank = new MapBank;
 
-            // Attempts to read the map
-            if (!map->read(rom, mapOff))
+            if (!bank->read(rom, bankC, bankN))
             {
-                delete map;
+                delete bank;
                 return false;
             }
 
-            m_Maps.push_back(map);
+            m_Banks.push_back(bank);
         }
 
 
@@ -248,7 +161,7 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    UInt32 MapBank::offset() const
+    UInt32 MapBankTable::offset() const
     {
         return m_Offset;
     }
@@ -260,8 +173,8 @@ namespace ame
     // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    const QList<Map *> &MapBank::maps() const
+    const QList<MapBank *> &MapBankTable::banks() const
     {
-        return m_Maps;
+        return m_Banks;
     }
 }
