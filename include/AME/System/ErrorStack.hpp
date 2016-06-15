@@ -95,8 +95,8 @@ namespace ame
     };
 
 
-    #define AME_THROW(err, off)         { return ErrorStack::add(Q_FUNC_INFO, err, off); }
-    #define AME_THROW2(err)             { return ErrorStack::add(Q_FUNC_INFO, err); }
+    #define AME_THROW(err, off)         { rom.clearCache(); return ErrorStack::add(Q_FUNC_INFO, err, off); }
+    #define AME_THROW2(err)             { rom.clearCache(); return ErrorStack::add(Q_FUNC_INFO, err); }
     #define AME_SILENT_THROW(err, off)  { ErrorStack::add(Q_FUNC_INFO, err, off); }
     #define AME_SILENT_THROW2(err)      { ErrorStack::add(Q_FUNC_INFO, err); }
 }

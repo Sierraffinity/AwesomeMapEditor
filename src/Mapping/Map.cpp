@@ -154,10 +154,10 @@ namespace ame
             AME_THROW(MAP_ERROR_OFFSET, rom.redirected());
 
         // Reads all table pointers
-        m_PtrHeader = rom.readPointer();
-        m_PtrEvents = rom.readPointer();
-        m_PtrScripts = rom.readPointer();
-        m_PtrConnections = rom.readPointer();
+        m_PtrHeader = rom.readPointerRef();
+        m_PtrEvents = rom.readPointerRef();
+        m_PtrScripts = rom.readPointerRef();
+        m_PtrConnections = rom.readPointerRef();
 
         // Determines whether these offsets are valid
         if (!rom.checkOffset(m_PtrHeader))
@@ -209,12 +209,12 @@ namespace ame
         else
             rom.seek(CONFIG(Mapnames) + m_NameIndex*8 + 4);*/
 
-        unsigned ptrName = rom.readPointer();
+        unsigned ptrName = rom.readPointerRef();
         if (!rom.checkOffset(ptrName))
             AME_THROW(MAP_ERROR_NAME, rom.redirected());
 
         // Reads the map name string
-        //m_Name = qboy::String::read(rom, ptrName);
+        m_Name = qboy::String::read(rom, ptrName);
         m_Offset = offset;
         return true;
     }

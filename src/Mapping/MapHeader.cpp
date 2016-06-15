@@ -137,10 +137,10 @@ namespace ame
         m_Height = rom.readWord();
 
         // Reads all the pointers within the structure
-        m_PtrBorder = rom.readPointer();
+        m_PtrBorder = rom.readPointerRef();
         m_PtrBlocks = rom.readPointer();
-        m_PtrPrimary = rom.readPointer();
-        m_PtrSecondary = rom.readPointer();
+        m_PtrPrimary = rom.readPointerRef();
+        m_PtrSecondary = rom.readPointerRef();
 
         // Determines whether these pointers are valid
         if (!rom.checkOffset(m_PtrBorder))

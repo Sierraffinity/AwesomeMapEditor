@@ -148,7 +148,7 @@ namespace ame
         int uncompSize;
         if (rom.info().isFRLG())
         {
-            if (m_IsPrimary)
+            if (!m_IsPrimary) // = 0 in the games -.-
             {
                 countPal = 7;
                 countBlock = 640;
@@ -165,7 +165,7 @@ namespace ame
         }
         else
         {
-            if (m_IsPrimary)
+            if (!m_IsPrimary) // = 0 in the games -.-
             {
                 countPal = 6;
                 countBlock = 512;
@@ -220,7 +220,8 @@ namespace ame
         }
         else
         {
-            m_Image->readUncompressed(rom, m_PtrImage, uncompSize, 128, true);
+            if (!m_Image->readUncompressed(rom, m_PtrImage, uncompSize, 128, true))
+                AME_THROW(SET_ERROR_IMGDATA, m_PtrImage);
         }
 
         // Attempts to load the palettes

@@ -116,10 +116,10 @@ namespace ame
 
 
         // Reads all pointers to each area
-        m_PtrGrass = rom.readPointer();
-        m_PtrWater = rom.readPointer();
-        m_PtrRock = rom.readPointer();
-        m_PtrFish = rom.readPointer();
+        m_PtrGrass = rom.readPointerRef();
+        m_PtrWater = rom.readPointerRef();
+        m_PtrRock = rom.readPointerRef();
+        m_PtrFish = rom.readPointerRef();
 
 
         // Determines whether all read pointers are valid

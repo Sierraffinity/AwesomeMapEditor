@@ -81,6 +81,13 @@ namespace ame
     #define MAP_ERROR_SCRIPTS   "The location of the map scripts (ref: 0x%offset%) is invalid."
     #define MAP_ERROR_CONNEX    "The location of the map connections (ref: 0x%offset%) is invalid."
     #define MAP_ERROR_NAME      "The location of the map name (ref: 0x%offset%) is invalid."
+
+    ///////////////////////////////////////////////////////////
+    // Class: MapBank
+    //
+    ///////////////////////////////////////////////////////////
+    #define BNK_ERROR_OFFSET    "The location of the map bank (ref: 0x%offset%) is invalid."
+    #define BNK_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank's maps."
 }
 
 
