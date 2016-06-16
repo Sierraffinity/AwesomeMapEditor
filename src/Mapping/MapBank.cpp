@@ -35,6 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <AME/System/Configuration.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
 #include <AME/Mapping/MapBank.hpp>
 
@@ -128,8 +129,8 @@ namespace ame
 
             // =============  LEVEL 0  =============
             // Checks if current offset is start of bank-table
-            /*if (rom.offset() == CONFIG(MapBankTable))
-                break;*/
+            if (rom.offset() == CONFIG(MapBanks))
+                break;
 
             // Checks if current offset is next bank
             if (rom.offset() == next)

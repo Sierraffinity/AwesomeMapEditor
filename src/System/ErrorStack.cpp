@@ -152,4 +152,18 @@ namespace ame
 
         return log;
     }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/16/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void ErrorStack::clear()
+    {
+        s_Stack.clear();
+        s_Methods.clear();
+    }
 }

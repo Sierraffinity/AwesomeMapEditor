@@ -33,6 +33,8 @@ INCLUDEPATH += include/AME/Forms
 INCLUDEPATH += include/AME/Widgets
 INCLUDEPATH += $$PWD/../QBoy/include
 DEPENDPATH  += $$PWD/../QBoy/include
+INCLUDEPATH += $$PWD/../yaml-cpp/include
+DEPENDPATH += $$PWD/../yaml-cpp/include
 QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
 
@@ -40,6 +42,7 @@ QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 # QMake Settings, 4
 #
 unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
+unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/debug/ -lyaml-cpp
 
 
 #
@@ -66,7 +69,8 @@ SOURCES += \
     src/Widgets/chunks.cpp \
     src/Widgets/commands.cpp \
     src/Mapping/MapBank.cpp \
-    src/Mapping/MapBankTable.cpp
+    src/Mapping/MapBankTable.cpp \
+    src/System/Configuration.cpp
 
 
 #
@@ -109,7 +113,8 @@ HEADERS  += \
     include/AME/Widgets/qhexedit.h \
     include/AME/Widgets/chunks.h \
     include/AME/Widgets/commands.h \
-    include/AME/Mapping/MapBankTable.hpp
+    include/AME/Mapping/MapBankTable.hpp \
+    include/AME/System/Configuration.hpp
 
 
 #
@@ -117,7 +122,11 @@ HEADERS  += \
 #
 FORMS    += resources/UI/MainWindow.ui
 
+#
+# Resources
+#
 RESOURCES += \
     resources/images.qrc
 
-
+DISTFILES += \
+    resources/config/BPRE.yaml

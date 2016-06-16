@@ -92,7 +92,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     MapBankTable::~MapBankTable()
     {
-        foreach (MapBankTable *bank, m_Banks)
+        foreach (MapBank *bank, m_Banks)
             delete bank;
     }
 
