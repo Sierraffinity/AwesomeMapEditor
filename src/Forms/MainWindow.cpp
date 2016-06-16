@@ -143,12 +143,6 @@ namespace ame
         {
             /* Show form */
         }
-
-        QFile file("C:/Users/kogle/Desktop/file.txt");
-        file.open(QIODevice::WriteOnly);
-        file.write(ErrorStack::log().toStdString().c_str());
-        file.flush();
-        file.close();
     }
 
 
