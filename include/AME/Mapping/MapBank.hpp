@@ -133,7 +133,7 @@ namespace ame
        //
        ///////////////////////////////////////////////////////////
        UInt32 m_Offset;         ///< Offset of the map-bank
-       UInt32 m_Count;          ///< Amount of maps in the bank
+       Int32 m_Count;           ///< Amount of maps in the bank
        QList<Map *> m_Maps;     ///< Holds the actual maps
    };
 }

@@ -31,8 +31,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+#include <AME/System/LoadedData.hpp>
+#include <AME/Widgets/Misc/Messages.hpp>
 #include <AME/Forms/MainWindow.h>
 #include "ui_MainWindow.h"
+#include <QFileDialog>
 
 
 namespace ame
@@ -51,7 +54,6 @@ namespace ame
         QMainWindow(parent),
         ui(new Ui::MainWindow)
     {
-
         ui->setupUi(this);
     }
 
@@ -69,5 +71,97 @@ namespace ame
     MainWindow::~MainWindow()
     {
         delete ui;
+    }
+
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/16/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::openRomDialog()
+    {
+        /* Replace QDir::homePath with SETTINGS(LastPath) */
+
+        QString file = QFileDialog::getOpenFileName(
+                    this,
+                    QString("Open ROM file"),
+                    QDir::homePath(),
+                    QString("ROMs (*.gba *.bin)")
+        );
+
+
+        // Determines whether the dialog was successful
+        if (!file.isNull() && !file.isEmpty())
+        {
+            // Close a previous ROM and destroy objects
+            if (m_Rom.info().isLoaded())
+            {
+                // Clears the ROM data
+                m_Rom.clearCache();
+                m_Rom.close();
+
+                // Clears old data and UI
+                clearAllMapData();
+                //clearBeforeLoading();
+            }
+
+            // Attempts to open the new ROM file
+            if (!m_Rom.loadFromFile(file))
+            {
+                m_Rom.clearCache();
+                m_Rom.close();
+
+                Messages::showError(this, WND_ERROR_ROM);
+                return false;
+            }
+
+            // Loading successful
+            return true;
+        }
+
+        // Dialog cancelled
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/16/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::loadMapData()
+    {
+        /* TODO: Design form to show error messages */
+
+        bool result = loadAllMapData(m_Rom);
+        if (!result)
+        {
+            /* Show form */
+        }
+
+        QFile file("C:/Users/kogle/Desktop/file.txt");
+        file.open(QIODevice::WriteOnly);
+        file.write(ErrorStack::log().toStdString().c_str());
+        file.flush();
+        file.close();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/16/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_action_Open_ROM_triggered()
+    {
+        if (openRomDialog())
+            loadMapData();
     }
 }

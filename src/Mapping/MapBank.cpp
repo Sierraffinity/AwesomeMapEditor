@@ -162,6 +162,8 @@ namespace ame
 
             // Checks if the border, blocks, primary and secondary pointers are valid
             rom.seek(footer);
+            rom.readWord();
+            rom.readWord();
             if (!rom.checkOffset(rom.readPointer()))
                 break;
 
@@ -217,7 +219,7 @@ namespace ame
 
 
         // Now attempts to read all the maps
-        for (unsigned i = 0; i < m_Count; i++)
+        for (int i = 0; i < m_Count; i++)
         {
             rom.seek(offset + i * 4);
 

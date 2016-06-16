@@ -39,6 +39,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <QBoy/Core/Rom.hpp>
 #include <QMainWindow>
 
 
@@ -79,6 +80,53 @@ namespace ame
         ///////////////////////////////////////////////////////////
         ~MainWindow();
 
+
+    protected:
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Shows a dialog to open a ROM file.
+        ///
+        /// Loads a ROM file and stores it in member m_Rom.
+        /// Use the ErrorStack to retrieve errors that were thrown
+        /// in this function.
+        ///
+        /// \returns true if no errors occured.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool openRomDialog();
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Attempts to load all map-related data.
+        ///
+        /// Loads the configuration file and reads all data.
+        /// Shows a window with error messages, in case one or
+        /// more errors occured during the loading process.
+        ///
+        ///////////////////////////////////////////////////////////
+        void loadMapData();
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the GUI up after loading all map data.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setupAfterLoading();
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Clears the map-related GUI things.
+        ///
+        ///////////////////////////////////////////////////////////
+        void clearBeforeLoading();
+
+
+    private slots:
+
+        ///////////////////////////////////////////////////////////
+        // Slots
+        //
+        ///////////////////////////////////////////////////////////
+        void on_action_Open_ROM_triggered();
+
+
     private:
 
         ///////////////////////////////////////////////////////////
@@ -86,7 +134,15 @@ namespace ame
         //
         ///////////////////////////////////////////////////////////
         Ui::MainWindow *ui;    ///< Gives access to the GUI objects
+        qboy::Rom m_Rom;       ///< Global ROM across the application
     };
+
+
+    ///////////////////////////////////////////////////////////
+    // Error messages for MainWindow
+    //
+    ///////////////////////////////////////////////////////////
+    #define WND_ERROR_ROM   "The ROM file which you were about to open, is already in use."
 }
 
 

@@ -31,70 +31,67 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_IUNDOABLE_HPP__
-#define __AME_IUNDOABLE_HPP__
+#ifndef __AME_MESSAGES_HPP__
+#define __AME_MESSAGES_HPP__
+
+
+///////////////////////////////////////////////////////////
+// Include files
+//
+///////////////////////////////////////////////////////////
+#include <QtWidgets>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    IUndoable.hpp
+    /// \file    Configuration.hpp
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/2/2016
-    /// \brief   Provides an interface to undo/redo actions.
-    ///
-    /// Per map, a list of a list of write entries is stored.
-    /// This enables easy undo- and redoing without changing
-    /// the ROM's data constantly, thus preventing fragmentation.
-    /// Write entries consist of an offset and the data itself.
+    /// \date    6/16/2016
+    /// \brief   Displays messages of various kinds.
     ///
     ///////////////////////////////////////////////////////////
-    class IUndoable {
+    class Messages {
     public:
 
-        IUndoable() { }
-        virtual ~IUndoable() { }
+        ///////////////////////////////////////////////////////////
+        /// \param Shows a vanilla information box.
+        ///
+        /// Displays the specified text in a message box that has
+        /// an information icon on the top-left.
+        ///
+        /// \param parent The parental window
+        /// \param text Text to display in the msgbox
+        ///
+        ///////////////////////////////////////////////////////////
+        static void showMessage(QWidget *parent, const QString &text);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Undoes the most recent action.
+        /// \brief Shows a question box and returns the result.
         ///
-        /// After undoing, removes this action from the undo-stack.
-        /// It can then be redone by calling IUndoable::redo.
+        /// Displays the specified question in a message box and
+        /// shows a Yes/No button.
+        ///
+        /// \param parent The parental window
+        /// \param text Question to display in the msgbox
+        /// \returns true if the "yes" button was clicked.
         ///
         ///////////////////////////////////////////////////////////
-        virtual void undo() = 0;
+        static bool showQuestion(QWidget *parent, const QString &text);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Redoes the most recently undone action.
+        /// \brief Shows an error box.
         ///
-        /// After redoing, removes this action from the redo-stack.
-        /// It can then be undone by calling IUndoable::undo.
+        /// Displays the specified error message in a message box.
+        ///
+        /// \param parent The parental window
+        /// \param text Error to display in the msgbox
         ///
         ///////////////////////////////////////////////////////////
-        virtual void redo() = 0;
+        static void showError(QWidget *parent, const QString &text);
     };
-
-
-    ///////////////////////////////////////////////////////////
-    /// \brief Defines the most common undo/redo actions.
-    ///
-    /// By using actions, huge storage lists of previous states
-    /// are avoided and performance is improved as side effect.
-    ///
-    ///////////////////////////////////////////////////////////
-    enum UndoRedoAction
-    {
-        URA_ACTION_ADD      = 0,    ///< e.g. Table entry added
-        URA_ACTION_REMOVE   = 1,    ///< e.g. Table entry removed
-        URA_ACTION_MODIFY   = 2,    ///< e.g. Map block modified
-        URA_ACTION_CLEAR    = 3,    ///< e.g. Entire table cleared
-        URA_ACTION_WRITE    = 4,    ///< e.g. Writing process to file
-        URA_ACTION_DELETE   = 5,    ///< e.g. Deleting a map, tileset, etc
-        URA_ACTION_REPOINT  = 6     ///< e.g. Repointing a table
-    };
-
 }
 
 
-#endif // __AME_IUNDOABLE_HPP__
+#endif //__AME_MESSAGES_HPP__

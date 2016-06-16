@@ -130,7 +130,7 @@ namespace ame
        //
        ///////////////////////////////////////////////////////////
        UInt32 m_Offset;          ///< Offset of the bank table
-       UInt32 m_Count;           ///< Amount of banks in the table
+       Int32 m_Count;           ///< Amount of banks in the table
        QList<MapBank *> m_Banks; ///< Holds all the banks
    };
 }

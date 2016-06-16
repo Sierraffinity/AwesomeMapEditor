@@ -181,11 +181,13 @@ namespace ame
         {
             m_Primary = new Tileset;
             m_Primary->read(rom, m_PtrPrimary);
+            TilesetManager::add(m_Primary);
         }
         if ((m_Secondary = TilesetManager::get(m_PtrSecondary)) == NULL)
         {
             m_Secondary = new Tileset;
             m_Secondary->read(rom, m_PtrSecondary);
+            TilesetManager::add(m_Secondary);
         }
 
 

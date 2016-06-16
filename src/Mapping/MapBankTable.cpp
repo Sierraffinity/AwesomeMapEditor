@@ -129,7 +129,7 @@ namespace ame
 
 
         // Reads all the banks
-        for (unsigned i = 0; i < m_Count; i++)
+        for (int i = 0; i < m_Count; i++)
         {
             rom.seek(offset + i * 4);
 
