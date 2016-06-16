@@ -1,0 +1,60 @@
+#
+# AME Configuration File
+# Game: Pokémon Firered (E)
+#
+
+Config:
+        PokemonCount:     0x459EC
+        PokemonNames:     0x144
+        PokemonPics:      0x2350AC
+        PokemonPals:      0x23730C
+        WildPokemon:      0x82EA8
+
+    # Items (struct size: 0x2C)
+    # Ref: http://bulbapedia.bulbagarden.net/wiki/Item_data_structure_in_Generation_III
+        ItemHeader:       0x1C8
+    #   ItemNames:        0x3DB028          Diego, this is wrong; those are structures, not only names
+
+        Overworlds:       0x5F2F4
+        OverworldPals:    0x5F4D8
+        OverworldCount:   0x5F2E0
+
+        FlyingLocs:       0xBFC74
+        StartBank:        0x54A04
+        StartMap:         0x54A06
+        StartX:           0x54A08
+        StartY:           0x54A00
+
+    #    AttackNames:      0x247092
+    #    AttackTable:      0x25D7B4
+    #    AttackNameList:   0x2470A1
+
+    #    TrainerData:      0x23EAF0
+    #    TrainerClasses:   0x23E558
+    #    TrainerPics:      0x23957C
+    #    TrainerPals:      0x239A1C
+    #    TrainerPicCount:  147
+
+        MapBanks:         0x5524C
+        MapLayouts:       0x55194
+        MapLayoutCount:   0x17F
+        MapNames:         0xC0C94
+        MapNameCount:     0xC4D8A
+        MapNameTotal:     0xC0BE6
+
+    # Use better names for these
+        SpriteNormalSet:  0x3A379C
+        SpriteSmallSet:   0x3A3748
+        SpriteLargeSet:   0x3A37F0
+
+        WorldMapCount:    4
+        WorldMapGFX:      [0xC0330,0xC0330,0xC0330,0xC0330]
+        WorldMapTileMap:  [0xC035C,0xC0370,0xC0388,0xC03A4]
+        WorldMapPal:      [0xC2D10,0xC2D10,0xC2D10,0xC2D10]
+
+    # Necessary?
+    #    WorldMapPalSize:  [0x80,0x80,0x80,0x80]
+    #    WorldMapSlot:     [0x0,0x0,0x0,0x0]
+
+    # This is definitely wrong
+        FreespaceStart:   0x71A23C
