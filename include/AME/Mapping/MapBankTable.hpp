@@ -31,86 +31,83 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_MAPBANK_HPP__
-#define __AME_MAPBANK_HPP__
+#ifndef __AME_MAPBANKTABLE_HPP__
+#define __AME_MAPBANKTABLE_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <AME/Mapping/Map.hpp>
+#include <AME/Mapping/MapBank.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
 
 
 namespace ame
 {
    ///////////////////////////////////////////////////////////
-   /// \file    MapBank.hpp
+   /// \file    MapBankTable.hpp
    /// \author  Pokedude
    /// \version 1.0.0.0
    /// \date    6/15/2016
-   /// \brief   Contains multiple maps.
+   /// \brief   Contains multiple banks.
    ///
-   /// The game does not care how many maps one bank contains,
-   /// it just crashes if an invalid one was specified. There
-   /// are a few workarounds to determine the map count, though.
+   /// The game again does not care how many banks exist,
+   /// therefore we need another counting algorithm.
    ///
    ///////////////////////////////////////////////////////////
-   class MapBank /* : IUndoable */ {
+   class MapBankTable /* : IUndoable */ {
    public:
 
        ///////////////////////////////////////////////////////////
        /// \brief Default constructor
        ///
-       /// Initializes a new instance of ame::MapBank.
-       /// Note: MapBank is designed to work with stack
+       /// Initializes a new instance of ame::MapBankTable.
+       /// Note: MapBankTable is designed to work with stack
        /// objects, but it is recommended to allocate instances
        /// on the global heap, because of the undo/redo system.
        ///
        ///////////////////////////////////////////////////////////
-       MapBank();
+       MapBankTable();
 
        ///////////////////////////////////////////////////////////
        /// \brief Copy constructor
        ///
-       /// Copies all members of the given ame::MapBank.
+       /// Copies all members of the given ame::MapBankTable.
        /// Is only called by template code, not by actual AME code.
        ///
        ///////////////////////////////////////////////////////////
-       MapBank(const MapBank &rvalue);
+       MapBankTable(const MapBankTable &rvalue);
 
        ///////////////////////////////////////////////////////////
        /// \brief Assignment constructor
        ///
-       /// Copies all members of the given ame::MapBank
+       /// Copies all members of the given ame::MapBankTable
        /// and stores them in a new class instance.
        ///
        ///////////////////////////////////////////////////////////
-       MapBank &operator=(const MapBank &rvalue);
+       MapBankTable &operator=(const MapBankTable &rvalue);
 
        ///////////////////////////////////////////////////////////
        /// \brief Destructor
        ///
-       /// Deletes all the allocated map objects.
+       /// Deletes all the allocated bank objects.
        ///
        ///////////////////////////////////////////////////////////
-       ~MapBank();
+       ~MapBankTable();
 
 
        ///////////////////////////////////////////////////////////
-       /// \brief Attempts to read the entire bank.
+       /// \brief Attempts to read all map banks.
        ///
-       /// Retrieves the amount of maps through an algorithm and
-       /// attempts to load them all.
+       /// Reads all banks located at the given offset.
        ///
        /// \param rom Currently opened ROM file
-       /// \param offset Offset of the current bank
-       /// \param next Offset of the next bank
+       /// \param offset Offset of the bank table
        /// \returns true if the map was read correctly.
        ///
        ///////////////////////////////////////////////////////////
-       bool read(const qboy::Rom &rom, UInt32 offset, UInt32 next);
+       bool read(const qboy::Rom &rom, UInt32 offset);
 
 
        ///////////////////////////////////////////////////////////
@@ -123,7 +120,7 @@ namespace ame
        /// \brief Retrieves a constant reference to all maps.
        ///
        ///////////////////////////////////////////////////////////
-       const QList<Map *> &maps() const;
+       const QList<MapBank *> &banks() const;
 
 
    private:
@@ -132,11 +129,11 @@ namespace ame
        // Class members
        //
        ///////////////////////////////////////////////////////////
-       UInt32 m_Offset;         ///< Offset of the map-bank
-       Int32 m_Count;           ///< Amount of maps in the bank
-       QList<Map *> m_Maps;     ///< Holds the actual maps
+       UInt32 m_Offset;          ///< Offset of the bank table
+       Int32 m_Count;           ///< Amount of banks in the table
+       QList<MapBank *> m_Banks; ///< Holds all the banks
    };
 }
 
 
-#endif // __AME_MAPBANK_HPP__
+#endif // __AME_MAPBANKTABLE_HPP__

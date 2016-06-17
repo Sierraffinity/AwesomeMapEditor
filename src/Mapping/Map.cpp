@@ -35,6 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <AME/System/Configuration.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
 #include <AME/Mapping/Map.hpp>
 #include <QBoy/Text/String.hpp>
@@ -204,10 +205,10 @@ namespace ame
 
 
         // Determines the map name position
-        /*if (rom.info().isFRLG())
-            rom.seek(CONFIG(Mapnames) + m_NameIndex*4 - 0x58*4);
+        if (rom.info().isFRLG())
+            rom.seek(CONFIG(MapNames) + m_NameIndex*4 - 0x58*4);
         else
-            rom.seek(CONFIG(Mapnames) + m_NameIndex*8 + 4);*/
+            rom.seek(CONFIG(MapNames) + m_NameIndex*8 + 4);
 
         unsigned ptrName = rom.readPointerRef();
         if (!rom.checkOffset(ptrName))

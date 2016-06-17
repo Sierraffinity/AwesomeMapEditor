@@ -35,6 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <AME/System/Configuration.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
 #include <AME/Mapping/MapBank.hpp>
 
@@ -128,8 +129,8 @@ namespace ame
 
             // =============  LEVEL 0  =============
             // Checks if current offset is start of bank-table
-            /*if (rom.offset() == CONFIG(MapBankTable))
-                break;*/
+            if (rom.offset() == CONFIG(MapBanks))
+                break;
 
             // Checks if current offset is next bank
             if (rom.offset() == next)
@@ -161,6 +162,8 @@ namespace ame
 
             // Checks if the border, blocks, primary and secondary pointers are valid
             rom.seek(footer);
+            rom.readWord();
+            rom.readWord();
             if (!rom.checkOffset(rom.readPointer()))
                 break;
 
@@ -216,13 +219,13 @@ namespace ame
 
 
         // Now attempts to read all the maps
-        for (unsigned i = 0; i < m_Count; i++)
+        for (int i = 0; i < m_Count; i++)
         {
             rom.seek(offset + i * 4);
 
             // Retrieves the pointer to the map
             Map *map = new Map;
-            UInt32 mapOff = rom.readPointer();
+            UInt32 mapOff = rom.readPointerRef();
 
             // Attempts to read the map
             if (!map->read(rom, mapOff))

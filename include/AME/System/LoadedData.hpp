@@ -31,71 +31,60 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_MAPPINGERRORS_HPP__
-#define __AME_MAPPINGERRORS_HPP__
+#ifndef __AME_LOADEDDATA_HPP__
+#define __AME_LOADEDDATA_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <AME/System/ErrorStack.hpp>
+#include <QBoy/Core/Rom.hpp>
+#include <AME/Structures/WildPokemonTable.hpp>
+#include <AME/Mapping/MapBankTable.hpp>
+#include <AME/Graphics/TilesetManager.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    MappingErrors.hpp
+    /// \file    LoadedData.hpp
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/11/2016
-    /// \brief   Defines errors for mapping structures.
+    /// \date    6/16/2016
+    /// \brief   Holds all loaded map-related data.
     ///
     ///////////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////////
+    /// \brief Loads all map-related data from the given ROM.
+    /// \returns true if no errors occured.
+    ///
+    ///////////////////////////////////////////////////////////
+    extern bool loadAllMapData(const qboy::Rom &rom);
 
     ///////////////////////////////////////////////////////////
-    // Class: MapBorder
+    /// \brief Clears all loaded map-related data.
+    ///
+    ///////////////////////////////////////////////////////////
+    extern void clearAllMapData();
+
+
+    ///////////////////////////////////////////////////////////
+    // Global objects
     //
     ///////////////////////////////////////////////////////////
-    #define BRD_ERROR_OFFSET    "The location of the map border (ref: 0x%offset%) is invalid."
+    extern WildPokemonTable *dat_WildPokemonTable;
+    extern MapBankTable *dat_MapBankTable;
+    //extern OverworldTable *dat_OverworldTable;
+    //extern PokeIconTable *dat_PokeIconTable;
 
 
     ///////////////////////////////////////////////////////////
-    // Class: MapHeader
+    // Error messages
     //
     ///////////////////////////////////////////////////////////
-    #define HDR_ERROR_OFFSET    "The location of the map header (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_BORDER    "The location of the map border (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_BLOCKS    "The location of the map blocks (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_PRIMARY   "The location of the primary tileset (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_SECONDARY "The location of the secondary tileset (ref: 0x%offset%) is invalid."
-
-    ///////////////////////////////////////////////////////////
-    // Class: Map
-    //
-    ///////////////////////////////////////////////////////////
-    #define MAP_ERROR_OFFSET    "The location of the map (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_HEADER    "The location of the map header (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_EVENTS    "The location of the map events (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_SCRIPTS   "The location of the map scripts (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_CONNEX    "The location of the map connections (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_NAME      "The location of the map name (ref: 0x%offset%) is invalid."
-
-    ///////////////////////////////////////////////////////////
-    // Class: MapBank
-    //
-    ///////////////////////////////////////////////////////////
-    #define BNK_ERROR_OFFSET    "The location of the map bank (ref: 0x%offset%) is invalid."
-    #define BNK_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank's maps."
-
-    ///////////////////////////////////////////////////////////
-    // Class: MapBankTable
-    //
-    ///////////////////////////////////////////////////////////
-    #define MBT_ERROR_OFFSET    "The location of the map bank table (ref: 0x%offset%) is invalid."
-    #define MBT_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank table."
 }
 
 
-#endif // __AME_MAPPINGERRORS_HPP__
+#endif // __AME_LOADEDDATA_HPP__

@@ -35,135 +35,146 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <AME/System/ErrorStack.hpp>
-#include <QDateTime>
+#include <AME/Mapping/MappingErrors.hpp>
+#include <AME/Mapping/MapBankTable.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    // Defines variables exclusively used by this code file
-    //
-    ///////////////////////////////////////////////////////////
-    QStringList s_Stack;
-    QStringList s_Methods;
-
-
-    ///////////////////////////////////////////////////////////
-    // Function type:  Setter
+    // Function type:  Constructor
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/2/2016
-    // Comment:
-    //
-    // Added a conversion for template strings.
+    // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    bool ErrorStack::add(QString method, QString error, UInt32 offset)
+    MapBankTable::MapBankTable()
+        : /*IUndoable(),*/
+          m_Offset(0),
+          m_Count(-1)
     {
-        // If the offset is zero, converts the error string
-        if (offset == 0)
-            error.replace("%offset%", QString::number(offset, 16));
+    }
 
-        // Converts the __PRETTY_FUNCTION__ macro string
-        Int32 whiteSpace = method.indexOf(' ');
-        Int32 firstBrack = method.indexOf('(');
-        method.remove(0, whiteSpace);
-        method.remove(firstBrack, 69);
+    ///////////////////////////////////////////////////////////
+    // Function type:  Constructor
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/15/2016
+    //
+    ///////////////////////////////////////////////////////////
+    MapBankTable::MapBankTable(const MapBankTable &rvalue)
+        : /*IUndoable(),*/
+          m_Offset(rvalue.m_Offset),
+          m_Count(rvalue.m_Count)
+    {
+    }
 
-        // Copies the string to the stack
-        s_Stack.append(error);
-        s_Methods.append(method);
+    ///////////////////////////////////////////////////////////
+    // Function type:  Constructor
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/15/2016
+    //
+    ///////////////////////////////////////////////////////////
+    MapBankTable &MapBankTable::operator=(const MapBankTable &rvalue)
+    {
+        m_Offset = rvalue.m_Offset;
+        m_Count = rvalue.m_Count;
+        return *this;
+    }
 
-        return false; // Maintain code flow
+    ///////////////////////////////////////////////////////////
+    // Function type:  Destructor
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/15/2016
+    //
+    ///////////////////////////////////////////////////////////
+    MapBankTable::~MapBankTable()
+    {
+        foreach (MapBank *bank, m_Banks)
+            delete bank;
     }
 
 
     ///////////////////////////////////////////////////////////
-    // Function type:  Getter
+    // Function type:  I/O
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/2/2016
+    // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    const QStringList &ErrorStack::errors()
+    bool MapBankTable::read(const qboy::Rom &rom, UInt32 offset)
     {
-        return s_Stack;
-    }
+        if (!rom.seek(offset))
+            AME_THROW(MBT_ERROR_OFFSET, rom.redirected());
 
 
-    ///////////////////////////////////////////////////////////
-    // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/2/2016
-    //
-    ///////////////////////////////////////////////////////////
-    const QStringList &ErrorStack::methods()
-    {
-        return s_Methods;
-    }
-
-
-    ///////////////////////////////////////////////////////////
-    // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/2/2016
-    // Comment:
-    //
-    // Converted the string list to a single error log string
-    //
-    ///////////////////////////////////////////////////////////
-    const QString ErrorStack::log()
-    {
-        // Prerequisites for the log conversion
-        QString log;
-        QString hash = QString('#').repeated(20) + QString('\n');
-        QString title("AwesomeMapEditor: Error log file\n");
-        QString date = QString("Date :") + QDate::currentDate().toString(Qt::ISODate);
-        QString time = QString("Time :") + QTime::currentTime().toString(Qt::ISODate); 
-
-        // Generates the header of the log
-        log.append(hash);
-        log.append("# ");
-        log.append(title);
-        log.append("#\n\n");
-        log.append(date);
-        log.append("\n");
-        log.append(time);
-        log.append("\n#\n");
-        log.append(hash);
-        log.append("\n");
-
-        // Iterates through all the errors and appends them
-        for (int i = 0; i < s_Stack.size(); i++)
+        // Retrieves the amount of map banks
+        while (true)
         {
-            const QString &error = s_Stack.at(i);
-            const QString &method = s_Methods.at(i);
-            int scopePos = method.indexOf("::");
+            if (!rom.seek(offset + (++m_Count) * 4))
+                AME_THROW(MBT_ERROR_WHILE, offset + m_Count * 4);
 
-            log.append(
-                "Error in class '" + method.left(scopePos) + "'" +
-                "in function'" + method.right(method.length()-(scopePos+2)) + "'.\n" +
-                "Description:\n\n" + error + "\n\n\n"
-            );
+            // Determines whether the offset of the bank is valid
+            unsigned bank = rom.readPointer();
+            if (!rom.checkOffset(bank))
+                break;
+
+            // Determines whether the bank contains at least one map
+            rom.seek(bank);
+            if (!rom.checkOffset(rom.readPointer()))
+                break;
         }
 
-        return log;
+
+        // Reads all the banks
+        for (int i = 0; i < m_Count; i++)
+        {
+            rom.seek(offset + i * 4);
+
+            // Retrieves the current and next bank
+            UInt32 bankC = rom.readPointerRef();
+            UInt32 bankN = rom.readPointer();
+            MapBank *bank = new MapBank;
+
+            if (!bank->read(rom, bankC, bankN))
+            {
+                delete bank;
+                return false;
+            }
+
+            m_Banks.push_back(bank);
+        }
+
+
+        // Loading successful
+        m_Offset = offset;
+        return true;
     }
 
 
     ///////////////////////////////////////////////////////////
-    // Function type:  Setter
+    // Function type:  Getter
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/16/2016
+    // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    void ErrorStack::clear()
+    UInt32 MapBankTable::offset() const
     {
-        s_Stack.clear();
-        s_Methods.clear();
+        return m_Offset;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/15/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const QList<MapBank *> &MapBankTable::banks() const
+    {
+        return m_Banks;
     }
 }

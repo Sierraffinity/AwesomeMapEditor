@@ -53,6 +53,9 @@ namespace ame
     class IUndoable {
     public:
 
+        IUndoable() { }
+        virtual ~IUndoable() { }
+
         ///////////////////////////////////////////////////////////
         /// \brief Undoes the most recent action.
         ///

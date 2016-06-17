@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 //
 //
 //                     d88b         888b           d888  888888888888
@@ -31,81 +31,67 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_ERRORSTACK_HPP__
-#define __AME_ERRORSTACK_HPP__
+#ifndef __AME_MESSAGES_HPP__
+#define __AME_MESSAGES_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Config.hpp>
-#include <QStringList>
+#include <QtWidgets>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    ErrorStack.hpp
+    /// \file    Configuration.hpp
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/2/2016
-    /// \brief   Stores errors thrown during loading/writing.
-    ///
-    /// This class is capable of tracking errors, storing them
-    /// in a list and retrieving them alltogether to display
-    /// them in an error box eventually. Can also generate a 
-    /// log file that can be shared across the community.
+    /// \date    6/16/2016
+    /// \brief   Displays messages of various kinds.
     ///
     ///////////////////////////////////////////////////////////
-    class ErrorStack {
+    class Messages {
     public:
 
         ///////////////////////////////////////////////////////////
-        /// \brief Puts an error on the stack.
+        /// \param Shows a vanilla information box.
         ///
-        /// When using the overload and passing a non-zero argument
-        /// to it, the string defined in 'error' will be converted
-        /// so that it contains the offset afterwards.
+        /// Displays the specified text in a message box that has
+        /// an information icon on the top-left.
         ///
-        /// \param error Raw or template error string
-        /// \param offset If not zero, converts template string
-        /// \returns always false in order to maintain code flow.
+        /// \param parent The parental window
+        /// \param text Text to display in the msgbox
         ///
         ///////////////////////////////////////////////////////////
-        static bool add(QString method, QString error, UInt32 offset = 0);
+        static void showMessage(QWidget *parent, const QString &text);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves all errors on the stack.
+        /// \brief Shows a question box and returns the result.
+        ///
+        /// Displays the specified question in a message box and
+        /// shows a Yes/No button.
+        ///
+        /// \param parent The parental window
+        /// \param text Question to display in the msgbox
+        /// \returns true if the "yes" button was clicked.
         ///
         ///////////////////////////////////////////////////////////
-        static const QStringList &errors();
+        static bool showQuestion(QWidget *parent, const QString &text);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves all erroneous methods (with class).
+        /// \brief Shows an error box.
+        ///
+        /// Displays the specified error message in a message box.
+        ///
+        /// \param parent The parental window
+        /// \param text Error to display in the msgbox
         ///
         ///////////////////////////////////////////////////////////
-        static const QStringList &methods();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Puts the errors into one, copyable log string.
-        ///
-        ///////////////////////////////////////////////////////////
-        static const QString log();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Clears the error log.
-        ///
-        ///////////////////////////////////////////////////////////
-        static void clear();
+        static void showError(QWidget *parent, const QString &text);
     };
-
-
-    #define AME_THROW(err, off)         { rom.clearCache(); return ErrorStack::add(Q_FUNC_INFO, err, off); }
-    #define AME_THROW2(err)             { rom.clearCache(); return ErrorStack::add(Q_FUNC_INFO, err); }
-    #define AME_SILENT_THROW(err, off)  { ErrorStack::add(Q_FUNC_INFO, err, off); }
-    #define AME_SILENT_THROW2(err)      { ErrorStack::add(Q_FUNC_INFO, err); }
 }
 
 
-#endif // __AME_ERRORSTACK_HPP__
+#endif //__AME_MESSAGES_HPP__
