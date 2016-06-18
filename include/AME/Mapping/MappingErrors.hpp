@@ -58,43 +58,43 @@ namespace ame
     // Class: MapBorder
     //
     ///////////////////////////////////////////////////////////
-    #define BRD_ERROR_OFFSET    "The location of the map border (ref: 0x%offset%) is invalid."
+    #define BRD_ERROR_OFFSET    "The location of the map border (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
 
 
     ///////////////////////////////////////////////////////////
     // Class: MapHeader
     //
     ///////////////////////////////////////////////////////////
-    #define HDR_ERROR_OFFSET    "The location of the map header (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_BORDER    "The location of the map border (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_BLOCKS    "The location of the map blocks (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_PRIMARY   "The location of the primary tileset (ref: 0x%offset%) is invalid."
-    #define HDR_ERROR_SECONDARY "The location of the secondary tileset (ref: 0x%offset%) is invalid."
+    #define HDR_ERROR_OFFSET    "The location of the map header (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define HDR_ERROR_BORDER    "The location of the map border (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define HDR_ERROR_BLOCKS    "The location of the map blocks (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define HDR_ERROR_PRIMARY   "The location of the primary tileset (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define HDR_ERROR_SECONDARY "The location of the secondary tileset (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
 
     ///////////////////////////////////////////////////////////
     // Class: Map
     //
     ///////////////////////////////////////////////////////////
-    #define MAP_ERROR_OFFSET    "The location of the map (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_HEADER    "The location of the map header (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_EVENTS    "The location of the map events (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_SCRIPTS   "The location of the map scripts (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_CONNEX    "The location of the map connections (ref: 0x%offset%) is invalid."
-    #define MAP_ERROR_NAME      "The location of the map name (ref: 0x%offset%) is invalid."
+    #define MAP_ERROR_OFFSET    "The location of the map (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MAP_ERROR_HEADER    "The location of the map header (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MAP_ERROR_EVENTS    "The location of the map events (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MAP_ERROR_SCRIPTS   "The location of the map scripts (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MAP_ERROR_CONNEX    "The location of the map connections (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MAP_ERROR_NAME      "The location of the map name (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
 
     ///////////////////////////////////////////////////////////
     // Class: MapBank
     //
     ///////////////////////////////////////////////////////////
-    #define BNK_ERROR_OFFSET    "The location of the map bank (ref: 0x%offset%) is invalid."
-    #define BNK_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank's maps."
+    #define BNK_ERROR_OFFSET    "The location of the map bank (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define BNK_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank's maps.\nMake sure that the end of the table has an ending\nsequence that is not a pointer (e.g. 0xFF)."
 
     ///////////////////////////////////////////////////////////
     // Class: MapBankTable
     //
     ///////////////////////////////////////////////////////////
-    #define MBT_ERROR_OFFSET    "The location of the map bank table (ref: 0x%offset%) is invalid."
-    #define MBT_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank table."
+    #define MBT_ERROR_OFFSET    "The location of the map bank table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MBT_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank table.\nMake sure that the end of the table has an ending\nsequence that is not a pointer (e.g. 0xFF)."
 }
 
 

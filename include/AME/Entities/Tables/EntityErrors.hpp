@@ -58,27 +58,27 @@ namespace ame
     // Class: EntityTable
     //
     ///////////////////////////////////////////////////////////
-    #define EVT_ERROR_OFFSET    "The location of the event table (ref: 0x%offset%) is invalid."
-    #define EVT_ERROR_SUBEVT    "The location of a sub event (ref: 0x%offset%) is invalid."
-    #define EVT_ERROR_SCRIPT    "The location of a script (ref: 0x%offset%) is invalid."
-    #define EVT_ERROR_TYPE      "The type of the sign-post (ref: 0x%offset%) is invalid."
+    #define EVT_ERROR_OFFSET    "The location of the event table (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define EVT_ERROR_SUBEVT    "The location of a sub event (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define EVT_ERROR_SCRIPT    "The location of a script (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define EVT_ERROR_TYPE      "The type of the sign-post (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
 
     ///////////////////////////////////////////////////////////
     // Class: ConnectionTable
     //
     ///////////////////////////////////////////////////////////
-    #define COT_ERROR_OFFSET    "The location of the connection table (ref: 0x%offset%) is invalid."
-    #define COT_ERROR_OFFDAT    "The location of the connection data (ref: 0x%offset%) is invalid."
-    #define COT_ERROR_DIRVAL    "The direction value for a connection (ref: 0x%offset%) exceeded six."
+    #define COT_ERROR_OFFSET    "The location of the connection table (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define COT_ERROR_OFFDAT    "The location of the connection data (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define COT_ERROR_DIRVAL    "The direction value for a connection (ref: 0x%offset%) exceeded six.\nMust be one of left, up, right, down, dive or emerge."
 
     ///////////////////////////////////////////////////////////
     // Class: MapScriptTable
     //
     ///////////////////////////////////////////////////////////
-    #define MST_ERROR_OFFSET    "The location of the mapscript table (ref: 0x%offset%) is invalid."
-    #define MST_ERROR_SCRIPT    "The location of a map script (ref: 0x%offset%) is invalid."
-    #define MST_ERROR_WHILE     "During the process of reading the scripts, the ROM's range was exceeded."
-    #define MST_ERROR_STYPE     "The script type (ref: 0x%offset%) exceeded 7."
+    #define MST_ERROR_OFFSET    "The location of the mapscript table (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MST_ERROR_SCRIPT    "The location of a map script (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define MST_ERROR_WHILE     "During the process of reading the scripts, the ROM's range was exceeded.\nMake sure that the end of the table has an ending\nsequence that is not a pointer (e.g. 0xFF)."
+    #define MST_ERROR_STYPE     "The script type (ref: 0x%offset%) exceeded 7.\nMust be a script, hidden item or secret base (RSE only!)."
 }
 
 
