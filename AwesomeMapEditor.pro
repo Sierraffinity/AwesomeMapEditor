@@ -75,7 +75,8 @@ SOURCES += \
     src/System/Configuration.cpp \
     src/System/LoadedData.cpp \
     src/Widgets/Misc/Messages.cpp \
-    src/Widgets/OpenGL/AMEMapView.cpp
+    src/Widgets/OpenGL/AMEMapView.cpp \
+    src/Widgets/OpenGL/AMEBlockView.cpp
 
 
 #
@@ -123,7 +124,8 @@ HEADERS  += \
     include/AME/System/Configuration.hpp \
     include/AME/System/LoadedData.hpp \
     include/AME/Widgets/Misc/Messages.hpp \
-    include/AME/Widgets/OpenGL/AMEMapView.h
+    include/AME/Widgets/OpenGL/AMEMapView.h \
+    include/AME/Widgets/OpenGL/AMEBlockView.h
 
 
 #
@@ -139,4 +141,4 @@ RESOURCES += \
     resources/shaders.qrc
 
 DISTFILES += \
-    resources/config/BPRE.yaml
+    resources/config/BPRE.yaml \
