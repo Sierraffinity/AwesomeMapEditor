@@ -309,11 +309,11 @@ namespace ame
             Map *map = dat_MapBankTable->banks().at(current->bank)->maps().at(current->map);
             m_Maps.push_back(map);
         }
-        if (connex.size() == 0)
-        {
-            m_MapSizes.push_back(QSize(mainSize.width()*16, mainSize.height()*16));
-            m_MapPositions.push_back(QPoint(0, 0));
-        }
+
+        m_MapSizes.push_back(QSize(mainSize.width()*16, mainSize.height()*16));
+        m_MapPositions.push_back(QPoint(0, 0));
+        m_WidgetSize = QSize(m_MapSizes.at(0));
+
 
         // Calculates the positions for the maps
         int biggestLeftMap = 0; // width of the biggest left-connected map
@@ -321,9 +321,9 @@ namespace ame
         for (int i = 0; i < connex.size(); i++)
         {
             Connection *current = connex[i];
-            Map *map = m_Maps[i];
+            Map *map = m_Maps[i+1];
             QPoint translation;
-            Int32 signedOff = (Int32)(current->offset);
+            Int32 signedOff = (Int32)(current->offset)*16;
 
             // Determines the offset by direction
             QSize mapSize = QSize(map->header().size().width()*16, map->header().size().height()*16);
@@ -331,19 +331,22 @@ namespace ame
             {
                 translation.setX(-mapSize.width());
                 translation.setY(signedOff);
+                m_WidgetSize.rwidth() += mapSize.width();
 
                 if (mapSize.width() > biggestLeftMap)
                     biggestLeftMap = mapSize.width();
             }
             else if (current->direction == DIR_Right)
             {
-                translation.setX(mainSize.width());
+                translation.setX(mainSize.width()*16);
                 translation.setY(signedOff);
+                m_WidgetSize.rwidth() += mapSize.width();
             }
             else if (current->direction == DIR_Up)
             {
                 translation.setX(signedOff);
                 translation.setY(-mapSize.height());
+                m_WidgetSize.rheight() += mapSize.height();
 
                 if (mapSize.height() > biggestTopMap)
                     biggestTopMap = mapSize.height();
@@ -351,7 +354,8 @@ namespace ame
             else if (current->direction == DIR_Down)
             {
                 translation.setX(signedOff);
-                translation.setY(mainSize.height());
+                translation.setY(mainSize.height()*16);
+                m_WidgetSize.rheight() += mapSize.height();
             }
 
             m_MapPositions.push_back(translation);
@@ -609,9 +613,7 @@ namespace ame
             else
             {
                 delete blocksetBack[i];
-                delete blocksetBack[i+1];
                 delete blocksetFore[i];
-                delete blocksetBack[i+1];
             }
 
         }
@@ -686,7 +688,8 @@ namespace ame
             m_PalTextures.push_back(texPal);
         }
 
-        setMinimumSize(m_MapSizes.at(0));
+        // Sets the minimum size
+        setMinimumSize(m_WidgetSize);
         doneCurrent();
     }
 }

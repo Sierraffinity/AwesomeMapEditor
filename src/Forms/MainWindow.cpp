@@ -163,7 +163,7 @@ namespace ame
 
 void ame::MainWindow::on_actionRecent_Files_triggered()
 {
-    ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[0]->maps()[0]);
+    ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[3]->maps()[0]);
     ui->openGLWidget_2->makeGL();
     ui->openGLWidget_2->update();
 }

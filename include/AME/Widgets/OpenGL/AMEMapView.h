@@ -133,6 +133,7 @@ namespace ame
         QOpenGLShaderProgram m_Program;
         QSize m_PrimarySetSize;
         QSize m_SecondarySetSize;
+        QSize m_WidgetSize;
         UInt8 *m_PrimaryForeground;
         UInt8 *m_PrimaryBackground;
         UInt8 *m_SecondaryForeground;
