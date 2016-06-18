@@ -50,5 +50,11 @@
         <file>icons/wildgrass.ico</file>
         <file>icons/workspace.ico</file>
         <file>icons/world_edit.ico</file>
+        <file>images/navigate_forth_pressed.png</file>
+        <file>images/navigate_back_pressed.png</file>
+        <file>images/navigate_forth_disabled.png</file>
+        <file>images/navigate_back_disabled.png</file>
+        <file>images/navigate_forth_normal.png</file>
+        <file>images/navigate_back_normal.png</file>
     </qresource>
 </RCC>
