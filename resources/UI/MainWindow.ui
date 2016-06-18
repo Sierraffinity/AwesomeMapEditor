@@ -224,8 +224,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>616</width>
-              <height>614</height>
+              <width>614</width>
+              <height>622</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -277,7 +277,7 @@
               </spacer>
              </item>
              <item row="1" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-              <widget class="QOpenGLWidget" name="openGLWidget_2">
+              <widget class="ame::AMEMapView" name="openGLWidget_2">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -562,8 +562,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>128</width>
-                    <height>524</height>
+                    <width>125</width>
+                    <height>541</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -679,8 +679,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>468</width>
-              <height>614</height>
+              <width>467</width>
+              <height>622</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -914,8 +914,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>266</width>
-                    <height>669</height>
+                    <width>261</width>
+                    <height>657</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2237,8 +2237,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>169</width>
-                    <height>350</height>
+                    <width>163</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2736,8 +2736,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>169</width>
-                    <height>350</height>
+                    <width>163</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3580,6 +3580,11 @@
    <extends>QWidget</extends>
    <header location="global">qhexedit.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ame::AMEMapView</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">AMEMapView.h</header>
   </customwidget>
   <customwidget>
    <class>QHexLineEdit</class>
