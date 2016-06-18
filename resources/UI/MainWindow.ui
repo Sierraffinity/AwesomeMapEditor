@@ -224,8 +224,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>594</width>
-              <height>622</height>
+              <width>599</width>
+              <height>614</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -465,7 +465,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>541</height>
+                    <height>524</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
@@ -568,8 +568,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>142</width>
-                    <height>541</height>
+                    <width>145</width>
+                    <height>524</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -2631,8 +2631,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>576</height>
+                    <width>222</width>
+                    <height>362</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2757,7 +2757,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_29">
                      <item>
-                      <widget class="QSpinBox" name="spnNPCHeight_3">
+                      <widget class="QSpinBox" name="spnWarpHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>0</horstretch>
@@ -2787,7 +2787,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QComboBox" name="cmbNPCHeight_3">
+                      <widget class="QComboBox" name="cmbWarpHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>1</horstretch>
@@ -3201,8 +3201,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>576</height>
+                    <width>222</width>
+                    <height>464</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3327,7 +3327,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_30">
                      <item>
-                      <widget class="QSpinBox" name="spnNPCHeight_4">
+                      <widget class="QSpinBox" name="spnTriggerHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>0</horstretch>
@@ -3357,7 +3357,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QComboBox" name="cmbNPCHeight_4">
+                      <widget class="QComboBox" name="cmbTriggerHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>1</horstretch>
@@ -4084,7 +4084,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_47">
                      <item>
-                      <widget class="QSpinBox" name="spnNPCHeight_2">
+                      <widget class="QSpinBox" name="spnSignHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>0</horstretch>
@@ -4114,7 +4114,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QComboBox" name="cmbNPCHeight_2">
+                      <widget class="QComboBox" name="cmbSignHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>1</horstretch>
@@ -4221,7 +4221,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_9">
                      <item>
-                      <widget class="QSpinBox" name="spnNPCIdleAnim_2">
+                      <widget class="QSpinBox" name="spnSignType">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>0</horstretch>
@@ -4251,7 +4251,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QComboBox" name="cmbNPCIdleAnim_2">
+                      <widget class="QComboBox" name="cmbSignType">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>1</horstretch>
@@ -4606,6 +4606,1993 @@
         <attribute name="title">
          <string>Wild Pokémon</string>
         </attribute>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <property name="leftMargin">
+          <number>6</number>
+         </property>
+         <property name="topMargin">
+          <number>6</number>
+         </property>
+         <property name="rightMargin">
+          <number>6</number>
+         </property>
+         <property name="bottomMargin">
+          <number>6</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QTabWidget" name="tabWidget_3">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tabWildGrass">
+            <attribute name="icon">
+             <iconset resource="../images.qrc">
+              <normaloff>:/icons/wildgrass.ico</normaloff>:/icons/wildgrass.ico</iconset>
+            </attribute>
+            <attribute name="title">
+             <string>Grass</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_11">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QScrollArea" name="scrollArea_4">
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_4">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>742</width>
+                  <height>572</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_9" columnstretch="0,1">
+                 <item row="2" column="0">
+                  <spacer name="verticalSpacer_11">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QGroupBox" name="groupBox_8">
+                   <property name="title">
+                    <string>Encounter Chance</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_8">
+                    <item row="0" column="0">
+                     <widget class="QSlider" name="sldWildGrassChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="tracking">
+                       <bool>true</bool>
+                      </property>
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="invertedAppearance">
+                       <bool>false</bool>
+                      </property>
+                      <property name="invertedControls">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QSpinBox" name="sbWildGrassChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0" colspan="3">
+                     <widget class="QLabel" name="lblWildGrassChance">
+                      <property name="text">
+                       <string>0%</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <layout class="QGridLayout" name="gridLayout_10">
+                   <item row="6" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass6"/>
+                   </item>
+                   <item row="6" column="2">
+                    <widget class="QSpinBox" name="spinBox_54">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QSpinBox" name="spinBox_47">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass4"/>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass2"/>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass3"/>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QSpinBox" name="spinBox_44">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="3">
+                    <widget class="QSpinBox" name="spinBox_58">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="4">
+                    <widget class="QLabel" name="label_47">
+                     <property name="text">
+                      <string>5%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QComboBox" name="cbWildGrass1">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="3">
+                    <widget class="QSpinBox" name="spinBox_67">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass1"/>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QSpinBox" name="spinBox_34">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass10"/>
+                   </item>
+                   <item row="4" column="4">
+                    <widget class="QLabel" name="label_27">
+                     <property name="text">
+                      <string>10%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="3">
+                    <widget class="QSpinBox" name="spinBox_64">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass8"/>
+                   </item>
+                   <item row="8" column="0">
+                    <widget class="QComboBox" name="cbWildGrass8">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_5">
+                     <property name="text">
+                      <string>Min Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QComboBox" name="cbWildGrass5">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass5"/>
+                   </item>
+                   <item row="2" column="4">
+                    <widget class="QLabel" name="label_25">
+                     <property name="text">
+                      <string>20%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="3">
+                    <widget class="QSpinBox" name="spinBox_41">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="3">
+                    <widget class="QLabel" name="label_6">
+                     <property name="text">
+                      <string>Max Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="4">
+                    <widget class="QLabel" name="label_28">
+                     <property name="text">
+                      <string>10%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="3">
+                    <widget class="QSpinBox" name="spinBox_55">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="0">
+                    <widget class="QComboBox" name="cbWildGrass7">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="2">
+                    <widget class="QSpinBox" name="spinBox_57">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="0">
+                    <widget class="QComboBox" name="cbWildGrass9">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="3">
+                    <widget class="QSpinBox" name="spinBox_70">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="4">
+                    <widget class="QLabel" name="label_52">
+                     <property name="text">
+                      <string>4%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="2">
+                    <widget class="QSpinBox" name="spinBox_66">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="4">
+                    <widget class="QLabel" name="label_45">
+                     <property name="text">
+                      <string>10%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QComboBox" name="cbWildGrass2">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="3">
+                    <widget class="QSpinBox" name="spinBox_35">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_3">
+                     <property name="text">
+                      <string>Pokémon:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="label_4">
+                     <property name="text">
+                      <string>Number:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="2">
+                    <widget class="QSpinBox" name="spinBox_63">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="2">
+                    <widget class="QSpinBox" name="spinBox_60">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass9"/>
+                   </item>
+                   <item row="5" column="2">
+                    <widget class="QSpinBox" name="spinBox_51">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="3">
+                    <widget class="QSpinBox" name="spinBox_52">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="0">
+                    <widget class="QComboBox" name="cbWildGrass11">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="4">
+                    <widget class="QLabel" name="label_50">
+                     <property name="text">
+                      <string>4%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="0">
+                    <widget class="QComboBox" name="cbWildGrass10">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="2">
+                    <widget class="QSpinBox" name="spinBox_69">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass11"/>
+                   </item>
+                   <item row="0" column="4">
+                    <widget class="QLabel" name="label_7">
+                     <property name="text">
+                      <string>Rate:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="4">
+                    <widget class="QLabel" name="label_49">
+                     <property name="text">
+                      <string>5%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="0">
+                    <widget class="QComboBox" name="cbWildGrass6">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass7"/>
+                   </item>
+                   <item row="11" column="4">
+                    <widget class="QLabel" name="label_53">
+                     <property name="text">
+                      <string>1%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QSpinBox" name="spinBox_39">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="3">
+                    <widget class="QSpinBox" name="spinBox_46">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QComboBox" name="cbWildGrass3">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="4">
+                    <widget class="QLabel" name="label_2">
+                     <property name="text">
+                      <string>20%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="4">
+                    <widget class="QLabel" name="label_26">
+                     <property name="text">
+                      <string>10%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="3">
+                    <widget class="QSpinBox" name="spinBox_49">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="3">
+                    <widget class="QSpinBox" name="spinBox_61">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QComboBox" name="cbWildGrass4">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="0">
+                    <widget class="QComboBox" name="cbWildGrass12">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="1">
+                    <widget class="QSpinBox" name="sbWildGrass12"/>
+                   </item>
+                   <item row="12" column="2">
+                    <widget class="QSpinBox" name="spinBox_72">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="3">
+                    <widget class="QSpinBox" name="spinBox_73">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="4">
+                    <widget class="QLabel" name="label_54">
+                     <property name="text">
+                      <string>1%</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="0" column="1">
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Expanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>453</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tabWildWater">
+            <attribute name="title">
+             <string>Water</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_15">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QScrollArea" name="scrollArea_10">
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_6">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>286</width>
+                  <height>275</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_12" columnstretch="0,1">
+                 <item row="2" column="0">
+                  <spacer name="verticalSpacer_12">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QGroupBox" name="groupBox_9">
+                   <property name="title">
+                    <string>Encounter Chance</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_13">
+                    <item row="0" column="0">
+                     <widget class="QSlider" name="sldWildWaterChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="tracking">
+                       <bool>true</bool>
+                      </property>
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="invertedAppearance">
+                       <bool>false</bool>
+                      </property>
+                      <property name="invertedControls">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QSpinBox" name="sbWildWaterChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0" colspan="3">
+                     <widget class="QLabel" name="lblWildWaterChance">
+                      <property name="text">
+                       <string>0%</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <layout class="QGridLayout" name="gridLayout_14">
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="label_65">
+                     <property name="text">
+                      <string>Number:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QComboBox" name="cbWildWater2">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="3">
+                    <widget class="QSpinBox" name="spinBox_53">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_64">
+                     <property name="text">
+                      <string>Pokémon:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="2">
+                    <widget class="QSpinBox" name="spinBox_78">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="3">
+                    <widget class="QSpinBox" name="spinBox_79">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="4">
+                    <widget class="QLabel" name="label_67">
+                     <property name="text">
+                      <string>Rate:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QSpinBox" name="spinBox_81">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="3">
+                    <widget class="QSpinBox" name="spinBox_82">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QComboBox" name="cbWildWater3">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="3">
+                    <widget class="QSpinBox" name="spinBox_83">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="4">
+                    <widget class="QLabel" name="label_70">
+                     <property name="text">
+                      <string>60%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="4">
+                    <widget class="QLabel" name="label_71">
+                     <property name="text">
+                      <string>5%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QComboBox" name="cbWildWater4">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="3">
+                    <widget class="QSpinBox" name="spinBox_43">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="1">
+                    <widget class="QSpinBox" name="sbWildWater5"/>
+                   </item>
+                   <item row="2" column="4">
+                    <widget class="QLabel" name="label_59">
+                     <property name="text">
+                      <string>30%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="4">
+                    <widget class="QLabel" name="label_61">
+                     <property name="text">
+                      <string>1%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="3">
+                    <widget class="QLabel" name="label_60">
+                     <property name="text">
+                      <string>Max Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QSpinBox" name="spinBox_48">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1">
+                    <widget class="QSpinBox" name="sbWildWater4"/>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QSpinBox" name="sbWildWater3"/>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QSpinBox" name="spinBox_50">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QSpinBox" name="sbWildWater2"/>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QComboBox" name="cbWildWater1">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QSpinBox" name="spinBox_38">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="4">
+                    <widget class="QLabel" name="label_57">
+                     <property name="text">
+                      <string>4%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="sbWildWater1"/>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_58">
+                     <property name="text">
+                      <string>Min Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QComboBox" name="cbWildWater5">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="0" column="1">
+                  <spacer name="horizontalSpacer_11">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Expanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>453</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tabWildFishing">
+            <attribute name="title">
+             <string>Fishing</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_19">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QScrollArea" name="scrollArea_11">
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_11">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>286</width>
+                  <height>474</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_16" columnstretch="0,0">
+                 <item row="0" column="0">
+                  <widget class="QGroupBox" name="groupBox_10">
+                   <property name="title">
+                    <string>Encounter Chance</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_17">
+                    <item row="0" column="0">
+                     <widget class="QSlider" name="sldWildFishingChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="tracking">
+                       <bool>true</bool>
+                      </property>
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="invertedAppearance">
+                       <bool>false</bool>
+                      </property>
+                      <property name="invertedControls">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QSpinBox" name="sbWildFishingChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0" colspan="3">
+                     <widget class="QLabel" name="lblWildFishingChance">
+                      <property name="text">
+                       <string>0%</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <layout class="QGridLayout" name="gridLayout_18">
+                   <item row="9" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing6"/>
+                   </item>
+                   <item row="9" column="2">
+                    <widget class="QSpinBox" name="spinBox_59">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="3">
+                    <widget class="QSpinBox" name="spinBox_95">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="2">
+                    <widget class="QSpinBox" name="spinBox_87">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="0">
+                    <widget class="QComboBox" name="cbWildFishing6">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="4">
+                    <widget class="QLabel" name="label_74">
+                     <property name="text">
+                      <string>40%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="4">
+                    <widget class="QLabel" name="label_62">
+                     <property name="text">
+                      <string>40%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="13" column="2">
+                    <widget class="QSpinBox" name="spinBox_85">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing7"/>
+                   </item>
+                   <item row="13" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing10"/>
+                   </item>
+                   <item row="12" column="3">
+                    <widget class="QSpinBox" name="spinBox_75">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="4">
+                    <widget class="QLabel" name="label_79">
+                     <property name="text">
+                      <string>15%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="13" column="3">
+                    <widget class="QSpinBox" name="spinBox_71">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="13" column="0">
+                    <widget class="QComboBox" name="cbWildFishing10">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="9" column="3">
+                    <widget class="QSpinBox" name="spinBox_77">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="13" column="4">
+                    <widget class="QLabel" name="label_73">
+                     <property name="text">
+                      <string>1%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="0">
+                    <widget class="QComboBox" name="cbWildFishing7">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="3">
+                    <widget class="QSpinBox" name="spinBox_68">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="2">
+                    <widget class="QSpinBox" name="spinBox_88">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing9"/>
+                   </item>
+                   <item row="12" column="0">
+                    <widget class="QComboBox" name="cbWildFishing9">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="12" column="4">
+                    <widget class="QLabel" name="label_77">
+                     <property name="text">
+                      <string>4%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="0">
+                    <widget class="QComboBox" name="cbWildFishing8">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="11" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing8"/>
+                   </item>
+                   <item row="10" column="2">
+                    <widget class="QSpinBox" name="spinBox_80">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="2">
+                    <widget class="QSpinBox" name="spinBox_62">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing4"/>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing2"/>
+                   </item>
+                   <item row="5" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing3"/>
+                   </item>
+                   <item row="5" column="2">
+                    <widget class="QSpinBox" name="spinBox_65">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QComboBox" name="cbWildFishing1">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing1"/>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QSpinBox" name="spinBox_74">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="4">
+                    <widget class="QLabel" name="label_63">
+                     <property name="text">
+                      <string>20%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_66">
+                     <property name="text">
+                      <string>Min Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="1">
+                    <widget class="QSpinBox" name="sbWildFishing5"/>
+                   </item>
+                   <item row="7" column="0">
+                    <widget class="QComboBox" name="cbWildFishing5">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="3">
+                    <widget class="QLabel" name="label_69">
+                     <property name="text">
+                      <string>Max Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="3">
+                    <widget class="QSpinBox" name="spinBox_76">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="4">
+                    <widget class="QLabel" name="label_68">
+                     <property name="text">
+                      <string>30%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="4">
+                    <widget class="QLabel" name="label_72">
+                     <property name="text">
+                      <string>20%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_75">
+                     <property name="text">
+                      <string>Pokémon:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QComboBox" name="cbWildFishing2">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="3">
+                    <widget class="QSpinBox" name="spinBox_86">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="label_76">
+                     <property name="text">
+                      <string>Number:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="2">
+                    <widget class="QSpinBox" name="spinBox_89">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="3">
+                    <widget class="QSpinBox" name="spinBox_90">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="4">
+                    <widget class="QLabel" name="label_78">
+                     <property name="text">
+                      <string>Rate:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QSpinBox" name="spinBox_92">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="3">
+                    <widget class="QSpinBox" name="spinBox_93">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QComboBox" name="cbWildFishing3">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="4">
+                    <widget class="QLabel" name="label_82">
+                     <property name="text">
+                      <string>60%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="3">
+                    <widget class="QSpinBox" name="spinBox_94">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="4">
+                    <widget class="QLabel" name="label_81">
+                     <property name="text">
+                      <string>70%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="0">
+                    <widget class="QComboBox" name="cbWildFishing4">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0" colspan="5">
+                    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
+                     <property name="spacing">
+                      <number>3</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="label_112">
+                       <property name="font">
+                        <font>
+                         <pointsize>6</pointsize>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Good Rod</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="Line" name="line_5">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="8" column="0" colspan="5">
+                    <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
+                     <property name="spacing">
+                      <number>3</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="label_113">
+                       <property name="font">
+                        <font>
+                         <pointsize>6</pointsize>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Super Rod</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="Line" name="line_6">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="1" column="0" colspan="5">
+                    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
+                     <property name="spacing">
+                      <number>3</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="label_111">
+                       <property name="font">
+                        <font>
+                         <pointsize>6</pointsize>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Old Rod</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="Line" name="line_4">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="2" column="0">
+                  <spacer name="verticalSpacer_13">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="1">
+                  <spacer name="horizontalSpacer_12">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Expanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>453</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tabWildOther">
+            <attribute name="title">
+             <string>Other</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_26">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QScrollArea" name="scrollArea_12">
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_12">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>286</width>
+                  <height>275</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_20" columnstretch="0,1">
+                 <item row="2" column="0">
+                  <spacer name="verticalSpacer_14">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QGroupBox" name="groupBox_11">
+                   <property name="title">
+                    <string>Encounter Chance</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_22">
+                    <item row="0" column="0">
+                     <widget class="QSlider" name="sldWildOtherChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="tracking">
+                       <bool>true</bool>
+                      </property>
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="invertedAppearance">
+                       <bool>false</bool>
+                      </property>
+                      <property name="invertedControls">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QSpinBox" name="sbWildOtherChance">
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0" colspan="3">
+                     <widget class="QLabel" name="lblWildOtherChance">
+                      <property name="text">
+                       <string>0%</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <layout class="QGridLayout" name="gridLayout_24">
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="label_114">
+                     <property name="text">
+                      <string>Number:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QComboBox" name="cbWildOther2">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="3">
+                    <widget class="QSpinBox" name="spinBox_120">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_115">
+                     <property name="text">
+                      <string>Pokémon:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="2">
+                    <widget class="QSpinBox" name="spinBox_121">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="3">
+                    <widget class="QSpinBox" name="spinBox_122">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="4">
+                    <widget class="QLabel" name="label_116">
+                     <property name="text">
+                      <string>Rate:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QSpinBox" name="spinBox_123">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="3">
+                    <widget class="QSpinBox" name="spinBox_124">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QComboBox" name="cbWildOther3">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="3">
+                    <widget class="QSpinBox" name="spinBox_125">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="4">
+                    <widget class="QLabel" name="label_117">
+                     <property name="text">
+                      <string>60%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="4">
+                    <widget class="QLabel" name="label_118">
+                     <property name="text">
+                      <string>5%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QComboBox" name="cbWildOther4">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="3">
+                    <widget class="QSpinBox" name="spinBox_126">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="1">
+                    <widget class="QSpinBox" name="sbWildOther5"/>
+                   </item>
+                   <item row="2" column="4">
+                    <widget class="QLabel" name="label_119">
+                     <property name="text">
+                      <string>30%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="4">
+                    <widget class="QLabel" name="label_120">
+                     <property name="text">
+                      <string>1%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="3">
+                    <widget class="QLabel" name="label_121">
+                     <property name="text">
+                      <string>Max Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QSpinBox" name="spinBox_127">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1">
+                    <widget class="QSpinBox" name="sbWildOther4"/>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QSpinBox" name="sbWildOther3"/>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QSpinBox" name="spinBox_128">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QSpinBox" name="sbWildOther2"/>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QComboBox" name="cbWildOther1">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QSpinBox" name="spinBox_129">
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="4">
+                    <widget class="QLabel" name="label_122">
+                     <property name="text">
+                      <string>4%</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="sbWildOther1"/>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_123">
+                     <property name="text">
+                      <string>Min Level:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QComboBox" name="cbWildOther5">
+                     <property name="iconSize">
+                      <size>
+                       <width>32</width>
+                       <height>32</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="0" column="1">
+                  <spacer name="horizontalSpacer_13">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Expanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>453</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="tabHeader">
         <attribute name="icon">
@@ -5071,6 +7058,1238 @@
     <hint type="destinationlabel">
      <x>750</x>
      <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sldWildGrassChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sbWildGrassChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>417</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>519</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrassChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sldWildGrassChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>519</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>417</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass1</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass1</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass2</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>290</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass3</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass4</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass4</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass5</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass5</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass6</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass6</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>406</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>407</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass7</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass7</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>435</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>436</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass8</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass8</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>464</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>465</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass9</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass9</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>493</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass10</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass10</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>522</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>523</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass11</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass11</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>551</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>552</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildGrass12</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildGrass12</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>581</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass3</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass4</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass5</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass6</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass6</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>407</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>406</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass7</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass7</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>435</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass8</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass8</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>464</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass9</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass9</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>494</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>493</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass10</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass10</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>522</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass11</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass11</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>552</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>551</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildGrass12</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildGrass12</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>581</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>580</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildWater1</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildWater1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildWater2</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildWater2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>290</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildWater3</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildWater3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildWater4</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildWater4</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildWater5</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildWater5</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildWater1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildWater1</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildWater2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildWater2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildWater3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildWater3</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildWater4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildWater4</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildWater5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildWater5</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sldWildWaterChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sbWildWaterChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>505</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sldWildFishingChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sbWildFishingChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>381</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>508</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sldWildOtherChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sbWildOtherChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>505</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing1</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>279</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>280</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing2</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>308</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing3</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>355</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>356</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing4</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing4</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>384</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing5</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing5</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>413</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>414</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing6</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing6</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>460</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>461</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing7</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing7</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>489</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>490</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing8</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing8</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>518</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>519</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing9</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing9</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>547</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>548</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildFishing10</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildFishing10</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>576</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>577</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing1</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>308</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing3</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>355</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing4</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>384</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing5</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>414</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>413</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing6</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing6</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>460</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing7</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing7</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>490</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>489</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing8</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing8</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>519</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>518</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing9</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing9</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>548</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>547</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishing10</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildFishing10</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>577</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>576</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildOther1</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildOther1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildOther2</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildOther2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>290</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildOther3</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildOther3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildOther4</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildOther4</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWildOther5</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWildOther5</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>373</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildOther1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildOther1</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildOther2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildOther2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>291</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildOther3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildOther3</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildOther4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildOther4</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildOther5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWildOther5</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spnWarpHeight</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cmbWarpHeight</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>765</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>907</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbWarpHeight</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>spnWarpHeight</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>765</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spnTriggerHeight</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cmbTriggerHeight</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>765</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>907</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbTriggerHeight</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>spnTriggerHeight</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>765</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spnSignHeight</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cmbSignHeight</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>765</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>907</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbSignHeight</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>spnSignHeight</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>765</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spnSignType</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cmbSignType</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>765</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>907</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbSignType</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>spnSignType</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>765</x>
+     <y>254</y>
     </hint>
    </hints>
   </connection>
