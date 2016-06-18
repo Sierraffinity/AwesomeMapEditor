@@ -70,6 +70,7 @@ SOURCES += \
     src/Widgets/commands.cpp \
     src/Mapping/MapBank.cpp \
     src/Widgets/QHexLineEdit.cpp \
+    src/Widgets/QHexSpinBox.cpp \
     src/Mapping/MapBankTable.cpp \
     src/System/Configuration.cpp \
     src/System/LoadedData.cpp \
@@ -117,6 +118,7 @@ HEADERS  += \
     include/AME/Widgets/chunks.h \
     include/AME/Widgets/commands.h \
     include/AME/Widgets/QHexLineEdit.h \
+    include/AME/Widgets/QHexSpinBox.h \
     include/AME/Mapping/MapBankTable.hpp \
     include/AME/System/Configuration.hpp \
     include/AME/System/LoadedData.hpp \

@@ -18,6 +18,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    
 };
 
 #endif // QHEXLINEEDIT_H
