@@ -224,7 +224,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>614</width>
+              <width>594</width>
               <height>622</height>
              </rect>
             </property>
@@ -423,7 +423,7 @@
               <enum>QTabWidget::North</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tabBlocks">
               <attribute name="title">
@@ -444,6 +444,12 @@
                </property>
                <item>
                 <widget class="QScrollArea" name="scrollArea_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>147</width>
+                   <height>0</height>
+                  </size>
+                 </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
@@ -458,8 +464,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>98</width>
-                    <height>28</height>
+                    <width>145</width>
+                    <height>541</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
@@ -479,7 +485,7 @@
                     <number>0</number>
                    </property>
                    <item row="0" column="0">
-                    <widget class="QOpenGLWidget" name="openGLWidget_3">
+                    <widget class="ame::AMEBlockView" name="openGLWidget_3">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -562,7 +568,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>125</width>
+                    <width>142</width>
                     <height>541</height>
                    </rect>
                   </property>
@@ -3590,6 +3596,11 @@
    <class>QHexLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">QHexLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ame::AMEBlockView</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">AMEBlockView.h</header>
   </customwidget>
  </customwidgets>
  <resources>

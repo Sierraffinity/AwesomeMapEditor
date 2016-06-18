@@ -166,4 +166,6 @@ void ame::MainWindow::on_actionRecent_Files_triggered()
     ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[3]->maps()[0]);
     ui->openGLWidget_2->makeGL();
     ui->openGLWidget_2->update();
+    ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
+    ui->openGLWidget_3->update();
 }

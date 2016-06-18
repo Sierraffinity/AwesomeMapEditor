@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////
+﻿//////////////////////////////////////////////////////////////////////////////////
 //
 //
 //                     d88b         888b           d888  888888888888
@@ -84,6 +84,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEMapView::~AMEMapView()
     {
+        makeCurrent();
+
         foreach (UInt32 id, m_MapTextures)
             glCheck(glDeleteTextures(1, &id));
         foreach (UInt32 id, m_PalTextures)
@@ -107,6 +109,8 @@ namespace ame
         m_Palettes.clear();
         m_VAO.destroy();
         m_Program.removeAllShaders();
+
+        doneCurrent();
     }
 
 
@@ -163,7 +167,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::paintGL()
     {
-        glCheck(glClearColor(0, 0, 1, 1));
+        glCheck(glClearColor(240/255.0f, 240/255.0f, 240/255.0f, 1));
         glCheck(glClear(GL_COLOR_BUFFER_BIT));
 
         // Binds the vertex array and the index buffer
@@ -416,6 +420,7 @@ namespace ame
             // Retrieves the raw pixel data of the tilesets
             const QByteArray &priRaw = primary->image()->raw();
             const QByteArray &secRaw = secondary->image()->raw();
+            const int secRawMax = (128/8 * secondary->image()->size().height()/8);
 
             // Creates two buffers for the blockset pixels
             Int32 tilesetHeight1 = blockCountPrimary / 8 * 16;
@@ -450,7 +455,11 @@ namespace ame
                     if (tile.tile >= blockCountPrimary)
                     {
                         tile.tile -= blockCountPrimary;
-                        extractTile(secRaw, tile);
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
                     }
                     else
                     {
@@ -473,7 +482,11 @@ namespace ame
                     if (tile.tile >= blockCountPrimary)
                     {
                         tile.tile -= blockCountPrimary;
-                        extractTile(secRaw, tile);
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
                     }
                     else
                     {
@@ -504,7 +517,11 @@ namespace ame
                     if (tile.tile >= blockCountPrimary)
                     {
                         tile.tile -= blockCountPrimary;
-                        extractTile(secRaw, tile);
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
                     }
                     else
                     {
@@ -527,7 +544,11 @@ namespace ame
                     if (tile.tile >= blockCountPrimary)
                     {
                         tile.tile -= blockCountPrimary;
-                        extractTile(secRaw, tile);
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
                     }
                     else
                     {
@@ -633,6 +654,7 @@ namespace ame
     {
         makeCurrent();
         initializeOpenGLFunctions();
+        m_VAO.bind();
 
         // Creates, binds and buffers the static index buffer
         const unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
@@ -691,5 +713,61 @@ namespace ame
         // Sets the minimum size
         setMinimumSize(m_WidgetSize);
         doneCurrent();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    QVector<qboy::GLColor> *AMEMapView::mainPalettes()
+    {
+        return &m_Palettes[0];
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    QList<UInt8 *> AMEMapView::mainPixels()
+    {
+        QList<UInt8 *> pixels;
+        pixels.push_back(m_PrimaryBackground);
+        pixels.push_back(m_PrimaryForeground);
+        pixels.push_back(m_SecondaryBackground);
+        pixels.push_back(m_SecondaryForeground);
+
+
+        return pixels;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    QSize AMEMapView::primarySetSize()
+    {
+        return m_PrimarySetSize;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    QSize AMEMapView::secondarySetSize()
+    {
+        return m_SecondarySetSize;
     }
 }

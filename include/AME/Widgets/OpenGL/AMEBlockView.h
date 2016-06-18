@@ -31,8 +31,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_AMEMAPVIEW_HPP__
-#define __AME_AMEMAPVIEW_HPP__
+#ifndef __AME_AMEBLOCKVIEW_HPP__
+#define __AME_AMEBLOCKVIEW_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -41,80 +41,44 @@
 ///////////////////////////////////////////////////////////
 #include <QtWidgets>
 #include <QtOpenGL/QtOpenGL>
-#include <AME/System/LoadedData.hpp>
+#include <AME/Widgets/OpenGL/AMEMapView.h>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    AMEMapView.h
+    /// \file    AMEBlockView.h
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/17/2016
-    /// \brief   Displays a map with all it's connections.
+    /// \date    6/18/2016
+    /// \brief   Displays the primary and secondary blockset
     ///
     ///////////////////////////////////////////////////////////
-    class AMEMapView : public QOpenGLWidget, public QOpenGLFunctions {
+    class AMEBlockView : public QOpenGLWidget, public QOpenGLFunctions {
     public:
 
         ///////////////////////////////////////////////////////////
         /// \brief Default constructor
         ///
-        /// Initializes AMEMapView with a given parent.
+        /// Initializes AMEBlockView with a given parent.
         ///
         ///////////////////////////////////////////////////////////
-        AMEMapView(QWidget *parent = NULL);
+        AMEBlockView(QWidget *parent = NULL);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destructor
         ///
-        /// Destroys all the map images and OpenGL things.
+        /// Destroys the OpenGL objects.
         ///
         ///////////////////////////////////////////////////////////
-        ~AMEMapView();
+        ~AMEBlockView();
 
 
         ///////////////////////////////////////////////////////////
-        /// \brief Sets the map to be loaded, with all connections.
-        ///
-        /// Attempts to load the map images and its connections. It
-        /// returns false if OpenGL fails or if the map is invalid.
-        ///
-        /// \returns true if loading succeeded.
+        /// \brief Retrieves pre-loaded data from the map view.
         ///
         ///////////////////////////////////////////////////////////
-        bool setMap(const qboy::Rom &rom, Map *map);
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Creates the textures for the images and pals.
-        ///
-        ///////////////////////////////////////////////////////////
-        void makeGL();
-
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the main blockset palettes.
-        ///
-        ///////////////////////////////////////////////////////////
-        QVector<qboy::GLColor> *mainPalettes();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the blockset pixels.
-        ///
-        ///////////////////////////////////////////////////////////
-        QList<UInt8 *> mainPixels();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the primary blockset size.
-        ///
-        ///////////////////////////////////////////////////////////
-        QSize primarySetSize();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the secondary blockset size.
-        ///
-        ///////////////////////////////////////////////////////////
-        QSize secondarySetSize();
+        void setMapView(AMEMapView *view);
 
 
     protected:
@@ -144,21 +108,15 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QList<Map *> m_Maps;
-        QList<UInt32> m_MapTextures;
-        QList<UInt32> m_PalTextures;
-        QList<QSize> m_MapSizes;
-        QList<QPoint> m_MapPositions;
         QList<UInt32> m_VertexBuffers;
+        QList<UInt32> m_Textures;
+        UInt32 m_PalTexture;
         UInt32 m_IndexBuffer;
-        QList<QVector<qboy::GLColor>> m_Palettes;
-        QList<UInt8 *> m_BackPixelBuffers;
-        QList<UInt8 *> m_ForePixelBuffers;
+        QVector<qboy::GLColor> *m_Palettes;
         QOpenGLVertexArrayObject m_VAO;
         QOpenGLShaderProgram m_Program;
         QSize m_PrimarySetSize;
         QSize m_SecondarySetSize;
-        QSize m_WidgetSize;
         UInt8 *m_PrimaryForeground;
         UInt8 *m_PrimaryBackground;
         UInt8 *m_SecondaryForeground;
@@ -167,4 +125,4 @@ namespace ame
 }
 
 
-#endif //__AME_AMEMAPVIEW_HPP__
+#endif //__AME_AMEBLOCKVIEW_HPP__
