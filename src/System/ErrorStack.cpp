@@ -119,7 +119,7 @@ namespace ame
     {
         // Prerequisites for the log conversion
         QString log;
-        QString hash = QString('#').repeated(20) + QString('\n');
+        QString hash = (QString('#').repeated(20) + QString('\n'));
         QString title("AwesomeMapEditor: Error log file\n");
         QString date = QString("Date :") + QDate::currentDate().toString(Qt::ISODate);
         QString time = QString("Time :") + QTime::currentTime().toString(Qt::ISODate); 

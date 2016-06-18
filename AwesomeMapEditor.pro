@@ -31,6 +31,7 @@ win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
 INCLUDEPATH += include
 INCLUDEPATH += include/AME/Forms
 INCLUDEPATH += include/AME/Widgets
+INCLUDEPATH += include/AME/Widgets/OpenGL
 INCLUDEPATH += $$PWD/../QBoy/include
 DEPENDPATH  += $$PWD/../QBoy/include
 INCLUDEPATH += $$PWD/../yaml-cpp/include
@@ -74,7 +75,9 @@ SOURCES += \
     src/Mapping/MapBankTable.cpp \
     src/System/Configuration.cpp \
     src/System/LoadedData.cpp \
-    src/Widgets/Misc/Messages.cpp
+    src/Widgets/Misc/Messages.cpp \
+    src/Widgets/OpenGL/AMEMapView.cpp \
+    src/Widgets/OpenGL/AMEBlockView.cpp
 
 
 #
@@ -122,7 +125,9 @@ HEADERS  += \
     include/AME/Mapping/MapBankTable.hpp \
     include/AME/System/Configuration.hpp \
     include/AME/System/LoadedData.hpp \
-    include/AME/Widgets/Misc/Messages.hpp
+    include/AME/Widgets/Misc/Messages.hpp \
+    include/AME/Widgets/OpenGL/AMEMapView.h \
+    include/AME/Widgets/OpenGL/AMEBlockView.h
 
 
 #
@@ -134,7 +139,8 @@ FORMS    += resources/UI/MainWindow.ui
 # Resources
 #
 RESOURCES += \
-    resources/images.qrc
+    resources/images.qrc \
+    resources/shaders.qrc
 
 DISTFILES += \
-    resources/config/BPRE.yaml
+    resources/config/BPRE.yaml \

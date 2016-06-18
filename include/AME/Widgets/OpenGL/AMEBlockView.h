@@ -31,103 +31,76 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_MAINWINDOW_H__
-#define __AME_MAINWINDOW_H__
+#ifndef __AME_AMEBLOCKVIEW_HPP__
+#define __AME_AMEBLOCKVIEW_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Core/Rom.hpp>
-#include <QMainWindow>
+#include <QtWidgets>
+#include <QtOpenGL/QtOpenGL>
+#include <AME/Widgets/OpenGL/AMEMapView.h>
 
 
 namespace ame
 {
-    namespace Ui
-    {
-        class MainWindow;
-    }
-
-
     ///////////////////////////////////////////////////////////
-    /// \file    MainWindow.h
+    /// \file    AMEBlockView.h
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/2/2016
-    /// \brief   Holds components for the main AME window.
+    /// \date    6/18/2016
+    /// \brief   Displays the primary and secondary blockset
     ///
     ///////////////////////////////////////////////////////////
-    class MainWindow : public QMainWindow {
-    Q_OBJECT
+    class AMEBlockView : public QOpenGLWidget, public QOpenGLFunctions {
     public:
 
         ///////////////////////////////////////////////////////////
         /// \brief Default constructor
-        /// \param parent Parental widget (optional)
         ///
-        /// Creates all resources that are required by the GUI.
+        /// Initializes AMEBlockView with a given parent.
         ///
         ///////////////////////////////////////////////////////////
-        explicit MainWindow(QWidget *parent = 0);
+        AMEBlockView(QWidget *parent = NULL);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destructor
         ///
-        /// Releases all resources that belong to MainWindow.
+        /// Destroys the OpenGL objects.
         ///
         ///////////////////////////////////////////////////////////
-        ~MainWindow();
+        ~AMEBlockView();
+
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves pre-loaded data from the map view.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setMapView(AMEMapView *view);
 
 
     protected:
 
         ///////////////////////////////////////////////////////////
-        /// \brief Shows a dialog to open a ROM file.
-        ///
-        /// Loads a ROM file and stores it in member m_Rom.
-        /// Use the ErrorStack to retrieve errors that were thrown
-        /// in this function.
-        ///
-        /// \returns true if no errors occured.
+        /// \brief Initializes OpenGL-related things.
         ///
         ///////////////////////////////////////////////////////////
-        bool openRomDialog();
+        void initializeGL();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Attempts to load all map-related data.
-        ///
-        /// Loads the configuration file and reads all data.
-        /// Shows a window with error messages, in case one or
-        /// more errors occured during the loading process.
+        /// \brief Resizes the viewport and redraws the objects.
         ///
         ///////////////////////////////////////////////////////////
-        void loadMapData();
+        void resizeGL(int w, int h);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Sets the GUI up after loading all map data.
+        /// \brief Renders all the map textures.
         ///
         ///////////////////////////////////////////////////////////
-        void setupAfterLoading();
+        void paintGL();
 
-        ///////////////////////////////////////////////////////////
-        /// \brief Clears the map-related GUI things.
-        ///
-        ///////////////////////////////////////////////////////////
-        void clearBeforeLoading();
-
-
-    private slots:
-
-        ///////////////////////////////////////////////////////////
-        // Slots
-        //
-        ///////////////////////////////////////////////////////////
-        void on_action_Open_ROM_triggered();
-
-
-        void on_actionRecent_Files_triggered();
 
     private:
 
@@ -135,17 +108,21 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        Ui::MainWindow *ui;    ///< Gives access to the GUI objects
-        qboy::Rom m_Rom;       ///< Global ROM across the application
+        QList<UInt32> m_VertexBuffers;
+        QList<UInt32> m_Textures;
+        UInt32 m_PalTexture;
+        UInt32 m_IndexBuffer;
+        QVector<qboy::GLColor> *m_Palettes;
+        QOpenGLVertexArrayObject m_VAO;
+        QOpenGLShaderProgram m_Program;
+        QSize m_PrimarySetSize;
+        QSize m_SecondarySetSize;
+        UInt8 *m_PrimaryForeground;
+        UInt8 *m_PrimaryBackground;
+        UInt8 *m_SecondaryForeground;
+        UInt8 *m_SecondaryBackground;
     };
-
-
-    ///////////////////////////////////////////////////////////
-    // Error messages for MainWindow
-    //
-    ///////////////////////////////////////////////////////////
-    #define WND_ERROR_ROM   "The ROM file which you were about to open, is already in use."
 }
 
 
-#endif // __AME_MAINWINDOW_H__
+#endif //__AME_AMEBLOCKVIEW_HPP__

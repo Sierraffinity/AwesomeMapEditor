@@ -93,7 +93,6 @@ namespace ame
         static UInt32 StartY;
         static UInt32 MapBanks;
         static UInt32 MapLayouts;
-        static UInt32 MapLayoutCount;
         static UInt32 MapNames;
         static UInt32 MapNameCount;
         static UInt32 MapNameTotal;

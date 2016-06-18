@@ -64,7 +64,6 @@ namespace ame
     UInt32 Configuration::StartY;
     UInt32 Configuration::MapBanks;
     UInt32 Configuration::MapLayouts;
-    UInt32 Configuration::MapLayoutCount;
     UInt32 Configuration::MapNames;
     UInt32 Configuration::MapNameCount;
     UInt32 Configuration::MapNameTotal;
@@ -118,7 +117,6 @@ namespace ame
         StartY          = configNode["StartY"].as<UInt32>();
         MapBanks        = configNode["MapBanks"].as<UInt32>();
         MapLayouts      = configNode["MapLayouts"].as<UInt32>();
-        MapLayoutCount  = configNode["MapLayoutCount"].as<UInt32>();
         MapNames        = configNode["MapNames"].as<UInt32>();
         MapNameCount    = configNode["MapNameCount"].as<UInt32>();
         MapNameTotal    = configNode["MapNameTotal"].as<UInt32>();
