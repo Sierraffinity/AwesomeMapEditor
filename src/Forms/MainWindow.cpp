@@ -36,6 +36,7 @@
 #include <AME/Forms/MainWindow.h>
 #include "ui_MainWindow.h"
 #include <QFileDialog>
+#include <AME/Widgets/OpenGL/AMEMapView.h>
 
 
 namespace ame
@@ -158,4 +159,11 @@ namespace ame
         if (openRomDialog())
             loadMapData();
     }
+}
+
+void ame::MainWindow::on_actionRecent_Files_triggered()
+{
+    ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[0]->maps()[0]);
+    ui->openGLWidget_2->makeGL();
+    ui->openGLWidget_2->update();
 }

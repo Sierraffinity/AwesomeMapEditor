@@ -31,103 +31,87 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_MAINWINDOW_H__
-#define __AME_MAINWINDOW_H__
+#ifndef __AME_AMEMAPVIEW_HPP__
+#define __AME_AMEMAPVIEW_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Core/Rom.hpp>
-#include <QMainWindow>
+#include <QtWidgets>
+#include <QtOpenGL/QtOpenGL>
+#include <AME/System/LoadedData.hpp>
 
 
 namespace ame
 {
-    namespace Ui
-    {
-        class MainWindow;
-    }
-
-
     ///////////////////////////////////////////////////////////
-    /// \file    MainWindow.h
+    /// \file    AMEMapView.h
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/2/2016
-    /// \brief   Holds components for the main AME window.
+    /// \date    6/17/2016
+    /// \brief   Displays a map with all it's connections.
     ///
     ///////////////////////////////////////////////////////////
-    class MainWindow : public QMainWindow {
-    Q_OBJECT
+    class AMEMapView : public QOpenGLWidget, public QOpenGLFunctions {
     public:
 
         ///////////////////////////////////////////////////////////
         /// \brief Default constructor
-        /// \param parent Parental widget (optional)
         ///
-        /// Creates all resources that are required by the GUI.
+        /// Initializes AMEMapView with a given parent.
         ///
         ///////////////////////////////////////////////////////////
-        explicit MainWindow(QWidget *parent = 0);
+        AMEMapView(QWidget *parent = NULL);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destructor
         ///
-        /// Releases all resources that belong to MainWindow.
+        /// Destroys all the map images and OpenGL things.
         ///
         ///////////////////////////////////////////////////////////
-        ~MainWindow();
+        ~AMEMapView();
+
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the map to be loaded, with all connections.
+        ///
+        /// Attempts to load the map images and its connections. It
+        /// returns false if OpenGL fails or if the map is invalid.
+        ///
+        /// \returns true if loading succeeded.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool setMap(const qboy::Rom &rom, Map *map);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Creates the textures for the images and pals.
+        ///
+        ///////////////////////////////////////////////////////////
+        void makeGL();
 
 
     protected:
 
         ///////////////////////////////////////////////////////////
-        /// \brief Shows a dialog to open a ROM file.
-        ///
-        /// Loads a ROM file and stores it in member m_Rom.
-        /// Use the ErrorStack to retrieve errors that were thrown
-        /// in this function.
-        ///
-        /// \returns true if no errors occured.
+        /// \brief Initializes OpenGL-related things.
         ///
         ///////////////////////////////////////////////////////////
-        bool openRomDialog();
+        void initializeGL();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Attempts to load all map-related data.
-        ///
-        /// Loads the configuration file and reads all data.
-        /// Shows a window with error messages, in case one or
-        /// more errors occured during the loading process.
+        /// \brief Resizes the viewport and redraws the objects.
         ///
         ///////////////////////////////////////////////////////////
-        void loadMapData();
+        void resizeGL(int w, int h);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Sets the GUI up after loading all map data.
+        /// \brief Renders all the map textures.
         ///
         ///////////////////////////////////////////////////////////
-        void setupAfterLoading();
+        void paintGL();
 
-        ///////////////////////////////////////////////////////////
-        /// \brief Clears the map-related GUI things.
-        ///
-        ///////////////////////////////////////////////////////////
-        void clearBeforeLoading();
-
-
-    private slots:
-
-        ///////////////////////////////////////////////////////////
-        // Slots
-        //
-        ///////////////////////////////////////////////////////////
-        void on_action_Open_ROM_triggered();
-
-
-        void on_actionRecent_Files_triggered();
 
     private:
 
@@ -135,17 +119,26 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        Ui::MainWindow *ui;    ///< Gives access to the GUI objects
-        qboy::Rom m_Rom;       ///< Global ROM across the application
+        QList<Map *> m_Maps;
+        QList<UInt32> m_MapTextures;
+        QList<UInt32> m_PalTextures;
+        QList<QSize> m_MapSizes;
+        QList<QPoint> m_MapPositions;
+        QList<UInt32> m_VertexBuffers;
+        UInt32 m_IndexBuffer;
+        QList<QVector<qboy::GLColor>> m_Palettes;
+        QList<UInt8 *> m_BackPixelBuffers;
+        QList<UInt8 *> m_ForePixelBuffers;
+        QOpenGLVertexArrayObject m_VAO;
+        QOpenGLShaderProgram m_Program;
+        QSize m_PrimarySetSize;
+        QSize m_SecondarySetSize;
+        UInt8 *m_PrimaryForeground;
+        UInt8 *m_PrimaryBackground;
+        UInt8 *m_SecondaryForeground;
+        UInt8 *m_SecondaryBackground;
     };
-
-
-    ///////////////////////////////////////////////////////////
-    // Error messages for MainWindow
-    //
-    ///////////////////////////////////////////////////////////
-    #define WND_ERROR_ROM   "The ROM file which you were about to open, is already in use."
 }
 
 
-#endif // __AME_MAINWINDOW_H__
+#endif //__AME_AMEMAPVIEW_HPP__
