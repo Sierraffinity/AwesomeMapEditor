@@ -77,7 +77,9 @@ SOURCES += \
     src/System/LoadedData.cpp \
     src/Widgets/Misc/Messages.cpp \
     src/Widgets/OpenGL/AMEMapView.cpp \
-    src/Widgets/OpenGL/AMEBlockView.cpp
+    src/Widgets/OpenGL/AMEBlockView.cpp \
+    src/Widgets/AMEImageButton.cpp \
+    src/Forms/ErrorWindow.cpp
 
 
 #
@@ -127,13 +129,16 @@ HEADERS  += \
     include/AME/System/LoadedData.hpp \
     include/AME/Widgets/Misc/Messages.hpp \
     include/AME/Widgets/OpenGL/AMEMapView.h \
-    include/AME/Widgets/OpenGL/AMEBlockView.h
+    include/AME/Widgets/OpenGL/AMEBlockView.h \
+    include/AME/Widgets/AMEImageButton.h \
+    include/AME/Forms/ErrorWindow.h
 
 
 #
 # Forms
 #
-FORMS    += resources/UI/MainWindow.ui
+FORMS    += resources/UI/MainWindow.ui \
+    resources/UI/ErrorWindow.ui
 
 #
 # Resources

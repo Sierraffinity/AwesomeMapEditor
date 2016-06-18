@@ -33,10 +33,11 @@
 
 #include <AME/System/LoadedData.hpp>
 #include <AME/Widgets/Misc/Messages.hpp>
+#include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Forms/MainWindow.h>
+#include <AME/Forms/ErrorWindow.h>
 #include "ui_MainWindow.h"
 #include <QFileDialog>
-#include <AME/Widgets/OpenGL/AMEMapView.h>
 
 
 namespace ame
@@ -142,7 +143,8 @@ namespace ame
         bool result = loadAllMapData(m_Rom);
         if (!result)
         {
-            /* Show form */
+            ErrorWindow errorWindow(this);
+            errorWindow.exec();
         }
     }
 

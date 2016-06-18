@@ -61,9 +61,9 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool ErrorStack::add(QString method, QString error, UInt32 offset)
     {
-        // If the offset is zero, converts the error string
-        if (offset == 0)
-            error.replace("%offset%", QString::number(offset, 16));
+        // If the offset is not zero, converts the error string
+        if (offset != 0)
+            error.replace("%offset%", QString::number(offset, 16).toUpper());
 
         // Converts the __PRETTY_FUNCTION__ macro string
         Int32 whiteSpace = method.indexOf(' ');
@@ -119,18 +119,18 @@ namespace ame
     {
         // Prerequisites for the log conversion
         QString log;
-        QString hash = (QString('#').repeated(20) + QString('\n'));
+        QString hash = (QString('#').repeated(40) + QString('\n'));
         QString title("AwesomeMapEditor: Error log file\n");
-        QString date = QString("Date :") + QDate::currentDate().toString(Qt::ISODate);
-        QString time = QString("Time :") + QTime::currentTime().toString(Qt::ISODate); 
+        QString date = QString("Date: ") + QDate::currentDate().toString(Qt::ISODate);
+        QString time = QString("Time: ") + QTime::currentTime().toString(Qt::ISODate);
 
         // Generates the header of the log
         log.append(hash);
         log.append("# ");
         log.append(title);
-        log.append("#\n\n");
+        log.append("#\n# ");
         log.append(date);
-        log.append("\n");
+        log.append("\n# ");
         log.append(time);
         log.append("\n#\n");
         log.append(hash);
@@ -139,14 +139,21 @@ namespace ame
         // Iterates through all the errors and appends them
         for (int i = 0; i < s_Stack.size(); i++)
         {
-            const QString &error = s_Stack.at(i);
+            QString errorMsg;
+
+            // Intends every line of the error by four whitespaces
+            foreach (QString line, s_Stack.at(i).split('\n'))
+                errorMsg.append(QString("\n    ") + line);
+
+            // Retrieves the method and finds the scope operator
             const QString &method = s_Methods.at(i);
             int scopePos = method.indexOf("::");
 
+            log.append(QString("-").repeated(40));
             log.append(
-                "Error in class '" + method.left(scopePos) + "'" +
-                "in function'" + method.right(method.length()-(scopePos+2)) + "'.\n" +
-                "Description:\n\n" + error + "\n\n\n"
+                "\nError in class '" + method.left(scopePos) + "' " +
+                "in function '" + method.right(method.length()-(scopePos+2)) + "'.\n" +
+                "Description:\n\n" + errorMsg.remove(0, 1) + "\n\n\n"
             );
         }
 
