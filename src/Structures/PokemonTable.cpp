@@ -148,7 +148,10 @@ namespace ame
             for (int j = 0; j < 16; j++)
             {
                 const qboy::Color &color = palette.raw().at(j);
-                colorTables[i].push_back(QColor::fromRgb(color.r, color.g, color.b).rgb());
+                if (j == 0)
+                    colorTables[i].push_back(QColor::fromRgb(0, 0, 0, 0).rgba());
+                else
+                    colorTables[i].push_back(QColor::fromRgb(color.r, color.g, color.b).rgb());
             }
         }
 
