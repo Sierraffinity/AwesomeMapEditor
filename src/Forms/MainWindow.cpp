@@ -32,6 +32,7 @@
 
 
 #include <AME/System/LoadedData.hpp>
+#include <AME/System/Configuration.hpp>
 #include <AME/Widgets/Misc/Messages.hpp>
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Forms/MainWindow.h>
@@ -145,12 +146,48 @@ namespace ame
         {
             ErrorWindow errorWindow(this);
             errorWindow.exec();
+            return;
         }
+
+        setupAfterLoading();
+        m_Rom.clearCache();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::setupAfterLoading()
+    {
+        QStringListModel *model = new QStringListModel;
+        model->setStringList(dat_PokemonTable->names());
+
+        // Fills all wild-pokemon comboboxes with the names
+        foreach (QComboBox *box, ui->tabWidget_3->findChildren<QComboBox *>())
+            box->setModel(model);
+
+        // Sets the max pokemon IDs within the spinboxes
+        foreach (QSpinBox *box, ui->tabWidget_3->findChildren<QSpinBox *>(QRegularExpression("sbWild")))
+            box->setRange(0, CONFIG(PokemonCount));
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::setupWildPokemon(Map *map)
+    {
     }
 
 
     ///////////////////////////////////////////////////////////
-    // Function type:  Event
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/16/2016
@@ -161,13 +198,65 @@ namespace ame
         if (openRomDialog())
             loadMapData();
     }
-}
 
-void ame::MainWindow::on_actionRecent_Files_triggered()
-{
-    ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[3]->maps()[0]);
-    ui->openGLWidget_2->makeGL();
-    ui->openGLWidget_2->update();
-    ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
-    ui->openGLWidget_3->update();
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_actionRecent_Files_triggered()
+    {
+        ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[1]->maps()[0]);
+        ui->openGLWidget_2->makeGL();
+        ui->openGLWidget_2->update();
+        ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget_3->update();
+        ui->openGLWidget->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget->update();
+        setupWildPokemon(dat_MapBankTable->banks()[1]->maps()[0]);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_sldWildGrassChance_valueChanged(int value)
+    {
+        ui->lblWildGrassChance->setText(QString::number((int)((value / 255.0)*100)) + QString("%"));
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_sldWildWaterChance_valueChanged(int value)
+    {
+        ui->lblWildWaterChance->setText(QString::number((int)((value / 255.0)*100)) + QString("%"));
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_sldWildFishingChance_valueChanged(int value)
+    {
+        ui->lblWildFishingChance->setText(QString::number((int)((value / 255.0)*100)) + QString("%"));
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_sldWildOtherChance_valueChanged(int value)
+    {
+        ui->lblWildOtherChance->setText(QString::number((int)((value / 255.0)*100)) + QString("%"));
+    }
 }

@@ -40,6 +40,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <QBoy/Core/Rom.hpp>
+#include <AME/Mapping/Map.hpp>
 #include <QMainWindow>
 
 
@@ -106,6 +107,12 @@ namespace ame
         void loadMapData();
 
         ///////////////////////////////////////////////////////////
+        /// \brief Sets the wild-pokemon tab up.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setupWildPokemon(Map *map);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Sets the GUI up after loading all map data.
         ///
         ///////////////////////////////////////////////////////////
@@ -125,9 +132,11 @@ namespace ame
         //
         ///////////////////////////////////////////////////////////
         void on_action_Open_ROM_triggered();
-
-
         void on_actionRecent_Files_triggered();
+        void on_sldWildGrassChance_valueChanged(int value);
+        void on_sldWildWaterChance_valueChanged(int value);
+        void on_sldWildFishingChance_valueChanged(int value);
+        void on_sldWildOtherChance_valueChanged(int value);
 
     private:
 

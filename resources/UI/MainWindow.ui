@@ -185,7 +185,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -224,8 +224,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>599</width>
-              <height>614</height>
+              <width>594</width>
+              <height>622</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -377,7 +377,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QOpenGLWidget" name="openGLWidget">
+               <widget class="ame::AMEBorderView" name="openGLWidget">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -465,7 +465,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>524</height>
+                    <height>541</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
@@ -568,8 +568,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>145</width>
-                    <height>524</height>
+                    <width>98</width>
+                    <height>28</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -685,8 +685,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>456</width>
-              <height>614</height>
+              <width>463</width>
+              <height>622</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -920,8 +920,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>278</width>
-                    <height>717</height>
+                    <width>265</width>
+                    <height>666</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2631,8 +2631,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>362</height>
+                    <width>215</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3201,8 +3201,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>464</height>
+                    <width>215</width>
+                    <height>426</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3958,8 +3958,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>576</height>
+                    <width>220</width>
+                    <height>358</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4622,13 +4622,9 @@
          <item row="0" column="0">
           <widget class="QTabWidget" name="tabWidget_3">
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="tabWildGrass">
-            <attribute name="icon">
-             <iconset resource="../images.qrc">
-              <normaloff>:/icons/wildgrass.ico</normaloff>:/icons/wildgrass.ico</iconset>
-            </attribute>
             <attribute name="title">
              <string>Grass</string>
             </attribute>
@@ -4655,8 +4651,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>572</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_9" columnstretch="0,1">
@@ -4800,7 +4796,11 @@
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QSpinBox" name="sbWildGrass1"/>
+                    <widget class="QSpinBox" name="sbWildGrass1">
+                     <property name="frame">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
                    </item>
                    <item row="1" column="2">
                     <widget class="QSpinBox" name="spinBox_34">
@@ -5286,8 +5286,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>286</width>
-                  <height>275</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_12" columnstretch="0,1">
@@ -5637,8 +5637,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>286</width>
-                  <height>474</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_16" columnstretch="0,0">
@@ -6266,8 +6266,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>286</width>
-                  <height>275</height>
+                  <width>287</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_20" columnstretch="0,1">
@@ -6975,6 +6975,11 @@
    <class>ame::AMEBlockView</class>
    <extends>QOpenGLWidget</extends>
    <header location="global">AMEBlockView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ame::AMEBorderView</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">AMEBorderView.h</header>
   </customwidget>
  </customwidgets>
  <resources>
@@ -8290,6 +8295,54 @@
     <hint type="destinationlabel">
      <x>765</x>
      <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildWaterChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sldWildWaterChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>512</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>384</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildFishingChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sldWildFishingChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>512</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>384</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWildOtherChance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sldWildOtherChance</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>330</x>
+     <y>140</y>
     </hint>
    </hints>
   </connection>

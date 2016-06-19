@@ -79,7 +79,9 @@ SOURCES += \
     src/Widgets/OpenGL/AMEMapView.cpp \
     src/Widgets/OpenGL/AMEBlockView.cpp \
     src/Widgets/AMEImageButton.cpp \
-    src/Forms/ErrorWindow.cpp
+    src/Forms/ErrorWindow.cpp \
+    src/Widgets/OpenGL/AMEBorderView.cpp \
+    src/Structures/PokemonTable.cpp
 
 
 #
@@ -131,7 +133,9 @@ HEADERS  += \
     include/AME/Widgets/OpenGL/AMEMapView.h \
     include/AME/Widgets/OpenGL/AMEBlockView.h \
     include/AME/Widgets/AMEImageButton.h \
-    include/AME/Forms/ErrorWindow.h
+    include/AME/Forms/ErrorWindow.h \
+    include/AME/Widgets/OpenGL/AMEBorderView.h \
+    include/AME/Structures/PokemonTable.hpp
 
 
 #

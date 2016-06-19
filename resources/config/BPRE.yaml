@@ -1,4 +1,4 @@
-#
+﻿#
 # AME Configuration File
 # Game: Pokémon Firered (E)
 #
@@ -6,8 +6,9 @@
 Config:
         PokemonCount:     0x459EC
         PokemonNames:     0x144
-        PokemonPics:      0x2350AC
-        PokemonPals:      0x23730C
+        PokemonIcons:     0x138
+        PokemonUsage:     0x13C
+        PokemonPals:	  0x8AB40
         WildPokemon:      0x82EA8
 
     # Items (struct size: 0x2C)
