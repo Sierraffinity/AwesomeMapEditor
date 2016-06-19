@@ -50,7 +50,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     UInt32 Configuration::PokemonCount;
     UInt32 Configuration::PokemonNames;
-    UInt32 Configuration::PokemonPics;
+    UInt32 Configuration::PokemonIcons;
+    UInt32 Configuration::PokemonUsage;
     UInt32 Configuration::PokemonPals;
     UInt32 Configuration::WildPokemon;
     UInt32 Configuration::ItemHeader;
@@ -103,7 +104,8 @@ namespace ame
         YAML::Node configNode = topNode["Config"];
         PokemonCount    = configNode["PokemonCount"].as<UInt32>();
         PokemonNames    = configNode["PokemonNames"].as<UInt32>();
-        PokemonPics     = configNode["PokemonPics"].as<UInt32>();
+        PokemonIcons    = configNode["PokemonIcons"].as<UInt32>();
+        PokemonUsage    = configNode["PokemonUsage"].as<UInt32>();
         PokemonPals     = configNode["PokemonPals"].as<UInt32>();
         WildPokemon     = configNode["WildPokemon"].as<UInt32>();
         ItemHeader      = configNode["ItemHeader"].as<UInt32>();
@@ -137,7 +139,8 @@ namespace ame
         // Tries to read all header offsets (or values) from the given pointer offsets
         FETCH(PokemonCount, rom.readHWord());
         FETCH(PokemonNames, rom.readPointer());
-        FETCH(PokemonPics, rom.readPointer());
+        FETCH(PokemonIcons, rom.readPointer());
+        FETCH(PokemonUsage, rom.readPointer());
         FETCH(PokemonPals, rom.readPointer());
         FETCH(WildPokemon, rom.readPointer());
         FETCH(ItemHeader, rom.readPointer());

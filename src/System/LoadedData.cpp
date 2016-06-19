@@ -50,7 +50,7 @@ namespace ame
     WildPokemonTable *dat_WildPokemonTable = NULL;
     MapBankTable *dat_MapBankTable = NULL;
     //OverworldTable *dat_OverworldTable = NULL;
-    //PokeIconTable *dat_PokeIconTable = NULL;
+    PokemonTable *dat_PokemonTable = NULL;
 
 
     ///////////////////////////////////////////////////////////
@@ -73,15 +73,27 @@ namespace ame
         // Allocates the tables on the dynamic heap
         dat_WildPokemonTable = new WildPokemonTable;
         dat_MapBankTable = new MapBankTable;
+        dat_PokemonTable = new PokemonTable;
 
         // Attempts to load the wild pokémon
         if (!dat_WildPokemonTable->read(rom, CONFIG(WildPokemon)))
             return false;
 
-        /* TODO: NPC, map-layouts, poke names/icons */
+        // Attempts to load the pokemon table
+        if (!dat_PokemonTable->read(rom))
+            return false;
+
         // Attempts to load all the map banks
         if (!dat_MapBankTable->read(rom, CONFIG(MapBanks)))
             return false;
+
+        // Map wild-pokémon indices to all the maps
+        for (uint i = 0; i < (uint)dat_WildPokemonTable->tables().size(); i++)
+        {
+            dat_MapBankTable->banks()
+                    [dat_WildPokemonTable->tables().at(i)->bank()]->maps()
+                    [dat_WildPokemonTable->tables().at(i)->map()]->setWildTable(i);
+        }
 
         QString message("Map data successfully loaded. Elapsed milliseconds: %0");
         Messages::showMessage(QApplication::activeWindow(), message.replace("%0", QString::number(stopWatch.elapsed())));
@@ -102,6 +114,8 @@ namespace ame
             delete dat_WildPokemonTable;
         if (dat_MapBankTable)
             delete dat_MapBankTable;
+        if (dat_PokemonTable)
+            delete dat_PokemonTable;
 
         TilesetManager::clear();
     }

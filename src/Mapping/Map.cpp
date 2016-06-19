@@ -292,4 +292,17 @@ namespace ame
     {
         return m_WildTable;
     }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void Map::setWildTable(UInt32 index)
+    {
+        m_WildTable = index;
+    }
 }

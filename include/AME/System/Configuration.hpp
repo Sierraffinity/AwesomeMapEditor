@@ -79,7 +79,8 @@ namespace ame
         ///////////////////////////////////////////////////////////
         static UInt32 PokemonCount;
         static UInt32 PokemonNames;
-        static UInt32 PokemonPics;
+        static UInt32 PokemonIcons;
+        static UInt32 PokemonUsage;
         static UInt32 PokemonPals;
         static UInt32 WildPokemon;
         static UInt32 ItemHeader;
