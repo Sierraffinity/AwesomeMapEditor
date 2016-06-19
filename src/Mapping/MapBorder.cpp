@@ -112,8 +112,9 @@ namespace ame
             AME_THROW(BRD_ERROR_OFFSET, rom.redirected());
 
         // Copies the size to the respective members
-        m_Width = size.width();
-        m_Height = size.height();
+        // FIX: Somehow width and height are swapped in FRLG???
+        m_Width = size.height();
+        m_Height = size.width();
 
         // Reads all blocks
         for (unsigned i = 0; i < m_Width * m_Height; i++)
