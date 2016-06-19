@@ -1,15 +1,15 @@
 # To do
 
 ## General
-- [ ] Read map banks
-- [ ] Read map names
+- [x] Read map banks
+- [x] Read map names
 - [ ] Different sort methods for maps (bank, name, tileset, etc)
 - [ ] Filtering of maps
 - [ ] Undo/Redo
 - [ ] Day/Night systems compatibility
 
 ## Map editor tab
-- [ ] Map loading
+- [x] Map loading
 - [ ] Pencil tool
 - [ ] Eyedropper tool
 - [ ] Fill bucket
@@ -33,11 +33,11 @@
 - [ ] Save data
 
 ## Entity editor tab
-- [ ] Parse entities
-	- [ ] NPCs
-	- [ ] Signs
-	- [ ] Warps
-	- [ ] Triggers
+- [x] Parse entities
+	- [x] NPCs
+	- [x] Signs
+	- [x] Warps
+	- [x] Triggers
 	- [ ] Flight pos (not a true entity)
 	- [ ] Game start pos (not a true entity)
 - [ ] Edit entities
@@ -49,11 +49,11 @@
 - [ ] Save data
 
 ## Wild Pokémon tab
-- [ ] Parse wild Pokémon, levels, encounter rates
-	- [ ] Grass
-	- [ ] Water
-	- [ ] Fishing
-	- [ ] Other
+- [x] Parse wild Pokémon, levels, encounter rates
+	- [x] Grass
+	- [x] Water
+	- [x] Fishing
+	- [x] Other
 - [ ] Parse Pokémon icons
 - [ ] Save data
 
