@@ -389,6 +389,9 @@ namespace ame
             blockCountSecondary = 0x200;
         }
 
+        m_PrimaryBlockCount = blockCountPrimary;
+        m_SecondaryBlockCount = blockCountSecondary;
+
 
         // Attempts to load all the blocksets
         QList<UInt8 *> blocksetBack;
@@ -723,6 +726,18 @@ namespace ame
     // Date of edit:   6/18/2016
     //
     ///////////////////////////////////////////////////////////
+    Map *AMEMapView::mainMap()
+    {
+        return m_Maps[0];
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
     QVector<qboy::GLColor> *AMEMapView::mainPalettes()
     {
         return &m_Palettes[0];
@@ -769,5 +784,29 @@ namespace ame
     QSize AMEMapView::secondarySetSize()
     {
         return m_SecondarySetSize;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    Int32 AMEMapView::primaryBlockCount()
+    {
+        return m_PrimaryBlockCount;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    Int32 AMEMapView::secondaryBlockCount()
+    {
+        return m_SecondaryBlockCount;
     }
 }

@@ -31,8 +31,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_AMEMAPVIEW_HPP__
-#define __AME_AMEMAPVIEW_HPP__
+#ifndef __AME_AMEBORDERVIEW_HPP__
+#define __AME_AMEBORDERVIEW_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -41,98 +41,44 @@
 ///////////////////////////////////////////////////////////
 #include <QtWidgets>
 #include <QtOpenGL/QtOpenGL>
-#include <AME/System/LoadedData.hpp>
+#include <AME/Widgets/OpenGL/AMEMapView.h>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    AMEMapView.h
+    /// \file    AMEBorderView.h
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/17/2016
-    /// \brief   Displays a map with all it's connections.
+    /// \date    6/19/2016
+    /// \brief   Displays the entire border block.
     ///
     ///////////////////////////////////////////////////////////
-    class AMEMapView : public QOpenGLWidget, public QOpenGLFunctions {
+    class AMEBorderView : public QOpenGLWidget, public QOpenGLFunctions {
     public:
 
         ///////////////////////////////////////////////////////////
         /// \brief Default constructor
         ///
-        /// Initializes AMEMapView with a given parent.
+        /// Initializes AMEBorderView with a given parent.
         ///
         ///////////////////////////////////////////////////////////
-        AMEMapView(QWidget *parent = NULL);
+        AMEBorderView(QWidget *parent = NULL);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destructor
         ///
-        /// Destroys all the map images and OpenGL things.
+        /// Destroys the OpenGL objects.
         ///
         ///////////////////////////////////////////////////////////
-        ~AMEMapView();
+        ~AMEBorderView();
 
 
         ///////////////////////////////////////////////////////////
-        /// \brief Sets the map to be loaded, with all connections.
-        ///
-        /// Attempts to load the map images and its connections. It
-        /// returns false if OpenGL fails or if the map is invalid.
-        ///
-        /// \returns true if loading succeeded.
+        /// \brief Retrieves pre-loaded data from the map view.
         ///
         ///////////////////////////////////////////////////////////
-        bool setMap(const qboy::Rom &rom, Map *map);
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Creates the textures for the images and pals.
-        ///
-        ///////////////////////////////////////////////////////////
-        void makeGL();
-
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the main map.
-        ///
-        ///////////////////////////////////////////////////////////
-        Map *mainMap();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the main blockset palettes.
-        ///
-        ///////////////////////////////////////////////////////////
-        QVector<qboy::GLColor> *mainPalettes();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the blockset pixels.
-        ///
-        ///////////////////////////////////////////////////////////
-        QList<UInt8 *> mainPixels();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the primary blockset size.
-        ///
-        ///////////////////////////////////////////////////////////
-        QSize primarySetSize();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the secondary blockset size.
-        ///
-        ///////////////////////////////////////////////////////////
-        QSize secondarySetSize();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the primary block count.
-        ///
-        ///////////////////////////////////////////////////////////
-        Int32 primaryBlockCount();
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the secondary block count.
-        ///
-        ///////////////////////////////////////////////////////////
-        Int32 secondaryBlockCount();
+        void setMapView(AMEMapView *view);
 
 
     protected:
@@ -162,29 +108,17 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QList<Map *> m_Maps;
-        QList<UInt32> m_MapTextures;
-        QList<UInt32> m_PalTextures;
-        QList<QSize> m_MapSizes;
-        QList<QPoint> m_MapPositions;
-        QList<UInt32> m_VertexBuffers;
+        UInt32 m_VertexBuffer;
+        UInt32 m_BackTexture;
+        UInt32 m_ForeTexture;
+        UInt32 m_PalTexture;
         UInt32 m_IndexBuffer;
-        QList<QVector<qboy::GLColor>> m_Palettes;
-        QList<UInt8 *> m_BackPixelBuffers;
-        QList<UInt8 *> m_ForePixelBuffers;
         QOpenGLVertexArrayObject m_VAO;
         QOpenGLShaderProgram m_Program;
-        QSize m_PrimarySetSize;
-        QSize m_SecondarySetSize;
-        QSize m_WidgetSize;
-        UInt8 *m_PrimaryForeground;
-        UInt8 *m_PrimaryBackground;
-        UInt8 *m_SecondaryForeground;
-        UInt8 *m_SecondaryBackground;
-        Int32 m_PrimaryBlockCount;
-        Int32 m_SecondaryBlockCount;
+        UInt8 *m_Foreground;
+        UInt8 *m_Background;
     };
 }
 
 
-#endif //__AME_AMEMAPVIEW_HPP__
+#endif //__AME_AMEBORDERVIEW_HPP__
