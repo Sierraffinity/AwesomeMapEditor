@@ -123,7 +123,7 @@ namespace ame
 
 
         // Determines whether the encounter array offset is valid
-        if (!rom.checkOffset(m_Offset))
+        if (!rom.seek(m_Offset))
             AME_THROW(WPST_ERROR_DATA, offset + 4);
 
 

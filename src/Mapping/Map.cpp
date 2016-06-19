@@ -64,7 +64,8 @@ namespace ame
           m_WeatherType(0),
           m_MapType(0),
           m_LabelType(0),
-          m_BattleType(0)
+          m_BattleType(0),
+          m_WildTable(0)
     {
     }
 

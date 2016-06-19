@@ -183,6 +183,88 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::setupWildPokemon(Map *map)
     {
+        WildPokemonSubTable *table = dat_WildPokemonTable->tables()[map->wildpokeTable()];
+        WildPokemonArea &grass = table->encounter(EA_AREA_GRASS);
+        WildPokemonArea &water = table->encounter(EA_AREA_WATER);
+        WildPokemonArea &fish = table->encounter(EA_AREA_FISH);
+        WildPokemonArea &rock = table->encounter(EA_AREA_ROCK);
+
+
+        // Fills the encounter probabilities
+        ui->sbWildGrassChance->setValue(grass.probability());
+        ui->sbWildWaterChance->setValue(water.probability());
+        ui->sbWildFishingChance->setValue(fish.probability());
+        ui->sbWildOtherChance->setValue(rock.probability());
+
+        // Fills the pokemon ID and min/max level
+        for (int i = 0; i < grass.entries().size(); i++)
+        {
+            QString num = QString::number(i+1);
+            WildPokemonEncounter *pkm = grass.entries().at(i);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbWildGrass") + num)
+                    ->setValue(pkm->id);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbGrassMin") + num)
+                    ->setValue(pkm->min);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbGrassMax") + num)
+                    ->setValue(pkm->max);
+        }
+        for (int i = 0; i < water.entries().size(); i++)
+        {
+            QString num = QString::number(i+1);
+            WildPokemonEncounter *pkm = water.entries().at(i);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbWildWater") + num)
+                    ->setValue(pkm->id);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbWaterMin") + num)
+                    ->setValue(pkm->min);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbWaterMax") + num)
+                    ->setValue(pkm->max);
+        }
+        for (int i = 0; i < fish.entries().size(); i++)
+        {
+            QString num = QString::number(i+1);
+            WildPokemonEncounter *pkm = fish.entries().at(i);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbWildFishing") + num)
+                    ->setValue(pkm->id);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbFishingMin") + num)
+                    ->setValue(pkm->min);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbFishingMax") + num)
+                    ->setValue(pkm->max);
+        }
+        for (int i = 0; i < rock.entries().size(); i++)
+        {
+            QString num = QString::number(i+1);
+            WildPokemonEncounter *pkm = rock.entries().at(i);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbWildOther") + num)
+                    ->setValue(pkm->id);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbOtherMin") + num)
+                    ->setValue(pkm->min);
+
+            ui->tabWidget_3
+                    ->findChild<QSpinBox *>(QString("sbOtherMax") + num)
+                    ->setValue(pkm->max);
+        }
     }
 
 
