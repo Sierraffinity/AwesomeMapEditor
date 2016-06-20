@@ -65,7 +65,7 @@ namespace ame
           m_MapType(0),
           m_LabelType(0),
           m_BattleType(0),
-          m_WildTable(0)
+          m_WildTable(-1)
     {
     }
 
@@ -289,7 +289,7 @@ namespace ame
     // Date of edit:   6/12/2016
     //
     ///////////////////////////////////////////////////////////
-    UInt32 Map::wildpokeTable() const
+    Int32 Map::wildpokeTable() const
     {
         return m_WildTable;
     }

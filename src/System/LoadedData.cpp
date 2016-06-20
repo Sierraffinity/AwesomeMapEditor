@@ -93,7 +93,7 @@ namespace ame
             return false;
 
         // Map wild-pokémon indices to all the maps
-        for (uint i = 0; i < (uint)dat_WildPokemonTable->tables().size(); i++)
+        for (int i = 0; i < dat_WildPokemonTable->tables().size(); i++)
         {
             dat_MapBankTable->banks()
                     [dat_WildPokemonTable->tables().at(i)->bank()]->maps()

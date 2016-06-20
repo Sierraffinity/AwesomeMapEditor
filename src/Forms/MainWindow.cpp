@@ -109,7 +109,7 @@ namespace ame
 
                 // Clears old data and UI
                 clearAllMapData();
-                //clearBeforeLoading();
+                clearBeforeLoading();
             }
 
             // Attempts to open the new ROM file
@@ -128,6 +128,29 @@ namespace ame
 
         // Dialog cancelled
         return false;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/16/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::clearBeforeLoading()
+    {
+        // First clears the tree-view
+        ui->treeView->collapseAll();
+        ui->treeView->clear();
+
+        // Clears all the OpenGL widgets
+        ui->openGLWidget->freeGL();
+        ui->openGLWidget_2->freeGL();
+        ui->openGLWidget_3->freeGL();
+        ui->openGLWidget_5->freeGL();
+
+        // Sets the tab index to the map-index
+        ui->tabWidget->setCurrentIndex(0);
     }
 
     ///////////////////////////////////////////////////////////
@@ -178,6 +201,56 @@ namespace ame
         // Sets the max pokemon IDs within the spinboxes
         foreach (QSpinBox *box, ui->tabWidget_3->findChildren<QSpinBox *>(QRegularExpression("sbWild")))
             box->setRange(0, CONFIG(PokemonCount));
+
+
+        // Fills the tree-view with all the maps
+        QTreeWidgetItem *topItem = new QTreeWidgetItem;
+        topItem->setText(0, "MapBanks");
+        ui->treeView->setUpdatesEnabled(false);
+        ui->treeView->addTopLevelItem(topItem);
+
+        // Adds every bank and map to the tree. Format: <bank>.<map>
+        int bankCount = dat_MapBankTable->banks().size();
+        for (int i = 0; i < bankCount; i++)
+        {
+            QTreeWidgetItem *bankItem = new QTreeWidgetItem(topItem);
+            MapBank *bank = dat_MapBankTable->banks()[i];
+
+            // Adds all the bank's maps
+            int mapCount = bank->maps().size();
+            for (int j = 0; j < mapCount; j++)
+            {
+                QTreeWidgetItem *mapItem = new QTreeWidgetItem(bankItem);
+                Map *map = bank->maps()[j];
+
+                // Specifies the display name
+                mapItem->setText(0,
+                    QString("(")        +
+                    QString::number(i)  +
+                    QString(".")        +
+                    QString::number(j)  +
+                    QString(") ") + map->name()
+                );
+
+                // Sets properties to identify map on click
+                QByteArray array;
+                array.append(i);
+                array.append(j);
+                mapItem->setData(0, Qt::UserRole, array);
+
+                // Adds the map to the bank
+                bankItem->addChild(mapItem);
+            }
+
+            // Specifies the display name of the bank and adds it to the treeview
+            bankItem->setText(0, QString("Bank #") + QString::number(i));
+            topItem->addChild(bankItem);
+        }
+
+        // Repaint tree-view
+        ui->treeView->setUpdatesEnabled(true);
+        ui->treeView->header()->setDefaultSectionSize(600);
+        ui->treeView->repaint();
     }
 
     ///////////////////////////////////////////////////////////
@@ -189,6 +262,16 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::setupWildPokemon(Map *map)
     {
+        ui->tabWidget_3->setCurrentIndex(0);
+        ui->tabWidget_3->setTabEnabled(0, false);
+        ui->tabWidget_3->setTabEnabled(1, false);
+        ui->tabWidget_3->setTabEnabled(2, false);
+        ui->tabWidget_3->setTabEnabled(3, false);
+
+
+        if (map->wildpokeTable() == -1)
+            return;
+
         WildPokemonSubTable *table = dat_WildPokemonTable->tables()[map->wildpokeTable()];
         WildPokemonArea &grass = table->encounter(EA_AREA_GRASS);
         WildPokemonArea &water = table->encounter(EA_AREA_WATER);
@@ -201,6 +284,7 @@ namespace ame
         ui->sbWildWaterChance->setValue(water.probability());
         ui->sbWildFishingChance->setValue(fish.probability());
         ui->sbWildOtherChance->setValue(rock.probability());
+        ui->tabWidget_3->setCurrentIndex(0);
 
         // Fills the pokemon ID and min/max level
         for (int i = 0; i < grass.entries().size(); i++)
@@ -271,6 +355,17 @@ namespace ame
                     ->findChild<QSpinBox *>(QString("sbOtherMax") + num)
                     ->setValue(pkm->max);
         }
+
+
+        // Enables the tabs, depending on which wild-pokemon areas exist
+        if (grass.entries().size() > 0)
+            ui->tabWidget_3->setTabEnabled(0, true);
+        if (water.entries().size() > 0)
+            ui->tabWidget_3->setTabEnabled(1, true);
+        if (fish.entries().size() > 0)
+            ui->tabWidget_3->setTabEnabled(2, true);
+        if (rock.entries().size() > 0)
+            ui->tabWidget_3->setTabEnabled(3, true);
     }
 
 
@@ -285,22 +380,6 @@ namespace ame
     {
         if (openRomDialog())
             loadMapData();
-    }
-
-    ///////////////////////////////////////////////////////////
-    void MainWindow::on_actionRecent_Files_triggered()
-    {
-        ui->openGLWidget_2->setMap(m_Rom, dat_MapBankTable->banks()[1]->maps()[0]);
-        ui->openGLWidget_2->makeGL();
-        ui->openGLWidget_2->update();
-        ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget_3->update();
-        ui->openGLWidget->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget->update();
-        ui->openGLWidget_5->setEntities(dat_MapBankTable->banks()[1]->maps()[0]);
-        ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget_5->update();
-        setupWildPokemon(dat_MapBankTable->banks()[1]->maps()[0]);
     }
 
     ///////////////////////////////////////////////////////////
@@ -349,5 +428,75 @@ namespace ame
     void MainWindow::on_sldWildOtherChance_valueChanged(int value)
     {
         ui->lblWildOtherChance->setText(QString::number((int)((value / 255.0)*100)) + QString("%"));
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column)
+    {
+        if (item->parent() == NULL || item->parent()->parent() == NULL)
+            return;
+
+
+        // Clears all the OpenGL widgets
+        ui->openGLWidget->freeGL();
+        ui->openGLWidget_2->freeGL();
+        ui->openGLWidget_3->freeGL();
+        ui->openGLWidget_5->freeGL();
+
+        // Sets the tab index to the map-index
+        ui->tabWidget->setCurrentIndex(0);
+
+
+        // Retrieves the new map from the stored property
+        QByteArray data = item->data(column, Qt::UserRole).toByteArray();
+        Map *currentMap = dat_MapBankTable->banks()[data.at(0)]->maps()[data.at(1)];
+
+        // Fills all the OpenGL widgets
+        ui->openGLWidget_2->setMap(m_Rom, currentMap);
+        ui->openGLWidget_2->makeGL();
+        ui->openGLWidget_2->update();
+        ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget_3->update();
+        ui->openGLWidget->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget->update();
+        ui->openGLWidget_5->setEntities(currentMap);
+        ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget_5->update();
+
+        // Fills the wild-pokemon tab
+        setupWildPokemon(currentMap);
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/20/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::closeEvent(QCloseEvent *event)
+    {
+        // Destroys OpenGL objects
+        delete ui->openGLWidget;
+        delete ui->openGLWidget_2;
+        delete ui->openGLWidget_3;
+        delete ui->openGLWidget_4;
+        delete ui->openGLWidget_5;
+        ui->openGLWidget = NULL;
+        ui->openGLWidget_2 = NULL;
+        ui->openGLWidget_3 = NULL;
+        ui->openGLWidget_4 = NULL;
+        ui->openGLWidget_5 = NULL;
+
+        // Destroys the window
+        QMainWindow::closeEvent(event);
     }
 }

@@ -157,7 +157,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTreeView" name="treeView">
+         <widget class="QTreeWidget" name="treeView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -170,6 +170,14 @@
             <height>0</height>
            </size>
           </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>
@@ -568,8 +576,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>145</width>
-                    <height>541</height>
+                    <width>98</width>
+                    <height>28</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -6266,8 +6274,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>287</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_20" columnstretch="0,1">

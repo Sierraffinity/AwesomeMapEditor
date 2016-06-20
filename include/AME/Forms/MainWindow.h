@@ -42,6 +42,7 @@
 #include <QBoy/Core/Rom.hpp>
 #include <AME/Mapping/Map.hpp>
 #include <QMainWindow>
+#include <QtWidgets>
 
 
 namespace ame
@@ -83,6 +84,15 @@ namespace ame
 
 
     protected:
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Cleans up OpenGL objects.
+        ///
+        /// This method is needed so the GL objects are destroyed
+        /// with a context still being active.
+        ///
+        ///////////////////////////////////////////////////////////
+        void closeEvent(QCloseEvent *event);
 
         ///////////////////////////////////////////////////////////
         /// \brief Shows a dialog to open a ROM file.
@@ -132,11 +142,11 @@ namespace ame
         //
         ///////////////////////////////////////////////////////////
         void on_action_Open_ROM_triggered();
-        void on_actionRecent_Files_triggered();
         void on_sldWildGrassChance_valueChanged(int value);
         void on_sldWildWaterChance_valueChanged(int value);
         void on_sldWildFishingChance_valueChanged(int value);
         void on_sldWildOtherChance_valueChanged(int value);
+        void on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
     private:
 
