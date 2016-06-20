@@ -76,6 +76,12 @@ namespace ame
     #define OWT_ERROR_FRAMES    "The location of the frame data (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define OWT_ERROR_SPRITE    "The location of the sprite data (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define OWT_ERROR_INDEX     "The specified overworld palette (#%offset%) does not exist."
+
+    ///////////////////////////////////////////////////////////
+    // Class: PropertyTable
+    //
+    ///////////////////////////////////////////////////////////
+    #define PPT_ERROR_OFFSET    "The location of the tileset properties (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
 }
 
 

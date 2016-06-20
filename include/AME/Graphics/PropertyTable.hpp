@@ -31,113 +31,84 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_TILESET_HPP__
-#define __AME_TILESET_HPP__
+#ifndef __AME_PROPERTYTABLE_HPP__
+#define __AME_PROPERTYTABLE_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Graphics/Image.hpp>
-#include <QBoy/Graphics/Palette.hpp>
-#include <AME/System/IUndoable.hpp>
-#include <AME/System/WriteEntry.hpp>
-#include <AME/Graphics/Block.hpp>
-#include <AME/Graphics/PropertyTable.hpp>
+#include <QBoy/Core/Rom.hpp>
+#include <AME/Graphics/Property.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Tileset.hpp
+    /// \file    Property.hpp
     /// \author  Pokedude
     /// \version 1.0.0.0
-    /// \date    6/7/2016
-    /// \brief   Defines an image containing several tiles.
-    ///
-    /// Undo/redo system to be implemented later.
+    /// \date    6/20/2016
+    /// \brief   Holds all behaviour and background bytes.
     ///
     ///////////////////////////////////////////////////////////
-    class Tileset /*: public IUndoable*/ {
+    class PropertyTable /* : public IUndoable */ {
     public:
 
         ///////////////////////////////////////////////////////////
         /// \brief Default constructor
         ///
-        /// Initializes a new instance of ame::Tileset.
-        /// Note: Tileset is designed to work with stack
+        /// Initializes a new instance of ame::PropertyTable.
+        /// Note: PropertyTable is designed to work with stack
         /// objects, but it is recommended to allocate instances
         /// on the global heap, because of the undo/redo system.
         ///
         ///////////////////////////////////////////////////////////
-        Tileset();
+        PropertyTable();
 
         ///////////////////////////////////////////////////////////
         /// \brief Copy constructor
         ///
-        /// Copies all members of the given ame::Tileset.
+        /// Copies all members of the given ame::PropertyTable.
         /// Is only called by template code, not by actual AME code.
         ///
         ///////////////////////////////////////////////////////////
-        Tileset(const Tileset &rvalue);
+        PropertyTable(const PropertyTable &rvalue);
 
         ///////////////////////////////////////////////////////////
         /// \brief Assignment constructor
         ///
-        /// Copies all members of the given ame::Tileset
+        /// Copies all members of the given ame::PropertyTable
         /// and stores them in a new class instance.
         ///
         ///////////////////////////////////////////////////////////
-        Tileset &operator=(const Tileset &rvalue);
+        PropertyTable &operator=(const PropertyTable &rvalue);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destructor
         ///
-        /// Deletes all the allocated block objects.
+        /// Deletes all the allocated images.
         ///
         ///////////////////////////////////////////////////////////
-        ~Tileset();
+        ~PropertyTable();
 
 
         ///////////////////////////////////////////////////////////
-        /// \brief Attempts to read all connections on the map.
-        ///
-        /// Reads all connections until the specified amount of
-        /// connections were read or if an invalid connection
-        /// was encountered.
+        /// \brief Attempts to read all properties.
         ///
         /// \param rom Currently opened ROM file
-        /// \param offset Offset of the connection table
-        /// \returns true if all scripts were read correctly.
+        /// \returns true if all properties were read correctly.
         ///
         ///////////////////////////////////////////////////////////
-        bool read(const qboy::Rom &rom, UInt32 offset);
+        bool read(const qboy::Rom &rom, UInt32 offset, Int32 blocks);
 
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the offset of this tileset.
+        /// \brief Retrieves all Pokémon pictures.
         ///
         ///////////////////////////////////////////////////////////
-        UInt32 offset() const;
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the image of this tileset.
-        ///
-        ///////////////////////////////////////////////////////////
-        qboy::Image *image() const;
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the palettes of this tileset.
-        ///
-        ///////////////////////////////////////////////////////////
-        const QList<qboy::Palette *> &palettes() const;
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the blocks of this tileset.
-        ///
-        ///////////////////////////////////////////////////////////
-        const QList<Block *> &blocks() const;
+        const QList<Property *> &properties() const;
 
 
     private:
@@ -146,20 +117,10 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        UInt32 m_Offset;                ///< Offset of the tileset
-        UInt8 m_IsCompressed;           ///< Is image compressed?
-        UInt8 m_IsPrimary;              ///< Is tileset a main one?
-        UInt32 m_PtrImage;              ///< Offset of the image
-        UInt32 m_PtrPalette;            ///< Offset of the 6/7 pals
-        UInt32 m_PtrBlocks;             ///< Offset of the blocks
-        UInt32 m_PtrAnimations;         ///< Offset of the tile anims
-        UInt32 m_PtrBehaviour;          ///< Offset of the behaviour bytes
-        qboy::Image *m_Image;           ///< Actual image holding 4bpp data
-        QList<qboy::Palette *> m_Pals;  ///< Holds all palettes (6/7)
-        QList<Block *> m_Blocks;        ///< Holds all blocks, amount depends on type
-        PropertyTable *m_Properties;    ///< Holds all block properties
+        UInt32 m_Offset;
+        QList<Property *> m_Properties; ///< Holds all decoded images
     };
 }
 
 
-#endif // __AME_TILESET_HPP__
+#endif // __AME_PROPERTYTABLE_HPP__

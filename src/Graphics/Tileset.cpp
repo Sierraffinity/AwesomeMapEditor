@@ -57,7 +57,8 @@ namespace ame
           m_PtrPalette(0),
           m_PtrAnimations(0),
           m_PtrBehaviour(0),
-          m_Image(new qboy::Image)
+          m_Image(new qboy::Image),
+          m_Properties(new PropertyTable)
     {
     }
 
@@ -79,7 +80,8 @@ namespace ame
           m_PtrBehaviour(rvalue.m_PtrBehaviour),
           m_Image(rvalue.m_Image),
           m_Pals(rvalue.m_Pals),
-          m_Blocks(rvalue.m_Blocks)
+          m_Blocks(rvalue.m_Blocks),
+          m_Properties(rvalue.m_Properties)
     {
     }
 
@@ -102,6 +104,7 @@ namespace ame
         m_Image = rvalue.m_Image;
         m_Pals = rvalue.m_Pals;
         m_Blocks = rvalue.m_Blocks;
+        m_Properties = rvalue.m_Properties;
         return *this;
     }
 
@@ -118,7 +121,9 @@ namespace ame
             delete block;
         foreach (qboy::Palette *pal, m_Pals)
             delete pal;
+
         delete m_Image;
+        delete m_Properties;
     }
 
 
@@ -253,6 +258,10 @@ namespace ame
                 block->tiles[j] = tile;
             }
         }
+
+
+        // Attempts to load the block properties
+        m_Properties->read(rom, m_PtrBehaviour, countBlock);
 
 
         // Loading successful
