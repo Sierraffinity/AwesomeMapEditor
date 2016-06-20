@@ -185,7 +185,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -526,7 +526,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>541</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <widget class="QOpenGLWidget" name="openGLWidget_4">
@@ -833,8 +833,8 @@
                   <property name="geometry">
                    <rect>
                     <x>0</x>
-                    <y>-153</y>
-                    <width>278</width>
+                    <y>0</y>
+                    <width>257</width>
                     <height>717</height>
                    </rect>
                   </property>
@@ -3872,8 +3872,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>230</width>
-                    <height>380</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4536,7 +4536,7 @@
          <item row="0" column="0">
           <widget class="QTabWidget" name="tabWidget_3">
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tabWildGrass">
             <attribute name="title">
@@ -7571,8 +7571,6 @@
               </spacer>
              </item>
             </layout>
-            <zorder>verticalLayoutWidget</zorder>
-            <zorder>groupBox_20</zorder>
             <zorder>horizontalSpacer_6</zorder>
             <zorder>verticalSpacer_3</zorder>
            </widget>
