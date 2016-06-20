@@ -58,13 +58,24 @@ namespace ame
     // Class: Tileset
     //
     ///////////////////////////////////////////////////////////
-    #define SET_ERROR_OFFSET    "The location of the tileset (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define SET_ERROR_IMAGE     "The location of the tileset image (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define SET_ERROR_PALETTE   "The location of the tileset palettes (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define SET_ERROR_BLOCKS    "The location of the tileset blocks (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define SET_ERROR_ANIM      "The location of the tileset animations (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define SET_ERROR_PROP      "The location of the tileset properties (ref: 0x%offset%) \nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define SET_ERROR_OFFSET    "The location of the tileset (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define SET_ERROR_IMAGE     "The location of the tileset image (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define SET_ERROR_PALETTE   "The location of the tileset palettes (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define SET_ERROR_BLOCKS    "The location of the tileset blocks (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define SET_ERROR_ANIM      "The location of the tileset animations (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define SET_ERROR_PROP      "The location of the tileset properties (ref: 0x%offset% is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define SET_ERROR_IMGDATA   "The image data of this tileset (loc: 0x%offset%) is broken.\nMake sure that the image at the given offset\nconsists of valid LZ77-compressed data."
+
+    ///////////////////////////////////////////////////////////
+    // Class: OverworldTable
+    //
+    ///////////////////////////////////////////////////////////
+    #define OWT_ERROR_OFFSET    "The location of the OW table is invalid.\nPlease check the YAML configuration file\nfor your game and approve it's validity."
+    #define OWT_ERROR_PALETTE   "The location of an overworld palette (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define OWT_ERROR_STRUCT    "The location of an overworld entry (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define OWT_ERROR_FRAMES    "The location of the frame data (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define OWT_ERROR_SPRITE    "The location of the sprite data (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define OWT_ERROR_INDEX     "The specified overworld palette (#%offset%) does not exist."
 }
 
 

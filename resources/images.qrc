@@ -56,5 +56,6 @@
         <file>images/navigate_back_disabled.png</file>
         <file>images/navigate_forth_normal.png</file>
         <file>images/navigate_back_normal.png</file>
+        <file>images/Entities_16x16.png</file>
     </qresource>
 </RCC>

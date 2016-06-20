@@ -41,9 +41,10 @@
 ///////////////////////////////////////////////////////////
 #include <QBoy/Core/Rom.hpp>
 #include <AME/Structures/WildPokemonTable.hpp>
-#include <AME/Mapping/MapBankTable.hpp>
-#include <AME/Graphics/TilesetManager.hpp>
 #include <AME/Structures/PokemonTable.hpp>
+#include <AME/Graphics/TilesetManager.hpp>
+#include <AME/Graphics/OverworldTable.hpp>
+#include <AME/Mapping/MapBankTable.hpp>
 
 
 namespace ame
@@ -77,7 +78,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     extern WildPokemonTable *dat_WildPokemonTable;
     extern MapBankTable *dat_MapBankTable;
-    //extern OverworldTable *dat_OverworldTable;
+    extern OverworldTable *dat_OverworldTable;
     extern PokemonTable *dat_PokemonTable;
 
 

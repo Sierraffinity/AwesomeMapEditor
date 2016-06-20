@@ -526,7 +526,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>541</height>
                    </rect>
                   </property>
                   <widget class="QOpenGLWidget" name="openGLWidget_4">
@@ -619,10 +619,42 @@
              <property name="spacing">
               <number>0</number>
              </property>
-             <item row="1" column="2">
+             <item row="4" column="2">
               <spacer name="horizontalSpacer_9">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="4" column="0">
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="6" column="1">
+              <spacer name="verticalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
                <property name="sizeType">
                 <enum>QSizePolicy::Expanding</enum>
@@ -651,8 +683,8 @@
                </property>
               </spacer>
              </item>
-             <item row="1" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-              <widget class="QOpenGLWidget" name="openGLWidget_5">
+             <item row="4" column="1">
+              <widget class="ame::AMEEntityView" name="openGLWidget_5">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -666,38 +698,6 @@
                 </size>
                </property>
               </widget>
-             </item>
-             <item row="1" column="0">
-              <spacer name="horizontalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="1">
-              <spacer name="verticalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
             </layout>
            </widget>
@@ -790,7 +790,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="pageNPCs">
               <property name="sizePolicy">
@@ -7957,6 +7957,11 @@
    <class>ame::AMEBorderView</class>
    <extends>QOpenGLWidget</extends>
    <header location="global">AMEBorderView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ame::AMEEntityView</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">AMEEntityView.h</header>
   </customwidget>
  </customwidgets>
  <resources>

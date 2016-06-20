@@ -4,5 +4,7 @@
         <file>shaders/MapVertexShader.glsl</file>
         <file>shaders/BlockVertexShader.glsl</file>
         <file>shaders/BlockFragmentShader.glsl</file>
+        <file>shaders/NormalVertexShader.glsl</file>
+        <file>shaders/NormalFragmentShader.glsl</file>
     </qresource>
 </RCC>

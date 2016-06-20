@@ -31,59 +31,59 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_POKEMONTABLE_HPP__
-#define __AME_POKEMONTABLE_HPP__
+#ifndef __AME_OVERWORLDTABLE_HPP__
+#define __AME_OVERWORLDTABLE_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Graphics/Image.hpp>
-#include <QBoy/Graphics/Palette.hpp>
+#include <qboy/Graphics/Image.hpp>
+#include <qboy/Graphics/Palette.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    PokemonTable.hpp
+    /// \file    OverworldTable.hpp
     /// \author  Pokedude
     /// \version 1.0.0.0
     /// \date    6/19/2016
-    /// \brief   Holds all pokemon icons and names.
+    /// \brief   Holds all overworld images.
     ///
     ///////////////////////////////////////////////////////////
-    class PokemonTable {
+    class OverworldTable {
     public:
 
         ///////////////////////////////////////////////////////////
         /// \brief Default constructor
         ///
-        /// Initializes a new instance of ame::PokemonTable.
-        /// Note: PokemonTable is designed to work with stack
+        /// Initializes a new instance of ame::OverworldTable.
+        /// Note: OverworldTable is designed to work with stack
         /// objects, but it is recommended to allocate instances
         /// on the global heap, because of the undo/redo system.
         ///
         ///////////////////////////////////////////////////////////
-        PokemonTable();
+        OverworldTable();
 
         ///////////////////////////////////////////////////////////
         /// \brief Copy constructor
         ///
-        /// Copies all members of the given ame::PokemonTable.
+        /// Copies all members of the given ame::OverworldTable.
         /// Is only called by template code, not by actual AME code.
         ///
         ///////////////////////////////////////////////////////////
-        PokemonTable(const PokemonTable &rvalue);
+        OverworldTable(const OverworldTable &rvalue);
 
         ///////////////////////////////////////////////////////////
         /// \brief Assignment constructor
         ///
-        /// Copies all members of the given ame::PokemonTable
+        /// Copies all members of the given ame::OverworldTable
         /// and stores them in a new class instance.
         ///
         ///////////////////////////////////////////////////////////
-        PokemonTable &operator=(const PokemonTable &rvalue);
+        OverworldTable &operator=(const OverworldTable &rvalue);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destructor
@@ -91,13 +91,13 @@ namespace ame
         /// Deletes all the allocated images.
         ///
         ///////////////////////////////////////////////////////////
-        ~PokemonTable();
+        ~OverworldTable();
 
 
         ///////////////////////////////////////////////////////////
-        /// \brief Attempts to read all required pokemon data.
+        /// \brief Attempts to read all required overworld data
         ///
-        /// For AME, we need the pokémon names, icons and palettes.
+        /// For AME, we need the palettes and the first frame
         ///
         /// \param rom Currently opened ROM file
         /// \returns true if all things were read correctly.
@@ -105,12 +105,6 @@ namespace ame
         ///////////////////////////////////////////////////////////
         bool read(const qboy::Rom &rom);
 
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Retrieves all Pokémon names.
-        ///
-        ///////////////////////////////////////////////////////////
-        const QStringList &names() const;
 
         ///////////////////////////////////////////////////////////
         /// \brief Retrieves all Pokémon pictures.
@@ -125,10 +119,9 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QStringList m_Names;    ///< Holds all decoded names
         QList<QImage> m_Images; ///< Holds all decoded images
     };
 }
 
 
-#endif // __AME_POKEMONTABLE_HPP__
+#endif // __AME_OVERWORLDTABLE_HPP__

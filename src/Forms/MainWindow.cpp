@@ -162,8 +162,14 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::setupAfterLoading()
     {
-        QStringListModel *model = new QStringListModel;
-        model->setStringList(dat_PokemonTable->names());
+        QStandardItemModel *model = new QStandardItemModel;
+        for (unsigned i = 0; i < CONFIG(PokemonCount); i++)
+        {
+            QStandardItem *item = new QStandardItem;
+            item->setText(dat_PokemonTable->names().at(i));
+            item->setIcon(QIcon(QPixmap::fromImage(dat_PokemonTable->images().at(i))));
+            model->appendRow(item);
+        }
 
         // Fills all wild-pokemon comboboxes with the names
         foreach (QComboBox *box, ui->tabWidget_3->findChildren<QComboBox *>())
@@ -291,6 +297,9 @@ namespace ame
         ui->openGLWidget_3->update();
         ui->openGLWidget->setMapView(ui->openGLWidget_2);
         ui->openGLWidget->update();
+        ui->openGLWidget_5->setEntities(dat_MapBankTable->banks()[1]->maps()[0]);
+        ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget_5->update();
         setupWildPokemon(dat_MapBankTable->banks()[1]->maps()[0]);
     }
 
