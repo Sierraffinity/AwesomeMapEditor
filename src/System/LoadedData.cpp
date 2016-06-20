@@ -49,7 +49,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     WildPokemonTable *dat_WildPokemonTable = NULL;
     MapBankTable *dat_MapBankTable = NULL;
-    //OverworldTable *dat_OverworldTable = NULL;
+    OverworldTable *dat_OverworldTable = NULL;
     PokemonTable *dat_PokemonTable = NULL;
 
 
@@ -72,6 +72,7 @@ namespace ame
 
         // Allocates the tables on the dynamic heap
         dat_WildPokemonTable = new WildPokemonTable;
+        dat_OverworldTable = new OverworldTable;
         dat_MapBankTable = new MapBankTable;
         dat_PokemonTable = new PokemonTable;
 
@@ -81,6 +82,10 @@ namespace ame
 
         // Attempts to load the pokemon table
         if (!dat_PokemonTable->read(rom))
+            return false;
+
+        // Attempts to load the overworld table
+        if (!dat_OverworldTable->read(rom))
             return false;
 
         // Attempts to load all the map banks

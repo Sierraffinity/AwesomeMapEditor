@@ -35,9 +35,8 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Text/String.hpp>
-#include <AME/Structures/StructureErrors.hpp>
-#include <AME/Structures/PokemonTable.hpp>
+#include <AME/Graphics/GraphicsErrors.hpp>
+#include <AME/Graphics/OverworldTable.hpp>
 #include <AME/System/Configuration.hpp>
 
 
@@ -50,7 +49,7 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    PokemonTable::PokemonTable()
+    OverworldTable::OverworldTable()
     {
     }
 
@@ -61,9 +60,8 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    PokemonTable::PokemonTable(const PokemonTable &rvalue)
-        : m_Names(rvalue.m_Names),
-          m_Images(rvalue.m_Images)
+    OverworldTable::OverworldTable(const OverworldTable &rvalue)
+        : m_Images(rvalue.m_Images)
     {
     }
 
@@ -74,9 +72,8 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    PokemonTable &PokemonTable::operator=(const PokemonTable &rvalue)
+    OverworldTable &OverworldTable::operator=(const OverworldTable &rvalue)
     {
-        m_Names = rvalue.m_Names;
         m_Images = rvalue.m_Images;
         return *this;
     }
@@ -88,9 +85,8 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    PokemonTable::~PokemonTable()
+    OverworldTable::~OverworldTable()
     {
-        m_Names.clear();
         m_Images.clear();
     }
 
@@ -102,83 +98,90 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    bool PokemonTable::read(const qboy::Rom &rom)
+    bool OverworldTable::read(const qboy::Rom &rom)
     {
-        // Checks all the configuration pointers
-        if (!rom.checkOffset(CONFIG(PokemonNames)))
-            AME_THROW2(PKM_ERROR_NAMES);
-        if (!rom.checkOffset(CONFIG(PokemonIcons)))
-            AME_THROW2(PKM_ERROR_ICONS);
-        if (!rom.checkOffset(CONFIG(PokemonPals)))
-            AME_THROW2(PKM_ERROR_PALS);
-        if (!rom.checkOffset(CONFIG(PokemonUsage)))
-            AME_THROW2(PKM_ERROR_USAGE);
-
-
-        // Attempts to read all the icon images
-        for (unsigned i = 0; i < CONFIG(PokemonCount); i++)
+        // Attempts to load all the overworld palettes
+        QMap<UInt16, QVector<QRgb>> paletteMap;
+        bool reachedLimiter = false;
+        for (int i = 0; !reachedLimiter; i++)
         {
-            if (!rom.seek(CONFIG(PokemonIcons) + i * 4))
-                AME_THROW2(PKM_ERROR_ICONS);
+            if (!rom.seek(CONFIG(OverworldPals) + i * 8))
+                AME_THROW2(OWT_ERROR_OFFSET);
+
+
+            // Reads the palette pointer
+            unsigned ptrPal = rom.readPointerRef();
+            if (!rom.checkOffset(ptrPal))
+                AME_THROW(OWT_ERROR_PALETTE, rom.redirected());
+
+            // Reads the palette index
+            unsigned short idxPal = rom.readHWord();
+            rom.readBytes(2); // unimportant data
+
+            // Determines whether this is the last palette entry
+            if (rom.readWord() == 0x0 && rom.readWord() == 0x0)
+                reachedLimiter = true;
+
+            // Loads the palette
+            qboy::Palette palette;
+            palette.readUncompressed(rom, ptrPal, 16);
+
+            // Converts the palette
+            QVector<QRgb> colorTable;
+            for (int i = 0; i < 16; i++)
+            {
+                const qboy::Color &color = palette.raw().at(i);
+                if (i == 0)
+                    colorTable.push_back(QColor::fromRgb(0, 0, 0, 0).rgba());
+                else
+                    colorTable.push_back(QColor::fromRgb(color.r, color.g, color.b).rgb());
+            }
+
+            // Adds the necessary values to the map
+            paletteMap.insert(idxPal, colorTable);
+        }
+
+
+        // Attempts to load the overworld images
+        for (unsigned i = 0; i < CONFIG(OverworldCount); i++)
+        {
+            if (!rom.seek(CONFIG(Overworlds) + i * 4))
+                AME_THROW2(OWT_ERROR_OFFSET);
+
+            // Reads the OW structure pointer
+            unsigned ptrStruct = rom.readPointerRef();
+            if (!rom.seek(ptrStruct + 2))
+                AME_THROW(OWT_ERROR_STRUCT, rom.redirected());
+
+
+            // Reads the palette and the sprite sizes
+            UInt16 idxPal = rom.readHWord();
+            rom.readWord(); // unimportant
+            UInt16 width = rom.readHWord();  // in pixels
+            UInt16 height = rom.readHWord(); // in pixels
+            rom.readBytes(16); // unimportant
+            UInt32 ptrFrames = rom.readPointerRef();
+
+            if (!rom.seek(ptrFrames))
+                AME_THROW(OWT_ERROR_FRAMES, rom.redirected());
+            if (!paletteMap.contains(idxPal))
+                AME_THROW(OWT_ERROR_INDEX, idxPal);
 
             unsigned ptrImage = rom.readPointerRef();
             if (!rom.checkOffset(ptrImage))
-                AME_THROW(PKM_ERROR_IMAGE, rom.redirected());
+                AME_THROW(OWT_ERROR_SPRITE, rom.redirected());
 
-            m_Images.push_back(QImage(32, 32, QImage::Format_Indexed8));
-            QImage &current = m_Images[i];
+            // Reads the actual image
             qboy::Image image;
+            image.readUncompressed(rom, ptrImage, width*height/2, width, true);
 
-            // Decodes the image
-            image.readUncompressed(rom, ptrImage, 512, 32, true);
-            memcpy(current.bits(), image.raw().data(), 1024);
+            // Stores stuff in a QImage
+            m_Images.push_back(QImage(width, height, QImage::Format_Indexed8));
+            m_Images[i].setColorTable(paletteMap.value(idxPal));
+            memcpy(m_Images[i].bits(), image.raw().data(), width*height);
         }
 
 
-        // Attempts to read all the palettes
-        QList<QVector<QRgb>> colorTables;
-        for (int i = 0; i < 3; i++)
-        {
-            qboy::Palette palette;
-            palette.readUncompressed(rom, CONFIG(PokemonPals) + i * 32, 16);
-            colorTables.push_back(QVector<QRgb>());
-
-            // Converts the palette to a color table
-            for (int j = 0; j < 16; j++)
-            {
-                const qboy::Color &color = palette.raw().at(j);
-                if (j == 0)
-                    colorTables[i].push_back(QColor::fromRgb(0, 0, 0, 0).rgba());
-                else
-                    colorTables[i].push_back(QColor::fromRgb(color.r, color.g, color.b).rgb());
-            }
-        }
-
-
-        // Attempts to read all the palette usages
-        for (unsigned i = 0; i < CONFIG(PokemonCount); i++)
-        {
-            QImage &current = m_Images[i];
-            UInt8 usage;
-
-            if (!rom.seek(CONFIG(PokemonUsage) + i))
-                AME_THROW2(PKM_ERROR_USAGE);
-
-            if ((usage = rom.readByte()) > 2)
-                AME_THROW(PKM_ERROR_ENTRY, rom.offset()-1);
-
-            // Stores the color table in the current QImage
-            current.setColorTable(colorTables.at(usage));
-        }
-
-
-        // Attempts to read all the pokemon names
-        for (unsigned i = 0; i < CONFIG(PokemonCount); i++)
-        {
-            m_Names.push_back(qboy::String::read(rom, CONFIG(PokemonNames) + i * 11));
-        }
-
-        // Loading successful
         return true;
     }
 
@@ -190,20 +193,8 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    const QList<QImage> &PokemonTable::images() const
+    const QList<QImage> &OverworldTable::images() const
     {
         return m_Images;
-    }
-
-    ///////////////////////////////////////////////////////////
-    // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/19/2016
-    //
-    ///////////////////////////////////////////////////////////
-    const QStringList &PokemonTable::names() const
-    {
-        return m_Names;
     }
 }

@@ -148,11 +148,15 @@ namespace ame
             // Retrieves the method and finds the scope operator
             const QString &method = s_Methods.at(i);
             int scopePos = method.indexOf("::");
+            int arguments = method.indexOf("(");
+            int possible = 0;
+            if ((possible = method.indexOf("::", scopePos+1)) != -1)
+                scopePos = possible;
 
             log.append(QString("-").repeated(40));
             log.append(
                 "\nError in class '" + method.left(scopePos) + "' " +
-                "in function '" + method.right(method.length()-(scopePos+2)) + "'.\n" +
+                "in function '" + method.right((arguments+1)-(scopePos+2)) + "'.\n" +
                 "Description:\n\n" + errorMsg.remove(0, 1) + "\n\n\n"
             );
         }

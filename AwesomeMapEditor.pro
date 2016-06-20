@@ -81,7 +81,9 @@ SOURCES += \
     src/Widgets/AMEImageButton.cpp \
     src/Forms/ErrorWindow.cpp \
     src/Widgets/OpenGL/AMEBorderView.cpp \
-    src/Structures/PokemonTable.cpp
+    src/Structures/PokemonTable.cpp \
+    src/Graphics/OverworldTable.cpp \
+    src/Widgets/OpenGL/AMEEntityView.cpp
 
 
 #
@@ -135,7 +137,9 @@ HEADERS  += \
     include/AME/Widgets/AMEImageButton.h \
     include/AME/Forms/ErrorWindow.h \
     include/AME/Widgets/OpenGL/AMEBorderView.h \
-    include/AME/Structures/PokemonTable.hpp
+    include/AME/Structures/PokemonTable.hpp \
+    include/AME/Graphics/OverworldTable.hpp \
+    include/AME/Widgets/OpenGL/AMEEntityView.h
 
 
 #
@@ -153,3 +157,4 @@ RESOURCES += \
 
 DISTFILES += \
     resources/config/BPRE.yaml \
+    resources/shaders/NormalFragmentShader

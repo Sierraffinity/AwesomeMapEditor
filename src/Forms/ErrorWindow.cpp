@@ -85,9 +85,14 @@ namespace ame
 
         // Loads the first error
         int scopePos = method.indexOf("::");
+        int arguments = method.indexOf("(");
+        int possible = 0;
+        if ((possible = method.indexOf("::", scopePos+1)) != -1)
+            scopePos = possible;
+
         ui->class_label->setText(method.left(scopePos));
-        ui->func_label->setText(method.right(method.length()-(scopePos+2)));
-        ui->desc_label->setText(msg.replace("\n", ""));
+        ui->func_label->setText(method.right((arguments+1)-(scopePos+2)));
+        ui->desc_label->setText(msg.replace("\n", " "));
 
         // Updates the information label
         ui->info_label->setText(

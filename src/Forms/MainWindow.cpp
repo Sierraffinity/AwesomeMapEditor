@@ -297,6 +297,9 @@ namespace ame
         ui->openGLWidget_3->update();
         ui->openGLWidget->setMapView(ui->openGLWidget_2);
         ui->openGLWidget->update();
+        ui->openGLWidget_5->setEntities(dat_MapBankTable->banks()[1]->maps()[0]);
+        ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
+        ui->openGLWidget_5->update();
         setupWildPokemon(dat_MapBankTable->banks()[1]->maps()[0]);
     }
 
