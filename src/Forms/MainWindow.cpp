@@ -58,6 +58,7 @@ namespace ame
         ui(new Ui::MainWindow)
     {
         ui->setupUi(this);
+        m_lastOpenedMap = NULL;
     }
 
 
@@ -450,9 +451,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/19/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   6/20/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -460,6 +461,13 @@ namespace ame
         //if (item->parent() == NULL || item->parent()->parent() == NULL)
         if (item->parent() == NULL)
             return;
+
+        // Switch icon
+        if(m_lastOpenedMap != NULL)
+            m_lastOpenedMap->setExpanded(false);
+        item->setExpanded(true);
+        m_lastOpenedMap = item;
+
 
         // Clears all the OpenGL widgets
         ui->openGLWidget->freeGL();

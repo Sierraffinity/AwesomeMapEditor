@@ -156,6 +156,7 @@ namespace ame
         ///////////////////////////////////////////////////////////
         Ui::MainWindow *ui;    ///< Gives access to the GUI objects
         qboy::Rom m_Rom;       ///< Global ROM across the application
+        QTreeWidgetItem *m_lastOpenedMap;     ///< Leaves a reference to the widget for the last opened map
     };
 
 
