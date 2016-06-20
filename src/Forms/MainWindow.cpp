@@ -216,7 +216,7 @@ namespace ame
 
         QIcon mapIcon;
         mapIcon.addFile(QStringLiteral(":/icons/map.ico"), QSize(), QIcon::Normal, QIcon::Off);
-        mapIcon.addFile(QStringLiteral(":/icons/imgae.ico"), QSize(), QIcon::Normal, QIcon::On);
+        mapIcon.addFile(QStringLiteral(":/icons/image.ico"), QSize(), QIcon::Normal, QIcon::On);
 
         // Adds every bank and map to the tree. Format: <bank>.<map>
         int bankCount = dat_MapBankTable->banks().size();
