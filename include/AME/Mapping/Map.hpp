@@ -177,7 +177,7 @@ namespace ame
         /// \returns the position of the wild-pokemon table.
         ///
         ///////////////////////////////////////////////////////////
-        UInt32 wildpokeTable() const;
+        Int32 wildpokeTable() const;
 
 
         ///////////////////////////////////////////////////////////
@@ -211,7 +211,7 @@ namespace ame
         MapScriptTable m_Scripts;       ///< Holds all level scripts
         ConnectionTable m_Connections;  ///< Holds all connections
         QString m_Name;                 ///< Holds the actual map name
-        UInt32 m_WildTable;             ///< Holds the wildpokemon table index
+        Int32 m_WildTable;              ///< Holds the wildpokemon table index
     };
 }
 

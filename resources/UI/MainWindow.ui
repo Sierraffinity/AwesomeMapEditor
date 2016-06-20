@@ -157,7 +157,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTreeView" name="treeView">
+         <widget class="QTreeWidget" name="treeView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -170,6 +170,14 @@
             <height>0</height>
            </size>
           </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>
@@ -224,8 +232,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>587</width>
-              <height>602</height>
+              <width>582</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -329,7 +337,7 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
+          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="sizePolicy">
@@ -465,31 +473,68 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
-                  <widget class="ame::AMEBlockView" name="openGLWidget_3">
-                   <property name="geometry">
-                    <rect>
-                     <x>0</x>
-                     <y>2</y>
-                     <width>16</width>
-                     <height>16</height>
-                    </rect>
+                  <layout class="QGridLayout" name="gridLayout_4">
+                   <property name="leftMargin">
+                    <number>0</number>
                    </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
+                   <property name="topMargin">
+                    <number>0</number>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>16</width>
-                     <height>16</height>
-                    </size>
+                   <property name="rightMargin">
+                    <number>0</number>
                    </property>
-                  </widget>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <item row="1" column="0">
+                    <spacer name="verticalSpacer_14">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="ame::AMEBlockView" name="openGLWidget_3">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>16</width>
+                       <height>16</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <spacer name="horizontalSpacer_13">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
                  </widget>
                 </widget>
                </item>
@@ -599,8 +644,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>444</width>
-              <height>602</height>
+              <width>451</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -2545,8 +2590,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>362</height>
+                    <width>215</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3115,8 +3160,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>464</height>
+                    <width>215</width>
+                    <height>426</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4565,8 +4610,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>575</height>
+                  <width>338</width>
+                  <height>431</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -5305,8 +5350,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>575</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -5719,8 +5764,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>575</height>
+                  <width>338</width>
+                  <height>433</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -6441,8 +6486,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>575</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -6863,8 +6908,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>732</width>
-              <height>612</height>
+              <width>743</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">

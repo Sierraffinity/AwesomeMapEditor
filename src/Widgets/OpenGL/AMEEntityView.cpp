@@ -78,6 +78,20 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEEntityView::~AMEEntityView()
     {
+        if (m_VAO.isCreated())
+        {
+            freeGL();
+            makeCurrent();
+
+            /* Static data; only destroy on app close */
+            glCheck(glDeleteBuffers(1, &m_VertexBuffer));
+            glCheck(glDeleteBuffers(1, &m_IndexBuffer));
+            glCheck(glDeleteTextures(1, &m_TextureAtlas));
+
+            m_Program.removeAllShaders();
+            m_VAO.destroy();
+            doneCurrent();
+        }
     }
 
 
@@ -192,7 +206,7 @@ namespace ame
         {
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-            mat_mvp.translate(warp->positionX*16, warp->positionY*16);
+            mat_mvp.translate(warp->positionX*16+m_Translation.x(), warp->positionY*16+m_Translation.y());
             m_Program.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
@@ -205,7 +219,7 @@ namespace ame
         {
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-            mat_mvp.translate(trigger->positionX*16, trigger->positionY*16);
+            mat_mvp.translate(trigger->positionX*16+m_Translation.x(), trigger->positionY*16+m_Translation.y());
             m_Program.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
@@ -218,7 +232,7 @@ namespace ame
         {
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-            mat_mvp.translate(sign->positionX*16, sign->positionY*16);
+            mat_mvp.translate(sign->positionX*16+m_Translation.x(), sign->positionY*16+m_Translation.y());
             m_Program.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
@@ -248,6 +262,28 @@ namespace ame
     void AMEEntityView::setMapView(AMEMapView *view)
     {
         m_MapView = view;
+        m_Translation = view->mainPos();
         setMinimumSize(m_MapView->minimumSize());
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/20/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::freeGL()
+    {
+        /* In this case, we destroy nothing because
+         * the data is independent from the map */
+
+        if (!m_VAO.isCreated())
+            return;
+
+
+        m_Entities = NULL;
+        m_MapView = NULL;
     }
 }
