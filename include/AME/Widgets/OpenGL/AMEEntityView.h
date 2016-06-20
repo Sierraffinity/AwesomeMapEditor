@@ -84,6 +84,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void setMapView(AMEMapView *view);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Destroys all OpenGL resources.
+        ///
+        ///////////////////////////////////////////////////////////
+        void freeGL();
+
 
     protected:
 
@@ -119,6 +125,7 @@ namespace ame
         UInt32 m_TextureAtlas;          ///< Multiple textures
         UInt32 m_VertexBuffer;
         UInt32 m_IndexBuffer;
+        QPoint m_Translation;           ///< Fix for connections
     };
 }
 

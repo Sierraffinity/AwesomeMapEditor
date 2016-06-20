@@ -84,33 +84,15 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEMapView::~AMEMapView()
     {
-        makeCurrent();
+        if (m_VAO.isCreated())
+        {
+            freeGL();
 
-        foreach (UInt32 id, m_MapTextures)
-            glCheck(glDeleteTextures(1, &id));
-        foreach (UInt32 id, m_PalTextures)
-            glCheck(glDeleteTextures(1, &id));
-        foreach (UInt32 id, m_VertexBuffers)
-            glCheck(glDeleteBuffers(1, &id));
-        foreach (UInt8 *v, m_BackPixelBuffers)
-            delete v;
-        foreach (UInt8 *v, m_ForePixelBuffers)
-            delete v;
-
-        glCheck(glDeleteBuffers(1, &m_IndexBuffer));
-        delete m_PrimaryForeground;
-        delete m_PrimaryBackground;
-        delete m_SecondaryForeground;
-        delete m_SecondaryBackground;
-
-        m_Maps.clear();
-        m_MapSizes.clear();
-        m_MapPositions.clear();
-        m_Palettes.clear();
-        m_VAO.destroy();
-        m_Program.removeAllShaders();
-
-        doneCurrent();
+            makeCurrent();
+            m_Program.removeAllShaders();
+            m_VAO.destroy();
+            doneCurrent();
+        }
     }
 
 
@@ -718,6 +700,65 @@ namespace ame
         doneCurrent();
     }
 
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/20/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::freeGL()
+    {
+        if (!m_VAO.isCreated())
+            return;
+
+        makeCurrent();
+
+
+        foreach (UInt32 id, m_MapTextures)
+            glCheck(glDeleteTextures(1, &id));
+        foreach (UInt32 id, m_PalTextures)
+            glCheck(glDeleteTextures(1, &id));
+        foreach (UInt32 id, m_VertexBuffers)
+            glCheck(glDeleteBuffers(1, &id));
+        foreach (UInt8 *v, m_BackPixelBuffers)
+            delete v;
+        foreach (UInt8 *v, m_ForePixelBuffers)
+            delete v;
+
+        glCheck(glDeleteBuffers(1, &m_IndexBuffer));
+        delete m_PrimaryForeground;
+        delete m_PrimaryBackground;
+        delete m_SecondaryForeground;
+        delete m_SecondaryBackground;
+
+        m_Maps.clear();
+        m_MapSizes.clear();
+        m_MapPositions.clear();
+        m_Palettes.clear();
+        m_BackPixelBuffers.clear();
+        m_ForePixelBuffers.clear();
+        m_VertexBuffers.clear();
+        m_PalTextures.clear();
+        m_MapTextures.clear();
+
+
+        doneCurrent();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    QPoint AMEMapView::mainPos()
+    {
+        return m_MapPositions[0];
+    }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter

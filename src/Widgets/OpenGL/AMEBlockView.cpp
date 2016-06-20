@@ -78,21 +78,15 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEBlockView::~AMEBlockView()
     {
-        makeCurrent();
+        if (m_VAO.isCreated())
+        {
+            freeGL();
 
-        foreach (UInt32 id, m_Textures)
-            glCheck(glDeleteTextures(1, &id));
-        foreach (UInt32 id, m_VertexBuffers)
-            glCheck(glDeleteBuffers(1, &id));
-
-        glCheck(glDeleteTextures(1, &m_PalTexture));
-        glCheck(glDeleteBuffers(1, &m_IndexBuffer));
-
-        m_Program.removeAllShaders();
-        m_VAO.destroy();
-
-
-        doneCurrent();
+            makeCurrent();
+            m_Program.removeAllShaders();
+            m_VAO.destroy();
+            doneCurrent();
+        }
     }
 
 
@@ -308,6 +302,38 @@ namespace ame
         // Sets the minimum size
         setMinimumWidth(m_PrimarySetSize.width());
         setMinimumHeight(m_PrimarySetSize.height() + m_SecondarySetSize.height());
+        doneCurrent();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/20/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::freeGL()
+    {
+        if (!m_VAO.isCreated())
+            return;
+
+        makeCurrent();
+
+
+        foreach (UInt32 id, m_Textures)
+            glCheck(glDeleteTextures(1, &id));
+        foreach (UInt32 id, m_VertexBuffers)
+            glCheck(glDeleteBuffers(1, &id));
+
+        glCheck(glDeleteTextures(1, &m_PalTexture));
+        glCheck(glDeleteBuffers(1, &m_IndexBuffer));
+
+        m_Palettes = NULL;
+        m_Textures.clear();
+        m_VertexBuffers.clear();
+
+
         doneCurrent();
     }
 }

@@ -79,21 +79,15 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEBorderView::~AMEBorderView()
     {
-        makeCurrent();
+        if (m_VAO.isCreated())
+        {
+            freeGL();
 
-        delete m_Foreground;
-        delete m_Background;
-
-        glCheck(glDeleteBuffers(1, &m_VertexBuffer));
-        glCheck(glDeleteTextures(1, &m_BackTexture));
-        glCheck(glDeleteTextures(1, &m_ForeTexture));
-        glCheck(glDeleteTextures(1, &m_PalTexture));
-        glCheck(glDeleteBuffers(1, &m_IndexBuffer));
-
-        m_Program.removeAllShaders();
-        m_VAO.destroy();
-
-        doneCurrent();
+            makeCurrent();
+            m_Program.removeAllShaders();
+            m_VAO.destroy();
+            doneCurrent();
+        }
     }
 
 
@@ -304,6 +298,38 @@ namespace ame
 
         // Sets the minimum size
         setMinimumSize(border.width()*16, border.height()*16);
+        doneCurrent();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/20/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBorderView::freeGL()
+    {
+        if (!m_VAO.isCreated())
+            return;
+
+        makeCurrent();
+
+
+        delete m_Foreground;
+        delete m_Background;
+
+        glCheck(glDeleteBuffers(1, &m_VertexBuffer));
+        glCheck(glDeleteTextures(1, &m_BackTexture));
+        glCheck(glDeleteTextures(1, &m_ForeTexture));
+        glCheck(glDeleteTextures(1, &m_PalTexture));
+        glCheck(glDeleteBuffers(1, &m_IndexBuffer));
+
+        m_Foreground = NULL;
+        m_Background = NULL;
+
+
         doneCurrent();
     }
 }
