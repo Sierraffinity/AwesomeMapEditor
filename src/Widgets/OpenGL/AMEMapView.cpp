@@ -36,6 +36,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/OpenGL/AMEMapView.h>
+#include <AME/Widgets/OpenGL/AMEEntityView.h>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -65,7 +66,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEMapView::AMEMapView(QWidget *parent)
         : QOpenGLWidget(parent),
-          QOpenGLFunctions()
+          QOpenGLFunctions(),
+          m_ShowSprites(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -186,6 +188,37 @@ namespace ame
             glCheck(glActiveTexture(GL_TEXTURE0));
             glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2)));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+
+
+            // Draws the NPCs in between (but only the main map's ones)
+            if (i == 0 && m_ShowSprites)
+            {
+                QMatrix4x4 mat_npc;
+                for (int j = 0; j < m_NPCSprites.size(); j++)
+                {
+                    float buf[16] = { 0, 0, 0, 0, 16, 0, 1, 0, 16, 16, 1, 1, 0, 16, 0, 1 };
+                    glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_NPCBuffer));
+                    glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, buf, GL_DYNAMIC_DRAW));
+
+                    mat_npc.setToIdentity();
+                    mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+                    mat_mvp.translate(m_NPCPositions.at(j).x(), m_NPCPositions.at(j).y());
+                    m_Program.setUniformValue("uni_mvp", mat_npc);
+
+                    glCheck(glActiveTexture(GL_TEXTURE1));
+                    glCheck(glBindTexture(GL_TEXTURE_2D, m_NPCTextures.value(m_NPCSprites.at(j)).at(1)));
+                    glCheck(glActiveTexture(GL_TEXTURE0));
+                    glCheck(glBindTexture(GL_TEXTURE_2D, m_NPCTextures.value(m_NPCSprites.at(j)).at(0)));
+                    glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+                }
+
+                // Resets to previous states
+                m_Program.setUniformValue("uni_mvp", mat_mvp);
+                glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(i)));
+                glCheck(glActiveTexture(GL_TEXTURE1));
+                glCheck(glBindTexture(GL_TEXTURE_2D, m_PalTextures.at(i)));
+            }
+
 
             // Draws the foreground
             glCheck(glActiveTexture(GL_TEXTURE0));
@@ -625,6 +658,54 @@ namespace ame
         }
 
         return true;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/21/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::setEntities(const QList<Npc *> &npcs)
+    {
+        makeCurrent();
+
+
+        foreach (Npc *npc, npcs)
+        {
+            m_NPCPositions.push_back(QPoint(npc->positionX*16, npc->positionY*16));
+            m_NPCSprites.push_back(npc->imageID);
+
+            // Checks whether the NPC image is already buffered
+            if (!m_NPCTextures.contains(npc->imageID))
+            {
+                qboy::Image *img = dat_OverworldTable->images().at(npc->imageID);
+                qboy::Palette *pal = dat_OverworldTable->palettes().at(npc->imageID);
+
+                // Allocates a new OpenGL texture for the image
+                unsigned imageTex = 0;
+                glCheck(glGenTextures(1, &imageTex));
+                glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+                glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+                glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, img->size().width(), img->size().height(), 0, GL_RED, GL_BYTE, img->raw().data()));
+
+                // Allocates a new OpenGL texture for the palette
+                unsigned palTex = 0;
+                glCheck(glGenTextures(1, &palTex));
+                glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+                glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+                glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 16, 1, 0, GL_RGBA, GL_FLOAT, pal->rawGL().data()));
+
+                // Stores stuff
+                m_NPCTextures.insert(npc->imageID, { imageTex, palTex });
+            }
+        }
+
+        glCheck(glGenBuffers(1, &m_NPCBuffer));
+
+
+        doneCurrent();
     }
 
 

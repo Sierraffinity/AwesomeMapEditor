@@ -173,7 +173,9 @@ namespace ame
         painter.beginNativePainting();
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //m_MapView->m_ShowSprites = true;
         m_MapView->paintGL();
+        //m_MapView->m_ShowSprites = false;
         painter.endNativePainting();
 
         // Binds the buffers
@@ -199,6 +201,19 @@ namespace ame
         mat_mvp.ortho(0, width(), height(), 0, -1, 1);
 
         // Iterates through the entities and draws them
+        const float bNpc[16] = { 0, 0, 0.0f, 0.0f, 16, 0, 0.25f, 0.0f, 16, 16, 0.25f, 1.0f, 0, 16, 0.0f, 1.0f };
+        glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, bNpc, GL_DYNAMIC_DRAW));
+
+        foreach (const Npc *npc, m_Entities->npcs())
+        {
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(npc->positionX*16+m_Translation.x(), npc->positionY*16+m_Translation.y());
+            m_Program.setUniformValue("uni_mvp", mat_mvp);
+
+            glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+        }
+
         const float bWarp[16] = { 0, 0, 0.25f, 0.0f, 16, 0, 0.5f, 0.0f, 16, 16, 0.5f, 1.0f, 0, 16, 0.25f, 1.0f };
         glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, bWarp, GL_DYNAMIC_DRAW));
 
@@ -263,6 +278,7 @@ namespace ame
     {
         m_MapView = view;
         m_Translation = view->mainPos();
+        //view->setEntities(m_Entities->npcs());
         setMinimumSize(m_MapView->minimumSize());
     }
 

@@ -87,6 +87,12 @@ namespace ame
         bool setMap(const qboy::Rom &rom, Map *map);
 
         ///////////////////////////////////////////////////////////
+        /// \brief Creates textures for all NPCs on the map.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setEntities(const QList<Npc *> &npcs);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Creates the textures for the images and pals.
         ///
         ///////////////////////////////////////////////////////////
@@ -181,6 +187,10 @@ namespace ame
         QList<QSize> m_MapSizes;
         QList<QPoint> m_MapPositions;
         QList<UInt32> m_VertexBuffers;
+        QMap<UInt32, QVector<UInt32>> m_NPCTextures;
+        QList<QPoint> m_NPCPositions;
+        QList<UInt8> m_NPCSprites;
+        UInt32 m_NPCBuffer;
         UInt32 m_IndexBuffer;
         QList<QVector<qboy::GLColor>> m_Palettes;
         QList<UInt8 *> m_BackPixelBuffers;
@@ -196,6 +206,7 @@ namespace ame
         UInt8 *m_SecondaryBackground;
         Int32 m_PrimaryBlockCount;
         Int32 m_SecondaryBlockCount;
+        Boolean m_ShowSprites;
     };
 }
 

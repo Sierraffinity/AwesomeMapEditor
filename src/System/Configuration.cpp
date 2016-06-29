@@ -156,6 +156,7 @@ namespace ame
         FETCH(MapNames, rom.readPointer());
         FETCH(MapNameCount, rom.readByte());
         FETCH(MapNameTotal, rom.readByte());
+        OverworldCount++; // value is one less
 
         // Parsing successful
         return true;

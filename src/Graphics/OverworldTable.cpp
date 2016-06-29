@@ -87,7 +87,10 @@ namespace ame
     ///////////////////////////////////////////////////////////
     OverworldTable::~OverworldTable()
     {
-        m_Images.clear();
+        foreach (qboy::Palette *pal, m_Palettes)
+            delete pal;
+        foreach (qboy::Image *img, m_Images)
+            delete img;
     }
 
 
@@ -101,7 +104,7 @@ namespace ame
     bool OverworldTable::read(const qboy::Rom &rom)
     {
         // Attempts to load all the overworld palettes
-        QMap<UInt16, QVector<QRgb>> paletteMap;
+        QMap<UInt16, qboy::Palette *> paletteMap;
         bool reachedLimiter = false;
         for (int i = 0; !reachedLimiter; i++)
         {
@@ -123,22 +126,11 @@ namespace ame
                 reachedLimiter = true;
 
             // Loads the palette
-            qboy::Palette palette;
-            palette.readUncompressed(rom, ptrPal, 16);
-
-            // Converts the palette
-            QVector<QRgb> colorTable;
-            for (int i = 0; i < 16; i++)
-            {
-                const qboy::Color &color = palette.raw().at(i);
-                if (i == 0)
-                    colorTable.push_back(QColor::fromRgb(0, 0, 0, 0).rgba());
-                else
-                    colorTable.push_back(QColor::fromRgb(color.r, color.g, color.b).rgb());
-            }
+            qboy::Palette *palette = new qboy::Palette;
+            palette->readUncompressed(rom, ptrPal, 16);
 
             // Adds the necessary values to the map
-            paletteMap.insert(idxPal, colorTable);
+            paletteMap.insert(idxPal, palette);
         }
 
 
@@ -172,13 +164,11 @@ namespace ame
                 AME_THROW(OWT_ERROR_SPRITE, rom.redirected());
 
             // Reads the actual image
-            qboy::Image image;
-            image.readUncompressed(rom, ptrImage, width*height/2, width, true);
+            qboy::Image *image = new qboy::Image;
+            image->readUncompressed(rom, ptrImage, width*height/2, width, true);
 
-            // Stores stuff in a QImage
-            m_Images.push_back(QImage(width, height, QImage::Format_Indexed8));
-            m_Images[i].setColorTable(paletteMap.value(idxPal));
-            memcpy(m_Images[i].bits(), image.raw().data(), width*height);
+            m_Images.push_back(image);
+            m_Palettes.push_back(paletteMap.value(idxPal));
         }
 
 
@@ -193,8 +183,20 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    const QList<QImage> &OverworldTable::images() const
+    const QList<qboy::Image *> &OverworldTable::images() const
     {
         return m_Images;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const QList<qboy::Palette *> &OverworldTable::palettes() const
+    {
+        return m_Palettes;
     }
 }

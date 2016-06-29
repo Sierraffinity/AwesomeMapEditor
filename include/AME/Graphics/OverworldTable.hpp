@@ -107,10 +107,16 @@ namespace ame
 
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves all Pokémon pictures.
+        /// \brief Retrieves all OW pictures.
         ///
         ///////////////////////////////////////////////////////////
-        const QList<QImage> &images() const;
+        const QList<qboy::Image *> &images() const;
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves all OW palettes.
+        ///
+        ///////////////////////////////////////////////////////////
+        const QList<qboy::Palette *> &palettes() const;
 
 
     private:
@@ -119,7 +125,8 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QList<QImage> m_Images; ///< Holds all decoded images
+        QList<qboy::Palette *> m_Palettes;
+        QList<qboy::Image *> m_Images;
     };
 }
 
