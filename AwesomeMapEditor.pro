@@ -84,7 +84,8 @@ SOURCES += \
     src/Structures/PokemonTable.cpp \
     src/Graphics/OverworldTable.cpp \
     src/Widgets/OpenGL/AMEEntityView.cpp \
-    src/Graphics/PropertyTable.cpp
+    src/Graphics/PropertyTable.cpp \
+    src/System/Settings.cpp
 
 
 #
@@ -142,7 +143,9 @@ HEADERS  += \
     include/AME/Graphics/OverworldTable.hpp \
     include/AME/Widgets/OpenGL/AMEEntityView.h \
     include/AME/Graphics/PropertyTable.hpp \
-    include/AME/Graphics/Property.hpp
+    include/AME/Graphics/Property.hpp \
+    src/System/settings.h \
+    include/AME/System/Settings.hpp
 
 
 #
