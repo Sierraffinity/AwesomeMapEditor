@@ -35,6 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <AME/System/Configuration.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
 #include <AME/Mapping/MapHeader.hpp>
 #include <AME/Graphics/TilesetManager.hpp>
@@ -154,7 +155,7 @@ namespace ame
 
 
         // Retrieves the border (different between games!)
-        if (rom.info().isFRLG())
+        if (CONFIG(RomType) == RT_FRLG)
         {
             QSize borderSize(rom.readByte(), rom.readByte());
             m_Border.read(rom, m_PtrBorder, borderSize);

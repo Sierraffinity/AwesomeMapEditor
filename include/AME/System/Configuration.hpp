@@ -56,6 +56,19 @@ namespace ame
     /// game to game.
     ///
     ///////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////
+    // Struct: BaseROMType
+    //
+    ///////////////////////////////////////////////////////////
+    enum BaseROMType
+    {
+        RT_RS   =  0,
+        RT_FRLG =  1,
+        RT_EM   =  2
+    };
+
     class Configuration {
     public:
 
@@ -77,6 +90,9 @@ namespace ame
         // Static class members
         //
         ///////////////////////////////////////////////////////////
+        static BaseROMType RomType;
+        static QString Name;
+        static QString Language;
         static UInt32 PokemonCount;
         static UInt32 PokemonNames;
         static UInt32 PokemonIcons;

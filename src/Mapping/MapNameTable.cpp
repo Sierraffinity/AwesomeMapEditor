@@ -36,111 +36,126 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/System/Configuration.hpp>
-#include <AME/Graphics/GraphicsErrors.hpp>
-#include <AME/Graphics/PropertyTable.hpp>
+#include <AME/Mapping/MappingErrors.hpp>
+#include <AME/Mapping/MapNameTable.hpp>
+#include <AME/Text/String.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/20/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
-    PropertyTable::PropertyTable()
+    MapNameTable::MapNameTable()
+        : /*IUndoable(),*/
+          m_Offset(0)
     {
     }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/20/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
-    PropertyTable::PropertyTable(const PropertyTable &rvalue)
-        : m_Properties(rvalue.m_Properties)
+    MapNameTable::MapNameTable(const MapNameTable &rvalue)
+        : /*IUndoable(),*/
+          m_Offset(rvalue.m_Offset)
     {
     }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/20/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
-    PropertyTable &PropertyTable::operator=(const PropertyTable &rvalue)
+    MapNameTable &MapNameTable::operator=(const MapNameTable &rvalue)
     {
-        m_Properties = rvalue.m_Properties;
+        m_Offset = rvalue.m_Offset;
         return *this;
     }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Destructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/20/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
-    PropertyTable::~PropertyTable()
+    MapNameTable::~MapNameTable()
     {
-        foreach (Property *prop, m_Properties)
-            delete prop;
-
-        m_Properties.clear();
+        foreach (MapName *name, m_Names)
+            delete name;
     }
 
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/20/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
-    bool PropertyTable::read(const qboy::Rom &rom, UInt32 offset, Int32 blocks)
+    bool MapNameTable::read(const qboy::Rom &rom, UInt32 offset)
     {
         if (!rom.seek(offset))
-            AME_THROW(PPT_ERROR_OFFSET, rom.redirected());
+            AME_THROW(MBT_ERROR_OFFSET, rom.redirected());
 
-
-        // Reads all properties
-        for (int i = 0; i < blocks; i++)
+        // Reads all the name index info
+        for (int i = 0; i < (int)CONFIG(MapNameCount); i++)
         {
-            Property *prop = new Property;
-            if (CONFIG(RomType) == RT_FRLG)
-            {
-                prop->behaviour = rom.readByte();
-                prop->background = rom.readByte();
-            }
-            else
-            {
-                prop->behaviour = rom.readHWord();  // Lower -> behaviour
-                prop->background = rom.readHWord(); // Upper -> background
-            }
+            MapName *name = new MapName();
 
-            // Adds the property
-            m_Properties.push_back(prop);
+            // Determines the map name position
+            if (CONFIG(RomType) == RT_FRLG)
+                rom.seek(offset + i*4);
+            else
+                rom.seek(offset + i*8 + 4);
+
+            unsigned ptrName = rom.readPointerRef();
+            if (!rom.checkOffset(ptrName))
+                AME_THROW(MAP_ERROR_NAME, rom.redirected());
+
+            // Reads the map name string
+            name->name = String::read(rom, ptrName);
+
+            m_Names.push_back(name);
         }
 
 
+        // Loading successful
         m_Offset = offset;
         return true;
     }
-
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   6/20/2016
+    // Date of edit:   6/15/2016
     //
     ///////////////////////////////////////////////////////////
-    const QList<Property *> &PropertyTable::properties() const
+    UInt32 MapNameTable::offset() const
     {
-        return m_Properties;
+        return m_Offset;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/15/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const QList<MapName *> &MapNameTable::names() const
+    {
+        return m_Names;
     }
 }

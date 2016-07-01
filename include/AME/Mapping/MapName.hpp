@@ -31,72 +31,29 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_SETTINGS_HPP__
-#define __AME_SETTINGS_HPP__
+#ifndef __AME_MAPNAME_HPP__
+#define __AME_MAPNAME_HPP__
 
-///////////////////////////////////////////////////////////
-// Include files
-//
-///////////////////////////////////////////////////////////
-#include <QString>
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Settings.hpp
+    /// \file    MapName.hpp
     /// \author  Diegoisawesome
     /// \version 1.0.0.0
-    /// \date    6/29/2016
-    /// \brief   Stores all AME settings.
+    /// \date    6/30/2016
+    /// \brief   Stores one map name entry.
     ///
-    /// Holds global settings for use by AME.
+    /// The map name contains the properties associated with
+    /// a map name index, such as its string.
     ///
     ///////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////
-    // Struct: MapSortOrderType
-    //
-    ///////////////////////////////////////////////////////////
-    enum MapSortOrderType
+    struct MapName
     {
-        MSO_Name    =  0,
-        MSO_Bank    =  1,
-        MSO_Layout  =  2,
-        MSO_Tileset =  3
+        QString name;  ///< Holds the pointer to the actual name
+        // More to come
     };
-
-    class Settings {
-    public:
-
-        ///////////////////////////////////////////////////////////
-        /// \brief Attempts to parse the settings file.
-        ///
-        /// \returns false if parsing failed.
-        ///
-        ///////////////////////////////////////////////////////////
-        static bool parse();
-
-
-        ///////////////////////////////////////////////////////////
-        // Static class members
-        //
-        ///////////////////////////////////////////////////////////
-        static bool ShowSprites;
-        static QString ScriptEditor;
-        static int Translucency;
-        static QString Language;
-        static bool CreateBackups;
-        static MapSortOrderType MapSortOrder;
-        static QString HexPrefix;
-        static bool ShowRawMapHeader;
-        static bool ShowRawLayoutHeader;
-    };
-
-
-    #define SETTINGS(x)           (ame::Settings::x)
-    #define SETG_ERROR_FILE      "YAML settings file could not be found."
-
 }
 
 
-#endif // __AME_SETTINGS_HPP__
+#endif // __AME_MAPNAME_HPP__

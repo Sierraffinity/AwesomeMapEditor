@@ -54,6 +54,8 @@ SOURCES += \
     src/Forms/MainWindow.cpp \
     src/System/WriteEntry.cpp \
     src/System/ErrorStack.cpp \
+    src/Text/Tables.cpp \
+    src/Text/String.cpp \
     src/Structures/WildPokemonTable.cpp \
     src/Structures/WildPokemonSubTable.cpp \
     src/Structures/WildPokemonArea.cpp \
@@ -64,6 +66,7 @@ SOURCES += \
     src/Graphics/TilesetManager.cpp \
     src/Mapping/MapBorder.cpp \
     src/Mapping/MapHeader.cpp \
+    src/Mapping/MapNameTable.cpp \
     src/Widgets/QToolButtonLastUsed.cpp \
     src/Mapping/Map.cpp \
     src/Widgets/qhexedit.cpp \
@@ -97,6 +100,8 @@ HEADERS  += \
     include/AME/System/ErrorStack.hpp \
     include/AME/System/WriteEntry.hpp \
     include/AME/System/IUndoable.hpp \
+    include/AME/Text/String.hpp \
+    include/AME/Text/Tables.hpp \
     include/AME/Structures/WildPokemonSubTable.hpp \
     include/AME/Structures/StructureErrors.hpp \
     include/AME/Structures/WildPokemonArea.hpp \
@@ -131,6 +136,7 @@ HEADERS  += \
     include/AME/Widgets/QHexLineEdit.h \
     include/AME/Widgets/QHexSpinBox.h \
     include/AME/Mapping/MapBankTable.hpp \
+    include/AME/Mapping/MapNameTable.hpp \
     include/AME/System/Configuration.hpp \
     include/AME/System/LoadedData.hpp \
     include/AME/Widgets/Misc/Messages.hpp \
@@ -144,8 +150,8 @@ HEADERS  += \
     include/AME/Widgets/OpenGL/AMEEntityView.h \
     include/AME/Graphics/PropertyTable.hpp \
     include/AME/Graphics/Property.hpp \
-    src/System/settings.h \
-    include/AME/System/Settings.hpp
+    include/AME/System/Settings.hpp \
+    include/AME/Mapping/MapName.hpp
 
 
 #

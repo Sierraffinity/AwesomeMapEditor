@@ -35,6 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <AME/System/Configuration.hpp>
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Widgets/OpenGL/AMEEntityView.h>
 #include <QBoy/OpenGL/GLErrors.hpp>
@@ -393,7 +394,7 @@ namespace ame
         // Determines the block count for each game
         int blockCountPrimary;
         int blockCountSecondary;
-        if (rom.info().isFRLG())
+        if (CONFIG(RomType) == RT_FRLG)
         {
             blockCountPrimary = 0x280;
             blockCountSecondary = 0x180;

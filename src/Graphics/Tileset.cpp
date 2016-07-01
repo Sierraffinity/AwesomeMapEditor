@@ -35,6 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
+#include <AME/System/Configuration.hpp>
 #include <AME/Graphics/GraphicsErrors.hpp>
 #include <AME/Graphics/Tileset.hpp>
 
@@ -151,7 +152,7 @@ namespace ame
         int countBlock;
         int palAdjustment;
         int uncompSize;
-        if (rom.info().isFRLG())
+        if (CONFIG(RomType) == RT_FRLG)
         {
             if (!m_IsPrimary) // = 0 in the games -.-
             {
@@ -192,7 +193,7 @@ namespace ame
         m_PtrPalette = rom.readPointer();
         m_PtrBlocks = rom.readPointer();
 
-        if (rom.info().isFRLG()) // pointers reversed
+        if (CONFIG(RomType) == RT_FRLG) // pointers reversed
         {
             m_PtrAnimations = rom.readPointer();
             m_PtrBehaviour = rom.readPointer();

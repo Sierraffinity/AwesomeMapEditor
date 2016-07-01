@@ -38,7 +38,7 @@
 #include <AME/System/Configuration.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
 #include <AME/Mapping/Map.hpp>
-#include <QBoy/Text/String.hpp>
+#include <AME/Text/String.hpp>
 
 
 namespace ame
@@ -95,7 +95,6 @@ namespace ame
           m_Events(rvalue.m_Events),
           m_Scripts(rvalue.m_Scripts),
           m_Connections(rvalue.m_Connections),
-          m_Name(rvalue.m_Name),
           m_WildTable(rvalue.m_WildTable)
     {
     }
@@ -126,7 +125,6 @@ namespace ame
         m_Events = rvalue.m_Events;
         m_Scripts = rvalue.m_Scripts;
         m_Connections = rvalue.m_Connections;
-        m_Name = rvalue.m_Name;
         m_WildTable = rvalue.m_WildTable;
         return *this;
     }
@@ -203,20 +201,6 @@ namespace ame
         rom.readHWord(); // padding
         m_LabelType = rom.readByte();
         m_BattleType = rom.readByte();
-
-
-        // Determines the map name position
-        if (rom.info().isFRLG())
-            rom.seek(CONFIG(MapNames) + m_NameIndex*4 - 0x58*4);
-        else
-            rom.seek(CONFIG(MapNames) + m_NameIndex*8 + 4);
-
-        unsigned ptrName = rom.readPointerRef();
-        if (!rom.checkOffset(ptrName))
-            AME_THROW(MAP_ERROR_NAME, rom.redirected());
-
-        // Reads the map name string
-        m_Name = qboy::String::read(rom, ptrName);
         m_Offset = offset;
         return true;
     }
@@ -277,9 +261,9 @@ namespace ame
     // Date of edit:   6/12/2016
     //
     ///////////////////////////////////////////////////////////
-    const QString &Map::name() const
+    UInt8 Map::nameIndex() const
     {
-        return m_Name;
+        return m_NameIndex;
     }
 
     ///////////////////////////////////////////////////////////

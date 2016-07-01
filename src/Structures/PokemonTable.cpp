@@ -35,7 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Text/String.hpp>
+#include <AME/Text/String.hpp>
 #include <AME/Structures/StructureErrors.hpp>
 #include <AME/Structures/PokemonTable.hpp>
 #include <AME/System/Configuration.hpp>
@@ -175,7 +175,7 @@ namespace ame
         // Attempts to read all the pokemon names
         for (unsigned i = 0; i < CONFIG(PokemonCount); i++)
         {
-            m_Names.push_back(qboy::String::read(rom, CONFIG(PokemonNames) + i * 11));
+            m_Names.push_back(String::read(rom, CONFIG(PokemonNames) + i * 11));
         }
 
         // Loading successful

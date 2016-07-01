@@ -38,6 +38,7 @@
 #include <AME/System/LoadedData.hpp>
 #include <AME/System/Configuration.hpp>
 #include <AME/Widgets/Misc/Messages.hpp>
+#include <AME/Text/String.hpp>
 #include <QDateTime>
 
 
@@ -51,6 +52,7 @@ namespace ame
     MapBankTable *dat_MapBankTable = NULL;
     OverworldTable *dat_OverworldTable = NULL;
     PokemonTable *dat_PokemonTable = NULL;
+    MapNameTable *dat_MapNameTable = NULL;
 
 
     ///////////////////////////////////////////////////////////
@@ -71,16 +73,21 @@ namespace ame
         stopWatch.start();
 
         // Allocates the tables on the dynamic heap
+        dat_MapNameTable = new MapNameTable;
         dat_WildPokemonTable = new WildPokemonTable;
         dat_OverworldTable = new OverworldTable;
         dat_MapBankTable = new MapBankTable;
         dat_PokemonTable = new PokemonTable;
 
-        // Attempts to load the wild pokémon
+        // Attempts to load map names
+        if(!dat_MapNameTable->read(rom, CONFIG(MapNames)))
+            return false;
+
+        // Attempts to load the wild Pokémon
         if (!dat_WildPokemonTable->read(rom, CONFIG(WildPokemon)))
             return false;
 
-        // Attempts to load the pokemon table
+        // Attempts to load the Pokémon table
         if (!dat_PokemonTable->read(rom))
             return false;
 

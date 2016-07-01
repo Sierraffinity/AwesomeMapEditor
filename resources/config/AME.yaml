@@ -3,7 +3,7 @@ ScriptEditor:           Test
 Translucency:           50
 Language:               Test
 CreateBackups:          true
-MapSortOrder:           Name
+MapSortOrder:           0
 HexPrefix:              0x
 ShowRawMapHeader:       false
 ShowRawLayoutHeader:    false

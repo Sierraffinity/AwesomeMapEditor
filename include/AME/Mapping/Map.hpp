@@ -158,15 +158,15 @@ namespace ame
         MapScriptTable &scripts();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the name of the map in ASCII encoding.
+        /// \brief Retrieves the index of the name of the map.
         ///
-        /// The name is needed for the tree-view containing all the
-        /// maps.
+        /// The index specifies the position of the map name in the
+        /// global map name table.
         ///
-        /// \returns a constant reference to the map string.
+        /// \returns an integer value representing the index.
         ///
         ///////////////////////////////////////////////////////////
-        const QString &name() const;
+        UInt8 nameIndex() const;
 
         ///////////////////////////////////////////////////////////
         /// \brief Retrieves the index of the wild-pokemon table.
@@ -210,7 +210,6 @@ namespace ame
         EventTable m_Events;            ///< Holds all the entities
         MapScriptTable m_Scripts;       ///< Holds all level scripts
         ConnectionTable m_Connections;  ///< Holds all connections
-        QString m_Name;                 ///< Holds the actual map name
         Int32 m_WildTable;              ///< Holds the wildpokemon table index
     };
 }

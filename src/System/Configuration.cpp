@@ -48,6 +48,9 @@ namespace ame
     // Static variable definition
     //
     ///////////////////////////////////////////////////////////
+    BaseROMType Configuration::RomType;
+    QString Configuration::Name;
+    QString Configuration::Language;
     UInt32 Configuration::PokemonCount;
     UInt32 Configuration::PokemonNames;
     UInt32 Configuration::PokemonIcons;
@@ -96,12 +99,14 @@ namespace ame
 
 
         // Loads the YAML file
-        YAML::Node topNode = YAML::LoadFile(filePath.toStdString());
-        if (topNode.IsNull())
+        YAML::Node configNode = YAML::LoadFile(filePath.toStdString());
+        if (configNode.IsNull())
             AME_THROW2(CFG_ERROR_FILE);
 
         // Tries to parse all the properties
-        YAML::Node configNode = topNode["Config"];
+        RomType         = static_cast<BaseROMType>(configNode["RomType"].as<int>());
+        Name            = QString::fromStdString(configNode["Name"].as<std::string>());
+        Language        = QString::fromStdString(configNode["Language"].as<std::string>());
         PokemonCount    = configNode["PokemonCount"].as<UInt32>();
         PokemonNames    = configNode["PokemonNames"].as<UInt32>();
         PokemonIcons    = configNode["PokemonIcons"].as<UInt32>();
@@ -157,6 +162,7 @@ namespace ame
         FETCH(MapNameCount, rom.readByte());
         FETCH(MapNameTotal, rom.readByte());
         OverworldCount++; // value is one less
+        MapNameCount += (RomType == RT_FRLG ? 1 : 0); // correct FRLG
 
         // Parsing successful
         return true;

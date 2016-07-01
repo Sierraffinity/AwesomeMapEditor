@@ -54,7 +54,7 @@ namespace ame
     int Settings::Translucency;
     QString Settings::Language;
     bool Settings::CreateBackups;
-    int Settings::MapSortOrder;
+    MapSortOrderType Settings::MapSortOrder;
     QString Settings::HexPrefix;
     bool Settings::ShowRawMapHeader;
     bool Settings::ShowRawLayoutHeader;
@@ -69,7 +69,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool Settings::parse()
     {
-        // Builds the path to the YAML file for this ROM
+        // Builds the path to the YAML file
         const QString appFolder = QApplication::applicationDirPath();
         const QString subFolder = "/config/";
         const QString fileName = "AME.yaml";
@@ -87,7 +87,7 @@ namespace ame
         Translucency        = settings["Translucency"].as<int>();
         Language            = QString::fromStdString(settings["Language"].as<std::string>());
         CreateBackups       = settings["CreateBackups"].as<bool>();
-        MapSortOrder        = settings["MapSortOrder"].as<int>();
+        MapSortOrder        = static_cast<MapSortOrderType>(settings["MapSortOrder"].as<int>());
         HexPrefix           = QString::fromStdString(settings["HexPrefix"].as<std::string>());
         ShowRawMapHeader    = settings["ShowRawMapHeader"].as<bool>();
         ShowRawLayoutHeader = settings["ShowRawLayoutHeader"].as<bool>();

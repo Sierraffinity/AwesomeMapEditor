@@ -224,13 +224,69 @@ namespace ame
         mapFolderIcon.addFile(QStringLiteral(":/icons/folder_closed_map.ico"), QSize(), QIcon::Normal, QIcon::Off);
         mapFolderIcon.addFile(QStringLiteral(":/icons/folder_map.ico"), QSize(), QIcon::Normal, QIcon::On);
 
+        QIcon folderIcon;
+        folderIcon.addFile(QStringLiteral(":/icons/folder_closed.ico"), QSize(), QIcon::Normal, QIcon::Off);
+
         QIcon mapIcon;
         mapIcon.addFile(QStringLiteral(":/icons/map.ico"), QSize(), QIcon::Normal, QIcon::Off);
         mapIcon.addFile(QStringLiteral(":/icons/image.ico"), QSize(), QIcon::Normal, QIcon::On);
 
         switch(SETTINGS(MapSortOrder))
         {
-            case 1:
+            case MSO_Name:
+            {
+                // Adds every map name to the tree. Format: [<index>] <map name>
+                int nameCount = CONFIG(MapNameCount);
+                int nameTotal = CONFIG(MapNameTotal);
+                for (int i = 0; i < nameCount; i++)
+                {
+                    QTreeWidgetItem *nameItem = new QTreeWidgetItem;
+                    nameItem->setIcon(0, folderIcon);
+
+                    // Specifies the display name of the bank and adds it to the treeview
+                    nameItem->setText(0, '[' +
+                                      QString("%1").arg(i + nameTotal - nameCount, 2 , 16, QChar('0')).toUpper() +
+                                      "] " +
+                                      dat_MapNameTable->names()[i]->name);
+                    ui->treeView->addTopLevelItem(nameItem);
+                }
+                int bankCount = dat_MapBankTable->banks().size();
+                for (int i = 0; i < bankCount; i++)
+                {
+                    MapBank *bank = dat_MapBankTable->banks()[i];
+                    // Adds all the bank's maps to the appropriate name
+                    int mapCount = bank->maps().size();
+                    for (int j = 0; j < mapCount; j++)
+                    {
+                        Map *map = bank->maps()[j];
+                        int nameIndex = map->nameIndex() + nameCount - nameTotal;
+                        QTreeWidgetItem *nameItem = ui->treeView->topLevelItem(nameIndex);
+                        nameItem->setIcon(0, mapFolderIcon);
+
+                        QTreeWidgetItem *mapItem = new QTreeWidgetItem(nameItem);
+                        mapItem->setIcon(0, mapIcon);
+
+                        mapItem->setText(0,
+                            '[' +
+                            QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
+                            ", " +
+                            QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
+                            "] " +
+                            dat_MapNameTable->names()[nameIndex]->name);
+
+                        // Sets properties to identify map on click
+                        QByteArray array;
+                        array.append(i);
+                        array.append(j);
+                        mapItem->setData(0, Qt::UserRole, array);
+
+                        // Adds the map to the bank
+                        //bankItem->addChild(mapItem);
+                    }
+                }
+                break;
+            }
+            case MSO_Bank:
             {
                 // Adds every bank and map to the tree. Format: [<bank>,<map>]
                 int bankCount = dat_MapBankTable->banks().size();
@@ -263,7 +319,7 @@ namespace ame
                             ", " +
                             QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
                             "] " +
-                            map->name());
+                            dat_MapNameTable->names()[map->nameIndex() + CONFIG(MapNameCount) - CONFIG(MapNameTotal)]->name);
 
                         // Sets properties to identify map on click
                         QByteArray array;
