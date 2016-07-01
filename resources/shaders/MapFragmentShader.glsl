@@ -1,5 +1,5 @@
 /*
- * IndexedFragmentShader.glsl
+ * MapFragmentShader.glsl
  * Copyright (C) 2015-2016 Pokedude
  *
  */

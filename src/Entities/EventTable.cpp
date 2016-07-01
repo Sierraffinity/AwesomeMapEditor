@@ -205,14 +205,20 @@ namespace ame
         for (int i = 0; i < m_CountNpc; i++)
         {
             Npc *npc = new Npc;
+            UInt8 tempRadius;
+            npc->offset = rom.offset();
             npc->npcID = rom.readByte();
             npc->imageID = rom.readByte();
-            rom.readHWord(); // padding
+            npc->replacement = rom.readByte();
+            rom.readByte(); // padding
             npc->positionX = rom.readHWord();
             npc->positionY = rom.readHWord();
             npc->level = rom.readByte();
             npc->behaviour = rom.readByte();
-            npc->moveRadius = rom.readHWord();
+            tempRadius = rom.readByte();
+            npc->moveRadiusX = tempRadius & 15;
+            npc->moveRadiusY = tempRadius >> 4;
+            rom.readByte(); // maybe padding
             npc->property = rom.readByte();
             rom.readByte(); // padding
             npc->viewRadius = rom.readHWord();
@@ -220,6 +226,10 @@ namespace ame
             npc->flag = rom.readHWord();
             rom.readHWord(); // padding
             m_Npcs.push_back(npc);
+
+            // Reads the full raw data again
+            rom.seek(rom.offset() - 24);
+            npc->rawData = rom.readBytes(24);
 
             // Determines whether the script offset is valid
             if (!rom.checkOffset(npc->ptrScript))
@@ -232,6 +242,7 @@ namespace ame
         for (int i = 0; i < m_CountWarp; i++)
         {
             Warp *warp = new Warp;
+            warp->offset = rom.offset();
             warp->positionX = rom.readHWord();
             warp->positionY = rom.readHWord();
             warp->level = rom.readByte();
@@ -239,6 +250,10 @@ namespace ame
             warp->map = rom.readByte();
             warp->bank = rom.readByte();
             m_Warps.push_back(warp);
+
+            // Reads the full raw data
+            rom.seek(rom.offset() - 8);
+            warp->rawData = rom.readBytes(8);
         }
 
 
@@ -247,6 +262,7 @@ namespace ame
         for (int i = 0; i < m_CountTrigger; i++)
         {
             Trigger *trigger = new Trigger;
+            trigger->offset = rom.offset();
             trigger->positionX = rom.readHWord();
             trigger->positionY = rom.readHWord();
             trigger->level = rom.readByte();
@@ -256,6 +272,10 @@ namespace ame
             rom.readHWord(); // padding
             trigger->ptrScript = rom.readPointer();
             m_Triggers.push_back(trigger);
+
+            // Reads the full raw data
+            rom.seek(rom.offset() - 16);
+            trigger->rawData = rom.readBytes(16);
 
             // Determines whether the script offset is valid
             if (!rom.checkOffset(trigger->ptrScript))
@@ -269,6 +289,7 @@ namespace ame
         {
             UInt8 type;
             Sign *sign = new Sign;
+            sign->offset = rom.offset();
             sign->positionX = rom.readHWord();
             sign->positionY = rom.readHWord();
             sign->level = rom.readByte();
@@ -305,6 +326,10 @@ namespace ame
 
             sign->type = static_cast<SignType>(type);
             m_Signs.push_back(sign);
+
+            // Reads the full raw data
+            rom.seek(rom.offset() - 12);
+            sign->rawData = rom.readBytes(12);
         }
 
 

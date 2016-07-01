@@ -39,6 +39,7 @@
 #include <AME/Forms/ErrorWindow.h>
 #include "ui_MainWindow.h"
 #include <QFileDialog>
+#include <QtEvents>
 
 
 namespace ame
@@ -59,6 +60,8 @@ namespace ame
     {
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
+
+        connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(on_entity_mouseClick(QMouseEvent*)));
     }
 
 
@@ -493,11 +496,176 @@ namespace ame
         ui->openGLWidget_5->setEntities(currentMap);
         ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
         ui->openGLWidget_5->update();
+        m_CurrentMap = currentMap;
 
         // Fills the wild-pokemon tab
         setupWildPokemon(currentMap);
     }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/1/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_entity_mouseClick(QMouseEvent *event)
+    {
+        // Map coordinates to block-coordinates
+        int blockX = (event->pos().x()-ui->openGLWidget_2->mainPos().x()) / 16;
+        int blockY = (event->pos().y()-ui->openGLWidget_2->mainPos().y()) / 16;
+        Npc *eventN = nullptr;
+        Warp *eventW = nullptr;
+        Trigger *eventT = nullptr;
+        Sign *eventS = nullptr;
+
+        // Find the NPC entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().npcs().size(); i++)
+        {
+            Npc *npc = m_CurrentMap->entities().npcs()[i];
+            if (npc->positionX == blockX && npc->positionY == blockY)
+            {
+                eventN = npc;
+                break;
+            }
+        }
+        if (eventN != NULL)
+        {
+            // Load NPC properties
+            ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
+            ui->npc_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventN->offset, 16));
+            ui->npc_num->setValue(eventN->npcID);
+            ui->npc_sprite->setValue(eventN->imageID);
+            ui->npc_pos_x->setValue(eventN->positionX);
+            ui->npc_pos_y->setValue(eventN->positionY);
+            ui->spnNPCHeight->setValue(eventN->level);
+            ui->npc_replacement->setValue(eventN->replacement);
+            ui->spnNPCIdleAnim->setValue(eventN->behaviour);
+            ui->npc_mov_x->setValue(eventN->moveRadiusX);
+            ui->npc_mov_y->setValue(eventN->moveRadiusY);
+            ui->npc_view_rad->setValue(eventN->viewRadius);
+            ui->npc_trainer->setValue(eventN->property);
+            ui->npc_script->setValue(eventN->ptrScript);
+            ui->npc_flag->setValue(eventN->flag);
+            ui->npc_raw_data->setData(eventN->rawData);
+
+            CurrentEntity entity;
+            entity.absPos.setX((event->pos().x()/16)*16);
+            entity.absPos.setY((event->pos().y()/16)*16);
+            entity.type = ET_Npc;
+            entity.entity = eventN;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+
+            return;
+        }
+
+        // Find the warp entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().warps().size(); i++)
+        {
+            Warp *warp = m_CurrentMap->entities().warps()[i];
+            if (warp->positionX == blockX && warp->positionY == blockY)
+            {
+                eventW = warp;
+                break;
+            }
+        }
+        if (eventW != NULL)
+        {
+            // Load warp properties
+            ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
+            ui->warp_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventW->offset, 16));
+            ui->warp_pos_x->setValue(eventW->positionX);
+            ui->warp_pos_y->setValue(eventW->positionY);
+            ui->warp_number->setValue(eventW->warp);
+            ui->warp_map->setValue(eventW->map);
+            ui->warp_bank->setValue(eventW->bank);
+            ui->spnWarpHeight->setValue(eventW->level);
+            ui->warp_raw_data->setData(eventW->rawData);
+
+            CurrentEntity entity;
+            entity.absPos.setX((event->pos().x()/16)*16);
+            entity.absPos.setY((event->pos().y()/16)*16);
+            entity.type = ET_Warp;
+            entity.entity = eventW;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+
+            return;
+        }
+
+        // Find the trigger entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().triggers().size(); i++)
+        {
+            Trigger *trigger = m_CurrentMap->entities().triggers()[i];
+            if (trigger->positionX == blockX && trigger->positionY == blockY)
+            {
+                eventT = trigger;
+                break;
+            }
+        }
+        if (eventT != NULL)
+        {
+            // Load warp properties
+            ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
+            ui->trigger_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventT->offset, 16));
+            ui->trigger_pos_x->setValue(eventT->positionX);
+            ui->trigger_pos_y->setValue(eventT->positionY);
+            ui->trigger_var->setValue(eventT->variable);
+            ui->trigger_value->setValue(eventT->value);
+            ui->trigger_script->setValue(eventT->ptrScript);
+            ui->spnTriggerHeight->setValue(eventT->level);
+            ui->trigger_raw_data->setData(eventT->rawData);
+
+            CurrentEntity entity;
+            entity.absPos.setX((event->pos().x()/16)*16);
+            entity.absPos.setY((event->pos().y()/16)*16);
+            entity.type = ET_Trigger;
+            entity.entity = eventT;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+
+            return;
+        }
+
+        // Find the sign entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().signs().size(); i++)
+        {
+            Sign *sign = m_CurrentMap->entities().signs()[i];
+            if (sign->positionX == blockX && sign->positionY == blockY)
+            {
+                eventS = sign;
+                break;
+            }
+        }
+        if (eventS != NULL)
+        {
+            // Load warp properties
+            ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
+            ui->sign_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventS->offset, 16));
+            ui->sign_pos_x->setValue(eventS->positionX);
+            ui->sign_pos_y->setValue(eventS->positionY);
+            ui->sign_script->setValue(eventS->ptrScript);
+            ui->sign_raw_data->setData(eventS->rawData);
+            ui->spnSignHeight->setValue(eventS->level);
+            ui->spnSignType->setValue(static_cast<int>(eventS->type));
+
+            CurrentEntity entity;
+            entity.absPos.setX((event->pos().x()/16)*16);
+            entity.absPos.setY((event->pos().y()/16)*16);
+            entity.type = ET_Sign;
+            entity.entity = eventS;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+
+            if (eventS->type <= ST_ScriptLeft)
+            {
+                ui->sign_script->setValue(eventS->ptrScript);
+            }
+
+            return;
+        }
+    }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
@@ -514,6 +682,7 @@ namespace ame
         delete ui->openGLWidget_3;
         delete ui->openGLWidget_4;
         delete ui->openGLWidget_5;
+
         ui->openGLWidget = NULL;
         ui->openGLWidget_2 = NULL;
         ui->openGLWidget_3 = NULL;

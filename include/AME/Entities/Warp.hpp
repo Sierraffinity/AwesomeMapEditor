@@ -60,6 +60,8 @@ namespace ame
         UInt8 warp;         ///< Destination warp number
         UInt8 bank;         ///< Destination bank
         UInt8 map;          ///< Destination map
+        UInt32 offset;      ///< Offset of this entity
+        QByteArray rawData; ///< Raw data for the entity view
     };
 }
 

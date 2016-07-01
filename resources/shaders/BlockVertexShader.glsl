@@ -1,5 +1,5 @@
 /*
- * IndexedVertexShader.glsl
+ * BlockVertexShader.glsl
  * Copyright (C) 2015-2016 Pokedude
  *
  * Vertex shader to forward variables to the fragment shader.

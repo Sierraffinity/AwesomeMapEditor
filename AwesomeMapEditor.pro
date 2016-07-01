@@ -160,4 +160,6 @@ RESOURCES += \
 
 DISTFILES += \
     resources/config/BPRE.yaml \
-    resources/shaders/NormalFragmentShader
+    resources/shaders/NormalFragmentShader \
+    resources/shaders/PrimitiveVertexShader.glsl \
+    resources/shaders/PrimitiveFragmentShader.glsl

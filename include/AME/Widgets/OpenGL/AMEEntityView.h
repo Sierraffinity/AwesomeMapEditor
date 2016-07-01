@@ -45,6 +45,18 @@
 namespace ame
 {
     ///////////////////////////////////////////////////////////
+    /// \brief Holds the currently selected entity.
+    ///
+    ///////////////////////////////////////////////////////////
+    struct CurrentEntity
+    {
+        QPoint absPos;
+        EntityType type = ET_Invalid;
+        void *entity = NULL;
+    };
+
+
+    ///////////////////////////////////////////////////////////
     /// \file    AMEEntityView.h
     /// \author  Pokedude
     /// \version 1.0.0.0
@@ -53,6 +65,7 @@ namespace ame
     ///
     ///////////////////////////////////////////////////////////
     class AMEEntityView : public QOpenGLWidget, public QOpenGLFunctions {
+    Q_OBJECT
     public:
 
         ///////////////////////////////////////////////////////////
@@ -85,6 +98,18 @@ namespace ame
         void setMapView(AMEMapView *view);
 
         ///////////////////////////////////////////////////////////
+        /// \brief Specifies the currently selected entity.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setCurrentEntity(CurrentEntity entity);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves the currently selected entity.
+        ///
+        ///////////////////////////////////////////////////////////
+        const CurrentEntity &currentEntity() const;
+
+        ///////////////////////////////////////////////////////////
         /// \brief Destroys all OpenGL resources.
         ///
         ///////////////////////////////////////////////////////////
@@ -111,6 +136,17 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void paintGL();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief
+        ///
+        ///////////////////////////////////////////////////////////
+        void mousePressEvent(QMouseEvent *event);
+
+
+    signals:
+
+        void onMouseClick(QMouseEvent *event);
+
 
     private:
 
@@ -122,10 +158,12 @@ namespace ame
         AMEMapView *m_MapView;          ///< Abuses the map view
         QOpenGLVertexArrayObject m_VAO; ///< VAO for entities
         QOpenGLShaderProgram m_Program; ///< 32ARGB textures
+        QOpenGLShaderProgram m_PmtProg; ///< Primitive program
         UInt32 m_TextureAtlas;          ///< Multiple textures
         UInt32 m_VertexBuffer;
         UInt32 m_IndexBuffer;
         QPoint m_Translation;           ///< Fix for connections
+        CurrentEntity m_Selection;      ///< Currently selected entity
     };
 }
 

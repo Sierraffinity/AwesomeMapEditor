@@ -121,6 +121,8 @@ namespace ame
             delete dat_MapBankTable;
         if (dat_PokemonTable)
             delete dat_PokemonTable;
+        if (dat_OverworldTable)
+            delete dat_OverworldTable;
 
         TilesetManager::clear();
     }

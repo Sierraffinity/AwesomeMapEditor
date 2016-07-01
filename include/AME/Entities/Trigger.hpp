@@ -60,6 +60,8 @@ namespace ame
         UInt16 variable;    ///< Variable to check
         UInt16 value;       ///< It's value to check for
         UInt32 ptrScript;   ///< Offset of the script
+        UInt32 offset;      ///< Offset of this entity
+        QByteArray rawData; ///< Raw data for the entity view
     };
 }
 

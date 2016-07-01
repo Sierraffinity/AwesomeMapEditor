@@ -122,6 +122,10 @@ namespace ame
         m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/NormalVertexShader.glsl");
         m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/NormalFragmentShader.glsl");
         m_Program.link();
+        m_PmtProg.create();
+        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
+        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
+        m_PmtProg.link();
 
         // Initializes the buffers
         glCheck(glGenBuffers(1, &m_VertexBuffer));
@@ -186,19 +190,54 @@ namespace ame
         // Binds the texture
         glCheck(glActiveTexture(GL_TEXTURE0));
         glCheck(glBindTexture(GL_TEXTURE_2D, m_TextureAtlas));
+        QMatrix4x4 mat_mvp;
+
+
+        // Draws the movement radius bounds
+        if (m_Selection.type == ET_Npc)
+        {
+            // Creates a temporary buffer
+            unsigned boundsBuffer = 0;
+            glCheck(glGenBuffers(1, &boundsBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, boundsBuffer));
+
+            // Sets up the primitives program
+            m_PmtProg.bind();
+            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 1.0f, 0.2f));
+            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+
+
+            Npc *currentNpc = (Npc *) m_Selection.entity;
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(
+                (m_Translation.x()+currentNpc->positionX*16)-currentNpc->moveRadiusX*16,
+                (m_Translation.y()+currentNpc->positionY*16)-currentNpc->moveRadiusY*16
+            );
+
+            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+
+            float npcBounds[8] { 0, 0, currentNpc->moveRadiusX*32+16.0f, 0, currentNpc->moveRadiusX*32+16.0f, currentNpc->moveRadiusY*32+16.0f, 0, currentNpc->moveRadiusY*32+16.0f };
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, boundsBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, npcBounds, GL_STATIC_DRAW));
+            glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+            glCheck(m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 1.0f, 0.4f)));
+            glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
+            glCheck(glDeleteBuffers(1, &boundsBuffer));
+        }
+
+
 
         // Binds the program and associates some properties
+        //m_PmtProg.release();
+        glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer));
         m_Program.bind();
         m_Program.enableAttributeArray(MV_VERTEX_ATTR);
         m_Program.enableAttributeArray(MV_COORD_ATTR);
         m_Program.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
         m_Program.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
-
-
-        // Sets up the variable matrix
-        QMatrix4x4 mat_mvp;
-        mat_mvp.setToIdentity();
-        mat_mvp.ortho(0, width(), height(), 0, -1, 1);
 
         // Iterates through the entities and draws them
         const float bNpc[16] = { 0, 0, 0.0f, 0.0f, 16, 0, 0.25f, 0.0f, 16, 16, 0.25f, 1.0f, 0, 16, 0.0f, 1.0f };
@@ -206,6 +245,7 @@ namespace ame
 
         foreach (const Npc *npc, m_Entities->npcs())
         {
+            // Draws the NPC field
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(npc->positionX*16+m_Translation.x(), npc->positionY*16+m_Translation.y());
@@ -252,6 +292,53 @@ namespace ame
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
         }
+
+
+        // Draws the selection square
+        if (m_Selection.entity)
+        {
+            float posX = (float)m_Selection.absPos.x();
+            float posY = (float)m_Selection.absPos.y();
+            float buffer[8] =
+            {
+                0,  0,
+                16, 0,
+                16, 16,
+                0,  17
+            };
+
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(posX, posY);
+
+            unsigned tempBuffer;
+            glCheck(glGenBuffers(1, &tempBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, tempBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, 8*sizeof(float), buffer, GL_STATIC_DRAW));
+            glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+            glCheck(glBindTexture(GL_TEXTURE_2D, 0));
+
+            m_PmtProg.bind();
+            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 1.0f));
+            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+
+            glCheck(glDrawArrays(GL_LINE_LOOP, 0, 4));
+            glCheck(glDeleteBuffers(1, &tempBuffer));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/1/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::mousePressEvent(QMouseEvent *event)
+    {
+        emit onMouseClick(event);
     }
 
 
@@ -280,6 +367,30 @@ namespace ame
         m_Translation = view->mainPos();
         //view->setEntities(m_Entities->npcs());
         setMinimumSize(m_MapView->minimumSize());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   1/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::setCurrentEntity(CurrentEntity entity)
+    {
+        m_Selection = entity;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   1/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const CurrentEntity &AMEEntityView::currentEntity() const
+    {
+        return m_Selection;
     }
 
 

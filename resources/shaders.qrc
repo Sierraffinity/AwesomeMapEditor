@@ -6,5 +6,7 @@
         <file>shaders/BlockFragmentShader.glsl</file>
         <file>shaders/NormalVertexShader.glsl</file>
         <file>shaders/NormalFragmentShader.glsl</file>
+        <file>shaders/PrimitiveVertexShader.glsl</file>
+        <file>shaders/PrimitiveFragmentShader.glsl</file>
     </qresource>
 </RCC>

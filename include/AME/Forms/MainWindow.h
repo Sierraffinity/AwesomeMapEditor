@@ -147,16 +147,18 @@ namespace ame
         void on_sldWildFishingChance_valueChanged(int value);
         void on_sldWildOtherChance_valueChanged(int value);
         void on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column);
+        void on_entity_mouseClick(QMouseEvent *event);
 
     private:
 
-        ///////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////
         // Class members
         //
-        ///////////////////////////////////////////////////////////
-        Ui::MainWindow *ui;    ///< Gives access to the GUI objects
-        qboy::Rom m_Rom;       ///< Global ROM across the application
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        Ui::MainWindow *ui;                   ///< Gives access to the GUI objects
+        qboy::Rom m_Rom;                      ///< Global ROM across the application
         QTreeWidgetItem *m_lastOpenedMap;     ///< Leaves a reference to the widget for the last opened map
+        Map *m_CurrentMap;                    ///< Reference to currently opened map
     };
 
 

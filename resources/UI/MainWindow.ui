@@ -571,7 +571,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <widget class="QOpenGLWidget" name="openGLWidget_4">
@@ -835,7 +835,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="pageNPCs">
               <property name="sizePolicy">
@@ -879,8 +879,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>257</width>
-                    <height>717</height>
+                    <width>265</width>
+                    <height>666</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -934,7 +934,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QSpinBox" name="spinBox_6">
+                      <widget class="QSpinBox" name="npc_num">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                          <horstretch>0</horstretch>
@@ -991,7 +991,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QSpinBox" name="spinBox_7">
+                      <widget class="QSpinBox" name="npc_sprite">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                          <horstretch>0</horstretch>
@@ -1048,7 +1048,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_2">
+                      <widget class="QHexSpinBox" name="npc_replacement">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -1168,7 +1168,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_4">
+                      <widget class="QHexSpinBox" name="npc_pos_x">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -1195,7 +1195,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_5">
+                      <widget class="QHexSpinBox" name="npc_pos_y">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -1854,7 +1854,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_9">
+                      <widget class="QHexSpinBox" name="npc_mov_x">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -1881,7 +1881,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_8">
+                      <widget class="QHexSpinBox" name="npc_mov_y">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2001,7 +2001,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_11">
+                      <widget class="QHexSpinBox" name="npc_trainer">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2121,7 +2121,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_13">
+                      <widget class="QHexSpinBox" name="npc_view_rad">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2241,7 +2241,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_15">
+                      <widget class="QHexSpinBox" name="npc_script">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2315,7 +2315,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_16">
+                      <widget class="QHexSpinBox" name="npc_flag">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2496,7 +2496,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QGroupBox" name="groupBox_2">
+                    <widget class="QGroupBox" name="npc_group_raw">
                      <property name="title">
                       <string>Raw Data @ 0x00000000</string>
                      </property>
@@ -2517,7 +2517,7 @@
                        <number>3</number>
                       </property>
                       <item>
-                       <widget class="QHexEdit" name="widget" native="true">
+                       <widget class="QHexEdit" name="npc_raw_data" native="true">
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
@@ -2590,8 +2590,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>333</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2645,7 +2645,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_20">
+                      <widget class="QHexSpinBox" name="warp_pos_x">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2672,7 +2672,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_19">
+                      <widget class="QHexSpinBox" name="warp_pos_y">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -2875,7 +2875,7 @@
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QHexSpinBox" name="spinBox_21">
+                         <widget class="QHexSpinBox" name="warp_number">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -2935,7 +2935,7 @@
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QHexSpinBox" name="spinBox_22">
+                         <widget class="QHexSpinBox" name="warp_map">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -2995,7 +2995,7 @@
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QHexSpinBox" name="spinBox_23">
+                         <widget class="QHexSpinBox" name="warp_bank">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -3066,7 +3066,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QGroupBox" name="groupBox_3">
+                    <widget class="QGroupBox" name="warp_group_raw">
                      <property name="title">
                       <string>Raw Data @ 0x00000000</string>
                      </property>
@@ -3087,7 +3087,7 @@
                        <number>3</number>
                       </property>
                       <item>
-                       <widget class="QHexEdit" name="widget_2" native="true">
+                       <widget class="QHexEdit" name="warp_raw_data" native="true">
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
@@ -3160,8 +3160,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>426</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3215,7 +3215,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_24">
+                      <widget class="QHexSpinBox" name="trigger_pos_x">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -3242,7 +3242,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_25">
+                      <widget class="QHexSpinBox" name="trigger_pos_y">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -3505,7 +3505,7 @@
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QHexSpinBox" name="spinBox_26">
+                         <widget class="QHexSpinBox" name="trigger_var">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -3565,7 +3565,7 @@
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QHexSpinBox" name="spinBox_27">
+                         <widget class="QHexSpinBox" name="trigger_value">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -3748,7 +3748,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_32">
+                      <widget class="QHexSpinBox" name="trigger_script">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -3823,7 +3823,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QGroupBox" name="groupBox_6">
+                    <widget class="QGroupBox" name="trigger_group_raw">
                      <property name="title">
                       <string>Raw Data @ 0x00000000</string>
                      </property>
@@ -3844,7 +3844,7 @@
                        <number>3</number>
                       </property>
                       <item>
-                       <widget class="QHexEdit" name="widget_3" native="true">
+                       <widget class="QHexEdit" name="trigger_raw_data" native="true">
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
@@ -3917,8 +3917,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3972,7 +3972,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_36">
+                      <widget class="QHexSpinBox" name="sign_pos_x">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -3999,7 +3999,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_37">
+                      <widget class="QHexSpinBox" name="sign_pos_y">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -4418,7 +4418,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_45">
+                      <widget class="QHexSpinBox" name="sign_script">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -4493,7 +4493,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QGroupBox" name="groupBox_7">
+                    <widget class="QGroupBox" name="sign_group_raw">
                      <property name="title">
                       <string>Raw Data @ 0x00000000</string>
                      </property>
@@ -4514,7 +4514,7 @@
                        <number>3</number>
                       </property>
                       <item>
-                       <widget class="QHexEdit" name="widget_4" native="true">
+                       <widget class="QHexEdit" name="sign_raw_data" native="true">
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
@@ -4610,8 +4610,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>431</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -6486,8 +6486,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -9368,6 +9368,22 @@
     <hint type="destinationlabel">
      <x>906</x>
      <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stckEntityEditor</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>cmbEntityTypeSelector</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>870</x>
+     <y>417</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>835</x>
+     <y>109</y>
     </hint>
    </hints>
   </connection>

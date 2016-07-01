@@ -56,15 +56,19 @@ namespace ame
     {
         UInt8 npcID;        ///< ID of the person on the map
         UInt8 imageID;      ///< ID of the overworld image
+        UInt8 replacement;  ///< Replacement index
         UInt16 positionX;   ///< X-position on the map
         UInt16 positionY;   ///< Y-position on the map
         UInt8 level;        ///< Level/layer/height on the map
         UInt8 behaviour;    ///< Walking behaviour on the map
-        UInt16 moveRadius;  ///< Walking/running radius
+        UInt8 moveRadiusX;  ///< Walking radius, vertical
+        UInt8 moveRadiusY;  ///< Walking radius, horizontal
         UInt8 property;     ///< Npc property (trainer = 1)
         UInt16 viewRadius;  ///< View radius for trainers
         UInt32 ptrScript;   ///< Offset of the script
         UInt16 flag;        ///< Visibility flag (set = invisible)
+        UInt32 offset;      ///< Offset of this entity
+        QByteArray rawData; ///< Raw data for the entity view
     };
 }
 
