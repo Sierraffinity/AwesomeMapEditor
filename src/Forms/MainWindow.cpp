@@ -62,12 +62,9 @@ namespace ame
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
 
-<<<<<<< HEAD
         connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(on_entity_mouseClick(QMouseEvent*)));
-=======
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
->>>>>>> origin/master
     }
 
 
