@@ -232,8 +232,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>582</width>
-              <height>610</height>
+              <width>587</width>
+              <height>602</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -473,7 +473,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -644,8 +644,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>451</width>
-              <height>610</height>
+              <width>444</width>
+              <height>602</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -879,8 +879,13 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
+<<<<<<< HEAD
                     <width>265</width>
                     <height>666</height>
+=======
+                    <width>278</width>
+                    <height>717</height>
+>>>>>>> origin/master
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2590,8 +2595,13 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
+<<<<<<< HEAD
                     <width>282</width>
                     <height>572</height>
+=======
+                    <width>222</width>
+                    <height>362</height>
+>>>>>>> origin/master
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3160,8 +3170,13 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
+<<<<<<< HEAD
                     <width>282</width>
                     <height>572</height>
+=======
+                    <width>222</width>
+                    <height>464</height>
+>>>>>>> origin/master
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3917,8 +3932,13 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
+<<<<<<< HEAD
                     <width>282</width>
                     <height>572</height>
+=======
+                    <width>230</width>
+                    <height>380</height>
+>>>>>>> origin/master
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4610,8 +4630,13 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
+<<<<<<< HEAD
                   <width>737</width>
                   <height>584</height>
+=======
+                  <width>742</width>
+                  <height>575</height>
+>>>>>>> origin/master
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -5350,8 +5375,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -5764,8 +5789,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>433</height>
+                  <width>341</width>
+                  <height>474</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -6486,8 +6511,13 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
+<<<<<<< HEAD
                   <width>338</width>
                   <height>249</height>
+=======
+                  <width>341</width>
+                  <height>275</height>
+>>>>>>> origin/master
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -6908,8 +6938,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>743</width>
-              <height>610</height>
+              <width>732</width>
+              <height>612</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">

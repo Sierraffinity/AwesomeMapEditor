@@ -33,6 +33,7 @@
 
 #include <AME/System/LoadedData.hpp>
 #include <AME/System/Configuration.hpp>
+#include <AME/System/Settings.hpp>
 #include <AME/Widgets/Misc/Messages.hpp>
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Forms/MainWindow.h>
@@ -61,7 +62,12 @@ namespace ame
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
 
+<<<<<<< HEAD
         connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(on_entity_mouseClick(QMouseEvent*)));
+=======
+        if (!Settings::parse())
+            return;         // TODO: create default config file if none exists
+>>>>>>> origin/master
     }
 
 
@@ -222,50 +228,62 @@ namespace ame
         mapIcon.addFile(QStringLiteral(":/icons/map.ico"), QSize(), QIcon::Normal, QIcon::Off);
         mapIcon.addFile(QStringLiteral(":/icons/image.ico"), QSize(), QIcon::Normal, QIcon::On);
 
-        // Adds every bank and map to the tree. Format: <bank>.<map>
-        int bankCount = dat_MapBankTable->banks().size();
-        for (int i = 0; i < bankCount; i++)
+        switch(SETTINGS(MapSortOrder))
         {
-            //QTreeWidgetItem *bankItem = new QTreeWidgetItem(topItem);
-            QTreeWidgetItem *bankItem = new QTreeWidgetItem;
-            MapBank *bank = dat_MapBankTable->banks()[i];
-            bankItem->setIcon(0, mapFolderIcon);
-
-            // Adds all the bank's maps
-            int mapCount = bank->maps().size();
-            for (int j = 0; j < mapCount; j++)
+            case 1:
             {
-                QTreeWidgetItem *mapItem = new QTreeWidgetItem(bankItem);
-                Map *map = bank->maps()[j];
-                mapItem->setIcon(0, mapIcon);
+                // Adds every bank and map to the tree. Format: [<bank>,<map>]
+                int bankCount = dat_MapBankTable->banks().size();
+                for (int i = 0; i < bankCount; i++)
+                {
+                    //QTreeWidgetItem *bankItem = new QTreeWidgetItem(topItem);
+                    QTreeWidgetItem *bankItem = new QTreeWidgetItem;
+                    MapBank *bank = dat_MapBankTable->banks()[i];
+                    bankItem->setIcon(0, mapFolderIcon);
 
-                // Specifies the display name
-                /*mapItem->setText(0,
-                    QString("(")        +
-                    QString::number(i)  +
-                    QString(".")        +
-                    QString::number(j)  +
-                    QString(") ") + map->name()
-                );*/
-                mapItem->setText(0,
-                "[" + QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() + ", " +
-                      QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() + "] " +
-                      map->name());
+                    // Adds all the bank's maps
+                    int mapCount = bank->maps().size();
+                    for (int j = 0; j < mapCount; j++)
+                    {
+                        QTreeWidgetItem *mapItem = new QTreeWidgetItem(bankItem);
+                        Map *map = bank->maps()[j];
+                        mapItem->setIcon(0, mapIcon);
 
-                // Sets properties to identify map on click
-                QByteArray array;
-                array.append(i);
-                array.append(j);
-                mapItem->setData(0, Qt::UserRole, array);
+                        // Specifies the display name
+                        /*mapItem->setText(0,
+                            QString("(")        +
+                            QString::number(i)  +
+                            QString(".")        +
+                            QString::number(j)  +
+                            QString(") ") + map->name()
+                        );*/
+                        mapItem->setText(0,
+                            "[" +
+                            QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
+                            ", " +
+                            QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
+                            "] " +
+                            map->name());
 
-                // Adds the map to the bank
-                bankItem->addChild(mapItem);
+                        // Sets properties to identify map on click
+                        QByteArray array;
+                        array.append(i);
+                        array.append(j);
+                        mapItem->setData(0, Qt::UserRole, array);
+
+                        // Adds the map to the bank
+                        bankItem->addChild(mapItem);
+                    }
+
+                    // Specifies the display name of the bank and adds it to the treeview
+                    //bankItem->setText(0, QString("Bank #") + QString::number(i));
+                    bankItem->setText(0, '[' + QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() + ']');
+                    ui->treeView->addTopLevelItem(bankItem);
+                }
+                break;
             }
-
-            // Specifies the display name of the bank and adds it to the treeview
-            //bankItem->setText(0, QString("Bank #") + QString::number(i));
-            bankItem->setText(0, '[' + QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() + ']');
-            ui->treeView->addTopLevelItem(bankItem);
+            default:
+                break;
         }
 
         // Repaint tree-view
@@ -479,7 +497,7 @@ namespace ame
         ui->openGLWidget_5->freeGL();
 
         // Sets the tab index to the map-index
-        ui->tabWidget->setCurrentIndex(0);
+        //ui->tabWidget->setCurrentIndex(0);
 
         // Retrieves the new map from the stored property
         QByteArray data = item->data(column, Qt::UserRole).toByteArray();
