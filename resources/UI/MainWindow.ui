@@ -208,7 +208,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -586,7 +586,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <widget class="QOpenGLWidget" name="openGLWidget_4">
@@ -795,22 +795,22 @@
                </property>
                <item>
                 <property name="text">
-                 <string>[00] NPCs</string>
+                 <string>NPCs</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>[01] Warps</string>
+                 <string>Warps</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>[02] Triggers</string>
+                 <string>Triggers</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>[03] Signs</string>
+                 <string>Signs</string>
                 </property>
                </item>
               </widget>
@@ -850,7 +850,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="pageNPCs">
               <property name="sizePolicy">
@@ -894,8 +894,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>265</width>
-                    <height>666</height>
+                    <width>278</width>
+                    <height>717</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4402,7 +4402,7 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QStackedWidget" name="stackedWidget">
+                    <widget class="QResizingStackedWidget" name="stackedWidget">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -5001,8 +5001,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>742</width>
+                  <height>575</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -6877,8 +6877,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -8745,6 +8745,12 @@
    <class>ame::AMEEntityView</class>
    <extends>QOpenGLWidget</extends>
    <header location="global">AMEEntityView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QResizingStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">QResizingStackedWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

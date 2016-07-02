@@ -150,7 +150,8 @@ HEADERS  += \
     include/AME/Graphics/PropertyTable.hpp \
     include/AME/Graphics/Property.hpp \
     include/AME/System/Settings.hpp \
-    include/AME/Mapping/MapName.hpp
+    include/AME/Mapping/MapName.hpp \
+    include/AME/Widgets/QResizingStackedWidget.h
 
 
 #
