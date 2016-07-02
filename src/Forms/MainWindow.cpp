@@ -816,8 +816,12 @@ namespace ame
     /////////////////////////////////////////////////////////
     void MainWindow::on_spnEntityScroller_valueChanged(int arg1)
     {
+        if (arg1 < 0)
+            return;
+
+
         QPoint startPos = ui->openGLWidget_2->mainPos();
-        if (ui->cmbEntityTypeSelector->currentIndex() == 0)
+        if (ui->cmbEntityTypeSelector->currentIndex() == 0 && m_CurrentMap->entities().npcs().size() > 0)
         {
             Npc *eventN = m_CurrentMap->entities().npcs()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
@@ -847,7 +851,7 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
         }
-        else if (ui->cmbEntityTypeSelector->currentIndex() == 1)
+        else if (ui->cmbEntityTypeSelector->currentIndex() == 1 && m_CurrentMap->entities().warps().size() > 0)
         {
             Warp *eventW = m_CurrentMap->entities().warps()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
@@ -870,7 +874,7 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
         }
-        else if (ui->cmbEntityTypeSelector->currentIndex() == 2)
+        else if (ui->cmbEntityTypeSelector->currentIndex() == 2 && m_CurrentMap->entities().triggers().size() > 0)
         {
             Trigger *eventT = m_CurrentMap->entities().triggers()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
@@ -893,7 +897,7 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
         }
-        else
+        else if (m_CurrentMap->entities().signs().size() > 0)
         {
             Sign *eventS = m_CurrentMap->entities().signs()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
