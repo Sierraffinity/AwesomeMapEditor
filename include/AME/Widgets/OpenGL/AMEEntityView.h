@@ -53,6 +53,7 @@ namespace ame
         QPoint absPos;
         EntityType type = ET_Invalid;
         void *entity = NULL;
+        int index = 0;
     };
 
 
