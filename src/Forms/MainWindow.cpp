@@ -723,6 +723,21 @@ namespace ame
         
         // Fills the header tab
         setupHeader(currentMap);
+        ui->cmbEntityTypeSelector->setCurrentIndex(0);
+        on_cmbEntityTypeSelector_currentIndexChanged(0);
+
+        // FIX: Scroll to main map
+        QTimer::singleShot
+        (
+            10, Qt::PreciseTimer, [this] ()
+            {
+                QPoint scrollPos = ui->openGLWidget_2->mainPos();
+                ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y());
+                ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x());
+                ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y());
+                ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x());
+            }
+        );
 
         statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(item->text(0), QString::number(stopWatch.elapsed())));
     }
@@ -801,8 +816,12 @@ namespace ame
     /////////////////////////////////////////////////////////
     void MainWindow::on_spnEntityScroller_valueChanged(int arg1)
     {
+        if (arg1 < 0)
+            return;
+
+
         QPoint startPos = ui->openGLWidget_2->mainPos();
-        if (ui->cmbEntityTypeSelector->currentIndex() == 0)
+        if (ui->cmbEntityTypeSelector->currentIndex() == 0 && m_CurrentMap->entities().npcs().size() > 0)
         {
             Npc *eventN = m_CurrentMap->entities().npcs()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
@@ -832,7 +851,7 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
         }
-        else if (ui->cmbEntityTypeSelector->currentIndex() == 1)
+        else if (ui->cmbEntityTypeSelector->currentIndex() == 1 && m_CurrentMap->entities().warps().size() > 0)
         {
             Warp *eventW = m_CurrentMap->entities().warps()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
@@ -855,7 +874,7 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
         }
-        else if (ui->cmbEntityTypeSelector->currentIndex() == 2)
+        else if (ui->cmbEntityTypeSelector->currentIndex() == 2 && m_CurrentMap->entities().triggers().size() > 0)
         {
             Trigger *eventT = m_CurrentMap->entities().triggers()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
@@ -878,7 +897,7 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
         }
-        else
+        else if (m_CurrentMap->entities().signs().size() > 0)
         {
             Sign *eventS = m_CurrentMap->entities().signs()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
@@ -902,7 +921,20 @@ namespace ame
 
             if (eventS->type <= ST_ScriptLeft)
             {
+                ui->sign_type_stack->setCurrentIndex(0);
                 ui->sign_script->setValue(eventS->ptrScript);
+            }
+            else if (eventS->type == ST_SecretBase)
+            {
+                ui->sign_type_stack->setCurrentIndex(2);
+                ui->sign_base_id->setValue(eventS->baseID);
+            }
+            else
+            {
+                ui->sign_type_stack->setCurrentIndex(1);
+                ui->spnSignItem->setValue(eventS->item);
+                ui->sign_item_hidden->setValue(eventS->hiddenID);
+                ui->sign_item_amount->setValue(eventS->amount);
             }
         }
     }
@@ -1079,7 +1111,20 @@ namespace ame
 
             if (eventS->type <= ST_ScriptLeft)
             {
+                ui->sign_type_stack->setCurrentIndex(0);
                 ui->sign_script->setValue(eventS->ptrScript);
+            }
+            else if (eventS->type == ST_SecretBase)
+            {
+                ui->sign_type_stack->setCurrentIndex(2);
+                ui->sign_base_id->setValue(eventS->baseID);
+            }
+            else
+            {
+                ui->sign_type_stack->setCurrentIndex(1);
+                ui->spnSignItem->setValue(eventS->item);
+                ui->sign_item_hidden->setValue(eventS->hiddenID);
+                ui->sign_item_amount->setValue(eventS->amount);
             }
 
             return;
