@@ -723,6 +723,21 @@ namespace ame
         
         // Fills the header tab
         setupHeader(currentMap);
+        ui->cmbEntityTypeSelector->setCurrentIndex(0);
+        on_cmbEntityTypeSelector_currentIndexChanged(0);
+
+        // FIX: Scroll to main map
+        QTimer::singleShot
+        (
+            10, Qt::PreciseTimer, [this] ()
+            {
+                QPoint scrollPos = ui->openGLWidget_2->mainPos();
+                ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y());
+                ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x());
+                ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y());
+                ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x());
+            }
+        );
 
         statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(item->text(0), QString::number(stopWatch.elapsed())));
     }
@@ -902,7 +917,20 @@ namespace ame
 
             if (eventS->type <= ST_ScriptLeft)
             {
+                ui->sign_type_stack->setCurrentIndex(0);
                 ui->sign_script->setValue(eventS->ptrScript);
+            }
+            else if (eventS->type == ST_SecretBase)
+            {
+                ui->sign_type_stack->setCurrentIndex(2);
+                ui->sign_base_id->setValue(eventS->baseID);
+            }
+            else
+            {
+                ui->sign_type_stack->setCurrentIndex(1);
+                ui->spnSignItem->setValue(eventS->item);
+                ui->sign_item_hidden->setValue(eventS->hiddenID);
+                ui->sign_item_amount->setValue(eventS->amount);
             }
         }
     }
@@ -1079,7 +1107,20 @@ namespace ame
 
             if (eventS->type <= ST_ScriptLeft)
             {
+                ui->sign_type_stack->setCurrentIndex(0);
                 ui->sign_script->setValue(eventS->ptrScript);
+            }
+            else if (eventS->type == ST_SecretBase)
+            {
+                ui->sign_type_stack->setCurrentIndex(2);
+                ui->sign_base_id->setValue(eventS->baseID);
+            }
+            else
+            {
+                ui->sign_type_stack->setCurrentIndex(1);
+                ui->spnSignItem->setValue(eventS->item);
+                ui->sign_item_hidden->setValue(eventS->hiddenID);
+                ui->sign_item_amount->setValue(eventS->amount);
             }
 
             return;

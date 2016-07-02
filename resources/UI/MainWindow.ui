@@ -247,8 +247,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>587</width>
-              <height>602</height>
+              <width>582</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -488,7 +488,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -659,8 +659,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>444</width>
-              <height>602</height>
+              <width>451</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -850,7 +850,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="pageNPCs">
               <property name="sizePolicy">
@@ -894,7 +894,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>265</width>
+                    <width>246</width>
                     <height>666</height>
                    </rect>
                   </property>
@@ -2605,8 +2605,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>215</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3175,8 +3175,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>215</width>
+                    <height>426</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3932,8 +3932,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4402,7 +4402,7 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QStackedWidget" name="stackedWidget">
+                    <widget class="QStackedWidget" name="sign_type_stack">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
@@ -4410,7 +4410,7 @@
                       </sizepolicy>
                      </property>
                      <property name="currentIndex">
-                      <number>1</number>
+                      <number>0</number>
                      </property>
                      <widget class="QWidget" name="pageSignScript">
                       <property name="sizePolicy">
@@ -4697,7 +4697,7 @@
                           </spacer>
                          </item>
                          <item>
-                          <widget class="QHexSpinBox" name="spinBox_45">
+                          <widget class="QHexSpinBox" name="sign_item_hidden">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                              <horstretch>0</horstretch>
@@ -4757,7 +4757,7 @@
                           </spacer>
                          </item>
                          <item>
-                          <widget class="QSpinBox" name="spinBox_2">
+                          <widget class="QSpinBox" name="sign_item_amount">
                            <property name="maximum">
                             <number>4</number>
                            </property>
@@ -4819,7 +4819,7 @@
                           </spacer>
                          </item>
                          <item>
-                          <widget class="QHexSpinBox" name="spinBox_41">
+                          <widget class="QHexSpinBox" name="sign_base_id">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                              <horstretch>0</horstretch>
@@ -5741,8 +5741,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>275</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6155,8 +6155,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>474</height>
+                  <width>338</width>
+                  <height>433</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -7299,8 +7299,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>732</width>
-              <height>616</height>
+              <width>743</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
