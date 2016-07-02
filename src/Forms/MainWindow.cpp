@@ -757,7 +757,161 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   7/1/2016
+    // Date of edit:   7/3/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_cmbEntityTypeSelector_currentIndexChanged(int index)
+    {
+        if (index == 0)
+        {
+            ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().npcs().size()-1);
+
+            if (m_CurrentMap->entities().npcs().size() > 0)
+                on_spnEntityScroller_valueChanged(0);
+        }
+        else if (index == 1)
+        {
+            ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().warps().size()-1);
+
+            if (m_CurrentMap->entities().warps().size() > 0)
+                on_spnEntityScroller_valueChanged(0);
+        }
+        else if (index == 2)
+        {
+            ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().triggers().size()-1);
+
+            if (m_CurrentMap->entities().triggers().size() > 0)
+                on_spnEntityScroller_valueChanged(0);
+        }
+        else
+        {
+            ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().signs().size()-1);
+
+            if (m_CurrentMap->entities().signs().size() > 0)
+                on_spnEntityScroller_valueChanged(0);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/3/2016
+    //
+    /////////////////////////////////////////////////////////
+    void MainWindow::on_spnEntityScroller_valueChanged(int arg1)
+    {
+        QPoint startPos = ui->openGLWidget_2->mainPos();
+        if (ui->cmbEntityTypeSelector->currentIndex() == 0)
+        {
+            Npc *eventN = m_CurrentMap->entities().npcs()[arg1];
+            ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
+            ui->npc_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventN->offset, 16));
+            ui->npc_num->setValue(eventN->npcID);
+            ui->npc_sprite->setValue(eventN->imageID);
+            ui->npc_pos_x->setValue(eventN->positionX);
+            ui->npc_pos_y->setValue(eventN->positionY);
+            ui->spnNPCHeight->setValue(eventN->level);
+            ui->npc_replacement->setValue(eventN->replacement);
+            ui->spnNPCIdleAnim->setValue(eventN->behaviour);
+            ui->npc_mov_x->setValue(eventN->moveRadiusX);
+            ui->npc_mov_y->setValue(eventN->moveRadiusY);
+            ui->npc_view_rad->setValue(eventN->viewRadius);
+            ui->npc_trainer->setValue(eventN->property);
+            ui->npc_script->setValue(eventN->ptrScript);
+            ui->npc_flag->setValue(eventN->flag);
+            ui->npc_raw_data->setData(eventN->rawData());
+            ui->spnEntityScroller->setValue(arg1);
+            startPos += QPoint(eventN->positionX*16, eventN->positionY*16);
+
+            CurrentEntity entity;
+            entity.absPos = startPos;
+            entity.type = ET_Npc;
+            entity.entity = eventN;
+            entity.index = arg1;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+        }
+        else if (ui->cmbEntityTypeSelector->currentIndex() == 1)
+        {
+            Warp *eventW = m_CurrentMap->entities().warps()[arg1];
+            ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
+            ui->warp_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventW->offset, 16));
+            ui->warp_pos_x->setValue(eventW->positionX);
+            ui->warp_pos_y->setValue(eventW->positionY);
+            ui->warp_number->setValue(eventW->warp);
+            ui->warp_map->setValue(eventW->map);
+            ui->warp_bank->setValue(eventW->bank);
+            ui->spnWarpHeight->setValue(eventW->level);
+            ui->warp_raw_data->setData(eventW->rawData());
+            ui->spnEntityScroller->setValue(arg1);
+            startPos += QPoint(eventW->positionX*16, eventW->positionY*16);
+
+            CurrentEntity entity;
+            entity.absPos = startPos;
+            entity.type = ET_Warp;
+            entity.entity = eventW;
+            entity.index = arg1;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+        }
+        else if (ui->cmbEntityTypeSelector->currentIndex() == 2)
+        {
+            Trigger *eventT = m_CurrentMap->entities().triggers()[arg1];
+            ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
+            ui->trigger_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventT->offset, 16));
+            ui->trigger_pos_x->setValue(eventT->positionX);
+            ui->trigger_pos_y->setValue(eventT->positionY);
+            ui->trigger_var->setValue(eventT->variable);
+            ui->trigger_value->setValue(eventT->value);
+            ui->trigger_script->setValue(eventT->ptrScript);
+            ui->spnTriggerHeight->setValue(eventT->level);
+            ui->trigger_raw_data->setData(eventT->rawData());
+            ui->spnEntityScroller->setValue(arg1);
+            startPos += QPoint(eventT->positionX*16, eventT->positionY*16);
+
+            CurrentEntity entity;
+            entity.absPos = startPos;
+            entity.type = ET_Trigger;
+            entity.entity = eventT;
+            entity.index = arg1;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+        }
+        else
+        {
+            Sign *eventS = m_CurrentMap->entities().signs()[arg1];
+            ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
+            ui->sign_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventS->offset, 16));
+            ui->sign_pos_x->setValue(eventS->positionX);
+            ui->sign_pos_y->setValue(eventS->positionY);
+            ui->sign_script->setValue(eventS->ptrScript);
+            ui->sign_raw_data->setData(eventS->rawData());
+            ui->spnSignHeight->setValue(eventS->level);
+            ui->spnSignType->setValue(static_cast<int>(eventS->type));
+            ui->spnEntityScroller->setValue(arg1);
+            startPos += QPoint(eventS->positionX*16, eventS->positionY*16);
+
+            CurrentEntity entity;
+            entity.absPos = startPos;
+            entity.type = ET_Sign;
+            entity.entity = eventS;
+            entity.index = arg1;
+            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->openGLWidget_5->update();
+
+            if (eventS->type <= ST_ScriptLeft)
+            {
+                ui->sign_script->setValue(eventS->ptrScript);
+            }
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_entity_mouseClick(QMouseEvent *event)
@@ -765,6 +919,8 @@ namespace ame
         // Map coordinates to block-coordinates
         int blockX = (event->pos().x()-ui->openGLWidget_2->mainPos().x()) / 16;
         int blockY = (event->pos().y()-ui->openGLWidget_2->mainPos().y()) / 16;
+        int indexN, indexW, indexT, indexS;
+
         Npc *eventN = nullptr;
         Warp *eventW = nullptr;
         Trigger *eventT = nullptr;
@@ -777,6 +933,7 @@ namespace ame
             if (npc->positionX == blockX && npc->positionY == blockY)
             {
                 eventN = npc;
+                indexN = i;
                 break;
             }
         }
@@ -799,12 +956,14 @@ namespace ame
             ui->npc_script->setValue(eventN->ptrScript);
             ui->npc_flag->setValue(eventN->flag);
             ui->npc_raw_data->setData(eventN->rawData());
+            ui->spnEntityScroller->setValue(indexN);
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
             entity.absPos.setY((event->pos().y()/16)*16);
             entity.type = ET_Npc;
             entity.entity = eventN;
+            entity.index = indexN;
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
 
@@ -818,6 +977,7 @@ namespace ame
             if (warp->positionX == blockX && warp->positionY == blockY)
             {
                 eventW = warp;
+                indexW = i;
                 break;
             }
         }
@@ -833,12 +993,14 @@ namespace ame
             ui->warp_bank->setValue(eventW->bank);
             ui->spnWarpHeight->setValue(eventW->level);
             ui->warp_raw_data->setData(eventW->rawData());
+            ui->spnEntityScroller->setValue(indexW);
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
             entity.absPos.setY((event->pos().y()/16)*16);
             entity.type = ET_Warp;
             entity.entity = eventW;
+            entity.index = indexW;
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
 
@@ -852,12 +1014,13 @@ namespace ame
             if (trigger->positionX == blockX && trigger->positionY == blockY)
             {
                 eventT = trigger;
+                indexT = i;
                 break;
             }
         }
         if (eventT != NULL)
         {
-            // Load warp properties
+            // Load trigger properties
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
             ui->trigger_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventT->offset, 16));
             ui->trigger_pos_x->setValue(eventT->positionX);
@@ -867,12 +1030,14 @@ namespace ame
             ui->trigger_script->setValue(eventT->ptrScript);
             ui->spnTriggerHeight->setValue(eventT->level);
             ui->trigger_raw_data->setData(eventT->rawData());
+            ui->spnEntityScroller->setValue(indexT);
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
             entity.absPos.setY((event->pos().y()/16)*16);
             entity.type = ET_Trigger;
             entity.entity = eventT;
+            entity.index = indexT;
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
 
@@ -886,12 +1051,13 @@ namespace ame
             if (sign->positionX == blockX && sign->positionY == blockY)
             {
                 eventS = sign;
+                indexS = i;
                 break;
             }
         }
         if (eventS != NULL)
         {
-            // Load warp properties
+            // Load sign properties
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
             ui->sign_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventS->offset, 16));
             ui->sign_pos_x->setValue(eventS->positionX);
@@ -900,12 +1066,14 @@ namespace ame
             ui->sign_raw_data->setData(eventS->rawData());
             ui->spnSignHeight->setValue(eventS->level);
             ui->spnSignType->setValue(static_cast<int>(eventS->type));
+            ui->spnEntityScroller->setValue(indexS);
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
             entity.absPos.setY((event->pos().y()/16)*16);
             entity.type = ET_Sign;
             entity.entity = eventS;
+            entity.index = indexS;
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
 

@@ -160,6 +160,10 @@ namespace ame
         void enableAfterROMLoad();
         void enableAfterMapLoad();
 
+        void on_cmbEntityTypeSelector_currentIndexChanged(int index);
+
+        void on_spnEntityScroller_valueChanged(int arg1);
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
