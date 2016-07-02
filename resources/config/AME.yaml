@@ -1,9 +1,9 @@
 ShowSprites:            true
-ScriptEditor:           Test
+ScriptEditor:           null
 Translucency:           50
-Language:               Test
+Language:               null
 CreateBackups:          true
-MapSortOrder:           0
+MapSortOrder:           1
 HexPrefix:              0x
 ShowRawMapHeader:       false
 ShowRawLayoutHeader:    false

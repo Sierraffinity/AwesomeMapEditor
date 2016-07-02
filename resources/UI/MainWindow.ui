@@ -26,6 +26,9 @@
    <string>Awesome Map Editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <layout class="QGridLayout" name="horizontalLayout">
     <property name="leftMargin">
      <number>0</number>
@@ -51,6 +54,9 @@
        <bool>false</bool>
       </property>
       <widget class="QWidget" name="mapListContainer" native="true">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -89,6 +95,9 @@
           </property>
           <item row="0" column="2">
            <widget class="QLineEdit" name="lineEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -104,7 +113,7 @@
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QToolButtonLastUsed" name="toolButton">
+           <widget class="QToolButton" name="tbMapSortOrder">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -158,6 +167,9 @@
         </item>
         <item>
          <widget class="QTreeWidget" name="treeView">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -183,6 +195,9 @@
        </layout>
       </widget>
       <widget class="QTabWidget" name="tabWidget">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>1</horstretch>
@@ -571,7 +586,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <widget class="QOpenGLWidget" name="openGLWidget_4">
@@ -879,8 +894,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>265</width>
-                    <height>666</height>
+                    <width>278</width>
+                    <height>717</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2590,8 +2605,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>222</width>
+                    <height>362</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3160,8 +3175,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>222</width>
+                    <height>464</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3917,8 +3932,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>230</width>
+                    <height>380</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4610,8 +4625,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>742</width>
+                  <height>575</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -6486,8 +6501,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7645,8 +7660,8 @@
     <addaction name="action_Reload_ROM"/>
     <addaction name="separator"/>
     <addaction name="action_Save_ROM"/>
-    <addaction name="actionSave_ROM_As"/>
-    <addaction name="actionSave_Map"/>
+    <addaction name="action_Save_ROM_As"/>
+    <addaction name="action_Save_Map"/>
     <addaction name="separator"/>
     <addaction name="action_Import"/>
     <addaction name="action_Export"/>
@@ -7666,9 +7681,9 @@
     <property name="title">
      <string>&amp;Tools</string>
     </property>
+    <addaction name="action_World_Map_Editor"/>
     <addaction name="action_Tileset_Editor"/>
     <addaction name="action_Connection_Editor"/>
-    <addaction name="action_World_Map_Editor"/>
     <addaction name="separator"/>
     <addaction name="action_Show_Grid"/>
     <addaction name="actionPlugin_Manager"/>
@@ -7704,11 +7719,11 @@
    </attribute>
    <addaction name="action_Open_ROM"/>
    <addaction name="action_Save_ROM"/>
-   <addaction name="actionSave_Map"/>
+   <addaction name="action_Save_Map"/>
    <addaction name="separator"/>
+   <addaction name="action_World_Map_Editor"/>
    <addaction name="action_Tileset_Editor"/>
    <addaction name="action_Connection_Editor"/>
-   <addaction name="action_World_Map_Editor"/>
    <addaction name="separator"/>
    <addaction name="actionPlugin_Manager"/>
   </widget>
@@ -7727,7 +7742,7 @@
   </action>
   <action name="action_Reload_ROM">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7740,9 +7755,9 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionSave_Map">
+  <action name="action_Save_Map">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7757,7 +7772,7 @@
   </action>
   <action name="action_Save_ROM">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7770,9 +7785,9 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionSave_ROM_As">
+  <action name="action_Save_ROM_As">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7784,7 +7799,7 @@
   </action>
   <action name="action_Import">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>&amp;Import</string>
@@ -7792,7 +7807,7 @@
   </action>
   <action name="action_Export">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>&amp;Export</string>
@@ -7813,7 +7828,7 @@
   </action>
   <action name="action_Undo">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>&amp;Undo</string>
@@ -7824,7 +7839,7 @@
   </action>
   <action name="action_Redo">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>&amp;Redo</string>
@@ -7835,7 +7850,7 @@
   </action>
   <action name="action_Tileset_Editor">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7847,7 +7862,7 @@
   </action>
   <action name="action_Connection_Editor">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7859,7 +7874,7 @@
   </action>
   <action name="action_World_Map_Editor">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7874,7 +7889,7 @@
     <bool>true</bool>
    </property>
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../images.qrc">
@@ -7970,11 +7985,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>QToolButtonLastUsed</class>
-   <extends>QToolButton</extends>
-   <header location="global">qtoolbuttonlastused.h</header>
-  </customwidget>
   <customwidget>
    <class>QHexEdit</class>
    <extends>QWidget</extends>
@@ -9384,6 +9394,22 @@
     <hint type="destinationlabel">
      <x>835</x>
      <y>109</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tbMapSortOrder</sender>
+   <signal>clicked()</signal>
+   <receiver>tbMapSortOrder</receiver>
+   <slot>showMenu()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>82</y>
     </hint>
    </hints>
   </connection>

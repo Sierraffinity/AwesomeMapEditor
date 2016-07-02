@@ -41,6 +41,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QDebug>
+#include <fstream>
 
 
 namespace ame
@@ -83,16 +84,53 @@ namespace ame
 
         // Tries to parse all the properties
         ShowSprites         = settings["ShowSprites"].as<bool>();
-        ScriptEditor        = QString::fromStdString(settings["ScriptEditor"].as<std::string>());
+        if (settings["ScriptEditor"].Type() != YAML::NodeType::Null)
+            ScriptEditor    = QString::fromStdString(settings["ScriptEditor"].as<std::string>());
         Translucency        = settings["Translucency"].as<int>();
-        Language            = QString::fromStdString(settings["Language"].as<std::string>());
+        if (settings["Language"].Type() != YAML::NodeType::Null)
+            Language            = QString::fromStdString(settings["Language"].as<std::string>());
         CreateBackups       = settings["CreateBackups"].as<bool>();
         MapSortOrder        = static_cast<MapSortOrderType>(settings["MapSortOrder"].as<int>());
-        HexPrefix           = QString::fromStdString(settings["HexPrefix"].as<std::string>());
+        if (settings["HexPrefix"].Type() != YAML::NodeType::Null)
+            HexPrefix           = QString::fromStdString(settings["HexPrefix"].as<std::string>());
         ShowRawMapHeader    = settings["ShowRawMapHeader"].as<bool>();
         ShowRawLayoutHeader = settings["ShowRawLayoutHeader"].as<bool>();
 
         // Parsing successful
         return true;
+    }
+    
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool Settings::write()
+    {
+        // Builds the path to the YAML file
+        const QString appFolder = QApplication::applicationDirPath();
+        const QString subFolder = "/config/";
+        const QString fileName = "AME.yaml";
+        QString filePath = appFolder + subFolder + fileName;
+
+
+        // Loads the YAML file
+        YAML::Node settings = YAML::LoadFile(filePath.toStdString());
+
+        // Tries to parse all the properties
+        settings["ShowSprites"]         = ShowSprites;
+        settings["ScriptEditor"]        = ScriptEditor.toStdString();
+        settings["Translucency"]        = Translucency;
+        settings["Language"]            = Language.toStdString();
+        settings["CreateBackups"]       = CreateBackups;
+        settings["MapSortOrder"]        = static_cast<int>(MapSortOrder);
+        settings["HexPrefix"]           = HexPrefix.toStdString();
+        settings["ShowRawMapHeader"]    = ShowRawMapHeader;
+        settings["ShowRawLayoutHeader"] = ShowRawLayoutHeader;
+
+        std::ofstream fout(filePath.toStdString());
+        fout << settings;
     }
 }

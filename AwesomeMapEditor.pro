@@ -67,7 +67,6 @@ SOURCES += \
     src/Mapping/MapBorder.cpp \
     src/Mapping/MapHeader.cpp \
     src/Mapping/MapNameTable.cpp \
-    src/Widgets/QToolButtonLastUsed.cpp \
     src/Mapping/Map.cpp \
     src/Widgets/qhexedit.cpp \
     src/Widgets/chunks.cpp \
@@ -127,7 +126,6 @@ HEADERS  += \
     include/AME/Graphics/TilesetManager.hpp \
     include/AME/Mapping/MapBorder.hpp \
     include/AME/Mapping/MappingErrors.hpp \
-    include/AME/Widgets/QToolButtonLastUsed.h \
     include/AME/Mapping/Map.hpp \
     include/AME/Mapping/MapBank.hpp \
     include/AME/Widgets/qhexedit.h \

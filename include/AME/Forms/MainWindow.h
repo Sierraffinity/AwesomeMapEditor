@@ -148,6 +148,11 @@ namespace ame
         void on_sldWildOtherChance_valueChanged(int value);
         void on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column);
         void on_entity_mouseClick(QMouseEvent *event);
+        void on_MapSortOrder_changed(QAction *action);
+        void updateTreeView();
+        void disableBeforeROMLoad();
+        void enableAfterROMLoad();
+        void enableAfterMapLoad();
 
     private:
 
@@ -157,8 +162,10 @@ namespace ame
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         Ui::MainWindow *ui;                   ///< Gives access to the GUI objects
         qboy::Rom m_Rom;                      ///< Global ROM across the application
-        QTreeWidgetItem *m_lastOpenedMap;     ///< Leaves a reference to the widget for the last opened map
+        QTreeWidgetItem *m_lastOpenedMap;     ///< Reference to the widget for the last opened map
         Map *m_CurrentMap;                    ///< Reference to currently opened map
+        QLabel* statusLabel;                  ///< Status bar label reference
+        QLabel* statusLabelCredit;            ///< Status bar label reference for credit
     };
 
 
@@ -166,7 +173,7 @@ namespace ame
     // Error messages for MainWindow
     //
     ///////////////////////////////////////////////////////////
-    #define WND_ERROR_ROM   "The ROM file which you were about to open, is already in use."
+    #define WND_ERROR_ROM   "The selected ROM file is already in use."
 }
 
 

@@ -63,8 +63,33 @@ namespace ame
         m_lastOpenedMap = NULL;
 
         connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(on_entity_mouseClick(QMouseEvent*)));
+
+        statusLabel = new QLabel(tr("No ROM loaded."));
+        ui->statusBar->addWidget(statusLabel);
+
+        statusLabelCredit = new QLabel(tr("Created by ") + "<a href=\"http://domoreaweso.me/\">DoMoreAwesome</a>");
+        statusLabelCredit->setTextFormat(Qt::RichText);
+        statusLabelCredit->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        statusLabelCredit->setOpenExternalLinks(true);
+        ui->statusBar->addPermanentWidget(statusLabelCredit);
+
+        QMenu *mapSortOrderMenu = new QMenu();
+        mapSortOrderMenu->addAction(ui->actionSort_by_Name);
+        mapSortOrderMenu->addAction(ui->actionSort_by_Bank);
+        mapSortOrderMenu->addAction(ui->actionSort_by_Layout);
+        mapSortOrderMenu->addAction(ui->actionSort_by_Tileset);
+        ui->tbMapSortOrder->setMenu(mapSortOrderMenu);
+
+        connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(on_MapSortOrder_changed(QAction*)));
+
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
+
+        QAction* sortOrder = ui->tbMapSortOrder->menu()->actions()[SETTINGS(MapSortOrder)];
+        ui->tbMapSortOrder->setIcon(sortOrder->icon());
+        sortOrder->setChecked(true);
+
+        disableBeforeROMLoad();
     }
 
 
@@ -98,9 +123,9 @@ namespace ame
 
         QString file = QFileDialog::getOpenFileName(
                     this,
-                    QString("Open ROM file"),
+                    tr("Open ROM file"),
                     QDir::homePath(),
-                    QString("ROMs (*.gba *.bin)")
+                    tr("ROMs (*.gba *.bin)")
         );
 
 
@@ -162,22 +187,24 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/16/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::loadMapData()
     {
         /* TODO: Design form to show error messages */
 
-        bool result = loadAllMapData(m_Rom);
-        if (!result)
+        int result = loadAllMapData(m_Rom);
+        if (result < 0)
         {
             ErrorWindow errorWindow(this);
             errorWindow.exec();
             return;
         }
+
+        statusLabel->setText(tr("ROM %1 loaded in %2 ms.").arg(m_Rom.info().name(), QString::number(result)));
 
         setupAfterLoading();
         m_Rom.clearCache();
@@ -187,7 +214,7 @@ namespace ame
     // Function type:  Event
     // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   6/20/2016
+    // Date of edit:   7/2/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::setupAfterLoading()
@@ -209,12 +236,87 @@ namespace ame
         foreach (QSpinBox *box, ui->tabWidget_3->findChildren<QSpinBox *>(QRegularExpression("sbWild")))
             box->setRange(0, CONFIG(PokemonCount));
 
+        // Updates the treeview
+        updateTreeView();
 
+        // Enables everything that should be on ROM load
+        enableAfterROMLoad();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::disableBeforeROMLoad()
+    {
+        ui->centralWidget->setEnabled(false);
+        ui->tabWidget->setEnabled(false);
+
+        ui->action_Save_ROM->setEnabled(false);
+        ui->action_Save_ROM_As->setEnabled(false);
+        ui->action_Save_Map->setEnabled(false);
+        ui->action_Reload_ROM->setEnabled(false);
+        ui->action_Import->setEnabled(false);
+        ui->action_Export->setEnabled(false);
+        ui->action_Undo->setEnabled(false);
+        ui->action_Redo->setEnabled(false);
+        ui->action_World_Map_Editor->setEnabled(false);
+        ui->action_Tileset_Editor->setEnabled(false);
+        ui->action_Connection_Editor->setEnabled(false);
+        ui->action_Show_Grid->setEnabled(false);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::enableAfterROMLoad()
+    {
+        ui->centralWidget->setEnabled(true);
+        ui->action_Save_ROM->setEnabled(true);
+        ui->action_Save_ROM_As->setEnabled(true);
+        ui->action_Reload_ROM->setEnabled(true);
+        ui->action_World_Map_Editor->setEnabled(true);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::enableAfterMapLoad()
+    {
+        ui->tabWidget->setEnabled(true);
+
+        ui->action_Save_Map->setEnabled(true);
+        ui->action_Import->setEnabled(true);
+        ui->action_Export->setEnabled(true);
+        ui->action_Connection_Editor->setEnabled(true);
+        ui->action_Tileset_Editor->setEnabled(true);
+        ui->action_Show_Grid->setEnabled(true);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::updateTreeView()
+    {
         // Fills the tree-view with all the maps
-        //QTreeWidgetItem *topItem = new QTreeWidgetItem;
-        //topItem->setText(0, "MapBanks");
+        ui->treeView->collapseAll();
+        ui->treeView->clear();
         ui->treeView->setUpdatesEnabled(false);
-        //ui->treeView->addTopLevelItem(topItem);
 
         // Creates icons for use in treeView
         QIcon mapFolderIcon;
@@ -542,6 +644,11 @@ namespace ame
         item->setExpanded(true);
         m_lastOpenedMap = item;
 
+        enableAfterMapLoad();
+
+        // Counts how long it takes to load a map
+        QTime stopWatch;
+        stopWatch.start();
 
         // Clears all the OpenGL widgets
         ui->openGLWidget->freeGL();
@@ -574,6 +681,34 @@ namespace ame
 
         // Fills the wild-pokemon tab
         setupWildPokemon(currentMap);
+
+        statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(item->text(0), QString::number(stopWatch.elapsed())));
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_MapSortOrder_changed(QAction *action)
+    {
+        ui->tbMapSortOrder->setIcon(action->icon());
+        QList<QAction*> items = ui->tbMapSortOrder->menu()->actions();
+        int index = 0;
+        for (int i = 0; i < items.count(); i++)
+        {
+            if(items[i] == action)
+                index = i;
+            else
+                items[i]->setChecked(false);
+        }
+        CHANGESETTING(MapSortOrder, static_cast<MapSortOrderType>(index));
+        Settings::write();
+        if(m_Rom.info().isLoaded())
+            updateTreeView();
     }
 
     ///////////////////////////////////////////////////////////

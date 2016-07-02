@@ -141,7 +141,7 @@ namespace ame
         glCheck(glBindTexture(GL_TEXTURE_2D, m_TextureAtlas));
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-        glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 16, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits()));
+        glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 16, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.bits()));
 
         // Enables blending
         glEnable(GL_BLEND);

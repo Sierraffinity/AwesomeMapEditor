@@ -65,7 +65,7 @@ namespace ame
     /// \returns true if no errors occured.
     ///
     ///////////////////////////////////////////////////////////
-    extern bool loadAllMapData(const qboy::Rom &rom);
+    extern int loadAllMapData(const qboy::Rom &rom);
 
     ///////////////////////////////////////////////////////////
     /// \brief Clears all loaded map-related data.

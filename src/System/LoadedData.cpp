@@ -57,16 +57,16 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/16/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/1/2016
     //
     ///////////////////////////////////////////////////////////
-    bool loadAllMapData(const qboy::Rom &rom)
+    int loadAllMapData(const qboy::Rom &rom)
     {
         // First attempts to load the configuration file
         if (!Configuration::parse(rom))
-            return false;
+            return -1;
 
 
         QTime stopWatch;
@@ -81,23 +81,23 @@ namespace ame
 
         // Attempts to load map names
         if(!dat_MapNameTable->read(rom, CONFIG(MapNames)))
-            return false;
+            return -1;
 
         // Attempts to load the wild Pokémon
         if (!dat_WildPokemonTable->read(rom, CONFIG(WildPokemon)))
-            return false;
+            return -1;
 
         // Attempts to load the Pokémon table
         if (!dat_PokemonTable->read(rom))
-            return false;
+            return -1;
 
         // Attempts to load the overworld table
         if (!dat_OverworldTable->read(rom))
-            return false;
+            return -1;
 
         // Attempts to load all the map banks
         if (!dat_MapBankTable->read(rom, CONFIG(MapBanks)))
-            return false;
+            return -1;
 
         // Map wild-pokémon indices to all the maps
         for (int i = 0; i < dat_WildPokemonTable->tables().size(); i++)
@@ -107,9 +107,9 @@ namespace ame
                     [dat_WildPokemonTable->tables().at(i)->map()]->setWildTable(i);
         }
 
-        QString message("Map data successfully loaded. Elapsed milliseconds: %0");
-        Messages::showMessage(QApplication::activeWindow(), message.replace("%0", QString::number(stopWatch.elapsed())));
-        return true;
+        //QString message("Map data successfully loaded. Elapsed milliseconds: %0");
+        //Messages::showMessage(QApplication::activeWindow(), message.replace("%0", QString::number(stopWatch.elapsed())));
+        return stopWatch.elapsed();
     }
 
 
