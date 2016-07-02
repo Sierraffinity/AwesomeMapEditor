@@ -562,6 +562,50 @@ namespace ame
             ui->tabWidget_3->setTabEnabled(3, true);
     }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::setupHeader(Map *map)
+    {
+        // Loads all the map-specific data
+        ui->header_ptr_footer->setValue(map->m_PtrHeader);
+        ui->header_ptr_script->setValue(map->m_PtrScripts);
+        ui->header_ptr_event->setValue(map->m_PtrEvents);
+        ui->header_ptr_connex->setValue(map->m_PtrConnections);
+
+        ui->header_mapname->setValue(map->m_NameIndex);
+        ui->header_ftr_index->setValue(map->m_HeaderID);
+        ui->header_music_index->setValue(map->m_MusicID);
+        ui->header_box_visibility->setCurrentIndex(map->m_DarknessType);
+        ui->header_box_type->setCurrentIndex(map->m_MapType);
+        ui->header_box_weather->setCurrentIndex(map->m_WeatherType);
+        ui->header_box_battle->setCurrentIndex(map->m_BattleType);
+        ui->header_check_run->setChecked(map->m_MapType != 5 && map->m_MapType != 8);
+        ui->header_check_bike->setChecked(map->m_MapType != 5 && map->m_MapType != 8 && map->m_MapType != 9);
+        ui->header_check_bike->setChecked(map->m_MapType != 5 && map->m_MapType != 8 && map->m_MapType != 9);
+        ui->header_check_showname->setChecked(map->m_LabelType == 1 || map->m_LabelType == 6 || map->m_LabelType == 13);
+        ui->header_raw_data->setData(map->rawData());
+        ui->header_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(map->m_Offset, 16));
+
+
+        // Loads all the footer-specific data
+        MapHeader &header = map->header();
+        ui->header_ftr_ptr_border->setValue(header.m_PtrBorder);
+        ui->header_ftr_ptr_data->setValue(header.m_PtrBlocks);
+        ui->header_ftr_ptr_global->setValue(header.m_PtrPrimary);
+        ui->header_ftr_ptr_local->setValue(header.m_PtrSecondary);
+        ui->header_map_width->setText(QString::number(header.size().width()));
+        ui->header_map_height->setText(QString::number(header.size().height()));
+        ui->header_border_width->setText(QString::number(header.border().width()));
+        ui->header_border_height->setText(QString::number(header.border().height()));
+        ui->header_ftr_raw_data->setData(header.rawData());
+        ui->header_ftr_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(header.m_Offset, 16));
+    }
+
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
@@ -672,15 +716,13 @@ namespace ame
         ui->openGLWidget_5->setEntities(currentMap);
         ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
         ui->openGLWidget_5->update();
-
-        if (ui->tabWidget->currentIndex() == 1)
-        {
-            ui->openGLWidget_2->show();
-        }
         m_CurrentMap = currentMap;
 
         // Fills the wild-pokemon tab
         setupWildPokemon(currentMap);
+        
+        // Fills the header tab
+        setupHeader(currentMap);
 
         statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(item->text(0), QString::number(stopWatch.elapsed())));
     }
@@ -756,7 +798,7 @@ namespace ame
             ui->npc_trainer->setValue(eventN->property);
             ui->npc_script->setValue(eventN->ptrScript);
             ui->npc_flag->setValue(eventN->flag);
-            ui->npc_raw_data->setData(eventN->rawData);
+            ui->npc_raw_data->setData(eventN->rawData());
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
@@ -790,7 +832,7 @@ namespace ame
             ui->warp_map->setValue(eventW->map);
             ui->warp_bank->setValue(eventW->bank);
             ui->spnWarpHeight->setValue(eventW->level);
-            ui->warp_raw_data->setData(eventW->rawData);
+            ui->warp_raw_data->setData(eventW->rawData());
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
@@ -824,7 +866,7 @@ namespace ame
             ui->trigger_value->setValue(eventT->value);
             ui->trigger_script->setValue(eventT->ptrScript);
             ui->spnTriggerHeight->setValue(eventT->level);
-            ui->trigger_raw_data->setData(eventT->rawData);
+            ui->trigger_raw_data->setData(eventT->rawData());
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
@@ -855,7 +897,7 @@ namespace ame
             ui->sign_pos_x->setValue(eventS->positionX);
             ui->sign_pos_y->setValue(eventS->positionY);
             ui->sign_script->setValue(eventS->ptrScript);
-            ui->sign_raw_data->setData(eventS->rawData);
+            ui->sign_raw_data->setData(eventS->rawData());
             ui->spnSignHeight->setValue(eventS->level);
             ui->spnSignType->setValue(static_cast<int>(eventS->type));
 

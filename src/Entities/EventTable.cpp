@@ -210,7 +210,7 @@ namespace ame
             npc->npcID = rom.readByte();
             npc->imageID = rom.readByte();
             npc->replacement = rom.readByte();
-            rom.readByte(); // padding
+            npc->filler_1 = rom.readByte();
             npc->positionX = rom.readHWord();
             npc->positionY = rom.readHWord();
             npc->level = rom.readByte();
@@ -218,18 +218,19 @@ namespace ame
             tempRadius = rom.readByte();
             npc->moveRadiusX = tempRadius & 15;
             npc->moveRadiusY = tempRadius >> 4;
-            rom.readByte(); // maybe padding
+            npc->filler_2 = rom.readByte(); // either property is a hword or this isn't a filler
             npc->property = rom.readByte();
-            rom.readByte(); // padding
+            npc->filler_3 = rom.readByte();
             npc->viewRadius = rom.readHWord();
             npc->ptrScript = rom.readPointer();
             npc->flag = rom.readHWord();
-            rom.readHWord(); // padding
+            npc->filler_4 = rom.readByte();
+            npc->filler_5 = rom.readByte();
             m_Npcs.push_back(npc);
 
             // Reads the full raw data again
-            rom.seek(rom.offset() - 24);
-            npc->rawData = rom.readBytes(24);
+            //rom.seek(rom.offset() - 24);
+            //npc->rawData = rom.readBytes(24);
 
             // Determines whether the script offset is valid
             if (!rom.checkOffset(npc->ptrScript))
@@ -252,8 +253,8 @@ namespace ame
             m_Warps.push_back(warp);
 
             // Reads the full raw data
-            rom.seek(rom.offset() - 8);
-            warp->rawData = rom.readBytes(8);
+            //rom.seek(rom.offset() - 8);
+            //warp->rawData = rom.readBytes(8);
         }
 
 
@@ -266,16 +267,17 @@ namespace ame
             trigger->positionX = rom.readHWord();
             trigger->positionY = rom.readHWord();
             trigger->level = rom.readByte();
-            rom.readByte(); // padding
+            trigger->filler_1 = rom.readByte();
             trigger->variable = rom.readHWord();
             trigger->value = rom.readHWord();
-            rom.readHWord(); // padding
+            trigger->filler_2 = rom.readByte();
+            trigger->filler_3 = rom.readByte();
             trigger->ptrScript = rom.readPointer();
             m_Triggers.push_back(trigger);
 
             // Reads the full raw data
-            rom.seek(rom.offset() - 16);
-            trigger->rawData = rom.readBytes(16);
+            //rom.seek(rom.offset() - 16);
+            //trigger->rawData = rom.readBytes(16);
 
             // Determines whether the script offset is valid
             if (!rom.checkOffset(trigger->ptrScript))
@@ -294,7 +296,8 @@ namespace ame
             sign->positionY = rom.readHWord();
             sign->level = rom.readByte();
             type = rom.readByte();
-            rom.readHWord(); // padding
+            sign->filler_1 = rom.readByte();
+            sign->filler_2 = rom.readByte();
 
             // Can be either a script, item or secret base
             if (type >= ST_HiddenItem0 && type <= ST_HiddenItem2)
@@ -328,8 +331,8 @@ namespace ame
             m_Signs.push_back(sign);
 
             // Reads the full raw data
-            rom.seek(rom.offset() - 12);
-            sign->rawData = rom.readBytes(12);
+            //rom.seek(rom.offset() - 12);
+            //sign->rawData = rom.readBytes(12);
         }
 
 

@@ -104,6 +104,10 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEEntityView::initializeGL()
     {
+        if (qboy::GLErrors::Current == NULL)
+            qboy::GLErrors::Current = new qboy::GLErrors;
+
+
         initializeOpenGLFunctions();
 
         // Defines constant buffers

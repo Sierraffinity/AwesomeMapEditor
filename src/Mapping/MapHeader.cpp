@@ -193,6 +193,7 @@ namespace ame
 
 
         // Loading successful
+        m_Offset = offset;
         return true;
     }
 
@@ -255,5 +256,39 @@ namespace ame
     const QSize MapHeader::size() const
     {
         return QSize(m_Width, m_Height);
+    }   
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/2/2016
+    //
+    //////////////////////////////////////////////////////////
+    QByteArray MapHeader::rawData()
+    {
+        QByteArray ba;
+        ba.append((Int8 *) &m_Width, 4);
+        ba.append((Int8 *) &m_Height, 4);
+        m_PtrBorder += 0x08000000;
+        m_PtrBlocks += 0x08000000;
+        m_PtrPrimary += 0x08000000;
+        m_PtrSecondary += 0x08000000;
+        ba.append((Int8 *) &m_PtrBorder, 4);
+        ba.append((Int8 *) &m_PtrBlocks, 4);
+        ba.append((Int8 *) &m_PtrPrimary, 4);
+        ba.append((Int8 *) &m_PtrSecondary, 4);
+        m_PtrBorder -= 0x08000000;
+        m_PtrBlocks -= 0x08000000;
+        m_PtrPrimary -= 0x08000000;
+        m_PtrSecondary -= 0x08000000;
+
+        if (CONFIG(RomType) == RT_FRLG)
+        {
+            ba.push_back((Int8) m_Border.height());
+            ba.push_back((Int8) m_Border.width());
+        }
+
+        return ba;
     }
 }
