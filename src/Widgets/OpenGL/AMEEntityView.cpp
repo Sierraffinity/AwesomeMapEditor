@@ -219,7 +219,7 @@ namespace ame
 
             m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
 
-            float npcBounds[8] { 0, 0, currentNpc->moveRadiusX*32+16.0f, 0, currentNpc->moveRadiusX*32+16.0f, currentNpc->moveRadiusY*32+16.0f, 0, currentNpc->moveRadiusY*32+16.0f };
+            float npcBounds[8] { 0.5f, 0.5f, currentNpc->moveRadiusX*32+16.5f, 0.5f, currentNpc->moveRadiusX*32+16.5f, currentNpc->moveRadiusY*32+16.5f, 0.5f, currentNpc->moveRadiusY*32+16.5f };
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, boundsBuffer));
             glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, npcBounds, GL_STATIC_DRAW));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
@@ -299,12 +299,13 @@ namespace ame
         {
             float posX = (float)m_Selection.absPos.x();
             float posY = (float)m_Selection.absPos.y();
-            float buffer[8] =
+            float buffer[10] =
             {
-                0,  0,
-                16, 0,
-                16, 16,
-                0,  16
+                0.5f,  0.5f,
+                16.5f, 0.5f,
+                16.5f, 16.5f,
+                0.5f,  16.5f,
+                0.5f,  0.5f
             };
 
             mat_mvp.setToIdentity();
@@ -314,7 +315,7 @@ namespace ame
             unsigned tempBuffer;
             glCheck(glGenBuffers(1, &tempBuffer));
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, tempBuffer));
-            glCheck(glBufferData(GL_ARRAY_BUFFER, 8*sizeof(float), buffer, GL_STATIC_DRAW));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, 10*sizeof(float), buffer, GL_STATIC_DRAW));
             glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
             glCheck(glBindTexture(GL_TEXTURE_2D, 0));
 
@@ -324,7 +325,7 @@ namespace ame
             m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 1.0f));
             m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
 
-            glCheck(glDrawArrays(GL_LINE_LOOP, 0, 4));
+            glCheck(glDrawArrays(GL_LINE_STRIP, 0, 5));
             glCheck(glDeleteBuffers(1, &tempBuffer));
         }
     }
