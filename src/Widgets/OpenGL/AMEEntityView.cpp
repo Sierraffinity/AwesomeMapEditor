@@ -219,7 +219,7 @@ namespace ame
 
             m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
 
-            float npcBounds[8] { 0.5f, 0.5f, currentNpc->moveRadiusX*32+16.5f, 0.5f, currentNpc->moveRadiusX*32+16.5f, currentNpc->moveRadiusY*32+16.5f, 0.5f, currentNpc->moveRadiusY*32+16.5f };
+            float npcBounds[8] { 0.5f, 0.5f, currentNpc->moveRadiusX*32+15.5f, 0.5f, currentNpc->moveRadiusX*32+15.5f, currentNpc->moveRadiusY*32+15.5f, 0.5f, currentNpc->moveRadiusY*32+15.5f };
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, boundsBuffer));
             glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, npcBounds, GL_STATIC_DRAW));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
@@ -302,9 +302,9 @@ namespace ame
             float buffer[10] =
             {
                 0.5f,  0.5f,
-                16.5f, 0.5f,
-                16.5f, 16.5f,
-                0.5f,  16.5f,
+                15.5f, 0.5f,
+                15.5f, 15.5f,
+                0.5f,  15.5f,
                 0.5f,  0.5f
             };
 
