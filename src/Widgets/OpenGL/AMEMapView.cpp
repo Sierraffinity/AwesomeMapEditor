@@ -108,9 +108,12 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::initializeGL()
     {
+        if (qboy::GLErrors::Current == NULL)
+            qboy::GLErrors::Current = new qboy::GLErrors;
+
+
         // Initializes the OpenGL functions
-        initializeOpenGLFunctions();
-        qboy::GLErrors::Current = new qboy::GLErrors;
+        initializeOpenGLFunctions();     
 
         // Initializes the shader program
         m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/MapVertexShader.glsl");

@@ -59,8 +59,10 @@ namespace ame
         UInt16 positionY;   ///< Y-position on the map
         UInt8 level;        ///< Level/layer/height on the map
         SignType type;      ///< Type of the sign-post
+        UInt8 filler_1;     ///< First filler byte
+        UInt8 filler_2;     ///< Second filler byte
         UInt32 offset;      ///< Offset of this entity
-        QByteArray rawData; ///< Raw data for the entity view
+        QByteArray rawData();
 
         /* Hidden item */
         UInt16 item;        ///< ID of the hidden item
@@ -72,7 +74,6 @@ namespace ame
 
         /* Secret base */
         UInt32 baseID;      ///< Identifier of the base
-
     };
 }
 

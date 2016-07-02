@@ -88,7 +88,8 @@ SOURCES += \
     src/Graphics/OverworldTable.cpp \
     src/Widgets/OpenGL/AMEEntityView.cpp \
     src/Graphics/PropertyTable.cpp \
-    src/System/Settings.cpp
+    src/System/Settings.cpp \
+    src/Entities/EntityRawData.cpp
 
 
 #

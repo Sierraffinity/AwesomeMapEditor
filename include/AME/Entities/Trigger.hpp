@@ -57,11 +57,14 @@ namespace ame
         UInt16 positionX;   ///< X-position on the map
         UInt16 positionY;   ///< Y-position on the map
         UInt8 level;        ///< Level/layer/height on the map
+        UInt8 filler_1;     ///< First filler byte
         UInt16 variable;    ///< Variable to check
         UInt16 value;       ///< It's value to check for
+        UInt8 filler_2;     ///< Second filler byte
+        UInt8 filler_3;     ///< Third filler byte
         UInt32 ptrScript;   ///< Offset of the script
         UInt32 offset;      ///< Offset of this entity
-        QByteArray rawData; ///< Raw data for the entity view
+        QByteArray rawData();
     };
 }
 

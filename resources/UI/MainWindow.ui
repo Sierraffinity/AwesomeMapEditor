@@ -232,8 +232,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>587</width>
-              <height>602</height>
+              <width>582</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -473,7 +473,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -644,8 +644,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>444</width>
-              <height>602</height>
+              <width>451</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -2590,8 +2590,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>215</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3160,8 +3160,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>215</width>
+                    <height>426</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3917,8 +3917,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>220</width>
+                    <height>358</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -5350,8 +5350,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>275</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -5764,8 +5764,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>474</height>
+                  <width>338</width>
+                  <height>433</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -6908,8 +6908,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>732</width>
-              <height>612</height>
+              <width>743</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -6940,10 +6940,10 @@
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3" rowminimumheight="0,0,0,0,0,0,0,0,0">
                   <item row="6" column="0" colspan="2">
-                   <widget class="QComboBox" name="comboBox_6"/>
+                   <widget class="QComboBox" name="header_box_visibility"/>
                   </item>
                   <item row="8" column="2" colspan="2">
-                   <widget class="QComboBox" name="comboBox_7"/>
+                   <widget class="QComboBox" name="header_box_battle"/>
                   </item>
                   <item row="7" column="2" colspan="2">
                    <widget class="QLabel" name="label_96">
@@ -6969,7 +6969,7 @@
                      </widget>
                     </item>
                     <item>
-                     <widget class="QHexSpinBox" name="spinBox_47">
+                     <widget class="QHexSpinBox" name="header_music_index">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -7007,7 +7007,7 @@
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_27">
                      <item>
-                      <widget class="QHexSpinBox" name="spinBox_48">
+                      <widget class="QHexSpinBox" name="header_ftr_index">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -7046,28 +7046,28 @@
                   <item row="3" column="2">
                    <layout class="QVBoxLayout" name="verticalLayout_28">
                     <item>
-                     <widget class="QCheckBox" name="checkBox_5">
+                     <widget class="QCheckBox" name="header_check_showname">
                       <property name="text">
                        <string>Shows Name</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_6">
+                     <widget class="QCheckBox" name="header_check_run">
                       <property name="text">
                        <string>Can Run</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_7">
+                     <widget class="QCheckBox" name="header_check_bike">
                       <property name="text">
                        <string>Can Ride Bike</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_8">
+                     <widget class="QCheckBox" name="header_check_escape">
                       <property name="text">
                        <string>Can Escape From</string>
                       </property>
@@ -7084,7 +7084,7 @@
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_32">
                        <item>
-                        <widget class="QSpinBox" name="spnNPCHeight_3">
+                        <widget class="QSpinBox" name="header_mapname">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                            <horstretch>0</horstretch>
@@ -7150,13 +7150,13 @@
                    </widget>
                   </item>
                   <item row="6" column="2" colspan="2">
-                   <widget class="QComboBox" name="comboBox_9"/>
+                   <widget class="QComboBox" name="header_box_weather"/>
                   </item>
                   <item row="8" column="0" colspan="2">
-                   <widget class="QComboBox" name="comboBox_10"/>
+                   <widget class="QComboBox" name="header_box_type"/>
                   </item>
                   <item row="1" column="3">
-                   <widget class="QHexSpinBox" name="spinBox_49">
+                   <widget class="QHexSpinBox" name="header_ptr_event">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7190,7 +7190,7 @@
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <widget class="QHexSpinBox" name="spinBox_50">
+                   <widget class="QHexSpinBox" name="header_ptr_script">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7224,7 +7224,7 @@
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QHexSpinBox" name="spinBox_51">
+                   <widget class="QHexSpinBox" name="header_ptr_footer">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7258,7 +7258,7 @@
                    </widget>
                   </item>
                   <item row="2" column="3">
-                   <widget class="QHexSpinBox" name="spinBox_52">
+                   <widget class="QHexSpinBox" name="header_ptr_connex">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7292,7 +7292,7 @@
                    </widget>
                   </item>
                   <item row="0" column="0" colspan="4">
-                   <widget class="QGroupBox" name="groupBox_23">
+                   <widget class="QGroupBox" name="header_group_raw">
                     <property name="title">
                      <string>Raw Data @ 0x00000000</string>
                     </property>
@@ -7313,7 +7313,7 @@
                       <number>3</number>
                      </property>
                      <item>
-                      <widget class="QHexEdit" name="widget_7" native="true">
+                      <widget class="QHexEdit" name="header_raw_data" native="true">
                        <property name="addressArea" stdset="0">
                         <bool>false</bool>
                        </property>
@@ -7338,7 +7338,7 @@
                  </property>
                  <layout class="QGridLayout" name="gridLayout_12">
                   <item row="2" column="3">
-                   <widget class="QHexSpinBox" name="spinBox_53">
+                   <widget class="QHexSpinBox" name="header_ftr_ptr_local">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7392,14 +7392,14 @@
                       </widget>
                      </item>
                      <item row="1" column="0">
-                      <widget class="QLineEdit" name="lineEdit_6">
+                      <widget class="QLineEdit" name="header_map_width">
                        <property name="text">
                         <string>0</string>
                        </property>
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="QLineEdit" name="lineEdit_7">
+                      <widget class="QLineEdit" name="header_map_height">
                        <property name="text">
                         <string>0</string>
                        </property>
@@ -7416,7 +7416,7 @@
                    </widget>
                   </item>
                   <item row="1" column="3">
-                   <widget class="QHexSpinBox" name="spinBox_54">
+                   <widget class="QHexSpinBox" name="header_ftr_ptr_data">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7450,7 +7450,7 @@
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <widget class="QHexSpinBox" name="spinBox_55">
+                   <widget class="QHexSpinBox" name="header_ftr_ptr_global">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7477,7 +7477,7 @@
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QHexSpinBox" name="spinBox_56">
+                   <widget class="QHexSpinBox" name="header_ftr_ptr_border">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -7531,14 +7531,14 @@
                       </widget>
                      </item>
                      <item row="1" column="0">
-                      <widget class="QLineEdit" name="lineEdit_8">
+                      <widget class="QLineEdit" name="header_border_width">
                        <property name="text">
                         <string>0</string>
                        </property>
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="QLineEdit" name="lineEdit_9">
+                      <widget class="QLineEdit" name="header_border_height">
                        <property name="text">
                         <string>0</string>
                        </property>
@@ -7548,7 +7548,7 @@
                    </widget>
                   </item>
                   <item row="0" column="0" colspan="4">
-                   <widget class="QGroupBox" name="groupBox_27">
+                   <widget class="QGroupBox" name="header_ftr_group_raw">
                     <property name="title">
                      <string>Raw Data @ 0x00000000</string>
                     </property>
@@ -7569,7 +7569,7 @@
                       <number>3</number>
                      </property>
                      <item>
-                      <widget class="QHexEdit" name="widget_8" native="true">
+                      <widget class="QHexEdit" name="header_ftr_raw_data" native="true">
                        <property name="addressArea" stdset="0">
                         <bool>false</bool>
                        </property>

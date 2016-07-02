@@ -198,9 +198,9 @@ namespace ame
         m_DarknessType = rom.readByte();
         m_WeatherType = rom.readByte();
         m_MapType = rom.readByte();
-        rom.readHWord(); // padding
-        m_LabelType = rom.readByte();
         m_BattleType = rom.readByte();
+        m_LabelType = rom.readByte();
+        rom.readHWord(); // padding
         m_Offset = offset;
         return true;
     }
@@ -276,6 +276,43 @@ namespace ame
     Int32 Map::wildpokeTable() const
     {
         return m_WildTable;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/2/2016
+    //
+    //////////////////////////////////////////////////////////
+    QByteArray Map::rawData()
+    {
+        QByteArray ba;
+        m_PtrHeader += 0x08000000;
+        m_PtrEvents += 0x08000000;
+        m_PtrScripts += 0x08000000;
+        m_PtrConnections += 0x08000000;
+        ba.append((Int8 *) &m_PtrHeader, 4);
+        ba.append((Int8 *) &m_PtrEvents, 4);
+        ba.append((Int8 *) &m_PtrScripts, 4);
+        ba.append((Int8 *) &m_PtrConnections, 4);
+        m_PtrHeader -= 0x08000000;
+        m_PtrEvents -= 0x08000000;
+        m_PtrScripts -= 0x08000000;
+        m_PtrConnections -= 0x08000000;
+        ba.append((Int8 *) &m_MusicID, 2);
+        ba.append((Int8 *) &m_HeaderID, 2);
+        ba.append((Int8) m_NameIndex);
+        ba.append((Int8) m_DarknessType);
+        ba.append((Int8) m_WeatherType);
+        ba.append((Int8) m_MapType);
+        ba.append((Int8) m_BattleType);
+        ba.append((Int8) m_LabelType);
+        ba.push_back((Int8)0); // might be used for expanded map names later
+        ba.push_back((Int8)0); // might be used for expanded map names later
+
+        return ba;
     }
 
 
