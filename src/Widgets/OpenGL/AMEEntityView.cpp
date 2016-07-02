@@ -304,7 +304,7 @@ namespace ame
                 0,  0,
                 16, 0,
                 16, 16,
-                0,  17
+                0,  16
             };
 
             mat_mvp.setToIdentity();
@@ -367,6 +367,7 @@ namespace ame
         m_Translation = view->mainPos();
         //view->setEntities(m_Entities->npcs());
         setMinimumSize(m_MapView->minimumSize());
+        m_MapView->resize(m_MapView->minimumSize());
     }
 
     ///////////////////////////////////////////////////////////
@@ -410,6 +411,7 @@ namespace ame
             return;
 
 
+        m_Selection = CurrentEntity();
         m_Entities = NULL;
         m_MapView = NULL;
     }

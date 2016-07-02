@@ -720,7 +720,6 @@ namespace ame
     void AMEMapView::makeGL()
     {
         makeCurrent();
-        initializeOpenGLFunctions();
         m_VAO.bind();
 
         // Creates, binds and buffers the static index buffer

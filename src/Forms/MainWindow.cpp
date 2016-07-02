@@ -549,8 +549,6 @@ namespace ame
         ui->openGLWidget_3->freeGL();
         ui->openGLWidget_5->freeGL();
 
-        // Sets the tab index to the map-index
-        //ui->tabWidget->setCurrentIndex(0);
 
         // Retrieves the new map from the stored property
         QByteArray data = item->data(column, Qt::UserRole).toByteArray();
@@ -567,6 +565,11 @@ namespace ame
         ui->openGLWidget_5->setEntities(currentMap);
         ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
         ui->openGLWidget_5->update();
+
+        if (ui->tabWidget->currentIndex() == 1)
+        {
+            ui->openGLWidget_2->show();
+        }
         m_CurrentMap = currentMap;
 
         // Fills the wild-pokemon tab
