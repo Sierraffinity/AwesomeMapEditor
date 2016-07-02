@@ -247,8 +247,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>582</width>
-              <height>610</height>
+              <width>587</width>
+              <height>602</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -488,7 +488,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -659,8 +659,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>451</width>
-              <height>610</height>
+              <width>444</width>
+              <height>602</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -2605,8 +2605,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>362</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3175,8 +3175,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>464</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3932,8 +3932,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>230</width>
-                    <height>380</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4402,77 +4402,453 @@
                     </layout>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_54">
-                     <item>
-                      <widget class="QLabel" name="label_51">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Script Offset:</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_54">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeType">
-                        <enum>QSizePolicy::Expanding</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QHexSpinBox" name="sign_script">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <family>Courier New</family>
-                        </font>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string notr="true">0x</string>
-                       </property>
-                       <property name="maximum">
-                        <number>2147483647</number>
-                       </property>
-                       <property name="displayIntegerBase">
-                        <number>16</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="pushButton_11">
-                     <property name="text">
-                      <string> Open Script in Editor</string>
+                    <widget class="QStackedWidget" name="stackedWidget">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
                      </property>
-                     <property name="icon">
-                      <iconset resource="../images.qrc">
-                       <normaloff>:/icons/script_go.ico</normaloff>:/icons/script_go.ico</iconset>
+                     <property name="currentIndex">
+                      <number>1</number>
                      </property>
-                     <property name="flat">
-                      <bool>false</bool>
-                     </property>
+                     <widget class="QWidget" name="pageSignScript">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_20" stretch="0,0">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_54">
+                         <item>
+                          <widget class="QLabel" name="label_51">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="text">
+                            <string>Script Offset:</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <spacer name="horizontalSpacer_54">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::Expanding</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>40</width>
+                             <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item>
+                          <widget class="QHexSpinBox" name="sign_script">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Courier New</family>
+                            </font>
+                           </property>
+                           <property name="buttonSymbols">
+                            <enum>QAbstractSpinBox::NoButtons</enum>
+                           </property>
+                           <property name="prefix">
+                            <string notr="true">0x</string>
+                           </property>
+                           <property name="maximum">
+                            <number>2147483647</number>
+                           </property>
+                           <property name="displayIntegerBase">
+                            <number>16</number>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_11">
+                         <property name="text">
+                          <string> Open Script in Editor</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="../images.qrc">
+                           <normaloff>:/icons/script_go.ico</normaloff>:/icons/script_go.ico</iconset>
+                         </property>
+                         <property name="flat">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QWidget" name="pageSignItem">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_21">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_84">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="text">
+                          <string>Item:</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_59">
+                         <item>
+                          <widget class="QSpinBox" name="spnSignItem">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>22</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Courier New</family>
+                            </font>
+                           </property>
+                           <property name="prefix">
+                            <string notr="true">0x</string>
+                           </property>
+                           <property name="maximum">
+                            <number>255</number>
+                           </property>
+                           <property name="displayIntegerBase">
+                            <number>16</number>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QComboBox" name="cmbSignItem">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                             <horstretch>1</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <item>
+                            <property name="text">
+                             <string>All heights</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 0 (Surf)</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 1</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 2 (Normal)</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 3</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 4</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 5</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 6</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 7</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 8</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 9</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 10</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 11</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 12</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 13</string>
+                            </property>
+                           </item>
+                           <item>
+                            <property name="text">
+                             <string>Height 14</string>
+                            </property>
+                           </item>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_57">
+                         <item>
+                          <widget class="QLabel" name="label_80">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="text">
+                            <string>Hidden Item ID:</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <spacer name="horizontalSpacer_55">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::Expanding</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>40</width>
+                             <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item>
+                          <widget class="QHexSpinBox" name="spinBox_45">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Courier New</family>
+                            </font>
+                           </property>
+                           <property name="buttonSymbols">
+                            <enum>QAbstractSpinBox::NoButtons</enum>
+                           </property>
+                           <property name="prefix">
+                            <string notr="true">0x</string>
+                           </property>
+                           <property name="maximum">
+                            <number>255</number>
+                           </property>
+                           <property name="displayIntegerBase">
+                            <number>16</number>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_58">
+                         <item>
+                          <widget class="QLabel" name="label_83">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="text">
+                            <string>Amount:</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <spacer name="horizontalSpacer_56">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::Expanding</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>40</width>
+                             <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item>
+                          <widget class="QSpinBox" name="spinBox_2">
+                           <property name="maximum">
+                            <number>4</number>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QWidget" name="pageSignBase">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_22">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_55">
+                         <item>
+                          <widget class="QLabel" name="label_55">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="text">
+                            <string>Secret Base ID:</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <spacer name="horizontalSpacer_50">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::Expanding</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>40</width>
+                             <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item>
+                          <widget class="QHexSpinBox" name="spinBox_41">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Courier New</family>
+                            </font>
+                           </property>
+                           <property name="buttonSymbols">
+                            <enum>QAbstractSpinBox::NoButtons</enum>
+                           </property>
+                           <property name="prefix">
+                            <string notr="true">0x</string>
+                           </property>
+                           <property name="maximum">
+                            <number>2147483647</number>
+                           </property>
+                           <property name="displayIntegerBase">
+                            <number>16</number>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
                     </widget>
                    </item>
                    <item>
@@ -5365,8 +5741,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -5779,8 +6155,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>433</height>
+                  <width>341</width>
+                  <height>474</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -6923,8 +7299,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>743</width>
-              <height>610</height>
+              <width>732</width>
+              <height>616</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -6954,12 +7330,6 @@
                   <bool>false</bool>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3" rowminimumheight="0,0,0,0,0,0,0,0,0">
-                  <item row="6" column="0" colspan="2">
-                   <widget class="QComboBox" name="header_box_visibility"/>
-                  </item>
-                  <item row="8" column="2" colspan="2">
-                   <widget class="QComboBox" name="header_box_battle"/>
-                  </item>
                   <item row="7" column="2" colspan="2">
                    <widget class="QLabel" name="label_96">
                     <property name="text">
@@ -7015,49 +7385,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item row="3" column="3">
-                   <widget class="QGroupBox" name="groupBox_21">
-                    <property name="title">
-                     <string>Layout Index</string>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_27">
-                     <item>
-                      <widget class="QHexSpinBox" name="header_ftr_index">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <family>Courier New</family>
-                        </font>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string notr="true">0x</string>
-                       </property>
-                       <property name="maximum">
-                        <number>65535</number>
-                       </property>
-                       <property name="displayIntegerBase">
-                        <number>16</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_16">
-                       <property name="text">
-                        <string>Manage</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
                   <item row="3" column="2">
                    <layout class="QVBoxLayout" name="verticalLayout_28">
                     <item>
@@ -7090,66 +7417,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item row="3" column="0" colspan="2">
-                   <widget class="QGroupBox" name="groupBox_22">
-                    <property name="title">
-                     <string>Map Name</string>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_29">
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_32">
-                       <item>
-                        <widget class="QSpinBox" name="header_mapname">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="minimumSize">
-                          <size>
-                           <width>0</width>
-                           <height>22</height>
-                          </size>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <family>Courier New</family>
-                          </font>
-                         </property>
-                         <property name="prefix">
-                          <string notr="true">0x</string>
-                         </property>
-                         <property name="maximum">
-                          <number>255</number>
-                         </property>
-                         <property name="displayIntegerBase">
-                          <number>16</number>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QComboBox" name="cmbNPCHeight_3">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                           <horstretch>1</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_17">
-                       <property name="text">
-                        <string>Map Name Manager</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
                   <item row="5" column="0" colspan="2">
                    <widget class="QLabel" name="label_99">
                     <property name="text">
@@ -7163,12 +7430,6 @@
                      <string>Weather:</string>
                     </property>
                    </widget>
-                  </item>
-                  <item row="6" column="2" colspan="2">
-                   <widget class="QComboBox" name="header_box_weather"/>
-                  </item>
-                  <item row="8" column="0" colspan="2">
-                   <widget class="QComboBox" name="header_box_type"/>
                   </item>
                   <item row="1" column="3">
                    <widget class="QHexSpinBox" name="header_ptr_event">
@@ -7201,6 +7462,33 @@
                    <widget class="QLabel" name="label_101">
                     <property name="text">
                      <string>Event Data Pointer:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QHexSpinBox" name="header_ptr_connex">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Courier New</family>
+                     </font>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="prefix">
+                     <string notr="true">0x</string>
+                    </property>
+                    <property name="maximum">
+                     <number>2147483647</number>
+                    </property>
+                    <property name="displayIntegerBase">
+                     <number>16</number>
                     </property>
                    </widget>
                   </item>
@@ -7272,38 +7560,114 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="3">
-                   <widget class="QHexSpinBox" name="header_ptr_connex">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Courier New</family>
-                     </font>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::NoButtons</enum>
-                    </property>
-                    <property name="prefix">
-                     <string notr="true">0x</string>
-                    </property>
-                    <property name="maximum">
-                     <number>2147483647</number>
-                    </property>
-                    <property name="displayIntegerBase">
-                     <number>16</number>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_104">
                     <property name="text">
                      <string>Layout Header Pointer:</string>
                     </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0" colspan="2">
+                   <widget class="QGroupBox" name="groupBox_22">
+                    <property name="title">
+                     <string>Map Name</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_29">
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <item>
+                        <widget class="QSpinBox" name="header_mapname">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>22</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <family>Courier New</family>
+                          </font>
+                         </property>
+                         <property name="prefix">
+                          <string notr="true">0x</string>
+                         </property>
+                         <property name="maximum">
+                          <number>255</number>
+                         </property>
+                         <property name="displayIntegerBase">
+                          <number>16</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="cmbHeaderMapName">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                           <horstretch>1</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="pushButton_17">
+                       <property name="text">
+                        <string>Map Name Manager</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item row="3" column="3">
+                   <widget class="QGroupBox" name="groupBox_21">
+                    <property name="title">
+                     <string>Layout Index</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_27">
+                     <item>
+                      <widget class="QHexSpinBox" name="header_ftr_index">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Courier New</family>
+                        </font>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string notr="true">0x</string>
+                       </property>
+                       <property name="maximum">
+                        <number>65535</number>
+                       </property>
+                       <property name="displayIntegerBase">
+                        <number>16</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="pushButton_16">
+                       <property name="text">
+                        <string>Manage</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                   <item row="0" column="0" colspan="4">
@@ -7342,6 +7706,372 @@
                      </item>
                     </layout>
                    </widget>
+                  </item>
+                  <item row="6" column="0" colspan="2">
+                   <layout class="QHBoxLayout" name="horizontalLayout_41">
+                    <item>
+                     <widget class="QSpinBox" name="sbVisibility">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>22</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Courier New</family>
+                       </font>
+                      </property>
+                      <property name="prefix">
+                       <string notr="true">0x</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="displayIntegerBase">
+                       <number>16</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="cbVisibility">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>Normal</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Dark, Flash usable</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Dark, Flash unusable</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="6" column="2" colspan="2">
+                   <layout class="QHBoxLayout" name="horizontalLayout_50">
+                    <item>
+                     <widget class="QSpinBox" name="sbWeather">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>22</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Courier New</family>
+                       </font>
+                      </property>
+                      <property name="prefix">
+                       <string notr="true">0x</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="displayIntegerBase">
+                       <number>16</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="cbWeather">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>None (indoors)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Sunny with clouds</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>None (outdoors)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Rain</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Snow (ending)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Thunderstorm</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Mist (moving left)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Ash falling</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Sandstorm</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Mist (moving down &amp; left)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Mist (bright)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Dark</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Heat wave (R/S/E)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Heavy thunderstorm</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Mist (underwater)</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Unknown</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="8" column="0" colspan="2">
+                   <layout class="QHBoxLayout" name="horizontalLayout_52">
+                    <item>
+                     <widget class="QSpinBox" name="sbMapType">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>22</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Courier New</family>
+                       </font>
+                      </property>
+                      <property name="prefix">
+                       <string notr="true">0x</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="displayIntegerBase">
+                       <number>16</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="cbMapType">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>Unknown</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Village</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>City</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Route</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Underground</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Underwater</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Unknown</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Unknown</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Indoors</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Secret Base</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="8" column="2" colspan="2">
+                   <layout class="QHBoxLayout" name="horizontalLayout_53">
+                    <item>
+                     <widget class="QSpinBox" name="sbBattleBG">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>22</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Courier New</family>
+                       </font>
+                      </property>
+                      <property name="prefix">
+                       <string notr="true">0x</string>
+                      </property>
+                      <property name="maximum">
+                       <number>255</number>
+                      </property>
+                      <property name="displayIntegerBase">
+                       <number>16</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="cbBattleBG">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>Normal</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Gym</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Team Rocket</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Unknown</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>First Elite Four member</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Second Elite Four member</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Third Elite Four member</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Fourth Elite Four member</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Big Red Poké Ball</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </widget>
@@ -9410,6 +10140,134 @@
     <hint type="destinationlabel">
      <x>20</x>
      <y>82</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbBattleBG</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbBattleBG</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>454</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbVisibility</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbVisibility</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>425</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbMapType</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbMapType</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>425</x>
+     <y>454</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbWeather</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cbWeather</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbBattleBG</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbBattleBG</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>657</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>539</x>
+     <y>454</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbMapType</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbMapType</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>425</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>454</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbWeather</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbWeather</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>657</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>539</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbVisibility</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sbVisibility</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>425</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>404</y>
     </hint>
    </hints>
   </connection>

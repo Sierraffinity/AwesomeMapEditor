@@ -580,10 +580,10 @@ namespace ame
         ui->header_mapname->setValue(map->m_NameIndex);
         ui->header_ftr_index->setValue(map->m_HeaderID);
         ui->header_music_index->setValue(map->m_MusicID);
-        ui->header_box_visibility->setCurrentIndex(map->m_DarknessType);
-        ui->header_box_type->setCurrentIndex(map->m_MapType);
-        ui->header_box_weather->setCurrentIndex(map->m_WeatherType);
-        ui->header_box_battle->setCurrentIndex(map->m_BattleType);
+        ui->cbVisibility->setCurrentIndex(map->m_DarknessType);
+        ui->cbMapType->setCurrentIndex(map->m_MapType);
+        ui->cbWeather->setCurrentIndex(map->m_WeatherType);
+        ui->cbBattleBG->setCurrentIndex(map->m_BattleType);
         ui->header_check_run->setChecked(map->m_MapType != 5 && map->m_MapType != 8);
         ui->header_check_bike->setChecked(map->m_MapType != 5 && map->m_MapType != 8 && map->m_MapType != 9);
         ui->header_check_bike->setChecked(map->m_MapType != 5 && map->m_MapType != 8 && map->m_MapType != 9);
