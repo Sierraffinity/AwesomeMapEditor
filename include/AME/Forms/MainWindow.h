@@ -164,6 +164,10 @@ namespace ame
 
         void on_spnEntityScroller_valueChanged(int arg1);
 
+        void on_cmbSignType_currentIndexChanged(int index);
+
+        void showCorrectSignType(Sign *sign);
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////

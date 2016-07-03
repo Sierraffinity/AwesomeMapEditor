@@ -247,8 +247,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>582</width>
-              <height>610</height>
+              <width>587</width>
+              <height>602</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -488,7 +488,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -586,7 +586,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <widget class="QOpenGLWidget" name="openGLWidget_4">
@@ -659,8 +659,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>451</width>
-              <height>610</height>
+              <width>444</width>
+              <height>602</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -679,37 +679,21 @@
              <property name="spacing">
               <number>0</number>
              </property>
-             <item row="4" column="2">
-              <spacer name="horizontalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+             <item row="4" column="1">
+              <widget class="ame::AMEEntityView" name="openGLWidget_5">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
+               <property name="minimumSize">
                 <size>
-                 <width>20</width>
-                 <height>20</height>
+                 <width>16</width>
+                 <height>16</height>
                 </size>
                </property>
-              </spacer>
-             </item>
-             <item row="4" column="0">
-              <spacer name="horizontalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
+              </widget>
              </item>
              <item row="6" column="1">
               <spacer name="verticalSpacer_6">
@@ -743,21 +727,37 @@
                </property>
               </spacer>
              </item>
-             <item row="4" column="1">
-              <widget class="ame::AMEEntityView" name="openGLWidget_5">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+             <item row="4" column="2">
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
-               <property name="minimumSize">
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
                 <size>
-                 <width>16</width>
-                 <height>16</height>
+                 <width>20</width>
+                 <height>20</height>
                 </size>
                </property>
-              </widget>
+              </spacer>
+             </item>
+             <item row="4" column="0">
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -850,7 +850,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="pageNPCs">
               <property name="sizePolicy">
@@ -894,8 +894,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>246</width>
-                    <height>666</height>
+                    <width>278</width>
+                    <height>717</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2605,8 +2605,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>333</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3175,8 +3175,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>426</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3932,8 +3932,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4402,453 +4402,428 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QResizingStackedWidget" name="sign_type_stack">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="currentIndex">
-                      <number>2</number>
-                     </property>
-                     <widget class="QWidget" name="pageSignScript">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
+                    <widget class="QWidget" name="ctrSignScript" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_22">
+                      <property name="leftMargin">
+                       <number>0</number>
                       </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_20" stretch="0,0">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout_54">
-                         <item>
-                          <widget class="QLabel" name="label_51">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="text">
-                            <string>Script Offset:</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <spacer name="horizontalSpacer_54">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeType">
-                            <enum>QSizePolicy::Expanding</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
-                         </item>
-                         <item>
-                          <widget class="QHexSpinBox" name="sign_script">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Courier New</family>
-                            </font>
-                           </property>
-                           <property name="buttonSymbols">
-                            <enum>QAbstractSpinBox::NoButtons</enum>
-                           </property>
-                           <property name="prefix">
-                            <string notr="true">0x</string>
-                           </property>
-                           <property name="maximum">
-                            <number>2147483647</number>
-                           </property>
-                           <property name="displayIntegerBase">
-                            <number>16</number>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <widget class="QPushButton" name="pushButton_11">
-                         <property name="text">
-                          <string> Open Script in Editor</string>
-                         </property>
-                         <property name="icon">
-                          <iconset resource="../images.qrc">
-                           <normaloff>:/icons/script_go.ico</normaloff>:/icons/script_go.ico</iconset>
-                         </property>
-                         <property name="flat">
-                          <bool>false</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                     <widget class="QWidget" name="pageSignItem">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_21">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="label_84">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="text">
-                          <string>Item:</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout_59">
-                         <item>
-                          <widget class="QSpinBox" name="spnSignItem">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>22</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Courier New</family>
-                            </font>
-                           </property>
-                           <property name="prefix">
-                            <string notr="true">0x</string>
-                           </property>
-                           <property name="maximum">
-                            <number>255</number>
-                           </property>
-                           <property name="displayIntegerBase">
-                            <number>16</number>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QComboBox" name="cmbSignItem">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                             <horstretch>1</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <item>
-                            <property name="text">
-                             <string>All heights</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 0 (Surf)</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 1</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 2 (Normal)</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 3</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 4</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 5</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 6</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 7</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 8</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 9</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 10</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 11</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 12</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 13</string>
-                            </property>
-                           </item>
-                           <item>
-                            <property name="text">
-                             <string>Height 14</string>
-                            </property>
-                           </item>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout_57">
-                         <item>
-                          <widget class="QLabel" name="label_80">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="text">
-                            <string>Hidden Item ID:</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <spacer name="horizontalSpacer_55">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeType">
-                            <enum>QSizePolicy::Expanding</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
-                         </item>
-                         <item>
-                          <widget class="QHexSpinBox" name="sign_item_hidden">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Courier New</family>
-                            </font>
-                           </property>
-                           <property name="buttonSymbols">
-                            <enum>QAbstractSpinBox::NoButtons</enum>
-                           </property>
-                           <property name="prefix">
-                            <string notr="true">0x</string>
-                           </property>
-                           <property name="maximum">
-                            <number>255</number>
-                           </property>
-                           <property name="displayIntegerBase">
-                            <number>16</number>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout_58">
-                         <item>
-                          <widget class="QLabel" name="label_83">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="text">
-                            <string>Amount:</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <spacer name="horizontalSpacer_56">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeType">
-                            <enum>QSizePolicy::Expanding</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
-                         </item>
-                         <item>
-                          <widget class="QSpinBox" name="sign_item_amount">
-                           <property name="maximum">
-                            <number>4</number>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                      </layout>
-                     </widget>
-                     <widget class="QWidget" name="pageSignBase">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
+                      <property name="rightMargin">
+                       <number>0</number>
                       </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_22">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout_55">
-                         <item>
-                          <widget class="QLabel" name="label_55">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_54">
+                        <item>
+                         <widget class="QLabel" name="label_51">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Script Offset:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_54">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QHexSpinBox" name="sign_script">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>Courier New</family>
+                           </font>
+                          </property>
+                          <property name="buttonSymbols">
+                           <enum>QAbstractSpinBox::NoButtons</enum>
+                          </property>
+                          <property name="prefix">
+                           <string notr="true">0x</string>
+                          </property>
+                          <property name="maximum">
+                           <number>2147483647</number>
+                          </property>
+                          <property name="displayIntegerBase">
+                           <number>16</number>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_11">
+                        <property name="text">
+                         <string> Open Script in Editor</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="../images.qrc">
+                          <normaloff>:/icons/script_go.ico</normaloff>:/icons/script_go.ico</iconset>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="ctrSignItem" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_23">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="label_84">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="text">
+                         <string>Item:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_59">
+                        <item>
+                         <widget class="QSpinBox" name="spnSignItem">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>0</width>
+                            <height>22</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>Courier New</family>
+                           </font>
+                          </property>
+                          <property name="prefix">
+                           <string notr="true">0x</string>
+                          </property>
+                          <property name="maximum">
+                           <number>255</number>
+                          </property>
+                          <property name="displayIntegerBase">
+                           <number>16</number>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QComboBox" name="cmbSignItem">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <item>
                            <property name="text">
-                            <string>Secret Base ID:</string>
+                            <string>All heights</string>
                            </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <spacer name="horizontalSpacer_50">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 0 (Surf)</string>
                            </property>
-                           <property name="sizeType">
-                            <enum>QSizePolicy::Expanding</enum>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 1</string>
                            </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 2 (Normal)</string>
                            </property>
-                          </spacer>
-                         </item>
-                         <item>
-                          <widget class="QHexSpinBox" name="sign_base_id">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 3</string>
                            </property>
-                           <property name="font">
-                            <font>
-                             <family>Courier New</family>
-                            </font>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 4</string>
                            </property>
-                           <property name="buttonSymbols">
-                            <enum>QAbstractSpinBox::NoButtons</enum>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 5</string>
                            </property>
-                           <property name="prefix">
-                            <string notr="true">0x</string>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 6</string>
                            </property>
-                           <property name="maximum">
-                            <number>2147483647</number>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 7</string>
                            </property>
-                           <property name="displayIntegerBase">
-                            <number>16</number>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 8</string>
                            </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                      </layout>
-                     </widget>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 9</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 10</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 11</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 12</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 13</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Height 14</string>
+                           </property>
+                          </item>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_57">
+                        <item>
+                         <widget class="QLabel" name="label_80">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Hidden Item ID:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_55">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QHexSpinBox" name="sign_item_hidden">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>Courier New</family>
+                           </font>
+                          </property>
+                          <property name="buttonSymbols">
+                           <enum>QAbstractSpinBox::NoButtons</enum>
+                          </property>
+                          <property name="prefix">
+                           <string notr="true">0x</string>
+                          </property>
+                          <property name="maximum">
+                           <number>255</number>
+                          </property>
+                          <property name="displayIntegerBase">
+                           <number>16</number>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_58">
+                        <item>
+                         <widget class="QLabel" name="label_83">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Amount:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_56">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QSpinBox" name="sign_item_amount">
+                          <property name="maximum">
+                           <number>4</number>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="ctrSignBase" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_24">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_55">
+                        <item>
+                         <widget class="QLabel" name="label_55">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Secret Base ID:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_50">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QHexSpinBox" name="sign_base_id">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>Courier New</family>
+                           </font>
+                          </property>
+                          <property name="buttonSymbols">
+                           <enum>QAbstractSpinBox::NoButtons</enum>
+                          </property>
+                          <property name="prefix">
+                           <string notr="true">0x</string>
+                          </property>
+                          <property name="maximum">
+                           <number>2147483647</number>
+                          </property>
+                          <property name="displayIntegerBase">
+                           <number>16</number>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
                     </widget>
                    </item>
                    <item>
@@ -5001,8 +4976,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>742</width>
+                  <height>575</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -5741,8 +5716,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6155,8 +6130,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>433</height>
+                  <width>341</width>
+                  <height>474</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -6877,8 +6852,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7299,8 +7274,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>743</width>
-              <height>610</height>
+              <width>732</width>
+              <height>616</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -8745,12 +8720,6 @@
    <class>ame::AMEEntityView</class>
    <extends>QOpenGLWidget</extends>
    <header location="global">AMEEntityView.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QResizingStackedWidget</class>
-   <extends>QStackedWidget</extends>
-   <header location="global">QResizingStackedWidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

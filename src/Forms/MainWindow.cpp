@@ -82,6 +82,7 @@ namespace ame
 
         connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(on_MapSortOrder_changed(QAction*)));
 
+
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
 
@@ -919,24 +920,21 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
 
-            if (eventS->type <= ST_ScriptLeft)
-            {
-                ui->sign_type_stack->setCurrentIndex(0);
-                ui->sign_script->setValue(eventS->ptrScript);
-            }
-            else if (eventS->type == ST_SecretBase)
-            {
-                ui->sign_type_stack->setCurrentIndex(2);
-                ui->sign_base_id->setValue(eventS->baseID);
-            }
-            else
-            {
-                ui->sign_type_stack->setCurrentIndex(1);
-                ui->spnSignItem->setValue(eventS->item);
-                ui->sign_item_hidden->setValue(eventS->hiddenID);
-                ui->sign_item_amount->setValue(eventS->amount);
-            }
+            showCorrectSignType(eventS);
         }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_cmbSignType_currentIndexChanged(int index)
+    {
+        Sign *eventS = m_CurrentMap->entities().signs()[ui->spnEntityScroller->value()];
+        showCorrectSignType(eventS);
     }
 
     ///////////////////////////////////////////////////////////
@@ -1109,25 +1107,43 @@ namespace ame
             ui->openGLWidget_5->setCurrentEntity(entity);
             ui->openGLWidget_5->update();
 
-            if (eventS->type <= ST_ScriptLeft)
-            {
-                ui->sign_type_stack->setCurrentIndex(0);
-                ui->sign_script->setValue(eventS->ptrScript);
-            }
-            else if (eventS->type == ST_SecretBase)
-            {
-                ui->sign_type_stack->setCurrentIndex(2);
-                ui->sign_base_id->setValue(eventS->baseID);
-            }
-            else
-            {
-                ui->sign_type_stack->setCurrentIndex(1);
-                ui->spnSignItem->setValue(eventS->item);
-                ui->sign_item_hidden->setValue(eventS->hiddenID);
-                ui->sign_item_amount->setValue(eventS->amount);
-            }
+            showCorrectSignType(eventS);
 
             return;
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/2/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::showCorrectSignType(Sign *sign)
+    {
+        if (sign->type <= ST_ScriptLeft)
+        {
+            ui->ctrSignScript->setVisible(true);
+            ui->ctrSignItem->setVisible(false);
+            ui->ctrSignBase->setVisible(false);
+            ui->sign_script->setValue(sign->ptrScript);
+        }
+        else if (sign->type == ST_SecretBase)
+        {
+            ui->ctrSignScript->setVisible(false);
+            ui->ctrSignItem->setVisible(false);
+            ui->ctrSignBase->setVisible(true);
+            ui->sign_base_id->setValue(sign->baseID);
+        }
+        else
+        {
+            ui->ctrSignScript->setVisible(false);
+            ui->ctrSignItem->setVisible(true);
+            ui->ctrSignBase->setVisible(false);
+            ui->spnSignItem->setValue(sign->item);
+            ui->sign_item_hidden->setValue(sign->hiddenID);
+            ui->sign_item_amount->setValue(sign->amount);
         }
     }
 

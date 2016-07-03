@@ -88,8 +88,7 @@ SOURCES += \
     src/Widgets/OpenGL/AMEEntityView.cpp \
     src/Graphics/PropertyTable.cpp \
     src/System/Settings.cpp \
-    src/Entities/EntityRawData.cpp \
-    src/Widgets/QResizingStackedWidget.cpp
+    src/Entities/EntityRawData.cpp
 
 
 #
@@ -151,8 +150,7 @@ HEADERS  += \
     include/AME/Graphics/PropertyTable.hpp \
     include/AME/Graphics/Property.hpp \
     include/AME/System/Settings.hpp \
-    include/AME/Mapping/MapName.hpp \
-    include/AME/Widgets/QResizingStackedWidget.h
+    include/AME/Mapping/MapName.hpp
 
 
 #
