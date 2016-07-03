@@ -34,9 +34,11 @@ QHexEdit::QHexEdit(QWidget *parent) : QAbstractScrollArea(parent)
     _cursorTimer.start();
 
     setAddressWidth(4);
+    setLineWidth(16);
     setAddressArea(true);
     setAsciiArea(true);
     setOverwriteMode(true);
+    setCanSwitchOverwriteMode(true);
     setHighlighting(true);
     setReadOnly(false);
 
@@ -108,6 +110,19 @@ int QHexEdit::addressWidth()
         return n;
     else
         return _addressWidth;
+}
+
+void QHexEdit::setLineWidth(int lineWidth)
+{
+    _lineWidth = lineWidth;
+    adjust();
+    setCursorPosition(_cursorPosition);
+    viewport()->update();
+}
+
+int QHexEdit::lineWidth()
+{
+    return _lineWidth;
 }
 
 void QHexEdit::setAsciiArea(bool asciiArea)
@@ -218,6 +233,16 @@ void QHexEdit::setOverwriteMode(bool overwriteMode)
 bool QHexEdit::overwriteMode()
 {
     return _overwriteMode;
+}
+
+void QHexEdit::setCanSwitchOverwriteMode(bool canSwitchOverwriteMode)
+{
+    _canSwitchOverwriteMode = canSwitchOverwriteMode;
+}
+
+bool QHexEdit::canSwitchOverwriteMode()
+{
+    return _canSwitchOverwriteMode;
 }
 
 void QHexEdit::setSelectionColor(const QColor &color)
@@ -673,7 +698,7 @@ void QHexEdit::keyPressEvent(QKeyEvent *event)
     }
 
     // Switch between insert/overwrite mode
-    if ((event->key() == Qt::Key_Insert) && (event->modifiers() == Qt::NoModifier))
+    if ((event->key() == Qt::Key_Insert) && (event->modifiers() == Qt::NoModifier) && canSwitchOverwriteMode())
     {
         setOverwriteMode(!overwriteMode());
         setCursorPosition(_cursorPosition);
@@ -735,7 +760,7 @@ void QHexEdit::paintEvent(QPaintEvent *event)
             QString address;
             for (int row=0, pxPosY = _pxCharHeight; row <= (_dataShown.size()/BYTES_PER_LINE); row++, pxPosY +=_pxCharHeight)
             {
-                address = QString("%1").arg(_bPosFirst + row*BYTES_PER_LINE + _addressOffset, _addrDigits, 16, QChar('0'));
+                address = QString("%1").arg(_bPosFirst + row*BYTES_PER_LINE + _addressOffset, _addrDigits, 16, QChar('0')).toUpper();
                 painter.drawText(_pxPosAdrX - pxOfsX, pxPosY, address);
             }
         }
@@ -780,7 +805,7 @@ void QHexEdit::paintEvent(QPaintEvent *event)
                     r.setRect(pxPosX - _pxCharWidth, pxPosY - _pxCharHeight + _pxSelectionSub, 3*_pxCharWidth, _pxCharHeight);
                 painter.fillRect(r, c);
                 hex = _hexDataShown.mid((bPosLine + colIdx) * 2, 2);
-                painter.drawText(pxPosX, pxPosY, hex);
+                painter.drawText(pxPosX, pxPosY, hex.toUpper());
                 pxPosX += 3*_pxCharWidth;
 
                 // render ascii value
@@ -804,7 +829,7 @@ void QHexEdit::paintEvent(QPaintEvent *event)
     if (_blink && !_readOnly && hasFocus())
         painter.fillRect(_cursorRect, this->palette().color(QPalette::WindowText));
     else
-        painter.drawText(_pxCursorX, _pxCursorY, _hexDataShown.mid(_cursorPosition - _bPosFirst * 2, 1));
+        painter.drawText(_pxCursorX, _pxCursorY, _hexDataShown.mid(_cursorPosition - _bPosFirst * 2, 1).toUpper());
 
     // emit event, if size has changed
     if (_lastEventSize != _chunks->size())
@@ -940,7 +965,7 @@ QString QHexEdit::toReadable(const QByteArray &ba)
 
     for (int i=0; i < ba.size(); i += 16)
     {
-        QString addrStr = QString("%1").arg(_addressOffset + i, addressWidth(), 16, QChar('0'));
+        QString addrStr = QString("%1").arg(_addressOffset + i, addressWidth(), 16, QChar('0')).toUpper();
         QString hexStr;
         QString ascStr;
         for (int j=0; j<16; j++)
@@ -954,7 +979,7 @@ QString QHexEdit::toReadable(const QByteArray &ba)
                 ascStr.append(QChar(ch));
             }
         }
-        result += addrStr + " " + QString("%1").arg(hexStr, -48) + "  " + QString("%1").arg(ascStr, -17) + "\n";
+        result += addrStr + " " + QString("%1").arg(hexStr, -48).toUpper() + "  " + QString("%1").arg(ascStr, -17) + "\n";
     }
     return result;
 }

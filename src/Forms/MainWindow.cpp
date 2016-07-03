@@ -75,7 +75,6 @@ namespace ame
 
         QMenu *mapSortOrderMenu = new QMenu();
         QActionGroup *mapSortOrderActionGroup = new QActionGroup(this);
-        mapSortOrderActionGroup->setExclusive(true);
 
         mapSortOrderMenu->addAction(ui->actionSort_by_Name);
         mapSortOrderMenu->addAction(ui->actionSort_by_Bank);
@@ -90,15 +89,20 @@ namespace ame
 
         connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(on_MapSortOrder_changed(QAction*)));
 
-        QButtonGroup *mapToolbarButtons = new QButtonGroup(this);
-        mapSortOrderActionGroup->setExclusive(true);
-        mapToolbarButtons->addButton(ui->btnMapMouse);
-        mapToolbarButtons->addButton(ui->btnMapPencil);
-        mapToolbarButtons->addButton(ui->btnMapEyedropper);
-        mapToolbarButtons->addButton(ui->btnMapFill);
-        mapToolbarButtons->addButton(ui->btnMapFillAll);
+        QActionGroup *mapToolbarActionGroup = new QActionGroup(this);
+        mapToolbarActionGroup->addAction(ui->actionMouse);
+        ui->btnMapMouse->setDefaultAction(ui->actionMouse);
+        mapToolbarActionGroup->addAction(ui->actionPencil);
+        ui->btnMapPencil->setDefaultAction(ui->actionPencil);
+        mapToolbarActionGroup->addAction(ui->actionEyedropper);
+        ui->btnMapEyedropper->setDefaultAction(ui->actionEyedropper);
+        mapToolbarActionGroup->addAction(ui->actionFill);
+        ui->btnMapFill->setDefaultAction(ui->actionFill);
+        mapToolbarActionGroup->addAction(ui->actionFill_All);
+        ui->btnMapFillAll->setDefaultAction(ui->actionFill_All);
 
         ui->btnMapGrid->setDefaultAction(ui->action_Show_Grid);
+        ui->btnEntitiesGrid->setDefaultAction(ui->action_Show_Grid);
 
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
