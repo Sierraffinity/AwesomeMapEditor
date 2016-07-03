@@ -99,6 +99,10 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEBlockView::initializeGL()
     {
+        if (qboy::GLErrors::Current == NULL)
+            qboy::GLErrors::Current = new qboy::GLErrors;
+
+
         initializeOpenGLFunctions();       
 
         // Initializes the shader program

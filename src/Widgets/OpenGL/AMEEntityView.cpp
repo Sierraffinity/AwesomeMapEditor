@@ -385,6 +385,7 @@ namespace ame
     void AMEEntityView::setCurrentEntity(CurrentEntity entity)
     {
         m_Selection = entity;
+        update();
     }
 
     ///////////////////////////////////////////////////////////

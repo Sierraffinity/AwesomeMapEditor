@@ -735,9 +735,8 @@ namespace ame
         ui->openGLWidget_3->update();
         ui->openGLWidget->setMapView(ui->openGLWidget_2);
         ui->openGLWidget->update();
-        ui->openGLWidget_5->setEntities(currentMap);
         ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget_5->update();
+        ui->openGLWidget_5->setEntities(currentMap);
         m_CurrentMap = currentMap;
 
         // Fills the wild-pokemon tab
@@ -808,31 +807,47 @@ namespace ame
     {
         if (index == 0)
         {
+            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().npcs().size()-1);
+            ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().npcs().size() > 0);
 
             if (m_CurrentMap->entities().npcs().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
+            else
+                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
         }
         else if (index == 1)
         {
+            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().warps().size()-1);
+            ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().warps().size() > 0);
 
             if (m_CurrentMap->entities().warps().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
+            else
+                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
         }
         else if (index == 2)
         {
+            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().triggers().size()-1);
+            ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().triggers().size() > 0);
 
             if (m_CurrentMap->entities().triggers().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
+            else
+                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
         }
         else
         {
+            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().signs().size()-1);
+            ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().signs().size() > 0);
 
             if (m_CurrentMap->entities().signs().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
+            else
+                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
         }
     }
 
@@ -878,7 +893,6 @@ namespace ame
             entity.entity = eventN;
             entity.index = arg1;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 1 && m_CurrentMap->entities().warps().size() > 0)
         {
@@ -901,7 +915,6 @@ namespace ame
             entity.entity = eventW;
             entity.index = arg1;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 2 && m_CurrentMap->entities().triggers().size() > 0)
         {
@@ -924,7 +937,6 @@ namespace ame
             entity.entity = eventT;
             entity.index = arg1;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
         }
         else if (m_CurrentMap->entities().signs().size() > 0)
         {
@@ -946,7 +958,6 @@ namespace ame
             entity.entity = eventS;
             entity.index = arg1;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
 
             showCorrectSignType(eventS);
         }
@@ -1023,7 +1034,6 @@ namespace ame
             entity.entity = eventN;
             entity.index = indexN;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
 
             return;
         }
@@ -1060,7 +1070,6 @@ namespace ame
             entity.entity = eventW;
             entity.index = indexW;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
 
             return;
         }
@@ -1097,7 +1106,6 @@ namespace ame
             entity.entity = eventT;
             entity.index = indexT;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
 
             return;
         }
@@ -1133,7 +1141,6 @@ namespace ame
             entity.entity = eventS;
             entity.index = indexS;
             ui->openGLWidget_5->setCurrentEntity(entity);
-            ui->openGLWidget_5->update();
 
             showCorrectSignType(eventS);
 

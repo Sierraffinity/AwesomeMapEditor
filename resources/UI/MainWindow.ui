@@ -240,120 +240,6 @@
          <property name="verticalSpacing">
           <number>3</number>
          </property>
-         <item row="1" column="0">
-          <widget class="QScrollArea" name="scrollArea">
-           <property name="widgetResizable">
-            <bool>true</bool>
-           </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>587</width>
-              <height>574</height>
-             </rect>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_2">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="1" column="0">
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="1" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-              <widget class="ame::AMEMapView" name="openGLWidget_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>16</width>
-                 <height>16</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="1">
-              <spacer name="verticalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="0" column="1">
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
          <item row="0" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_48">
            <property name="spacing">
@@ -659,7 +545,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -757,7 +643,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -828,6 +714,120 @@
            </item>
           </layout>
          </item>
+         <item row="1" column="0">
+          <widget class="QScrollArea" name="scrollArea">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>582</width>
+              <height>583</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="1" column="0">
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+              <widget class="ame::AMEMapView" name="openGLWidget_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="1">
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="1">
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tabEntities">
@@ -867,8 +867,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>444</width>
-              <height>571</height>
+              <width>451</width>
+              <height>580</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -1202,8 +1202,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>278</width>
-                    <height>717</height>
+                    <width>265</width>
+                    <height>666</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2913,8 +2913,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>215</width>
+                    <height>333</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3483,8 +3483,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>215</width>
+                    <height>426</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4240,8 +4240,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>220</width>
+                    <height>491</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -5204,8 +5204,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>575</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -5944,8 +5944,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>275</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6358,8 +6358,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>474</height>
+                  <width>338</width>
+                  <height>433</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -7080,8 +7080,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>275</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7502,8 +7502,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>732</width>
-              <height>616</height>
+              <width>743</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">

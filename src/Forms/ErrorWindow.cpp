@@ -91,7 +91,7 @@ namespace ame
             scopePos = possible;
 
         ui->class_label->setText(method.left(scopePos));
-        ui->func_label->setText(method.right((arguments+1)-(scopePos+2)));
+        ui->func_label->setText(method.mid(scopePos+2, arguments-(scopePos+2)));
         ui->desc_label->setText(msg.replace("\n", " "));
 
         // Updates the information label
@@ -128,12 +128,19 @@ namespace ame
         QString msg = ErrorStack::errors()[m_CurrentIndex];
 
         int scopePos = method.indexOf("::");
+        int arguments = method.indexOf("(");
+        int possible = 0;
+        if ((possible = method.indexOf("::", scopePos+1)) != -1)
+            scopePos = possible;
+
         ui->class_label->setText(method.left(scopePos));
-        ui->func_label->setText(method.right(method.length()-(scopePos+2)));
-        ui->desc_label->setText(msg.replace("\n", ""));
+        ui->func_label->setText(method.mid(scopePos+2, arguments-(scopePos+2)));
+        ui->desc_label->setText(msg.replace("\n", " "));
+
+        // Updates the information label
         ui->info_label->setText(
                     QString("Showing error %0 out of %1.").
-                    replace("%0", QString::number(m_CurrentIndex+1)).
+                    replace("%0", "1").
                     replace("%1", QString::number(ErrorStack::errors().size()))
         );
     }
@@ -158,12 +165,19 @@ namespace ame
         QString msg = ErrorStack::errors()[m_CurrentIndex];
 
         int scopePos = method.indexOf("::");
+        int arguments = method.indexOf("(");
+        int possible = 0;
+        if ((possible = method.indexOf("::", scopePos+1)) != -1)
+            scopePos = possible;
+
         ui->class_label->setText(method.left(scopePos));
-        ui->func_label->setText(method.right(method.length()-(scopePos+2)));
-        ui->desc_label->setText(msg.replace("\n", ""));
+        ui->func_label->setText(method.mid(scopePos+2, arguments-(scopePos+2)));
+        ui->desc_label->setText(msg.replace("\n", " "));
+
+        // Updates the information label
         ui->info_label->setText(
                     QString("Showing error %0 out of %1.").
-                    replace("%0", QString::number(m_CurrentIndex+1)).
+                    replace("%0", "1").
                     replace("%1", QString::number(ErrorStack::errors().size()))
         );
     }
