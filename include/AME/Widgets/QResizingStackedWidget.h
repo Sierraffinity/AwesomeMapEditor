@@ -1,28 +1,18 @@
 #ifndef QRESIZINGSTACKEDWIDGET_H
 #define QRESIZINGSTACKEDWIDGET_H
 
+#include <QStackedWidget>
+
 class QResizingStackedWidget : public QStackedWidget
 {
 public:
-    explicit QResizingStackedWidget(QWidget *parent = 0)
-    {
 
-    }
+    explicit QResizingStackedWidget(QWidget *parent = 0);
+    ~QResizingStackedWidget() { }
 
-    virtual ~QResizingStackedWidget()
-    {
 
-    }
-
-    QSize sizeHint() const override
-    {
-        return currentWidget()->sizeHint();
-    }
-
-    QSize minimumSizeHint() const override
-    {
-        return currentWidget()->minimumSizeHint();
-    }
+    QSize sizeHint();
+    QSize minimumSizeHint();
 };
 
 #endif // QRESIZINGSTACKEDWIDGET_H

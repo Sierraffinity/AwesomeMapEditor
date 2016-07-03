@@ -88,7 +88,8 @@ SOURCES += \
     src/Widgets/OpenGL/AMEEntityView.cpp \
     src/Graphics/PropertyTable.cpp \
     src/System/Settings.cpp \
-    src/Entities/EntityRawData.cpp
+    src/Entities/EntityRawData.cpp \
+    src/Widgets/QResizingStackedWidget.cpp
 
 
 #
