@@ -251,7 +251,7 @@
               <x>0</x>
               <y>0</y>
               <width>587</width>
-              <height>574</height>
+              <height>571</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -522,7 +522,7 @@
            </item>
           </layout>
          </item>
-         <item row="0" column="1" rowspan="2">
+         <item row="0" column="1" rowspan="3">
           <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
            <item>
             <widget class="QGroupBox" name="groupBox">
@@ -7896,6 +7896,18 @@
                      </property>
                      <item>
                       <widget class="QHexEdit" name="header_raw_data" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>40</height>
+                        </size>
+                       </property>
                        <property name="addressArea" stdset="0">
                         <bool>false</bool>
                        </property>
@@ -7904,6 +7916,12 @@
                        </property>
                        <property name="addressWidth" stdset="0">
                         <number>0</number>
+                       </property>
+                       <property name="overwriteMode" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="canSwitchOverwriteMode" stdset="0">
+                        <bool>false</bool>
                        </property>
                       </widget>
                      </item>
@@ -8518,6 +8536,18 @@
                      </property>
                      <item>
                       <widget class="QHexEdit" name="header_ftr_raw_data" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>40</height>
+                        </size>
+                       </property>
                        <property name="addressArea" stdset="0">
                         <bool>false</bool>
                        </property>
@@ -8618,7 +8648,6 @@
     <addaction name="action_Tileset_Editor"/>
     <addaction name="action_Connection_Editor"/>
     <addaction name="separator"/>
-    <addaction name="action_Show_Grid"/>
     <addaction name="actionPlugin_Manager"/>
     <addaction name="action_Settings"/>
    </widget>
@@ -8913,6 +8942,81 @@
    </property>
    <property name="text">
     <string>Sort by &amp;Tileset</string>
+   </property>
+  </action>
+  <action name="actionMouse">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/cursor.ico</normaloff>:/icons/cursor.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Mouse</string>
+   </property>
+   <property name="toolTip">
+    <string>Mouse</string>
+   </property>
+  </action>
+  <action name="actionPencil">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/pencil.ico</normaloff>:/icons/pencil.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Pencil</string>
+   </property>
+   <property name="toolTip">
+    <string>Pencil (Left Click)</string>
+   </property>
+  </action>
+  <action name="actionEyedropper">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/pipette.ico</normaloff>:/icons/pipette.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Eyedropper</string>
+   </property>
+   <property name="toolTip">
+    <string>Eyedropper (Right Click)</string>
+   </property>
+  </action>
+  <action name="actionFill">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/fill_color.ico</normaloff>:/icons/fill_color.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Fill</string>
+   </property>
+   <property name="toolTip">
+    <string>Fill (Middle Click)</string>
+   </property>
+  </action>
+  <action name="actionFill_All">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/magic_fill_color.ico</normaloff>:/icons/magic_fill_color.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Fill All</string>
+   </property>
+   <property name="toolTip">
+    <string>Fill All (Ctrl + Middle Click)</string>
    </property>
   </action>
  </widget>

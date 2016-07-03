@@ -73,6 +73,10 @@ class QHexEdit : public QAbstractScrollArea
     */
     Q_PROPERTY(int addressWidth READ addressWidth WRITE setAddressWidth)
 
+    /*! Set and get the width of the hex lines, width in bytes.
+    */
+    Q_PROPERTY(int lineWidth READ lineWidth WRITE setLineWidth)
+
     /*! Switch the ascii area on (true, show it) or off (false, hide it).
     */
     Q_PROPERTY(bool asciiArea READ asciiArea WRITE setAsciiArea)
@@ -106,6 +110,11 @@ class QHexEdit : public QAbstractScrollArea
     new data.
     */
     Q_PROPERTY(bool overwriteMode READ overwriteMode WRITE setOverwriteMode)
+
+    /*! Property can switch overwrite mode sets (canSwitchOverwriteMode()) or gets
+    (canSwitchOverwriteMode()) determines whether or not the editor mode can be switched.
+    */
+    Q_PROPERTY(bool canSwitchOverwriteMode READ canSwitchOverwriteMode WRITE setCanSwitchOverwriteMode)
 
     /*! Property selection color sets (setSelectionColor()) the backgorund
     color of selected text areas. You can also read the color
@@ -276,6 +285,9 @@ public:
     int addressWidth();
     void setAddressWidth(int addressWidth);
 
+    int lineWidth();
+    void setLineWidth(int lineWidth);
+
     bool asciiArea();
     void setAsciiArea(bool asciiArea);
 
@@ -293,6 +305,9 @@ public:
 
     bool overwriteMode();
     void setOverwriteMode(bool overwriteMode);
+
+    bool canSwitchOverwriteMode();
+    void setCanSwitchOverwriteMode(bool canSwitchOverwriteMode);
 
     bool isReadOnly();
     void setReadOnly(bool readOnly);
@@ -353,10 +368,12 @@ private:
     bool _addressArea;                          // left area of QHexEdit
     QColor _addressAreaColor;
     int _addressWidth;
+    int _lineWidth;
     bool _asciiArea;
     qint64 _addressOffset;
     bool _highlighting;
     bool _overwriteMode;
+    bool _canSwitchOverwriteMode;
     QBrush _brushSelection;
     QPen _penSelection;
     QBrush _brushHighlighted;
