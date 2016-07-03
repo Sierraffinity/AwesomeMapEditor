@@ -168,6 +168,8 @@ namespace ame
 
         void showCorrectSignType(Sign *sign);
 
+        void on_tabWidget_currentChanged(int index);
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////

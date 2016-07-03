@@ -173,7 +173,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEEntityView::paintGL()
     {
-        if (!m_MapView)
+        if (!m_MapView || !m_Entities)
             return;
 
         // Paints the map-view

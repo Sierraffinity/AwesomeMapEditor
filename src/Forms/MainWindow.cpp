@@ -1153,6 +1153,35 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/3/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_tabWidget_currentChanged(int index)
+    {
+        QPoint scrollPos = ui->openGLWidget_2->mainPos();
+        QSize size = ui->openGLWidget_2->mainMap()->header().size();
+
+        if (index == 0)
+        {
+            ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x() - (ui->scrollArea->viewport()->width() -
+                                                             size.width() * 16) / 2);
+            ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea->viewport()->height() -
+                                                           size.height() * 16) / 2);
+        }
+        else if (index == 1)
+        {
+            ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x() - (ui->scrollArea_5->viewport()->width() -
+                                                               size.width() * 16) / 2);
+            ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea_5->viewport()->height() -
+                                                             size.height() * 16) / 2);
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////
     // Function type:  Event
     // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
