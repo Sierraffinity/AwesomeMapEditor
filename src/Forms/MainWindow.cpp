@@ -74,14 +74,31 @@ namespace ame
         ui->statusBar->addPermanentWidget(statusLabelCredit);
 
         QMenu *mapSortOrderMenu = new QMenu();
+        QActionGroup *mapSortOrderActionGroup = new QActionGroup(this);
+        mapSortOrderActionGroup->setExclusive(true);
+
         mapSortOrderMenu->addAction(ui->actionSort_by_Name);
         mapSortOrderMenu->addAction(ui->actionSort_by_Bank);
         mapSortOrderMenu->addAction(ui->actionSort_by_Layout);
         mapSortOrderMenu->addAction(ui->actionSort_by_Tileset);
+
+        mapSortOrderActionGroup->addAction(ui->actionSort_by_Name);
+        mapSortOrderActionGroup->addAction(ui->actionSort_by_Bank);
+        mapSortOrderActionGroup->addAction(ui->actionSort_by_Layout);
+        mapSortOrderActionGroup->addAction(ui->actionSort_by_Tileset);
         ui->tbMapSortOrder->setMenu(mapSortOrderMenu);
 
         connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(on_MapSortOrder_changed(QAction*)));
 
+        QButtonGroup *mapToolbarButtons = new QButtonGroup(this);
+        mapSortOrderActionGroup->setExclusive(true);
+        mapToolbarButtons->addButton(ui->btnMapMouse);
+        mapToolbarButtons->addButton(ui->btnMapPencil);
+        mapToolbarButtons->addButton(ui->btnMapEyedropper);
+        mapToolbarButtons->addButton(ui->btnMapFill);
+        mapToolbarButtons->addButton(ui->btnMapFillAll);
+
+        ui->btnMapGrid->setDefaultAction(ui->action_Show_Grid);
 
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
@@ -205,6 +222,7 @@ namespace ame
             return;
         }
 
+        setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
         statusLabel->setText(tr("ROM %1 loaded in %2 ms.").arg(m_Rom.info().name(), QString::number(result)));
 
         setupAfterLoading();
@@ -268,6 +286,9 @@ namespace ame
         ui->action_Tileset_Editor->setEnabled(false);
         ui->action_Connection_Editor->setEnabled(false);
         ui->action_Show_Grid->setEnabled(false);
+
+        ui->cbMapTimeOfDay->setVisible(false);
+        ui->cbEntitiesTimeOfDay->setVisible(false);
     }
 
     ///////////////////////////////////////////////////////////
@@ -733,13 +754,19 @@ namespace ame
             10, Qt::PreciseTimer, [this] ()
             {
                 QPoint scrollPos = ui->openGLWidget_2->mainPos();
-                ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y());
-                ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x());
-                ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y());
-                ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x());
+                QSize size = ui->openGLWidget_2->mainMap()->header().size();
+                ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x() - (ui->scrollArea->viewport()->width() -
+                                                                 size.width() * 16) / 2);
+                ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea->viewport()->height() -
+                                                               size.height() * 16) / 2);
+                ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x() - (ui->scrollArea_5->viewport()->width() -
+                                                                   size.width() * 16) / 2);
+                ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea_5->viewport()->height() -
+                                                                 size.height() * 16) / 2);
             }
         );
 
+        setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), item->text(0)));
         statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(item->text(0), QString::number(stopWatch.elapsed())));
     }
 
@@ -748,7 +775,7 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   7/1/2016
+    // Date of edit:   7/2/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_MapSortOrder_changed(QAction *action)
@@ -759,9 +786,10 @@ namespace ame
         for (int i = 0; i < items.count(); i++)
         {
             if(items[i] == action)
+            {
                 index = i;
-            else
-                items[i]->setChecked(false);
+                break;
+            }
         }
         CHANGESETTING(MapSortOrder, static_cast<MapSortOrderType>(index));
         Settings::write();
