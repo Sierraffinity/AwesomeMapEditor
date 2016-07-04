@@ -750,10 +750,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     {
-        /*if (index.model()->parent() == NULL)
-            if(index.model()->children().count() == 0 && SETTINGS(MapSortOrder) == MSO_Layout)
-                return; //TODO: load layouts when not associated with a real map
-            return;*/
+        if (!index.parent().isValid())
+            return;
 
         // Switch icon
         if(m_lastOpenedMap != NULL)
