@@ -47,6 +47,7 @@
 #include <AME/Mapping/MapBankTable.hpp>
 #include <AME/Mapping/MapNameTable.hpp>
 #include <AME/Mapping/MapName.hpp>
+#include <AME/Mapping/MapLayoutTable.hpp>
 
 
 namespace ame
@@ -83,6 +84,7 @@ namespace ame
     extern OverworldTable *dat_OverworldTable;
     extern PokemonTable *dat_PokemonTable;
     extern MapNameTable *dat_MapNameTable;
+    extern MapLayoutTable *dat_MapLayoutTable;
 
 
     ///////////////////////////////////////////////////////////

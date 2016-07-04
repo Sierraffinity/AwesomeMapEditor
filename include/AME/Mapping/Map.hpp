@@ -170,6 +170,17 @@ namespace ame
         UInt8 nameIndex() const;
 
         ///////////////////////////////////////////////////////////
+        /// \brief Retrieves the index of the map layout.
+        ///
+        /// The index specifies the position of the map layout in the
+        /// global map layout table.
+        ///
+        /// \returns an integer value representing the index.
+        ///
+        ///////////////////////////////////////////////////////////
+        UInt8 layoutIndex() const;
+
+        ///////////////////////////////////////////////////////////
         /// \brief Retrieves the index of the wild-pokemon table.
         ///
         /// The index specifies the position of the wild-pokemon

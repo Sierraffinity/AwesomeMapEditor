@@ -158,6 +158,7 @@ namespace ame
         FETCH(StartX, rom.readByte());
         FETCH(StartY, rom.readByte());
         FETCH(MapBanks, rom.readPointer());
+        FETCH(MapLayouts, rom.readPointer());
         FETCH(MapNames, rom.readPointer());
         FETCH(MapNameCount, rom.readByte());
         FETCH(MapNameTotal, rom.readByte());

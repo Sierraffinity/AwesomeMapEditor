@@ -50,6 +50,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     WildPokemonTable *dat_WildPokemonTable = NULL;
     MapBankTable *dat_MapBankTable = NULL;
+    MapLayoutTable *dat_MapLayoutTable = NULL;
     OverworldTable *dat_OverworldTable = NULL;
     PokemonTable *dat_PokemonTable = NULL;
     MapNameTable *dat_MapNameTable = NULL;
@@ -77,6 +78,7 @@ namespace ame
         dat_WildPokemonTable = new WildPokemonTable;
         dat_OverworldTable = new OverworldTable;
         dat_MapBankTable = new MapBankTable;
+        dat_MapLayoutTable = new MapLayoutTable;
         dat_PokemonTable = new PokemonTable;
 
         // Attempts to load map names
@@ -97,6 +99,10 @@ namespace ame
 
         // Attempts to load all the map banks
         if (!dat_MapBankTable->read(rom, CONFIG(MapBanks)))
+            return -1;
+
+        // Attempts to load the map layout table
+        if (!dat_MapLayoutTable->read(rom, CONFIG(MapLayouts)))
             return -1;
 
         // Map wild-pokémon indices to all the maps

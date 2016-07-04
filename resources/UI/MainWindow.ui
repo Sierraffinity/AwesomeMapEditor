@@ -166,7 +166,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTreeWidget" name="treeView">
+         <widget class="QTreeView" name="treeView">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -182,14 +182,9 @@
             <height>0</height>
            </size>
           </property>
-          <attribute name="headerVisible">
-           <bool>false</bool>
+          <attribute name="headerDefaultSectionSize">
+           <number>0</number>
           </attribute>
-          <column>
-           <property name="text">
-            <string notr="true">1</string>
-           </property>
-          </column>
          </widget>
         </item>
        </layout>
@@ -258,7 +253,7 @@
               <bool>true</bool>
              </property>
              <property name="checked">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="autoRaise">
               <bool>true</bool>
@@ -545,7 +540,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -643,7 +638,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -724,8 +719,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>582</width>
-              <height>580</height>
+              <width>587</width>
+              <height>571</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -867,8 +862,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>451</width>
-              <height>580</height>
+              <width>444</width>
+              <height>571</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -989,7 +984,7 @@
               <bool>true</bool>
              </property>
              <property name="checked">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="autoRaise">
               <bool>true</bool>
@@ -1202,8 +1197,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>265</width>
-                    <height>666</height>
+                    <width>278</width>
+                    <height>761</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2841,14 +2836,32 @@
                       </property>
                       <item>
                        <widget class="QHexEdit" name="npc_raw_data" native="true">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>54</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>54</height>
+                         </size>
+                        </property>
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
                         <property name="asciiArea" stdset="0">
                          <bool>false</bool>
                         </property>
-                        <property name="addressWidth" stdset="0">
-                         <number>0</number>
+                        <property name="lineWidth" stdset="0">
+                         <number>8</number>
                         </property>
                        </widget>
                       </item>
@@ -2913,8 +2926,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>333</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3411,13 +3424,31 @@
                       </property>
                       <item>
                        <widget class="QHexEdit" name="warp_raw_data" native="true">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>26</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>26</height>
+                         </size>
+                        </property>
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
                         <property name="asciiArea" stdset="0">
                          <bool>false</bool>
                         </property>
-                        <property name="addressWidth" stdset="0">
+                        <property name="lineWidth" stdset="0">
                          <number>8</number>
                         </property>
                        </widget>
@@ -3483,8 +3514,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>426</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4168,13 +4199,31 @@
                       </property>
                       <item>
                        <widget class="QHexEdit" name="trigger_raw_data" native="true">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>40</height>
+                         </size>
+                        </property>
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
                         <property name="asciiArea" stdset="0">
                          <bool>false</bool>
                         </property>
-                        <property name="addressWidth" stdset="0">
+                        <property name="lineWidth" stdset="0">
                          <number>8</number>
                         </property>
                        </widget>
@@ -4240,8 +4289,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>220</width>
-                    <height>491</height>
+                    <width>292</width>
+                    <height>564</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -5109,14 +5158,32 @@
                       </property>
                       <item>
                        <widget class="QHexEdit" name="sign_raw_data" native="true">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>40</height>
+                         </size>
+                        </property>
                         <property name="addressArea" stdset="0">
                          <bool>false</bool>
                         </property>
                         <property name="asciiArea" stdset="0">
                          <bool>false</bool>
                         </property>
-                        <property name="addressWidth" stdset="0">
-                         <number>0</number>
+                        <property name="lineWidth" stdset="0">
+                         <number>8</number>
                         </property>
                        </widget>
                       </item>
@@ -5204,8 +5271,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>742</width>
+                  <height>575</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -5944,8 +6011,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6358,8 +6425,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>433</height>
+                  <width>341</width>
+                  <height>477</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -6535,7 +6602,7 @@
                       <widget class="QLabel" name="label_113">
                        <property name="font">
                         <font>
-                         <pointsize>6</pointsize>
+                         <pointsize>7</pointsize>
                         </font>
                        </property>
                        <property name="text">
@@ -6561,7 +6628,7 @@
                       <widget class="QLabel" name="label_112">
                        <property name="font">
                         <font>
-                         <pointsize>6</pointsize>
+                         <pointsize>7</pointsize>
                         </font>
                        </property>
                        <property name="text">
@@ -6587,7 +6654,7 @@
                       <widget class="QLabel" name="label_111">
                        <property name="font">
                         <font>
-                         <pointsize>6</pointsize>
+                         <pointsize>7</pointsize>
                         </font>
                        </property>
                        <property name="text">
@@ -7080,8 +7147,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7502,8 +7569,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>743</width>
-              <height>610</height>
+              <width>732</width>
+              <height>676</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -7902,6 +7969,12 @@
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>40</height>
+                        </size>
+                       </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
@@ -7913,9 +7986,6 @@
                        </property>
                        <property name="asciiArea" stdset="0">
                         <bool>false</bool>
-                       </property>
-                       <property name="addressWidth" stdset="0">
-                        <number>0</number>
                        </property>
                        <property name="overwriteMode" stdset="0">
                         <bool>true</bool>
@@ -8542,6 +8612,12 @@
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>40</height>
+                        </size>
+                       </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
@@ -8946,6 +9022,9 @@
   </action>
   <action name="actionMouse">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="icon">

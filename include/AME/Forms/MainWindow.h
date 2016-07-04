@@ -152,7 +152,6 @@ namespace ame
         void on_sldWildWaterChance_valueChanged(int value);
         void on_sldWildFishingChance_valueChanged(int value);
         void on_sldWildOtherChance_valueChanged(int value);
-        void on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column);
         void on_entity_mouseClick(QMouseEvent *event);
         void on_MapSortOrder_changed(QAction *action);
         void updateTreeView();
@@ -170,6 +169,8 @@ namespace ame
 
         void on_tabWidget_currentChanged(int index);
 
+        void on_treeView_doubleClicked(const QModelIndex &index);
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +179,7 @@ namespace ame
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         Ui::MainWindow *ui;                   ///< Gives access to the GUI objects
         qboy::Rom m_Rom;                      ///< Global ROM across the application
-        QTreeWidgetItem *m_lastOpenedMap;     ///< Reference to the widget for the last opened map
+        QModelIndex *m_lastOpenedMap;         ///< Reference to the model index for the last opened map
         Map *m_CurrentMap;                    ///< Reference to currently opened map
         QLabel* statusLabel;                  ///< Status bar label reference
         QLabel* statusLabelCredit;            ///< Status bar label reference for credit

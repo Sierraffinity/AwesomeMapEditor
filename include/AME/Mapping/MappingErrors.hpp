@@ -95,6 +95,13 @@ namespace ame
     ///////////////////////////////////////////////////////////
     #define MBT_ERROR_OFFSET    "The location of the map bank table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define MBT_ERROR_WHILE     "Exceeded the ROM's bounds while reading the bank table.\nMake sure that the end of the table has an ending\nsequence that is not a pointer (e.g. 0xFF)."
+
+    ///////////////////////////////////////////////////////////
+    // Class: MapLayoutTable
+    //
+    ///////////////////////////////////////////////////////////
+    #define LAY_ERROR_OFFSET    "The location of the map layout table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define LAY_ERROR_WHILE     "Exceeded the ROM's bounds while reading the layout table.\nMake sure that the end of the table has an ending\nsequence that is not a pointer (e.g. 0xFF)."
 }
 
 

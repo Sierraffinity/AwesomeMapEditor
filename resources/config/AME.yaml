@@ -7,3 +7,4 @@ MapSortOrder:           1
 HexPrefix:              0x
 ShowRawMapHeader:       false
 ShowRawLayoutHeader:    false
+MapAccuracyLevel:       4

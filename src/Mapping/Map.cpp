@@ -268,6 +268,18 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    UInt8 Map::layoutIndex() const
+    {
+        return m_HeaderID;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/12/2016

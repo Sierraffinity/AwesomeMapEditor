@@ -59,6 +59,7 @@ namespace ame
     QString Settings::HexPrefix;
     bool Settings::ShowRawMapHeader;
     bool Settings::ShowRawLayoutHeader;
+    int Settings::MapAccuracyLevel;
 
 
     ///////////////////////////////////////////////////////////
@@ -95,6 +96,7 @@ namespace ame
             HexPrefix           = QString::fromStdString(settings["HexPrefix"].as<std::string>());
         ShowRawMapHeader    = settings["ShowRawMapHeader"].as<bool>();
         ShowRawLayoutHeader = settings["ShowRawLayoutHeader"].as<bool>();
+        MapAccuracyLevel   = settings["MapAccuracyLevel"].as<int>();
 
         // Parsing successful
         return true;
@@ -119,7 +121,7 @@ namespace ame
         // Loads the YAML file
         YAML::Node settings = YAML::LoadFile(filePath.toStdString());
 
-        // Tries to parse all the properties
+        // Tries to write all the properties
         settings["ShowSprites"]         = ShowSprites;
         settings["ScriptEditor"]        = ScriptEditor.toStdString();
         settings["Translucency"]        = Translucency;
@@ -129,6 +131,7 @@ namespace ame
         settings["HexPrefix"]           = HexPrefix.toStdString();
         settings["ShowRawMapHeader"]    = ShowRawMapHeader;
         settings["ShowRawLayoutHeader"] = ShowRawLayoutHeader;
+        settings["MapAccuracyLevel"]    = MapAccuracyLevel;
 
         std::ofstream fout(filePath.toStdString());
         fout << settings;

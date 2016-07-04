@@ -36,21 +36,20 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/System/Configuration.hpp>
-#include <AME/System/Settings.hpp>
 #include <AME/Mapping/MappingErrors.hpp>
-#include <AME/Mapping/MapBank.hpp>
+#include <AME/Mapping/MapLayoutTable.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank::MapBank()
+    MapLayoutTable::MapLayoutTable()
         : /*IUndoable(),*/
           m_Offset(0),
           m_Count(-1)
@@ -59,12 +58,12 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank::MapBank(const MapBank &rvalue)
+    MapLayoutTable::MapLayoutTable(const MapLayoutTable &rvalue)
         : /*IUndoable(),*/
           m_Offset(rvalue.m_Offset),
           m_Count(rvalue.m_Count)
@@ -73,12 +72,12 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank &MapBank::operator=(const MapBank &rvalue)
+    MapLayoutTable &MapLayoutTable::operator=(const MapLayoutTable &rvalue)
     {
         m_Offset = rvalue.m_Offset;
         m_Count = rvalue.m_Count;
@@ -87,81 +86,48 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Destructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBank::~MapBank()
+    MapLayoutTable::~MapLayoutTable()
     {
-        foreach (Map *map, m_Maps)
-            delete map;
+        foreach (MapHeader *mapHeader, m_MapHeaders)
+            delete mapHeader;
     }
 
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
-    bool MapBank::read(const qboy::Rom &rom, UInt32 offset, UInt32 next)
+    bool MapLayoutTable::read(const qboy::Rom &rom, UInt32 offset)
     {
         if (!rom.seek(offset))
-            AME_THROW(BNK_ERROR_OFFSET, rom.redirected());
+            AME_THROW(LAY_ERROR_OFFSET, rom.redirected());
 
 
-        // User can choose whether to retrieve the map-count
-        // on a fast or accurate way (horiz. slider)
-        // Level 0: Checks for next bank and ptr validity +
-        // Level 1: Checks for ptr validity within the map header +
-        // Level 2: Checks for ptr validity within the layout header +
-        // Level 3: Checks for ptr validity within the events +
-        // Level 4: Checks certain properties in tilesets and events
-        int accLevel = SETTINGS(MapAccuracyLevel);
+        // Checks for ptr validity within the layout header and
+        // certain properties in tilesets
 
         // Retrieves the map count through various checks
         while (true)
         {
             if (!rom.seek(offset + (++m_Count) * 4))
-                AME_THROW(BNK_ERROR_WHILE, offset + m_Count * 4);
+                AME_THROW(LAY_ERROR_WHILE, offset + m_Count * 4);
 
-            // =============  LEVEL 0  =============
-            // Checks if current offset is start of bank table
-            if (rom.offset() == CONFIG(MapBanks))
-                break;
-
-            // Checks if current offset is next bank
-            if (rom.offset() == next)
-                break;
-
-            // Checks if map pointer is valid
-            unsigned map = rom.readPointer();
-            if (!rom.seek(map))
-                break;
-
-
-            // =============  LEVEL 1  =============
-            if (accLevel == 0)
+            unsigned layout = rom.readPointer();
+            if (layout == 0)
                 continue;
 
-            // Checks if the layout header and event pointers are valid
-            unsigned footer = rom.readPointer();
-            if (!rom.checkOffset(footer))
+            if (!rom.seek(layout))
                 break;
-
-            unsigned events = rom.readPointer();
-            if (!rom.checkOffset(events))
-                break;
-
-
-            // =============  LEVEL 2  =============
-            if (accLevel == 1)
-                continue;
 
             // Checks if the border, blocks, primary and secondary pointers are valid
-            rom.seek(footer);
             rom.readWord();
             rom.readWord();
             if (!rom.checkOffset(rom.readPointer()))
@@ -177,32 +143,7 @@ namespace ame
             unsigned secondary = rom.readPointer();
             if (!rom.checkOffset(secondary))
                 break;
-
-
-            // =============  LEVEL 3  =============
-            if (accLevel == 2)
-                continue;
-
-            // Checks if the npc, warp, trigger and sign pointers are valid
-            rom.seek(events);
-            rom.readWord();
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-
-            // =============  LEVEL 4  =============
-            if (accLevel == 3)
-                continue;
-
+/*
             // Checks the first two tileset settings
             rom.seek(primary);
             if (rom.readByte() >= 2) // compression can only be 0/1
@@ -214,7 +155,7 @@ namespace ame
             if (rom.readByte() >= 2) // compression can only be 0/1
                 break;
             if (rom.readByte() != 1) // must be secondary tileset!
-                break;
+                break;*/
         }
 
 
@@ -224,17 +165,17 @@ namespace ame
             rom.seek(offset + i * 4);
 
             // Retrieves the pointer to the map
-            Map *map = new Map;
+            MapHeader *mapHeader = new MapHeader;
             UInt32 mapOff = rom.readPointerRef();
 
-            // Attempts to read the map
-            if (!map->read(rom, mapOff))
+            // Attempts to read the map layout
+            if (mapOff != 0 && !mapHeader->read(rom, mapOff))
             {
-                delete map;
+                delete mapHeader;
                 return false;
             }
 
-            m_Maps.push_back(map);
+            m_MapHeaders.push_back(mapHeader);
         }
 
 
@@ -246,25 +187,37 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/4/2016
     //
     ///////////////////////////////////////////////////////////
-    UInt32 MapBank::offset() const
+    UInt32 MapLayoutTable::offset() const
     {
         return m_Offset;
     }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/15/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/4/2016
     //
     ///////////////////////////////////////////////////////////
-    const QList<Map *> &MapBank::maps() const
+    const QList<MapHeader *> &MapLayoutTable::mapHeaders() const
     {
-        return m_Maps;
+        return m_MapHeaders;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    UInt32 MapLayoutTable::count() const
+    {
+        return m_Count;
     }
 }

@@ -97,6 +97,7 @@ namespace ame
         static QString HexPrefix;
         static bool ShowRawMapHeader;
         static bool ShowRawLayoutHeader;
+        static int MapAccuracyLevel;
     };
 
 

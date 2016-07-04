@@ -194,8 +194,8 @@ namespace ame
     void MainWindow::clearBeforeLoading()
     {
         // First clears the tree-view
-        ui->treeView->collapseAll();
-        ui->treeView->clear();
+        //ui->treeView->collapseAll();
+        //ui->treeView->clear();
 
         // Clears all the OpenGL widgets
         ui->openGLWidget->freeGL();
@@ -340,9 +340,9 @@ namespace ame
     void MainWindow::updateTreeView()
     {
         // Fills the tree-view with all the maps
-        ui->treeView->collapseAll();
-        ui->treeView->clear();
-        ui->treeView->setUpdatesEnabled(false);
+        //ui->treeView->collapseAll();
+        //ui->treeView->clear();
+        //ui->treeView->setUpdatesEnabled(false);
 
         // Creates icons for use in treeView
         QIcon mapFolderIcon;
@@ -359,21 +359,25 @@ namespace ame
         switch(SETTINGS(MapSortOrder))
         {
             case MSO_Name:
+            default:
             {
+                QStandardItemModel *standardModel = new QStandardItemModel;
+                QStandardItem *root = standardModel->invisibleRootItem();
                 // Adds every map name to the tree. Format: [<index>] <map name>
                 int nameCount = CONFIG(MapNameCount);
                 int nameTotal = CONFIG(MapNameTotal);
                 for (int i = 0; i < nameCount; i++)
                 {
-                    QTreeWidgetItem *nameItem = new QTreeWidgetItem;
-                    nameItem->setIcon(0, folderIcon);
+                    QStandardItem *nameItem = new QStandardItem;
+                    nameItem->setIcon(folderIcon);
+                    nameItem->setEditable(false);
 
                     // Specifies the display name of the bank and adds it to the treeview
-                    nameItem->setText(0, '[' +
+                    nameItem->setText('[' +
                                       QString("%1").arg(i + nameTotal - nameCount, 2 , 16, QChar('0')).toUpper() +
                                       "] " +
                                       dat_MapNameTable->names()[i]->name);
-                    ui->treeView->addTopLevelItem(nameItem);
+                    root->appendRow(nameItem);
                 }
                 int bankCount = dat_MapBankTable->banks().size();
                 for (int i = 0; i < bankCount; i++)
@@ -385,32 +389,33 @@ namespace ame
                     {
                         Map *map = bank->maps()[j];
                         int nameIndex = map->nameIndex() + nameCount - nameTotal;
-                        QTreeWidgetItem *nameItem = ui->treeView->topLevelItem(nameIndex);
-                        nameItem->setIcon(0, mapFolderIcon);
+                        QStandardItem *nameItem = root->child(nameIndex);
+                        nameItem->setIcon(mapFolderIcon);
 
-                        QTreeWidgetItem *mapItem = new QTreeWidgetItem(nameItem);
-                        mapItem->setIcon(0, mapIcon);
+                        QStandardItem *mapItem = new QStandardItem();
+                        mapItem->setIcon(mapIcon);
+                        mapItem->setEditable(false);
 
-                        mapItem->setText(0,
-                            '[' +
+                        mapItem->setText('[' +
                             QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
                             ", " +
                             QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
                             "] " +
                             dat_MapNameTable->names()[nameIndex]->name);
 
+                        nameItem->appendRow(mapItem);
+
                         // Sets properties to identify map on click
                         QByteArray array;
                         array.append(i);
                         array.append(j);
-                        mapItem->setData(0, Qt::UserRole, array);
+                        mapItem->setData(array, Qt::UserRole);
 
-                        // Adds the map to the bank
-                        //bankItem->addChild(mapItem);
+                        ui->treeView->setModel(standardModel);
                     }
                 }
                 break;
-            }
+            }/*
             case MSO_Bank:
             {
                 // Adds every bank and map to the tree. Format: [<bank>,<map>]
@@ -430,14 +435,6 @@ namespace ame
                         Map *map = bank->maps()[j];
                         mapItem->setIcon(0, mapIcon);
 
-                        // Specifies the display name
-                        /*mapItem->setText(0,
-                            QString("(")        +
-                            QString::number(i)  +
-                            QString(".")        +
-                            QString::number(j)  +
-                            QString(") ") + map->name()
-                        );*/
                         mapItem->setText(0,
                             "[" +
                             QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
@@ -463,8 +460,57 @@ namespace ame
                 }
                 break;
             }
-            default:
+            case MSO_Layout:
+            {
+                // Adds every layout index to the tree.
+                int layoutTotal = dat_MapLayoutTable->count();
+                for (int i = 0; i < layoutTotal; i++)
+                {
+                    QTreeWidgetItem *nameItem = new QTreeWidgetItem;
+                    nameItem->setIcon(0, mapIcon);
+
+                    // Specifies the display name of the bank and adds it to the treeview
+                    nameItem->setText(0, '[' +
+                                      QString("%1").arg(i, 4 , 16, QChar('0')).toUpper() +
+                                      "] ");
+                    ui->treeView->addTopLevelItem(nameItem);
+                }
+                int bankCount = dat_MapBankTable->banks().size();
+                for (int i = 0; i < bankCount; i++)
+                {
+                    MapBank *bank = dat_MapBankTable->banks()[i];
+                    // Adds all the bank's maps to the appropriate layout
+                    int mapCount = bank->maps().size();
+                    for (int j = 0; j < mapCount; j++)
+                    {
+                        Map *map = bank->maps()[j];
+                        QTreeWidgetItem *nameItem = ui->treeView->topLevelItem(map->layoutIndex());
+                        nameItem->setIcon(0, mapFolderIcon);
+
+                        QTreeWidgetItem *mapItem = new QTreeWidgetItem(nameItem);
+                        mapItem->setIcon(0, mapIcon);
+
+                        mapItem->setText(0,
+                            '[' +
+                            QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
+                            ", " +
+                            QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
+                            "] " +
+                            dat_MapNameTable->names()[map->nameIndex() + CONFIG(MapNameCount) - CONFIG(MapNameTotal)]->name);
+
+                        // Sets properties to identify map on click
+                        QByteArray array;
+                        array.append(i);
+                        array.append(j);
+                        mapItem->setData(0, Qt::UserRole, array);
+                    }
+                }
                 break;
+            }
+            case MSO_Tileset:
+            {
+                break;
+            }*/
         }
 
         // Repaint tree-view
@@ -699,20 +745,21 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   6/20/2016
+    // Date of edit:   7/4/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_treeView_itemDoubleClicked(QTreeWidgetItem *item, int column)
+    void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     {
-        //if (item->parent() == NULL || item->parent()->parent() == NULL)
-        if (item->parent() == NULL)
-            return;
+        /*if (index.model()->parent() == NULL)
+            if(index.model()->children().count() == 0 && SETTINGS(MapSortOrder) == MSO_Layout)
+                return; //TODO: load layouts when not associated with a real map
+            return;*/
 
         // Switch icon
         if(m_lastOpenedMap != NULL)
-            m_lastOpenedMap->setExpanded(false);
-        item->setExpanded(true);
-        m_lastOpenedMap = item;
+            ui->treeView->setExpanded(*m_lastOpenedMap, false);
+        ui->treeView->setExpanded(index, true);
+        m_lastOpenedMap = new QModelIndex(index);
 
         enableAfterMapLoad();
 
@@ -728,7 +775,7 @@ namespace ame
 
 
         // Retrieves the new map from the stored property
-        QByteArray data = item->data(column, Qt::UserRole).toByteArray();
+        QByteArray data = ui->treeView->model()->data(index, Qt::UserRole).toByteArray();
         Map *currentMap = dat_MapBankTable->banks()[data.at(0)]->maps()[data.at(1)];
 
         // Fills all the OpenGL widgets
@@ -769,8 +816,8 @@ namespace ame
             }
         );
 
-        setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), item->text(0)));
-        statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(item->text(0), QString::number(stopWatch.elapsed())));
+        setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), ui->treeView->model()->data(index, Qt::DisplayRole).toString()));
+        statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(ui->treeView->model()->data(index, Qt::DisplayRole).toString(), QString::number(stopWatch.elapsed())));
     }
 
 
