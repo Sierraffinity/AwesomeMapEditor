@@ -273,7 +273,7 @@ namespace ame
     // Date of edit:   7/4/2016
     //
     ///////////////////////////////////////////////////////////
-    UInt8 Map::layoutIndex() const
+    UInt16 Map::layoutIndex() const
     {
         return m_HeaderID;
     }

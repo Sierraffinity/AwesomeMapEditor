@@ -41,6 +41,7 @@
 ///////////////////////////////////////////////////////////
 #include <QBoy/Core/Rom.hpp>
 #include <AME/Mapping/Map.hpp>
+#include <AME/Widgets/QFilterChildrenProxyModel.h>
 #include <QMainWindow>
 #include <QtWidgets>
 
@@ -171,18 +172,22 @@ namespace ame
 
         void on_treeView_doubleClicked(const QModelIndex &index);
 
+        void on_lineEdit_textChanged(const QString &arg1);
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
         // Class members
         //
         ///////////////////////////////////////////////////////////////////////////////////////////////////
-        Ui::MainWindow *ui;                   ///< Gives access to the GUI objects
-        qboy::Rom m_Rom;                      ///< Global ROM across the application
-        QModelIndex *m_lastOpenedMap;         ///< Reference to the model index for the last opened map
-        Map *m_CurrentMap;                    ///< Reference to currently opened map
-        QLabel* statusLabel;                  ///< Status bar label reference
-        QLabel* statusLabelCredit;            ///< Status bar label reference for credit
+        Ui::MainWindow *ui;                         ///< Gives access to the GUI objects
+        qboy::Rom m_Rom;                            ///< Global ROM across the application
+        QModelIndex *m_lastOpenedMap;               ///< Reference to the model index for the last opened map
+        Map *m_CurrentMap;                          ///< Reference to currently opened map
+        QLabel* statusLabel;                        ///< Status bar label reference
+        QLabel* statusLabelCredit;                  ///< Status bar label reference for credit
+        QFilterChildrenProxyModel *m_proxyModel;    ///< Tree view proxy model reference
+
     };
 
 

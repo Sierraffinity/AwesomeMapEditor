@@ -31,5 +31,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#include <QHexSpinBox.h>
+#ifndef QFILTERCHILDRENPROXYMODEL_H
+#define QFILTERCHILDRENPROXYMODEL_H
 
+#include <QSortFilterProxyModel>
+
+class QFilterChildrenProxyModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+
+public:
+    explicit QFilterChildrenProxyModel(QObject *parent = 0);
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex & source_parent) const;
+
+};
+
+#endif // QFILTERCHILDRENPROXYMODEL_H

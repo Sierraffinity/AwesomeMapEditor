@@ -182,6 +182,9 @@
             <height>0</height>
            </size>
           </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
           <attribute name="headerDefaultSectionSize">
            <number>0</number>
           </attribute>

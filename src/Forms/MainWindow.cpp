@@ -112,6 +112,9 @@ namespace ame
         sortOrder->setChecked(true);
 
         disableBeforeROMLoad();
+
+        m_proxyModel = new QFilterChildrenProxyModel(this);
+        ui->treeView->setModel(m_proxyModel);
     }
 
 
@@ -341,8 +344,7 @@ namespace ame
     {
         // Fills the tree-view with all the maps
         //ui->treeView->collapseAll();
-        //ui->treeView->clear();
-        //ui->treeView->setUpdatesEnabled(false);
+        ui->treeView->setUpdatesEnabled(false);
 
         // Creates icons for use in treeView
         QIcon mapFolderIcon;
@@ -356,13 +358,14 @@ namespace ame
         mapIcon.addFile(QStringLiteral(":/icons/map.ico"), QSize(), QIcon::Normal, QIcon::Off);
         mapIcon.addFile(QStringLiteral(":/icons/image.ico"), QSize(), QIcon::Normal, QIcon::On);
 
+        QStandardItemModel *standardModel = new QStandardItemModel;
+        QStandardItem *root = standardModel->invisibleRootItem();
+
         switch(SETTINGS(MapSortOrder))
         {
             case MSO_Name:
             default:
             {
-                QStandardItemModel *standardModel = new QStandardItemModel;
-                QStandardItem *root = standardModel->invisibleRootItem();
                 // Adds every map name to the tree. Format: [<index>] <map name>
                 int nameCount = CONFIG(MapNameCount);
                 int nameTotal = CONFIG(MapNameTotal);
@@ -410,33 +413,31 @@ namespace ame
                         array.append(i);
                         array.append(j);
                         mapItem->setData(array, Qt::UserRole);
-
-                        ui->treeView->setModel(standardModel);
                     }
                 }
                 break;
-            }/*
+            }
             case MSO_Bank:
             {
                 // Adds every bank and map to the tree. Format: [<bank>,<map>]
                 int bankCount = dat_MapBankTable->banks().size();
                 for (int i = 0; i < bankCount; i++)
                 {
-                    //QTreeWidgetItem *bankItem = new QTreeWidgetItem(topItem);
-                    QTreeWidgetItem *bankItem = new QTreeWidgetItem;
+                    QStandardItem *bankItem = new QStandardItem;
                     MapBank *bank = dat_MapBankTable->banks()[i];
-                    bankItem->setIcon(0, mapFolderIcon);
+                    bankItem->setIcon(mapFolderIcon);
+                    bankItem->setEditable(false);
 
                     // Adds all the bank's maps
                     int mapCount = bank->maps().size();
                     for (int j = 0; j < mapCount; j++)
                     {
-                        QTreeWidgetItem *mapItem = new QTreeWidgetItem(bankItem);
+                        QStandardItem *mapItem = new QStandardItem;
                         Map *map = bank->maps()[j];
-                        mapItem->setIcon(0, mapIcon);
+                        mapItem->setIcon(mapIcon);
+                        mapItem->setEditable(false);
 
-                        mapItem->setText(0,
-                            "[" +
+                        mapItem->setText("[" +
                             QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
                             ", " +
                             QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
@@ -447,16 +448,15 @@ namespace ame
                         QByteArray array;
                         array.append(i);
                         array.append(j);
-                        mapItem->setData(0, Qt::UserRole, array);
+                        mapItem->setData(array, Qt::UserRole);
 
                         // Adds the map to the bank
-                        bankItem->addChild(mapItem);
+                        bankItem->appendRow(mapItem);
                     }
 
                     // Specifies the display name of the bank and adds it to the treeview
-                    //bankItem->setText(0, QString("Bank #") + QString::number(i));
-                    bankItem->setText(0, '[' + QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() + ']');
-                    ui->treeView->addTopLevelItem(bankItem);
+                    bankItem->setText('[' + QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() + ']');
+                    root->appendRow(bankItem);
                 }
                 break;
             }
@@ -464,16 +464,18 @@ namespace ame
             {
                 // Adds every layout index to the tree.
                 int layoutTotal = dat_MapLayoutTable->count();
-                for (int i = 0; i < layoutTotal; i++)
+                for (int i = 1; i < layoutTotal; i++)
                 {
-                    QTreeWidgetItem *nameItem = new QTreeWidgetItem;
-                    nameItem->setIcon(0, mapIcon);
+                    QStandardItem *layoutItem = new QStandardItem;
+                    layoutItem->setIcon(mapIcon);
+                    layoutItem->setEditable(false);
 
                     // Specifies the display name of the bank and adds it to the treeview
-                    nameItem->setText(0, '[' +
+                    layoutItem->setText('[' +
                                       QString("%1").arg(i, 4 , 16, QChar('0')).toUpper() +
                                       "] ");
-                    ui->treeView->addTopLevelItem(nameItem);
+                    layoutItem->setData(dat_MapLayoutTable->mapHeaders().at(i - 1)->offset(), Qt::UserRole);
+                    root->appendRow(layoutItem);
                 }
                 int bankCount = dat_MapBankTable->banks().size();
                 for (int i = 0; i < bankCount; i++)
@@ -484,25 +486,27 @@ namespace ame
                     for (int j = 0; j < mapCount; j++)
                     {
                         Map *map = bank->maps()[j];
-                        QTreeWidgetItem *nameItem = ui->treeView->topLevelItem(map->layoutIndex());
-                        nameItem->setIcon(0, mapFolderIcon);
+                        QStandardItem *layoutItem = root->child(map->layoutIndex() - 1);
+                        layoutItem->setIcon(mapFolderIcon);
 
-                        QTreeWidgetItem *mapItem = new QTreeWidgetItem(nameItem);
-                        mapItem->setIcon(0, mapIcon);
+                        QStandardItem *mapItem = new QStandardItem();
+                        mapItem->setIcon(mapIcon);
+                        mapItem->setEditable(false);
 
-                        mapItem->setText(0,
-                            '[' +
+                        mapItem->setText('[' +
                             QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
                             ", " +
                             QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
                             "] " +
                             dat_MapNameTable->names()[map->nameIndex() + CONFIG(MapNameCount) - CONFIG(MapNameTotal)]->name);
 
+                        layoutItem->appendRow(mapItem);
+
                         // Sets properties to identify map on click
                         QByteArray array;
                         array.append(i);
                         array.append(j);
-                        mapItem->setData(0, Qt::UserRole, array);
+                        mapItem->setData(array, Qt::UserRole);
                     }
                 }
                 break;
@@ -510,8 +514,9 @@ namespace ame
             case MSO_Tileset:
             {
                 break;
-            }*/
+            }
         }
+        m_proxyModel->setSourceModel(standardModel);
 
         // Repaint tree-view
         ui->treeView->setUpdatesEnabled(true);
@@ -751,7 +756,12 @@ namespace ame
     void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     {
         if (!index.parent().isValid())
-            return;
+        {
+            if (ui->treeView->model()->rowCount(index) > 0 && SETTINGS(MapSortOrder) == MSO_Layout)
+                return; // TODO: load a layout without loading a map
+            else
+                return;
+        }
 
         // Switch icon
         if(m_lastOpenedMap != NULL)
@@ -1285,4 +1295,18 @@ namespace ame
         // Destroys the window
         QMainWindow::closeEvent(event);
     }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_lineEdit_textChanged(const QString &arg1)
+    {
+        m_proxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive,
+                                                                   QRegExp::FixedString));
+    }
+
 }

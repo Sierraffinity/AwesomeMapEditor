@@ -224,6 +224,18 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    UInt32 MapHeader::offset() const
+    {
+        return m_Offset;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/11/2016

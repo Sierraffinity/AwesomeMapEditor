@@ -178,7 +178,7 @@ namespace ame
         /// \returns an integer value representing the index.
         ///
         ///////////////////////////////////////////////////////////
-        UInt8 layoutIndex() const;
+        UInt16 layoutIndex() const;
 
         ///////////////////////////////////////////////////////////
         /// \brief Retrieves the index of the wild-pokemon table.

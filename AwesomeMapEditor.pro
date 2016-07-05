@@ -89,7 +89,8 @@ SOURCES += \
     src/Graphics/PropertyTable.cpp \
     src/System/Settings.cpp \
     src/Entities/EntityRawData.cpp \
-    src/Mapping/MapLayoutTable.cpp
+    src/Mapping/MapLayoutTable.cpp \
+    src/Widgets/QFilterChildrenProxyModel.cpp
 
 
 #
@@ -152,7 +153,8 @@ HEADERS  += \
     include/AME/Graphics/Property.hpp \
     include/AME/System/Settings.hpp \
     include/AME/Mapping/MapName.hpp \
-    include/AME/Mapping/MapLayoutTable.hpp
+    include/AME/Mapping/MapLayoutTable.hpp \
+    include/AME/Widgets/QFilterChildrenProxyModel.h
 
 
 #
