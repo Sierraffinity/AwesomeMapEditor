@@ -155,6 +155,9 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::paintGL()
     {
+        if (m_Maps.size() == 0)
+            return;
+
         glCheck(glClearColor(240/255.0f, 240/255.0f, 240/255.0f, 1));
         glCheck(glClear(GL_COLOR_BUFFER_BIT));
 
@@ -165,16 +168,15 @@ namespace ame
 
 
         // Paints every texture
-        for (int i = 0; i < m_Maps.size(); i++)
+        if (m_LayoutView)
         {
-            // Computes the MVP matrix with specific translation
+            // Computes the MVP matrix
             QMatrix4x4 mat_mvp;
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-            mat_mvp.translate(m_MapPositions.at(i).x(), m_MapPositions.at(i).y());
 
             // Binds the vertex buffer of the current texture
-            glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(i)));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(0)));
 
             // Specifies the matrix and buffers within the shader program
             m_Program.bind();
@@ -186,48 +188,84 @@ namespace ame
 
             // Binds the palette for the entire map
             glCheck(glActiveTexture(GL_TEXTURE1));
-            glCheck(glBindTexture(GL_TEXTURE_2D, m_PalTextures.at(i)));
+            glCheck(glBindTexture(GL_TEXTURE_2D, m_PalTextures.at(0)));
 
             // Draws the background
             glCheck(glActiveTexture(GL_TEXTURE0));
-            glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2)));
+            glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(0)));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
-
-
-            // Draws the NPCs in between (but only the main map's ones)
-            if (i == 0 && m_ShowSprites)
-            {
-                QMatrix4x4 mat_npc;
-                for (int j = 0; j < m_NPCSprites.size(); j++)
-                {
-                    float buf[16] = { 0, 0, 0, 0, 16, 0, 1, 0, 16, 16, 1, 1, 0, 16, 0, 1 };
-                    glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_NPCBuffer));
-                    glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, buf, GL_DYNAMIC_DRAW));
-
-                    mat_npc.setToIdentity();
-                    mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-                    mat_mvp.translate(m_NPCPositions.at(j).x(), m_NPCPositions.at(j).y());
-                    m_Program.setUniformValue("uni_mvp", mat_npc);
-
-                    glCheck(glActiveTexture(GL_TEXTURE1));
-                    glCheck(glBindTexture(GL_TEXTURE_2D, m_NPCTextures.value(m_NPCSprites.at(j)).at(1)));
-                    glCheck(glActiveTexture(GL_TEXTURE0));
-                    glCheck(glBindTexture(GL_TEXTURE_2D, m_NPCTextures.value(m_NPCSprites.at(j)).at(0)));
-                    glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
-                }
-
-                // Resets to previous states
-                m_Program.setUniformValue("uni_mvp", mat_mvp);
-                glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(i)));
-                glCheck(glActiveTexture(GL_TEXTURE1));
-                glCheck(glBindTexture(GL_TEXTURE_2D, m_PalTextures.at(i)));
-            }
-
 
             // Draws the foreground
             glCheck(glActiveTexture(GL_TEXTURE0));
-            glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2+1)));
+            glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(1)));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+        }
+        else
+        {
+            for (int i = 0; i < m_Maps.size(); i++)
+            {
+                // Computes the MVP matrix with specific translation
+                QMatrix4x4 mat_mvp;
+                mat_mvp.setToIdentity();
+                mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+                mat_mvp.translate(m_MapPositions.at(i).x(), m_MapPositions.at(i).y());
+
+                // Binds the vertex buffer of the current texture
+                glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(i)));
+
+                // Specifies the matrix and buffers within the shader program
+                m_Program.bind();
+                m_Program.setUniformValue("uni_mvp", mat_mvp);
+                m_Program.enableAttributeArray(MV_VERTEX_ATTR);
+                m_Program.enableAttributeArray(MV_COORD_ATTR);
+                m_Program.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
+                m_Program.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
+
+                // Binds the palette for the entire map
+                glCheck(glActiveTexture(GL_TEXTURE1));
+                glCheck(glBindTexture(GL_TEXTURE_2D, m_PalTextures.at(i)));
+
+                // Draws the background
+                glCheck(glActiveTexture(GL_TEXTURE0));
+                glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2)));
+                glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+
+
+                // Draws the NPCs in between (but only the main map's ones)
+                if (i == 0 && m_ShowSprites)
+                {
+                    QMatrix4x4 mat_npc;
+                    for (int j = 0; j < m_NPCSprites.size(); j++)
+                    {
+                        float buf[16] = { 0, 0, 0, 0, 16, 0, 1, 0, 16, 16, 1, 1, 0, 16, 0, 1 };
+                        glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_NPCBuffer));
+                        glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, buf, GL_DYNAMIC_DRAW));
+
+                        mat_npc.setToIdentity();
+                        mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+                        mat_mvp.translate(m_NPCPositions.at(j).x(), m_NPCPositions.at(j).y());
+                        m_Program.setUniformValue("uni_mvp", mat_npc);
+
+                        glCheck(glActiveTexture(GL_TEXTURE1));
+                        glCheck(glBindTexture(GL_TEXTURE_2D, m_NPCTextures.value(m_NPCSprites.at(j)).at(1)));
+                        glCheck(glActiveTexture(GL_TEXTURE0));
+                        glCheck(glBindTexture(GL_TEXTURE_2D, m_NPCTextures.value(m_NPCSprites.at(j)).at(0)));
+                        glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+                    }
+
+                    // Resets to previous states
+                    m_Program.setUniformValue("uni_mvp", mat_mvp);
+                    glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(i)));
+                    glCheck(glActiveTexture(GL_TEXTURE1));
+                    glCheck(glBindTexture(GL_TEXTURE_2D, m_PalTextures.at(i)));
+                }
+
+
+                // Draws the foreground
+                glCheck(glActiveTexture(GL_TEXTURE0));
+                glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2+1)));
+                glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+            }
         }
     }
 
@@ -323,6 +361,7 @@ namespace ame
         const QSize mainSize = mainMap->header().size();
         const QList<Connection *> connex = mainMap->connections().connections();
         m_Maps.push_back(mainMap);
+        m_LayoutView = false;
 
 
         // Retrieves every connected map
@@ -665,6 +704,294 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/17/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool AMEMapView::setLayout(MapHeader &mainMap)
+    {
+        const QSize mainSize = mainMap.size();
+        m_Maps.push_back(NULL);
+        m_MapSizes.push_back(QSize(mainSize.width()*16, mainSize.height()*16));
+        m_MapPositions.push_back(QPoint(0, 0));
+        m_WidgetSize = QSize(m_MapSizes.at(0));
+        m_Header = mainMap;
+        m_LayoutView = true;
+
+
+        // Determines the block count for each game
+        int blockCountPrimary;
+        int blockCountSecondary;
+        if (CONFIG(RomType) == RT_FRLG)
+        {
+            blockCountPrimary = 0x280;
+            blockCountSecondary = 0x180;
+        }
+        else
+        {
+            blockCountPrimary = 0x200;
+            blockCountSecondary = 0x200;
+        }
+
+        m_PrimaryBlockCount = blockCountPrimary;
+        m_SecondaryBlockCount = blockCountSecondary;
+
+
+        // Attempts to load all the blocksets
+        QList<UInt8 *> blocksetBack;
+        QList<UInt8 *> blocksetFore;
+        for (int i = 0; i < 1; i++)
+        {
+            Tileset *primary = mainMap.primary();
+            Tileset *secondary = mainMap.secondary();
+            QVector<qboy::GLColor> palettes;
+
+            // Retrieves the palettes, combines them, removes bg color
+            for (int j = 0; j < primary->palettes().size(); j++)
+            {
+                palettes.append(primary->palettes().at(j)->rawGL());
+                palettes[j * 16].a = 0.0f;
+            }
+            for (int j = 0; j < secondary->palettes().size(); j++)
+            {
+                palettes.append(secondary->palettes().at(j)->rawGL());
+                palettes[(primary->palettes().size() * 16) + (j * 16)].a = 0.0f;
+            }
+
+            while (palettes.size() < 256) // align pal for OpenGL
+                palettes.push_back({ 0.f, 0.f, 0.f, 0.f });
+
+            m_Palettes.push_back(palettes);
+
+
+            // Retrieves the raw pixel data of the tilesets
+            const QByteArray &priRaw = primary->image()->raw();
+            const QByteArray &secRaw = secondary->image()->raw();
+            const int secRawMax = (128/8 * secondary->image()->size().height()/8);
+
+            // Creates two buffers for the blockset pixels
+            Int32 tilesetHeight1 = blockCountPrimary / 8 * 16;
+            Int32 tilesetHeight2 = blockCountSecondary / 8 * 16;
+            UInt8 *background1 = new UInt8[128 * tilesetHeight1];
+            UInt8 *foreground1 = new UInt8[128 * tilesetHeight1];
+            UInt8 *background2 = new UInt8[128 * tilesetHeight2];
+            UInt8 *foreground2 = new UInt8[128 * tilesetHeight2];
+
+            // Copy the tileset sizes for our main map
+            if (i == 0)
+            {
+                m_PrimarySetSize = QSize(128, tilesetHeight1);
+                m_SecondarySetSize = QSize(128, tilesetHeight2);
+            }
+
+
+            // Parses all the primary block data
+            for (int j = 0; j < primary->blocks().size(); j++)
+            {
+                Block *curBlock = primary->blocks()[j];
+                Int32 blockX = (j % 8) * 16;
+                Int32 blockY = (j / 8) * 16;
+
+                /* BACKGROUND */
+                for (int k = 0; k < 4; k++)
+                {
+                    Tile tile = curBlock->tiles[k];
+                    Int32 subX = ((k % 2) * 8) + blockX;
+                    Int32 subY = ((k / 2) * 8) + blockY;
+
+                    if (tile.tile >= blockCountPrimary)
+                    {
+                        tile.tile -= blockCountPrimary;
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
+                    }
+                    else
+                    {
+                        extractTile(priRaw, tile);
+                    }
+
+                    int pos = 0;
+                    for (int y = 0; y < 8; y++)
+                        for (int x = 0; x < 8; x++)
+                            background1[(x+subX) + (y+subY) * 128] = pixelBuffer[pos++];
+                }
+
+                /* FOREGROUND */
+                for (int k = 0; k < 4; k++)
+                {
+                    Tile tile = curBlock->tiles[k+4];
+                    Int32 subX = ((k % 2) * 8) + blockX;
+                    Int32 subY = ((k / 2) * 8) + blockY;;
+
+                    if (tile.tile >= blockCountPrimary)
+                    {
+                        tile.tile -= blockCountPrimary;
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
+                    }
+                    else
+                    {
+                        extractTile(priRaw, tile);
+                    }
+
+                    int pos = 0;
+                    for (int y = 0; y < 8; y++)
+                        for (int x = 0; x < 8; x++)
+                            foreground1[(x+subX) + (y+subY) * 128] = pixelBuffer[pos++];
+                }
+            }
+
+            // Parses all the secondary block data
+            for (int j = 0; j < secondary->blocks().size(); j++)
+            {
+                Block *curBlock = secondary->blocks()[j];
+                Int32 blockX = (j % 8) * 16;
+                Int32 blockY = (j / 8) * 16;
+
+                /* BACKGROUND */
+                for (int k = 0; k < 4; k++)
+                {
+                    Tile tile = curBlock->tiles[k];
+                    Int32 subX = ((k % 2) * 8) + blockX;
+                    Int32 subY = ((k / 2) * 8) + blockY;
+
+                    if (tile.tile >= blockCountPrimary)
+                    {
+                        tile.tile -= blockCountPrimary;
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
+                    }
+                    else
+                    {
+                        extractTile(priRaw, tile);
+                    }
+
+                    int pos = 0;
+                    for (int y = 0; y < 8; y++)
+                        for (int x = 0; x < 8; x++)
+                            background2[(x+subX) + (y+subY) * 128] = pixelBuffer[pos++];
+                }
+
+                /* FOREGROUND */
+                for (int k = 0; k < 4; k++)
+                {
+                    Tile tile = curBlock->tiles[k+4];
+                    Int32 subX = ((k % 2) * 8) + blockX;
+                    Int32 subY = ((k / 2) * 8) + blockY;;
+
+                    if (tile.tile >= blockCountPrimary)
+                    {
+                        tile.tile -= blockCountPrimary;
+
+                        if (secRawMax > tile.tile)
+                            extractTile(secRaw, tile);
+                        else
+                            memset(pixelBuffer, 0, 64);
+                    }
+                    else
+                    {
+                        extractTile(priRaw, tile);
+                    }
+
+                    int pos = 0;
+                    for (int y = 0; y < 8; y++)
+                        for (int x = 0; x < 8; x++)
+                            foreground2[(x+subX) + (y+subY) * 128] = pixelBuffer[pos++];
+                }
+            }
+
+
+            // Adds the new blocksets
+            blocksetBack.push_back(background1);
+            blocksetBack.push_back(background2);
+            blocksetFore.push_back(foreground1);
+            blocksetFore.push_back(foreground2);
+        }
+
+
+        // Creates the images for the actual maps
+        for (int i = 0; i < 1; i++)
+        {
+            QSize mapSize = mainMap.size();
+
+            // Creates a new pixel buffer for the map
+            UInt8 *backMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
+            UInt8 *foreMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
+            UInt8 *primaryBg = blocksetBack.at(i*2);
+            UInt8 *secondaryBg = blocksetBack.at(i*2+1);
+            UInt8 *primaryFg = blocksetFore.at(i*2);
+            UInt8 *secondaryFg = blocksetFore.at(i*2+1);
+
+            // Iterates through every map block and writes it to the map buffer
+            for (int j = 0; j < mainMap.blocks().size(); j++)
+            {
+                MapBlock block = *mainMap.blocks().at(j);
+                Int32 mapX = (j % mapSize.width()) * 16;
+                Int32 mapY = (j / mapSize.width()) * 16;
+
+                if (block.block >= blockCountPrimary)
+                    extractBlock(secondaryBg, block.block - blockCountPrimary);
+                else
+                    extractBlock(primaryBg, block.block);
+
+                int pos = 0;
+                for (int y = 0; y < 16; y++)
+                    for (int x = 0; x < 16; x++)
+                        backMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
+
+                if (block.block >= blockCountPrimary)
+                    extractBlock(secondaryFg, block.block - blockCountPrimary);
+                else
+                    extractBlock(primaryFg, block.block);
+
+                pos = 0;
+                for (int y = 0; y < 16; y++)
+                    for (int x = 0; x < 16; x++)
+                        foreMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
+            }
+
+            // Appends the pixel buffers
+            m_BackPixelBuffers.push_back(backMapBuffer);
+            m_ForePixelBuffers.push_back(foreMapBuffer);
+        }
+
+        // Deletes all unnecessary blocksets
+        for (int i = 0; i < blocksetBack.size(); i++)
+        {
+            if (i == 0)
+            {
+                m_PrimaryBackground = blocksetBack[0];
+                m_PrimaryForeground = blocksetFore[0];
+            }
+            else if (i == 1)
+            {
+                m_SecondaryBackground = blocksetBack[1];
+                m_SecondaryForeground = blocksetFore[1];
+            }
+            else
+            {
+                delete blocksetBack[i];
+                delete blocksetFore[i];
+            }
+
+        }
+
+        return true;
+    }
+
+
+    ///////////////////////////////////////////////////////////
     // Function type:  Setter
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
@@ -933,5 +1260,17 @@ namespace ame
     Int32 AMEMapView::secondaryBlockCount()
     {
         return m_SecondaryBlockCount;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    MapBorder AMEMapView::border()
+    {
+        return m_Header.border();
     }
 }

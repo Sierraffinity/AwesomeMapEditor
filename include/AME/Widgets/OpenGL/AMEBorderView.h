@@ -78,7 +78,7 @@ namespace ame
         /// \brief Retrieves pre-loaded data from the map view.
         ///
         ///////////////////////////////////////////////////////////
-        void setMapView(AMEMapView *view);
+        void setMapView(AMEMapView *view, bool layout = false);
 
         ///////////////////////////////////////////////////////////
         /// \brief Destroys all OpenGL resources.

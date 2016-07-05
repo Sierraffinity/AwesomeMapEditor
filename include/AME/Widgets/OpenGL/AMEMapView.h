@@ -87,6 +87,13 @@ namespace ame
         bool setMap(const qboy::Rom &rom, Map *map);
 
         ///////////////////////////////////////////////////////////
+        /// \brief Sets the map layout only to be loaded
+        /// \returns true if loading succeeded.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool setLayout(MapHeader &header);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Creates textures for all NPCs on the map.
         ///
         ///////////////////////////////////////////////////////////
@@ -153,6 +160,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         Int32 secondaryBlockCount();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves the border.
+        ///
+        ///////////////////////////////////////////////////////////
+        MapBorder border();
+
 
     protected:
 
@@ -207,6 +220,8 @@ namespace ame
         Int32 m_PrimaryBlockCount;
         Int32 m_SecondaryBlockCount;
         Boolean m_ShowSprites;
+        Boolean m_LayoutView;
+        MapHeader m_Header;
     };
 }
 

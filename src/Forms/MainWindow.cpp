@@ -749,24 +749,68 @@ namespace ame
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
     // Contributors:   Pokedude, Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   7/4/2016
+    // Last edit by:   Pokedude
+    // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     {
         if (!index.parent().isValid())
         {
-            if (ui->treeView->model()->rowCount(index) > 0 && SETTINGS(MapSortOrder) == MSO_Layout)
-                return; // TODO: load a layout without loading a map
-            else
+            if (index.child(0, 0).isValid())
                 return;
+
+            if (SETTINGS(MapSortOrder) == MSO_Layout)
+            {
+                // Fills the map tab
+                UInt32 offset = ui->treeView->model()->data(index, Qt::UserRole).toUInt();
+                if (offset == 0)
+                {
+                    // Map layout is NULL pointer, abort
+                    Messages::showMessage(this, "Layout says: \"I don't exist! *cries*\"");
+                    return;
+                }
+
+                MapHeader header;
+                header.read(m_Rom, offset);
+                if (header.primary()->image()->raw().isEmpty() ||
+                    header.primary()->image()->raw().isEmpty())
+                {
+                    // Tilesets invalid, abort
+                    Messages::showMessage(this, "Layout says: \"I don't want to load tilesets!\"");
+                    return;
+                }
+
+
+                ui->openGLWidget->freeGL();
+                ui->openGLWidget_2->freeGL();
+                ui->openGLWidget_3->freeGL();
+                ui->openGLWidget_2->setLayout(header);
+                ui->openGLWidget_2->makeGL();
+                ui->openGLWidget_2->update();
+                ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
+                ui->openGLWidget_3->update();
+                ui->openGLWidget->setMapView(ui->openGLWidget_2, true);
+                ui->openGLWidget->update();
+
+                // Sets up the header, invisibles
+                //setupHeader(currentMap);
+                enableAfterMapLoad();
+                return;
+            }
+            else
+            {
+                return;
+            }
         }
 
         // Switch icon
         if(m_lastOpenedMap != NULL)
             ui->treeView->setExpanded(*m_lastOpenedMap, false);
         ui->treeView->setExpanded(index, true);
+
+        if (m_lastOpenedMap != NULL) // Fix memory leak
+            delete m_lastOpenedMap;
         m_lastOpenedMap = new QModelIndex(index);
 
         enableAfterMapLoad();

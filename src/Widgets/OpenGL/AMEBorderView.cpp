@@ -209,14 +209,19 @@ namespace ame
     // Date of edit:   6/19/2016
     //
     ///////////////////////////////////////////////////////////
-    void AMEBorderView::setMapView(AMEMapView *view)
+    void AMEBorderView::setMapView(AMEMapView *view, bool layout)
     {
         makeCurrent();
         initializeOpenGLFunctions();
 
 
         // Fetches the border and the blockset pixel buffers
-        MapBorder &border = view->mainMap()->header().border();
+        MapBorder border;
+        if (!layout)
+            border = view->mainMap()->header().border();
+        else
+            border = view->border();
+
         QList<UInt8 *> setPixels = view->mainPixels();
         UInt8 *primaryBg = setPixels[0];
         UInt8 *primaryFg = setPixels[1];
