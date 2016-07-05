@@ -1194,6 +1194,18 @@ namespace ame
     // Date of edit:   6/18/2016
     //
     ///////////////////////////////////////////////////////////
+    MapHeader *AMEMapView::layoutHeader()
+    {
+        return &m_Header;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
     QVector<qboy::GLColor> *AMEMapView::mainPalettes()
     {
         return &m_Palettes[0];

@@ -1347,7 +1347,12 @@ namespace ame
     void MainWindow::on_tabWidget_currentChanged(int index)
     {
         QPoint scrollPos = ui->openGLWidget_2->mainPos();
-        QSize size = ui->openGLWidget_2->mainMap()->header().size();
+
+        QSize size;
+        if(ui->openGLWidget_2->mainMap() != NULL)
+            size = ui->openGLWidget_2->mainMap()->header().size();
+        else
+            size = ui->openGLWidget_2->layoutHeader()->size();
 
         if (index == 0)
         {
