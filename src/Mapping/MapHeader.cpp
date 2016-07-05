@@ -236,6 +236,30 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    UInt32 MapHeader::ptrPrimary() const
+    {
+        return m_PtrPrimary;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    UInt32 MapHeader::ptrSecondary() const
+    {
+        return m_PtrSecondary;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/11/2016

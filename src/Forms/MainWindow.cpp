@@ -513,6 +513,77 @@ namespace ame
             }
             case MSO_Tileset:
             {
+                // Adds every tileset offset to the tree.
+                int bankCount = dat_MapBankTable->banks().size();
+                for (int i = 0; i < bankCount; i++)
+                {
+                    MapBank *bank = dat_MapBankTable->banks()[i];
+                    // Adds all the bank's maps to the appropriate layout
+                    int mapCount = bank->maps().size();
+                    for (int j = 0; j < mapCount; j++)
+                    {
+                        Map *map = bank->maps()[j];
+                        QModelIndexList primaryList;
+                        if (root->rowCount() > 0)
+                            primaryList = root->model()->match(root->child(0)->index(), Qt::UserRole, map->header().ptrPrimary());
+                        QModelIndexList secondaryList;
+                        if (root->rowCount() > 0)
+                            secondaryList = root->model()->match(root->child(0)->index(), Qt::UserRole, map->header().ptrSecondary());
+
+                        QStandardItem *primaryItem;
+                        QStandardItem *secondaryItem;
+
+                        if (primaryList.count() <= 0 || !primaryList.first().isValid())
+                        {
+                            primaryItem = new QStandardItem();
+                            primaryItem->setEditable(false);
+                            primaryItem->setText('[' +
+                                              QString("%1").arg(map->header().ptrPrimary(), 8 , 16, QChar('0')).toUpper() +
+                                              "] ");
+                            primaryItem->setData(map->header().ptrPrimary(), Qt::UserRole);
+                            root->appendRow(primaryItem);
+                        }
+                        else
+                            primaryItem = static_cast<QStandardItemModel*>(root->model())->itemFromIndex(primaryList.first());
+
+                        if (secondaryList.count() <= 0 || !secondaryList.first().isValid())
+                        {
+                            secondaryItem = new QStandardItem();
+                            secondaryItem->setEditable(false);
+                            secondaryItem->setText('[' +
+                                              QString("%1").arg(map->header().ptrSecondary(), 8 , 16, QChar('0')).toUpper() +
+                                              "] ");
+                            secondaryItem->setData(map->header().ptrSecondary(), Qt::UserRole);
+                            root->appendRow(secondaryItem);
+                        }
+                        else
+                            secondaryItem = static_cast<QStandardItemModel*>(root->model())->itemFromIndex(secondaryList.first());
+
+                        primaryItem->setIcon(mapFolderIcon);
+                        secondaryItem->setIcon(mapFolderIcon);
+\
+                        QStandardItem *mapItem = new QStandardItem();
+                        mapItem->setIcon(mapIcon);
+                        mapItem->setEditable(false);
+
+                        mapItem->setText('[' +
+                            QString("%1").arg(i, 2 , 16, QChar('0')).toUpper() +
+                            ", " +
+                            QString("%1").arg(j, 2 , 16, QChar('0')).toUpper() +
+                            "] " +
+                            dat_MapNameTable->names()[map->nameIndex() + CONFIG(MapNameCount) - CONFIG(MapNameTotal)]->name);
+
+                        // Sets properties to identify map on click
+                        QByteArray array;
+                        array.append(i);
+                        array.append(j);
+                        mapItem->setData(array, Qt::UserRole);
+
+                        primaryItem->appendRow(mapItem);
+                        secondaryItem->appendRow(mapItem->clone());
+                    }
+                }
+                m_proxyModel->sort(0, Qt::AscendingOrder);
                 break;
             }
         }

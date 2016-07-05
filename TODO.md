@@ -3,8 +3,8 @@
 ## General
 - [x] Read map banks
 - [x] Read map names
-- [ ] Different sort methods for maps (bank, name, tileset, etc)
-- [ ] Filtering of maps
+- [x] Different sort methods for maps (bank, name, tileset, etc)
+- [x] Filtering of maps
 - [ ] Undo/Redo
 - [ ] Day/Night systems compatibility
 
@@ -54,7 +54,7 @@
 	- [x] Water
 	- [x] Fishing
 	- [x] Other
-- [ ] Parse Pokémon icons
+- [x] Parse Pokémon icons
 - [ ] Save data
 
 ## Header tab
