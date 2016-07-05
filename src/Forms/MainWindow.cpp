@@ -833,6 +833,16 @@ namespace ame
 
             if (SETTINGS(MapSortOrder) == MSO_Layout)
             {
+                // Switch icon
+                if(m_lastOpenedMap != NULL)
+                {
+                    ui->treeView->setExpanded(*m_lastOpenedMap, false);
+                    delete m_lastOpenedMap;
+                }
+
+                ui->treeView->setExpanded(index, true);
+                m_lastOpenedMap = new QModelIndex(index);
+
                 // Fills the map tab
                 UInt32 offset = ui->treeView->model()->data(index, Qt::UserRole).toUInt();
                 if (offset == 0)
@@ -865,6 +875,8 @@ namespace ame
                 ui->openGLWidget->update();
 
                 // Sets up the header, invisibles
+                ui->tabWidget->setTabEnabled(1, false);
+                ui->tabWidget->setTabEnabled(2, false);
                 //setupHeader(currentMap);
                 enableAfterMapLoad();
                 return;
@@ -877,13 +889,16 @@ namespace ame
 
         // Switch icon
         if(m_lastOpenedMap != NULL)
+        {
             ui->treeView->setExpanded(*m_lastOpenedMap, false);
-        ui->treeView->setExpanded(index, true);
-
-        if (m_lastOpenedMap != NULL) // Fix memory leak
             delete m_lastOpenedMap;
+        }
+
+        ui->treeView->setExpanded(index, true);
         m_lastOpenedMap = new QModelIndex(index);
 
+        ui->tabWidget->setTabEnabled(1, true);
+        ui->tabWidget->setTabEnabled(2, true);
         enableAfterMapLoad();
 
         // Counts how long it takes to load a map

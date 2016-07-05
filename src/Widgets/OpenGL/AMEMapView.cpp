@@ -155,11 +155,11 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::paintGL()
     {
-        if (m_Maps.size() == 0)
-            return;
-
         glCheck(glClearColor(240/255.0f, 240/255.0f, 240/255.0f, 1));
         glCheck(glClear(GL_COLOR_BUFFER_BIT));
+
+        if (m_Maps.size() == 0)
+            return;
 
         // Binds the vertex array and the index buffer
         // (which is the same for all) initially.
@@ -181,6 +181,7 @@ namespace ame
             // Specifies the matrix and buffers within the shader program
             m_Program.bind();
             m_Program.setUniformValue("uni_mvp", mat_mvp);
+            m_Program.setUniformValue("is_background", true);
             m_Program.enableAttributeArray(MV_VERTEX_ATTR);
             m_Program.enableAttributeArray(MV_COORD_ATTR);
             m_Program.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
@@ -197,6 +198,7 @@ namespace ame
 
             // Draws the foreground
             glCheck(glActiveTexture(GL_TEXTURE0));
+            m_Program.setUniformValue("is_background", false);
             glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(1)));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
         }
@@ -216,6 +218,7 @@ namespace ame
                 // Specifies the matrix and buffers within the shader program
                 m_Program.bind();
                 m_Program.setUniformValue("uni_mvp", mat_mvp);
+                m_Program.setUniformValue("is_background", true);
                 m_Program.enableAttributeArray(MV_VERTEX_ATTR);
                 m_Program.enableAttributeArray(MV_COORD_ATTR);
                 m_Program.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
@@ -230,6 +233,7 @@ namespace ame
                 glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2)));
                 glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
 
+                m_Program.setUniformValue("is_background", false);
 
                 // Draws the NPCs in between (but only the main map's ones)
                 if (i == 0 && m_ShowSprites)
