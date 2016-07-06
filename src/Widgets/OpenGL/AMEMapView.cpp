@@ -165,6 +165,7 @@ namespace ame
         // (which is the same for all) initially.
         glCheck(m_VAO.bind());
         glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer));
+        m_Program.bind();
 
 
         // Paints every texture
@@ -179,7 +180,6 @@ namespace ame
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(0)));
 
             // Specifies the matrix and buffers within the shader program
-            m_Program.bind();
             m_Program.setUniformValue("uni_mvp", mat_mvp);
             m_Program.setUniformValue("is_background", true);
             m_Program.enableAttributeArray(MV_VERTEX_ATTR);
@@ -206,6 +206,11 @@ namespace ame
         {
             for (int i = 0; i < m_Maps.size(); i++)
             {
+                if (i == 0)
+                    m_Program.setUniformValue("is_connection", false);
+                else if (i == 1)
+                    m_Program.setUniformValue("is_connection", true);
+
                 // Computes the MVP matrix with specific translation
                 QMatrix4x4 mat_mvp;
                 mat_mvp.setToIdentity();
@@ -216,7 +221,6 @@ namespace ame
                 glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffers.at(i)));
 
                 // Specifies the matrix and buffers within the shader program
-                m_Program.bind();
                 m_Program.setUniformValue("uni_mvp", mat_mvp);
                 m_Program.setUniformValue("is_background", true);
                 m_Program.enableAttributeArray(MV_VERTEX_ATTR);
@@ -384,6 +388,7 @@ namespace ame
         // Calculates the positions for the maps
         int biggestLeftMap = 0; // width of the biggest left-connected map
         int biggestTopMap = 0;  // height of the biggest top-connected map
+        const int defaultRowCount = 4;
         for (int i = 0; i < connex.size(); i++)
         {
             Connection *current = connex[i];
@@ -395,33 +400,61 @@ namespace ame
             QSize mapSize = QSize(map->header().size().width()*16, map->header().size().height()*16);
             if (current->direction == DIR_Left)
             {
+                int rowCount = defaultRowCount;
+                if (map->header().size().width() < rowCount)
+                    rowCount = map->header().size().width();
+
+                m_ConnectParts.push_back(QPoint(mapSize.width()-(16*rowCount), 0));
+                mapSize.setWidth(16*rowCount);
                 translation.setX(-mapSize.width());
                 translation.setY(signedOff);
                 m_WidgetSize.rwidth() += mapSize.width();
+                m_MaxRows.push_back(rowCount);
 
                 if (mapSize.width() > biggestLeftMap)
                     biggestLeftMap = mapSize.width();
             }
             else if (current->direction == DIR_Right)
             {
+                int rowCount = defaultRowCount;
+                if (map->header().size().width() < rowCount)
+                    rowCount = map->header().size().width();
+
+                m_ConnectParts.push_back(QPoint(0, 0));
+                mapSize.setWidth(16*rowCount);
                 translation.setX(mainSize.width()*16);
                 translation.setY(signedOff);
                 m_WidgetSize.rwidth() += mapSize.width();
+                m_MaxRows.push_back(rowCount);
             }
             else if (current->direction == DIR_Up)
             {
+                int rowCount = defaultRowCount;
+                if (map->header().size().width() < rowCount)
+                    rowCount = map->header().size().width();
+
+                m_ConnectParts.push_back(QPoint(0, mapSize.height()-(16*rowCount)));
+                mapSize.setHeight(16*rowCount);
                 translation.setX(signedOff);
                 translation.setY(-mapSize.height());
                 m_WidgetSize.rheight() += mapSize.height();
+                m_MaxRows.push_back(rowCount);
 
                 if (mapSize.height() > biggestTopMap)
                     biggestTopMap = mapSize.height();
             }
             else if (current->direction == DIR_Down)
             {
+                int rowCount = defaultRowCount;
+                if (map->header().size().width() < rowCount)
+                    rowCount = map->header().size().width();
+
+                m_ConnectParts.push_back(QPoint(0, 0));
+                mapSize.setHeight(16*rowCount);
                 translation.setX(signedOff);
                 translation.setY(mainSize.height()*16);
                 m_WidgetSize.rheight() += mapSize.height();
+                m_MaxRows.push_back(rowCount);
             }
 
             m_MapPositions.push_back(translation);
@@ -636,8 +669,8 @@ namespace ame
         }
 
 
-        // Creates the images for the actual maps
-        for (int i = 0; i < m_Maps.size(); i++)
+        // Creates the image for the main map
+        for (int i = 0; i < 1; i++)
         {
             MapHeader &header = m_Maps[i]->header();
             QSize mapSize = header.size();
@@ -676,6 +709,98 @@ namespace ame
                 for (int y = 0; y < 16; y++)
                     for (int x = 0; x < 16; x++)
                         foreMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
+            }
+
+            // Appends the pixel buffers
+            m_BackPixelBuffers.push_back(backMapBuffer);
+            m_ForePixelBuffers.push_back(foreMapBuffer);
+        }
+
+        // Renders all the connected maps
+        for (int n = 0; n < m_ConnectParts.size(); n++)
+        {
+            MapHeader &header = m_Maps[n+1]->header();
+
+            // Determines the start block
+            const QPoint pos = m_ConnectParts.at(n);
+            const QSize mapSize = m_Maps.at(n+1)->header().size();
+            const QSize absSize = m_MapSizes.at(n+1);
+            int start = (pos.x() / 16) + ((pos.y() / 16) * mapSize.width());
+
+            // Creates the pixel buffers for the connected map
+            UInt8 *backMapBuffer = new UInt8[absSize.width()*absSize.height()];
+            UInt8 *foreMapBuffer = new UInt8[absSize.width()*absSize.height()];
+            UInt8 *primaryBg = blocksetBack.at((n+1)*2);
+            UInt8 *secondaryBg = blocksetBack.at((n+1)*2+1);
+            UInt8 *primaryFg = blocksetFore.at((n+1)*2);
+            UInt8 *secondaryFg = blocksetFore.at((n+1)*2+1);
+            DirectionType dir = m_Maps.at(0)->connections().connections().at(n)->direction;
+            Int32 rowCount = m_MaxRows.at(n);
+
+
+            // Iterates through every visible block
+            if (dir == DIR_Left || dir == DIR_Right)
+            {
+                for (int m = 0; m < (absSize.width()/16)*(absSize.height()/16); m++)
+                {
+                    int processed = (m/rowCount)*mapSize.width();
+                    int blockNumber = start + processed + (m%rowCount);
+
+                    MapBlock block = *header.blocks().at(blockNumber);
+                    Int32 mapX = (m % (absSize.width()/16)) * 16;
+                    Int32 mapY = (m / (absSize.width()/16)) * 16;
+
+                    if (block.block >= blockCountPrimary)
+                        extractBlock(secondaryBg, block.block - blockCountPrimary);
+                    else
+                        extractBlock(primaryBg, block.block);
+
+                    int pos = 0;
+                    for (int y = 0; y < 16; y++)
+                        for (int x = 0; x < 16; x++)
+                            backMapBuffer[(x+mapX) + (y+mapY) * absSize.width()] = blockBuffer[pos++];
+
+                    if (block.block >= blockCountPrimary)
+                        extractBlock(secondaryFg, block.block - blockCountPrimary);
+                    else
+                        extractBlock(primaryFg, block.block);
+
+                    pos = 0;
+                    for (int y = 0; y < 16; y++)
+                        for (int x = 0; x < 16; x++)
+                            foreMapBuffer[(x+mapX) + (y+mapY) * absSize.width()] = blockBuffer[pos++];
+                }
+            }
+            else if (dir == DIR_Down || dir == DIR_Up)
+            {
+                for (int m = 0; m < (absSize.width()/16)*(absSize.height()/16); m++)
+                {
+                    int blockNumber = start + m;
+
+                    MapBlock block = *header.blocks().at(blockNumber);
+                    Int32 mapX = (m % mapSize.width()) * 16;
+                    Int32 mapY = (m / mapSize.width()) * 16;
+
+                    if (block.block >= blockCountPrimary)
+                        extractBlock(secondaryBg, block.block - blockCountPrimary);
+                    else
+                        extractBlock(primaryBg, block.block);
+
+                    int pos = 0;
+                    for (int y = 0; y < 16; y++)
+                        for (int x = 0; x < 16; x++)
+                            backMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
+
+                    if (block.block >= blockCountPrimary)
+                        extractBlock(secondaryFg, block.block - blockCountPrimary);
+                    else
+                        extractBlock(primaryFg, block.block);
+
+                    pos = 0;
+                    for (int y = 0; y < 16; y++)
+                        for (int x = 0; x < 16; x++)
+                            foreMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
+                }
             }
 
             // Appends the pixel buffers
@@ -925,22 +1050,23 @@ namespace ame
 
 
         // Creates the images for the actual maps
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < m_Maps.size(); i++)
         {
-            QSize mapSize = mainMap.size();
+            MapHeader &header = m_Maps[i]->header();
+            QSize mapSize = m_MapSizes[i];
 
             // Creates a new pixel buffer for the map
-            UInt8 *backMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
-            UInt8 *foreMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
+            UInt8 *backMapBuffer = new UInt8[mapSize.width() * mapSize.height()];
+            UInt8 *foreMapBuffer = new UInt8[mapSize.width() * mapSize.height()];
             UInt8 *primaryBg = blocksetBack.at(i*2);
             UInt8 *secondaryBg = blocksetBack.at(i*2+1);
             UInt8 *primaryFg = blocksetFore.at(i*2);
             UInt8 *secondaryFg = blocksetFore.at(i*2+1);
 
             // Iterates through every map block and writes it to the map buffer
-            for (int j = 0; j < mainMap.blocks().size(); j++)
+            for (int j = 0; j < header.blocks().size(); j++)
             {
-                MapBlock block = *mainMap.blocks().at(j);
+                MapBlock block = *header.blocks().at(j);
                 Int32 mapX = (j % mapSize.width()) * 16;
                 Int32 mapY = (j / mapSize.width()) * 16;
 
@@ -1157,7 +1283,7 @@ namespace ame
         m_VertexBuffers.clear();
         m_PalTextures.clear();
         m_MapTextures.clear();
-
+        m_ConnectParts.clear();
 
         doneCurrent();
     }

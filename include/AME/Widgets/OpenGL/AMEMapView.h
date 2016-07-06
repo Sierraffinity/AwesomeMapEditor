@@ -205,6 +205,8 @@ namespace ame
         QList<UInt32> m_PalTextures;
         QList<QSize> m_MapSizes;
         QList<QPoint> m_MapPositions;
+        QList<QPoint> m_ConnectParts;
+        QList<Int32> m_MaxRows;
         QList<UInt32> m_VertexBuffers;
         QMap<UInt32, QVector<UInt32>> m_NPCTextures;
         QList<QPoint> m_NPCPositions;
