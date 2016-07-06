@@ -543,7 +543,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -640,8 +640,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>128</width>
-                    <height>1024</height>
+                    <width>145</width>
+                    <height>512</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -660,7 +660,7 @@
                    <property name="spacing">
                     <number>0</number>
                    </property>
-                   <item row="0" column="1">
+                   <item row="0" column="2">
                     <spacer name="horizontalSpacer_16">
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
@@ -673,7 +673,7 @@
                      </property>
                     </spacer>
                    </item>
-                   <item row="1" column="0">
+                   <item row="1" column="1">
                     <spacer name="verticalSpacer_15">
                      <property name="orientation">
                       <enum>Qt::Vertical</enum>
@@ -686,7 +686,7 @@
                      </property>
                     </spacer>
                    </item>
-                   <item row="0" column="0">
+                   <item row="0" column="1">
                     <widget class="QLabel" name="label">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -711,6 +711,19 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="0" column="0">
+                    <spacer name="horizontalSpacer_32">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
                   </layout>
                  </widget>
                 </widget>
@@ -731,8 +744,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>582</width>
-              <height>580</height>
+              <width>587</width>
+              <height>571</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -874,8 +887,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>451</width>
-              <height>580</height>
+              <width>444</width>
+              <height>571</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -1209,8 +1222,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>265</width>
-                    <height>710</height>
+                    <width>278</width>
+                    <height>761</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2938,8 +2951,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>349</height>
+                    <width>222</width>
+                    <height>378</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3526,8 +3539,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>456</height>
+                    <width>222</width>
+                    <height>494</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4301,8 +4314,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>220</width>
-                    <height>549</height>
+                    <width>230</width>
+                    <height>581</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -5323,8 +5336,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>742</width>
+                  <height>575</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -6063,8 +6076,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6477,8 +6490,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>436</height>
+                  <width>341</width>
+                  <height>477</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -7199,8 +7212,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>275</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7621,8 +7634,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>743</width>
-              <height>610</height>
+              <width>732</width>
+              <height>676</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -8774,6 +8787,7 @@
     </property>
     <addaction name="action_World_Map_Editor"/>
     <addaction name="action_Tileset_Editor"/>
+    <addaction name="action_Connection_Editor"/>
     <addaction name="separator"/>
     <addaction name="actionPlugin_Manager"/>
     <addaction name="action_Settings"/>
@@ -8812,6 +8826,7 @@
    <addaction name="separator"/>
    <addaction name="action_World_Map_Editor"/>
    <addaction name="action_Tileset_Editor"/>
+    <addaction name="action_Connection_Editor"/>
    <addaction name="separator"/>
    <addaction name="actionPlugin_Manager"/>
   </widget>
@@ -8946,6 +8961,18 @@
    </property>
    <property name="text">
     <string>&amp;Tileset Editor</string>
+   </property>
+  </action>
+     <action name="action_Connection_Editor">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/direction.ico</normaloff>:/icons/direction.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Connection Editor</string>
    </property>
   </action>
   <action name="action_World_Map_Editor">

@@ -371,6 +371,7 @@ namespace ame
         ui->action_Redo->setEnabled(false);
         ui->action_World_Map_Editor->setEnabled(false);
         ui->action_Tileset_Editor->setEnabled(false);
+        ui->action_Connection_Editor->setEnabled(false);
         ui->action_Show_Grid->setEnabled(false);
 
         ui->cbMapTimeOfDay->setVisible(false);
@@ -408,6 +409,7 @@ namespace ame
         ui->action_Import->setEnabled(true);
         ui->action_Export->setEnabled(true);
         ui->action_Tileset_Editor->setEnabled(true);
+        ui->action_Connection_Editor->setEnabled(true);
         ui->action_Show_Grid->setEnabled(true);
     }
 
