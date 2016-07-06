@@ -68,7 +68,8 @@ namespace ame
     AMEMapView::AMEMapView(QWidget *parent)
         : QOpenGLWidget(parent),
           QOpenGLFunctions(),
-          m_ShowSprites(false)
+          m_ShowSprites(false),
+          m_MovementMode(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -116,12 +117,33 @@ namespace ame
         initializeOpenGLFunctions();     
 
         // Initializes the shader program
+        m_Program.create();
         m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/MapVertexShader.glsl");
         m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/MapFragmentShader.glsl");
         m_Program.link();
         m_Program.bind();
         m_Program.setUniformValue("smp_texture", 0);
         m_Program.setUniformValue("smp_palette", 1);
+
+
+        // Initializes all the movement permission stuff
+        m_MoveProgram.create();
+        m_MoveProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/NormalVertexShader.glsl");
+        m_MoveProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/NormalFragmentShader.glsl");
+        m_MoveProgram.link();
+        m_MoveProgram.bind();
+        m_MoveProgram.setUniformValue("smp_texture", 0);
+
+        glCheck(glGenBuffers(1, &m_MoveBuffer));
+        glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_MoveBuffer));
+        glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, NULL, GL_DYNAMIC_DRAW));
+
+        QImage image(":/images/Permissions_16x16.png");
+        glCheck(glGenTextures(1, &m_MoveTexture));
+        glCheck(glBindTexture(GL_TEXTURE_2D, m_MoveTexture));
+        glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+        glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+        glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 16, 1024, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.bits()));
 
 
         // Initializes the vao
@@ -272,6 +294,70 @@ namespace ame
                 // Draws the foreground
                 glCheck(glActiveTexture(GL_TEXTURE0));
                 glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2+1)));
+                glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+            }
+        }
+        if (m_MovementMode)
+        {
+            float buf[16] =
+            {
+                0, 0,   0, 0,
+                16, 0,  1, 0,
+                16, 16, 1, 1,
+                0, 16,  0, 1
+            };
+
+            const float texWidth = 16;
+            const float texHeight = 1024;
+            glCheck(glActiveTexture(GL_TEXTURE0));
+            glCheck(glBindTexture(GL_TEXTURE_2D, m_MoveTexture));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_MoveBuffer));
+
+            QMatrix4x4 mat_mvp;
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(m_MapPositions.at(0).x(), m_MapPositions.at(0).y());
+            m_MoveProgram.bind();
+            m_MoveProgram.setUniformValue("uni_mvp", mat_mvp);
+            m_MoveProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_MoveProgram.enableAttributeArray(MV_COORD_ATTR);
+            m_MoveProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
+            m_MoveProgram.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
+
+
+            // Draws all the movement permissions
+            const QSize mapSize = m_Maps.at(0)->header().size();
+            const QList<MapBlock *> &blocks = m_Maps.at(0)->header().blocks();
+            for (int i = 0; i < blocks.size(); i++)
+            {
+                float mapX = (i % mapSize.width()) * 16;
+                float mapY = (i / mapSize.width()) * 16;
+                float posX = 0;
+                float posY = blocks.at(i)->permission * 16.0f + 0.5f;
+
+                float glX = (posX == 0) ? 0 : posX / texWidth;
+                float glY = (posY == 0) ? 0 : posY / texHeight;
+                float glW = 16.0f / texWidth;
+                float glH = 15.5f / texHeight;
+
+                buf[0] = mapX;
+                buf[1] = mapY;
+                buf[2] = glX;
+                buf[3] = glY;
+                buf[4] = mapX + 16.0f;
+                buf[5] = mapY;
+                buf[6] = glX + glW;
+                buf[7] = glY;
+                buf[8] = mapX + 16.0f;
+                buf[9] = mapY + 16.0f;
+                buf[10] = glX + glW;
+                buf[11] = glY + glH;
+                buf[12] = mapX + 0.5f;
+                buf[13] = mapY + 16.0f;
+                buf[14] = glX;
+                buf[15] = glY + glH;
+
+                glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, buf, GL_DYNAMIC_DRAW));
                 glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
             }
         }
@@ -1288,6 +1374,30 @@ namespace ame
         doneCurrent();
     }
 
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::setMovementMode(bool isInMovementMode)
+    {
+        m_MovementMode = isInMovementMode;
+    }  
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool AMEMapView::movementMode() const
+    {
+        return m_MovementMode;
+    }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter

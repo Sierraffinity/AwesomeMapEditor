@@ -111,6 +111,18 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void freeGL();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Specifies whether map is in movement mode.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setMovementMode(bool isInMovementMode);
+
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Determines whether being in movement mode.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool movementMode() const;
 
         ///////////////////////////////////////////////////////////
         /// \brief Retrieves the primary blockset size.
@@ -218,6 +230,9 @@ namespace ame
         QList<UInt8 *> m_ForePixelBuffers;
         QOpenGLVertexArrayObject m_VAO;
         QOpenGLShaderProgram m_Program;
+        QOpenGLShaderProgram m_MoveProgram;
+        UInt32 m_MoveTexture;
+        UInt32 m_MoveBuffer;
         QSize m_PrimarySetSize;
         QSize m_SecondarySetSize;
         QSize m_WidgetSize;
@@ -230,6 +245,7 @@ namespace ame
         Boolean m_ShowSprites;
         Boolean m_LayoutView;
         MapHeader m_Header;
+        Boolean m_MovementMode;
     };
 }
 

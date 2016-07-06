@@ -161,26 +161,18 @@ namespace ame
         void enableAfterROMLoad();
         void enableAfterMapLoad();
         void loadRecentlyUsedFiles();
-
         void on_cmbEntityTypeSelector_currentIndexChanged(int index);
-
         void on_spnEntityScroller_valueChanged(int arg1);
-
         void on_cmbSignType_currentIndexChanged(int index);
-
         void showCorrectSignType(Sign *sign);
-
         void on_tabWidget_currentChanged(int index);
-
         void on_treeView_doubleClicked(const QModelIndex &index);
-
         void on_lineEdit_textChanged(const QString &arg1);
-
         bool loadROM(const QString &file);
-
         void on_actionClearRecentFiles_triggered();
-
         void on_actionExit_triggered();
+        void on_tabWidget_2_currentChanged(int index);
+
 
     private:
 

@@ -182,7 +182,10 @@ namespace ame
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         //m_MapView->m_ShowSprites = true;
+        bool mode = m_MapView->movementMode();
+        m_MapView->setMovementMode(false);
         m_MapView->paintGL();
+        m_MapView->setMovementMode(mode);
         //m_MapView->m_ShowSprites = false;
         painter.endNativePainting();
 

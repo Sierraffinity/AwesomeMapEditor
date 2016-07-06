@@ -1497,13 +1497,11 @@ namespace ame
         delete ui->openGLWidget;
         delete ui->openGLWidget_2;
         delete ui->openGLWidget_3;
-        delete ui->openGLWidget_4;
         delete ui->openGLWidget_5;
 
         ui->openGLWidget = NULL;
         ui->openGLWidget_2 = NULL;
         ui->openGLWidget_3 = NULL;
-        ui->openGLWidget_4 = NULL;
         ui->openGLWidget_5 = NULL;
 
         // Destroys the window
@@ -1564,5 +1562,27 @@ namespace ame
 
     }
 
-}
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_tabWidget_2_currentChanged(int index)
+    {
+        if (index == -1)
+            return;
 
+        if (index == 0)
+        {
+            ui->openGLWidget_2->setMovementMode(false);
+            ui->openGLWidget_2->update();
+        }
+        else
+        {
+            ui->openGLWidget_2->setMovementMode(true);
+            ui->openGLWidget_2->update();
+        }
+    }
+}
