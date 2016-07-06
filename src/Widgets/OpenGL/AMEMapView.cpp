@@ -138,7 +138,7 @@ namespace ame
         glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_MoveBuffer));
         glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, NULL, GL_DYNAMIC_DRAW));
 
-        QImage image(":/images/Permissions_16x16.png");
+        QImage image(":/images/PermGL.png");
         glCheck(glGenTextures(1, &m_MoveTexture));
         glCheck(glBindTexture(GL_TEXTURE_2D, m_MoveTexture));
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));

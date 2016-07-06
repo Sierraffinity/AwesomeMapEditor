@@ -58,5 +58,6 @@
         <file>images/navigate_back_normal.png</file>
         <file>images/Entities_16x16.png</file>
         <file>images/Permissions_16x16.png</file>
+        <file>images/PermGL.png</file>
     </qresource>
 </RCC>
