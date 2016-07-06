@@ -99,7 +99,8 @@ namespace ame
         static UInt32 PokemonUsage;
         static UInt32 PokemonPals;
         static UInt32 WildPokemon;
-        static UInt32 ItemHeader;
+        static UInt32 ItemData;
+        static UInt32 ItemCount;
         static UInt32 Overworlds;
         static UInt32 OverworldPals;
         static UInt32 OverworldCount;

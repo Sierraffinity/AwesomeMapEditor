@@ -5,17 +5,17 @@
 RomType:          1
 Name:             Pokémon FireRed (E)
 Language:         English
+
 PokemonCount:     0x459EC
 PokemonNames:     0x144
 PokemonIcons:     0x138
 PokemonUsage:     0x13C
 PokemonPals:	  0x8AB40
+
 WildPokemon:      0x82EA8
 
-# Items (struct size: 0x2C)
-# Ref: http://bulbapedia.bulbagarden.net/wiki/Item_data_structure_in_Generation_III
-ItemHeader:       0x1C8
-#   ItemNames:        0x3DB028          Diego, this is wrong; those are structures, not only names
+ItemData:         0x1C8
+ItemCount:        0x9A8AA
 
 Overworlds:       0x5F2F4
 OverworldPals:    0x5F4D8

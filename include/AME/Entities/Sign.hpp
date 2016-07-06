@@ -68,6 +68,7 @@ namespace ame
         UInt16 item;        ///< ID of the hidden item
         UInt8 hiddenID;     ///< Hidden item identifier
         UInt8 amount;       ///< Item amount to give
+        bool exactRequired; ///< Required to stand on spot with Itemfinder to find
 
         /* Script */
         UInt32 ptrScript;   ///< Offset of the script to execute

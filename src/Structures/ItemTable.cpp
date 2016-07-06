@@ -31,68 +31,100 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_LOADEDDATA_HPP__
-#define __AME_LOADEDDATA_HPP__
-
-
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QBoy/Core/Rom.hpp>
-#include <AME/Structures/WildPokemonTable.hpp>
-#include <AME/Structures/PokemonTable.hpp>
+#include <AME/Text/String.hpp>
+#include <AME/Structures/StructureErrors.hpp>
 #include <AME/Structures/ItemTable.hpp>
-#include <AME/Graphics/TilesetManager.hpp>
-#include <AME/Graphics/OverworldTable.hpp>
-#include <AME/Mapping/MapBankTable.hpp>
-#include <AME/Mapping/MapNameTable.hpp>
-#include <AME/Mapping/MapLayoutTable.hpp>
+#include <AME/System/Configuration.hpp>
 
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    LoadedData.hpp
-    /// \author  Pokedude
-    /// \version 1.0.0.0
-    /// \date    6/16/2016
-    /// \brief   Holds all loaded map-related data.
-    ///
-    ///////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////
-    /// \brief Loads all map-related data from the given ROM.
-    /// \returns true if no errors occured.
-    ///
-    ///////////////////////////////////////////////////////////
-    extern int loadAllMapData(const qboy::Rom &rom);
-
-    ///////////////////////////////////////////////////////////
-    /// \brief Clears all loaded map-related data.
-    ///
-    ///////////////////////////////////////////////////////////
-    extern void clearAllMapData();
-
-
-    ///////////////////////////////////////////////////////////
-    // Global objects
+    // Function type:  Constructor
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
-    extern WildPokemonTable *dat_WildPokemonTable;
-    extern MapBankTable *dat_MapBankTable;
-    extern OverworldTable *dat_OverworldTable;
-    extern PokemonTable *dat_PokemonTable;
-    extern ItemTable *dat_ItemTable;
-    extern MapNameTable *dat_MapNameTable;
-    extern MapLayoutTable *dat_MapLayoutTable;
-
+    ItemTable::ItemTable()
+    {
+    }
 
     ///////////////////////////////////////////////////////////
-    // Error messages
+    // Function type:  Constructor
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
+    ItemTable::ItemTable(const ItemTable &rvalue)
+        : m_Names(rvalue.m_Names)
+    {
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Constructor
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    ItemTable &ItemTable::operator=(const ItemTable &rvalue)
+    {
+        m_Names = rvalue.m_Names;
+        return *this;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Destructor
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    ItemTable::~ItemTable()
+    {
+        m_Names.clear();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool ItemTable::read(const qboy::Rom &rom)
+    {
+        // Checks the configuration pointer
+        if (!rom.checkOffset(CONFIG(ItemData)))
+            AME_THROW2(ITM_ERROR_DATA);
+
+        // Attempts to read all the item names
+        for (unsigned i = 0; i < CONFIG(ItemCount); i++)
+        {
+            m_Names.push_back(String::read(rom, CONFIG(ItemData) + i * 0x2C));
+        }
+
+        // Loading successful
+        return true;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const QStringList &ItemTable::names() const
+    {
+        return m_Names;
+    }
 }
-
-
-#endif // __AME_LOADEDDATA_HPP__

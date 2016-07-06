@@ -31,83 +31,92 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __AME_SETTINGS_HPP__
-#define __AME_SETTINGS_HPP__
+#ifndef __AME_ITEMTABLE_HPP__
+#define __AME_ITEMTABLE_HPP__
+
 
 ///////////////////////////////////////////////////////////
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <QString>
+
 
 namespace ame
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Settings.hpp
+    /// \file    ItemTable.hpp
     /// \author  Diegoisawesome
     /// \version 1.0.0.0
-    /// \date    6/29/2016
-    /// \brief   Stores all AME settings.
-    ///
-    /// Holds global settings for use by AME.
+    /// \date    7/5/2016
+    /// \brief   Holds all item names.
     ///
     ///////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////
-    // Struct: MapSortOrderType
-    //
-    ///////////////////////////////////////////////////////////
-    enum MapSortOrderType
-    {
-        MSO_Name    =  0,
-        MSO_Bank    =  1,
-        MSO_Layout  =  2,
-        MSO_Tileset =  3
-    };
-
-    class Settings {
+    class ItemTable {
     public:
 
         ///////////////////////////////////////////////////////////
-        /// \brief Attempts to parse the settings file.
+        /// \brief Default constructor
         ///
-        /// \returns false if parsing failed.
+        /// Initializes a new instance of ame::ItemTable.
+        /// Note: ItemTable is designed to work with stack
+        /// objects, but it is recommended to allocate instances
+        /// on the global heap, because of the undo/redo system.
         ///
         ///////////////////////////////////////////////////////////
-        static bool parse();
+        ItemTable();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Attempts to write the settings file.
+        /// \brief Copy constructor
         ///
-        /// \returns false if writing failed.
+        /// Copies all members of the given ame::ItemTable.
+        /// Is only called by template code, not by actual AME code.
         ///
         ///////////////////////////////////////////////////////////
-        static bool write();
+        ItemTable(const ItemTable &rvalue);
 
         ///////////////////////////////////////////////////////////
-        // Static class members
+        /// \brief Assignment constructor
+        ///
+        /// Copies all members of the given ame::ItemTable
+        /// and stores them in a new class instance.
+        ///
+        ///////////////////////////////////////////////////////////
+        ItemTable &operator=(const ItemTable &rvalue);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Destructor
+        ///
+        /// Deletes all the allocated names.
+        ///
+        ///////////////////////////////////////////////////////////
+        ~ItemTable();
+
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Attempts to read the item names.
+        ///
+        /// \param rom Currently opened ROM file
+        /// \returns true if all names were read correctly.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool read(const qboy::Rom &rom);
+
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves all item names.
+        ///
+        ///////////////////////////////////////////////////////////
+        const QStringList &names() const;
+
+    private:
+
+        ///////////////////////////////////////////////////////////
+        // Class members
         //
         ///////////////////////////////////////////////////////////
-        static bool ShowSprites;
-        static QString ScriptEditor;
-        static int Translucency;
-        static QString Language;
-        static bool CreateBackups;
-        static MapSortOrderType MapSortOrder;
-        static QString HexPrefix;
-        static QString LastPath;
-        static bool ShowRawMapHeader;
-        static bool ShowRawLayoutHeader;
-        static int MapAccuracyLevel;
-        static QList<QString> RecentFiles;
+        QStringList m_Names;    ///< Holds all decoded names
     };
-
-
-    #define SETTINGS(x)           (ame::Settings::x)
-    #define CHANGESETTING(x, val) (ame::Settings::x = val)
-    #define SETG_ERROR_FILE      "YAML settings file could not be found."
-
 }
 
 
-#endif // __AME_SETTINGS_HPP__
+#endif // __AME_ITEMTABLE_HPP__

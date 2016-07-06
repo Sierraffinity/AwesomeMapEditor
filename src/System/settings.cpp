@@ -57,9 +57,11 @@ namespace ame
     bool Settings::CreateBackups;
     MapSortOrderType Settings::MapSortOrder;
     QString Settings::HexPrefix;
+    QString Settings::LastPath;
     bool Settings::ShowRawMapHeader;
     bool Settings::ShowRawLayoutHeader;
     int Settings::MapAccuracyLevel;
+    QList<QString> Settings::RecentFiles;
 
 
     ///////////////////////////////////////////////////////////
@@ -89,14 +91,27 @@ namespace ame
             ScriptEditor    = QString::fromStdString(settings["ScriptEditor"].as<std::string>());
         Translucency        = settings["Translucency"].as<int>();
         if (settings["Language"].Type() != YAML::NodeType::Null)
-            Language            = QString::fromStdString(settings["Language"].as<std::string>());
+            Language        = QString::fromStdString(settings["Language"].as<std::string>());
         CreateBackups       = settings["CreateBackups"].as<bool>();
         MapSortOrder        = static_cast<MapSortOrderType>(settings["MapSortOrder"].as<int>());
         if (settings["HexPrefix"].Type() != YAML::NodeType::Null)
-            HexPrefix           = QString::fromStdString(settings["HexPrefix"].as<std::string>());
+            HexPrefix       = QString::fromStdString(settings["HexPrefix"].as<std::string>());
         ShowRawMapHeader    = settings["ShowRawMapHeader"].as<bool>();
         ShowRawLayoutHeader = settings["ShowRawLayoutHeader"].as<bool>();
-        MapAccuracyLevel   = settings["MapAccuracyLevel"].as<int>();
+        MapAccuracyLevel    = settings["MapAccuracyLevel"].as<int>();
+        if (settings["LastPath"].Type() != YAML::NodeType::Null)
+            LastPath        = QString::fromStdString(settings["LastPath"].as<std::string>());
+        else
+            LastPath        = QDir::homePath();
+
+        YAML::Node RecentFileNode = settings["RecentFiles"];
+        int fileCount = 0;
+        for (YAML::iterator it = RecentFileNode.begin(); it != RecentFileNode.end(); ++it) {
+            YAML::Node file = *it;
+            RecentFiles.append(QString::fromStdString(file.as<std::string>()));
+            if (++fileCount >= 10)
+                break;
+        }
 
         // Parsing successful
         return true;
@@ -132,8 +147,16 @@ namespace ame
         settings["ShowRawMapHeader"]    = ShowRawMapHeader;
         settings["ShowRawLayoutHeader"] = ShowRawLayoutHeader;
         settings["MapAccuracyLevel"]    = MapAccuracyLevel;
+        settings["LastPath"]            = LastPath.toStdString();
+
+        YAML::Node RecentFileNode;
+        for(int i = 0; i < RecentFiles.count(); i++)
+            RecentFileNode.push_back(RecentFiles[i].toStdString());
+
+        settings["RecentFiles"]         = RecentFileNode;
 
         std::ofstream fout(filePath.toStdString());
         fout << settings;
+        return true;
     }
 }

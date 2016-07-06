@@ -90,7 +90,8 @@ SOURCES += \
     src/System/Settings.cpp \
     src/Entities/EntityRawData.cpp \
     src/Mapping/MapLayoutTable.cpp \
-    src/Widgets/QFilterChildrenProxyModel.cpp
+    src/Widgets/QFilterChildrenProxyModel.cpp \
+    src/Structures/ItemTable.cpp
 
 
 #
@@ -154,7 +155,8 @@ HEADERS  += \
     include/AME/System/Settings.hpp \
     include/AME/Mapping/MapName.hpp \
     include/AME/Mapping/MapLayoutTable.hpp \
-    include/AME/Widgets/QFilterChildrenProxyModel.h
+    include/AME/Widgets/QFilterChildrenProxyModel.h \
+    include/AME/Structures/ItemTable.hpp
 
 
 #

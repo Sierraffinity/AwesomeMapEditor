@@ -155,10 +155,12 @@ namespace ame
         void on_sldWildOtherChance_valueChanged(int value);
         void on_entity_mouseClick(QMouseEvent *event);
         void on_MapSortOrder_changed(QAction *action);
+        void on_RecentFile_triggered();
         void updateTreeView();
         void disableBeforeROMLoad();
         void enableAfterROMLoad();
         void enableAfterMapLoad();
+        void loadRecentlyUsedFiles();
 
         void on_cmbEntityTypeSelector_currentIndexChanged(int index);
 
@@ -173,6 +175,12 @@ namespace ame
         void on_treeView_doubleClicked(const QModelIndex &index);
 
         void on_lineEdit_textChanged(const QString &arg1);
+
+        bool loadROM(const QString &file);
+
+        void on_actionClearRecentFiles_triggered();
+
+        void on_actionExit_triggered();
 
     private:
 

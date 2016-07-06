@@ -107,11 +107,16 @@ namespace ame
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
 
+        disableBeforeROMLoad();
+
+        if (SETTINGS(RecentFiles).count() > 0)
+            loadRecentlyUsedFiles();
+        else
+            ui->actionRecent_Files->setEnabled(false);
+
         QAction* sortOrder = ui->tbMapSortOrder->menu()->actions()[SETTINGS(MapSortOrder)];
         ui->tbMapSortOrder->setIcon(sortOrder->icon());
         sortOrder->setChecked(true);
-
-        disableBeforeROMLoad();
 
         m_proxyModel = new QFilterChildrenProxyModel(this);
         ui->treeView->setModel(m_proxyModel);
@@ -137,50 +142,27 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/16/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
     bool MainWindow::openRomDialog()
     {
-        /* Replace QDir::homePath with SETTINGS(LastPath) */
-
         QString file = QFileDialog::getOpenFileName(
                     this,
                     tr("Open ROM file"),
-                    QDir::homePath(),
+                    SETTINGS(LastPath),
                     tr("ROMs (*.gba *.bin)")
         );
-
 
         // Determines whether the dialog was successful
         if (!file.isNull() && !file.isEmpty())
         {
-            // Close a previous ROM and destroy objects
-            if (m_Rom.info().isLoaded())
-            {
-                // Clears the ROM data
-                m_Rom.clearCache();
-                m_Rom.close();
-
-                // Clears old data and UI
-                clearAllMapData();
-                clearBeforeLoading();
-            }
-
-            // Attempts to open the new ROM file
-            if (!m_Rom.loadFromFile(file))
-            {
-                m_Rom.clearCache();
-                m_Rom.close();
-
-                Messages::showError(this, WND_ERROR_ROM);
-                return false;
-            }
-
-            // Loading successful
-            return true;
+            QFileInfo *info = new QFileInfo(file);
+            CHANGESETTING(LastPath, info->absolutePath());
+            Settings::write();
+            return loadROM(file);
         }
 
         // Dialog cancelled
@@ -208,6 +190,88 @@ namespace ame
 
         // Sets the tab index to the map-index
         ui->tabWidget->setCurrentIndex(0);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::loadRecentlyUsedFiles()
+    {
+        QList<QString> recentFiles = SETTINGS(RecentFiles);
+        ui->actionRecent_Files->setEnabled(true);
+        QMenu *recentFilesMenu = new QMenu;
+        for(int i = 0; i < recentFiles.count(); i++)
+        {
+            QAction *fileAction = new QAction(recentFilesMenu);
+            fileAction->setText(QDir::toNativeSeparators(recentFiles[i]));
+            fileAction->setData(recentFiles[i]);
+            recentFilesMenu->addAction(fileAction);
+            connect(fileAction, SIGNAL(triggered()), this, SLOT(on_RecentFile_triggered()));
+        }
+        recentFilesMenu->addSeparator();
+        recentFilesMenu->addAction(ui->actionClearRecentFiles);
+        ui->actionRecent_Files->setMenu(recentFilesMenu);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  I/O
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadROM(const QString &file)
+    {
+        // Add ROM file to recent files list
+        QList<QString> recentFiles = SETTINGS(RecentFiles);
+
+        int count = recentFiles.count();
+        for (int i = 0; i < count; i++)
+        {
+            if (recentFiles[i] == file)
+            {
+                recentFiles.removeAt(i);
+                i--;
+                count--;
+            }
+        }
+
+        recentFiles.prepend(file);
+        if(recentFiles.count() > 10)
+            recentFiles.removeLast();
+
+        CHANGESETTING(RecentFiles, recentFiles);
+        Settings::write();
+        loadRecentlyUsedFiles();
+
+        // Close a previous ROM and destroy objects
+        if (m_Rom.info().isLoaded())
+        {
+            // Clears the ROM data
+            m_Rom.clearCache();
+            m_Rom.close();
+
+            // Clears old data and UI
+            clearAllMapData();
+            clearBeforeLoading();
+        }
+
+        // Attempts to open the new ROM file
+        if (!m_Rom.loadFromFile(file))
+        {
+            m_Rom.clearCache();
+            m_Rom.close();
+
+            Messages::showError(this, WND_ERROR_ROM);
+            return false;
+        }
+
+        // Loading successful
+        return true;
     }
 
     ///////////////////////////////////////////////////////////
@@ -245,22 +309,38 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::setupAfterLoading()
     {
-        QStandardItemModel *model = new QStandardItemModel;
+        QStandardItemModel *pokemonModel = new QStandardItemModel;
         for (unsigned i = 0; i < CONFIG(PokemonCount); i++)
         {
             QStandardItem *item = new QStandardItem;
             item->setText(dat_PokemonTable->names().at(i));
             item->setIcon(QIcon(QPixmap::fromImage(dat_PokemonTable->images().at(i))));
-            model->appendRow(item);
+            pokemonModel->appendRow(item);
         }
 
-        // Fills all wild-pokemon comboboxes with the names
+        // Fills all wild Pokemon comboboxes with the names
         foreach (QComboBox *box, ui->tabWidget_3->findChildren<QComboBox *>())
-            box->setModel(model);
+            box->setModel(pokemonModel);
 
-        // Sets the max pokemon IDs within the spinboxes
+        // Sets the max Pokemon IDs within the spinboxes
         foreach (QSpinBox *box, ui->tabWidget_3->findChildren<QSpinBox *>(QRegularExpression("sbWild")))
             box->setRange(0, CONFIG(PokemonCount));
+
+        QStandardItemModel *itemModel = new QStandardItemModel;
+        itemModel->appendRow(new QStandardItem(tr("Coins")));
+        for (unsigned i = 1; i < CONFIG(ItemCount); i++)
+        {
+            QStandardItem *item = new QStandardItem;
+            item->setText(dat_ItemTable->names().at(i));
+            itemModel->appendRow(item);
+        }
+
+        // Fills all item comboboxes with the names
+        ui->cmbSignItem->setModel(itemModel);
+
+        // Sets the max item IDs within the spinboxes
+        ui->spnSignItem->setRange(0, CONFIG(ItemCount));
+
 
         // Updates the treeview
         updateTreeView();
@@ -291,7 +371,6 @@ namespace ame
         ui->action_Redo->setEnabled(false);
         ui->action_World_Map_Editor->setEnabled(false);
         ui->action_Tileset_Editor->setEnabled(false);
-        ui->action_Connection_Editor->setEnabled(false);
         ui->action_Show_Grid->setEnabled(false);
 
         ui->cbMapTimeOfDay->setVisible(false);
@@ -328,7 +407,6 @@ namespace ame
         ui->action_Save_Map->setEnabled(true);
         ui->action_Import->setEnabled(true);
         ui->action_Export->setEnabled(true);
-        ui->action_Connection_Editor->setEnabled(true);
         ui->action_Tileset_Editor->setEnabled(true);
         ui->action_Show_Grid->setEnabled(true);
     }
@@ -1402,6 +1480,7 @@ namespace ame
             ui->spnSignItem->setValue(sign->item);
             ui->sign_item_hidden->setValue(sign->hiddenID);
             ui->sign_item_amount->setValue(sign->amount);
+            ui->chkSignItemExact->setChecked(sign->exactRequired);
         }
     }
 
@@ -1444,4 +1523,46 @@ namespace ame
                                                                    QRegExp::FixedString));
     }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_RecentFile_triggered()
+    {
+        if(loadROM(((QAction*)sender())->data().toString()))
+            loadMapData();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_actionClearRecentFiles_triggered()
+    {
+        CHANGESETTING(RecentFiles, QList<QString>());
+        Settings::write();
+        ui->actionRecent_Files->setMenu(new QMenu);
+        ui->actionRecent_Files->setEnabled(false);
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_actionExit_triggered()
+    {
+
+    }
+
 }
+

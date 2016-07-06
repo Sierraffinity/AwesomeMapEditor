@@ -148,7 +148,7 @@ namespace ame
         {
             ba.append((Int8 *) &item, 2);
             ba.push_back((Int8) hiddenID);
-            ba.push_back((Int8) amount);
+            ba.push_back((Int8) ((exactRequired << 7) | amount));
         }
         else
         {

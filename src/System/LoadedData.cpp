@@ -53,6 +53,7 @@ namespace ame
     MapLayoutTable *dat_MapLayoutTable = NULL;
     OverworldTable *dat_OverworldTable = NULL;
     PokemonTable *dat_PokemonTable = NULL;
+    ItemTable *dat_ItemTable = NULL;
     MapNameTable *dat_MapNameTable = NULL;
 
 
@@ -60,7 +61,7 @@ namespace ame
     // Function type:  I/O
     // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   7/1/2016
+    // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
     int loadAllMapData(const qboy::Rom &rom)
@@ -80,6 +81,7 @@ namespace ame
         dat_MapBankTable = new MapBankTable;
         dat_MapLayoutTable = new MapLayoutTable;
         dat_PokemonTable = new PokemonTable;
+        dat_ItemTable = new ItemTable;
 
         // Attempts to load map names
         if(!dat_MapNameTable->read(rom, CONFIG(MapNames)))
@@ -91,6 +93,10 @@ namespace ame
 
         // Attempts to load the Pokémon table
         if (!dat_PokemonTable->read(rom))
+            return -1;
+
+        // Attempts to load the item table
+        if (!dat_ItemTable->read(rom))
             return -1;
 
         // Attempts to load the overworld table
@@ -105,7 +111,7 @@ namespace ame
         if (!dat_MapLayoutTable->read(rom, CONFIG(MapLayouts)))
             return -1;
 
-        // Map wild-pokémon indices to all the maps
+        // Map wild Pokémon indices to all the maps
         for (int i = 0; i < dat_WildPokemonTable->tables().size(); i++)
         {
             dat_MapBankTable->banks()
@@ -113,17 +119,15 @@ namespace ame
                     [dat_WildPokemonTable->tables().at(i)->map()]->setWildTable(i);
         }
 
-        //QString message("Map data successfully loaded. Elapsed milliseconds: %0");
-        //Messages::showMessage(QApplication::activeWindow(), message.replace("%0", QString::number(stopWatch.elapsed())));
         return stopWatch.elapsed();
     }
 
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
+    // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Pokedude
-    // Date of edit:   6/16/2016
+    // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
     void clearAllMapData()
@@ -132,8 +136,12 @@ namespace ame
             delete dat_WildPokemonTable;
         if (dat_MapBankTable)
             delete dat_MapBankTable;
+        if (dat_MapNameTable)
+            delete dat_MapNameTable;
         if (dat_PokemonTable)
             delete dat_PokemonTable;
+        if (dat_ItemTable)
+            delete dat_ItemTable;
         if (dat_OverworldTable)
             delete dat_OverworldTable;
 

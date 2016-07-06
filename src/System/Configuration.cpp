@@ -57,7 +57,8 @@ namespace ame
     UInt32 Configuration::PokemonUsage;
     UInt32 Configuration::PokemonPals;
     UInt32 Configuration::WildPokemon;
-    UInt32 Configuration::ItemHeader;
+    UInt32 Configuration::ItemData;
+    UInt32 Configuration::ItemCount;
     UInt32 Configuration::Overworlds;
     UInt32 Configuration::OverworldPals;
     UInt32 Configuration::OverworldCount;
@@ -113,7 +114,8 @@ namespace ame
         PokemonUsage    = configNode["PokemonUsage"].as<UInt32>();
         PokemonPals     = configNode["PokemonPals"].as<UInt32>();
         WildPokemon     = configNode["WildPokemon"].as<UInt32>();
-        ItemHeader      = configNode["ItemHeader"].as<UInt32>();
+        ItemData        = configNode["ItemData"].as<UInt32>();
+        ItemCount       = configNode["ItemCount"].as<UInt32>();
         Overworlds      = configNode["Overworlds"].as<UInt32>();
         OverworldPals   = configNode["OverworldPals"].as<UInt32>();
         OverworldCount  = configNode["OverworldCount"].as<UInt32>();
@@ -148,7 +150,8 @@ namespace ame
         FETCH(PokemonUsage, rom.readPointer());
         FETCH(PokemonPals, rom.readPointer());
         FETCH(WildPokemon, rom.readPointer());
-        FETCH(ItemHeader, rom.readPointer());
+        FETCH(ItemData, rom.readPointer());
+        FETCH(ItemCount, rom.readByte());
         FETCH(Overworlds, rom.readPointer());
         FETCH(OverworldPals, rom.readPointer());
         FETCH(OverworldCount, rom.readByte());
@@ -163,6 +166,7 @@ namespace ame
         FETCH(MapNameCount, rom.readByte());
         FETCH(MapNameTotal, rom.readByte());
         OverworldCount++; // value is one less
+        ItemCount *= 2;
         MapNameCount += (RomType == RT_FRLG ? 1 : 0); // correct FRLG
 
         // Parsing successful

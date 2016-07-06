@@ -291,6 +291,7 @@ namespace ame
         {
             UInt8 type;
             Sign *sign = new Sign;
+            UInt8 tempAmount;
             sign->offset = rom.offset();
             sign->positionX = rom.readHWord();
             sign->positionY = rom.readHWord();
@@ -304,7 +305,9 @@ namespace ame
             {
                 sign->item = rom.readHWord();
                 sign->hiddenID = rom.readByte();
-                sign->amount = rom.readByte();
+                tempAmount = rom.readByte();
+                sign->amount = tempAmount & 0x7F;
+                sign->exactRequired = tempAmount >> 7;
             }
             else if (type <= ST_ScriptLeft)
             {

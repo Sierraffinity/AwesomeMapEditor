@@ -77,12 +77,19 @@ namespace ame
     // Class: PokemonTable
     //
     ///////////////////////////////////////////////////////////
-    #define PKM_ERROR_NAMES     "The location of the pokemon name table is invalid.\nPlease check the YAML configuration file\nfor your game and approve it's validity."
-    #define PKM_ERROR_ICONS     "The location of the pokemon icon table is invalid.\nPlease check the YAML configuration file\nfor your game and approve it's validity."
-    #define PKM_ERROR_USAGE     "The location of the icon palette usage table is invalid.\nPlease check the YAML configuration file\nfor your game and approve it's validity."
-    #define PKM_ERROR_PALS      "The location of the icon palette table is invalid.\nPlease check the YAML configuration file\nfor your game and approve it's validity."
+    #define PKM_ERROR_NAMES     "The location of the pokemon name table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
+    #define PKM_ERROR_ICONS     "The location of the pokemon icon table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
+    #define PKM_ERROR_USAGE     "The location of the icon palette usage table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
+    #define PKM_ERROR_PALS      "The location of the icon palette table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
     #define PKM_ERROR_IMAGE     "The location of an icon image (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define PKM_ERROR_ENTRY     "The usage entry at location 0x%offset% exceeded two."
+
+    ///////////////////////////////////////////////////////////
+    // Class: ItemTable
+    //
+    ///////////////////////////////////////////////////////////
+    #define ITM_ERROR_DATA      "The location of the item table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
+
 }
 
 

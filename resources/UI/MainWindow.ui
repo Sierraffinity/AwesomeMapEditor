@@ -4292,8 +4292,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>292</width>
-                    <height>564</height>
+                    <width>278</width>
+                    <height>581</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -5019,7 +5019,47 @@
                         <item>
                          <widget class="QSpinBox" name="sign_item_amount">
                           <property name="maximum">
-                           <number>255</number>
+                           <number>127</number>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_60">
+                        <item>
+                         <widget class="QLabel" name="label_85">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Exact Spot Required:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_57">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QCheckBox" name="chkSignItemExact">
+                          <property name="text">
+                           <string/>
                           </property>
                          </widget>
                         </item>
@@ -8725,7 +8765,6 @@
     </property>
     <addaction name="action_World_Map_Editor"/>
     <addaction name="action_Tileset_Editor"/>
-    <addaction name="action_Connection_Editor"/>
     <addaction name="separator"/>
     <addaction name="actionPlugin_Manager"/>
     <addaction name="action_Settings"/>
@@ -8764,7 +8803,6 @@
    <addaction name="separator"/>
    <addaction name="action_World_Map_Editor"/>
    <addaction name="action_Tileset_Editor"/>
-   <addaction name="action_Connection_Editor"/>
    <addaction name="separator"/>
    <addaction name="actionPlugin_Manager"/>
   </widget>
@@ -8899,18 +8937,6 @@
    </property>
    <property name="text">
     <string>&amp;Tileset Editor</string>
-   </property>
-  </action>
-  <action name="action_Connection_Editor">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../images.qrc">
-     <normaloff>:/icons/direction.ico</normaloff>:/icons/direction.ico</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Connection Editor</string>
    </property>
   </action>
   <action name="action_World_Map_Editor">
@@ -9099,6 +9125,11 @@
    </property>
    <property name="toolTip">
     <string>Fill All (Ctrl + Middle Click)</string>
+   </property>
+  </action>
+  <action name="actionClearRecentFiles">
+   <property name="text">
+    <string>&amp;Clear</string>
    </property>
   </action>
  </widget>
@@ -10657,6 +10688,38 @@
     <hint type="destinationlabel">
      <x>313</x>
      <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spnSignItem</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>cmbSignItem</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>765</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>907</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbSignItem</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>spnSignItem</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>765</x>
+     <y>431</y>
     </hint>
    </hints>
   </connection>

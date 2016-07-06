@@ -1,10 +1,12 @@
 ShowSprites:            true
-ScriptEditor:           null
+ScriptEditor:           ~
 Translucency:           50
-Language:               null
+Language:               ~
 CreateBackups:          true
 MapSortOrder:           1
 HexPrefix:              0x
 ShowRawMapHeader:       false
 ShowRawLayoutHeader:    false
 MapAccuracyLevel:       4
+LastPath:               ~
+RecentFiles:            ~
