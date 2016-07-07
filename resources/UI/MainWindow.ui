@@ -182,6 +182,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::DragOnly</enum>
+          </property>
           <attribute name="headerVisible">
            <bool>false</bool>
           </attribute>
@@ -871,6 +874,9 @@
          <property name="bottomMargin">
           <number>6</number>
          </property>
+         <property name="verticalSpacing">
+          <number>3</number>
+         </property>
          <item row="1" column="0">
           <widget class="QScrollArea" name="scrollArea_5">
            <property name="sizePolicy">
@@ -888,7 +894,7 @@
               <x>0</x>
               <y>0</y>
               <width>444</width>
-              <height>571</height>
+              <height>574</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -8735,8 +8741,6 @@
               </spacer>
              </item>
             </layout>
-            <zorder>horizontalSpacer_6</zorder>
-            <zorder>verticalSpacer_3</zorder>
            </widget>
           </widget>
          </item>
@@ -8826,7 +8830,7 @@
    <addaction name="separator"/>
    <addaction name="action_World_Map_Editor"/>
    <addaction name="action_Tileset_Editor"/>
-    <addaction name="action_Connection_Editor"/>
+   <addaction name="action_Connection_Editor"/>
    <addaction name="separator"/>
    <addaction name="actionPlugin_Manager"/>
   </widget>
@@ -8963,7 +8967,7 @@
     <string>&amp;Tileset Editor</string>
    </property>
   </action>
-     <action name="action_Connection_Editor">
+  <action name="action_Connection_Editor">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -10756,6 +10760,22 @@
     <hint type="destinationlabel">
      <x>765</x>
      <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>ame::MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>511</x>
+     <y>367</y>
     </hint>
    </hints>
   </connection>

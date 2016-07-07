@@ -62,7 +62,7 @@ namespace ame
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
 
-        connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(on_entity_mouseClick(QMouseEvent*)));
+        connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
 
         statusLabel = new QLabel(tr("No ROM loaded."));
         ui->statusBar->addWidget(statusLabel);
@@ -87,7 +87,7 @@ namespace ame
         mapSortOrderActionGroup->addAction(ui->actionSort_by_Tileset);
         ui->tbMapSortOrder->setMenu(mapSortOrderMenu);
 
-        connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(on_MapSortOrder_changed(QAction*)));
+        connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(MapSortOrder_changed(QAction*)));
 
         QActionGroup *mapToolbarActionGroup = new QActionGroup(this);
         mapToolbarActionGroup->addAction(ui->actionMouse);
@@ -210,7 +210,7 @@ namespace ame
             fileAction->setText(QDir::toNativeSeparators(recentFiles[i]));
             fileAction->setData(recentFiles[i]);
             recentFilesMenu->addAction(fileAction);
-            connect(fileAction, SIGNAL(triggered()), this, SLOT(on_RecentFile_triggered()));
+            connect(fileAction, SIGNAL(triggered()), this, SLOT(RecentFile_triggered()));
         }
         recentFilesMenu->addSeparator();
         recentFilesMenu->addAction(ui->actionClearRecentFiles);
@@ -1023,14 +1023,16 @@ namespace ame
             {
                 QPoint scrollPos = ui->openGLWidget_2->mainPos();
                 QSize size = ui->openGLWidget_2->mainMap()->header().size();
-                ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x() - (ui->scrollArea->viewport()->width() -
-                                                                 size.width() * 16) / 2);
-                ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea->viewport()->height() -
-                                                               size.height() * 16) / 2);
-                ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x() - (ui->scrollArea_5->viewport()->width() -
-                                                                   size.width() * 16) / 2);
-                ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea_5->viewport()->height() -
-                                                                 size.height() * 16) / 2);
+
+                int xMap = (ui->scrollArea->viewport()->width() - size.width() * 16) / 2;
+                int yMap = (ui->scrollArea->viewport()->height() - size.height() * 16) / 2;
+                ui->scrollArea->horizontalScrollBar()->setValue(scrollPos.x() - ((xMap > 0) ? xMap : 0));
+                ui->scrollArea->verticalScrollBar()->setValue(scrollPos.y() - ((yMap > 0) ? yMap : 0));
+
+                int xEnt = (ui->scrollArea_5->viewport()->width() - size.width() * 16) / 2;
+                int yEnt = (ui->scrollArea_5->viewport()->height() - size.height() * 16) / 2;
+                ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x() - ((xEnt > 0) ? xEnt : 0));
+                ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - ((yEnt > 0) ? yEnt : 0));
             }
         );
 
@@ -1046,7 +1048,7 @@ namespace ame
     // Date of edit:   7/2/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_MapSortOrder_changed(QAction *action)
+    void MainWindow::MapSortOrder_changed(QAction *action)
     {
         ui->tbMapSortOrder->setIcon(action->icon());
         QList<QAction*> items = ui->tbMapSortOrder->menu()->actions();
@@ -1252,7 +1254,7 @@ namespace ame
     // Date of edit:   7/3/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_entity_mouseClick(QMouseEvent *event)
+    void MainWindow::entity_mouseClick(QMouseEvent *event)
     {
         // Map coordinates to block-coordinates
         int blockX = (event->pos().x()-ui->openGLWidget_2->mainPos().x()) / 16;
@@ -1530,7 +1532,7 @@ namespace ame
     // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_RecentFile_triggered()
+    void MainWindow::RecentFile_triggered()
     {
         if(loadROM(((QAction*)sender())->data().toString()))
             loadMapData();
@@ -1549,19 +1551,6 @@ namespace ame
         Settings::write();
         ui->actionRecent_Files->setMenu(new QMenu);
         ui->actionRecent_Files->setEnabled(false);
-    }
-
-
-    ///////////////////////////////////////////////////////////
-    // Function type:  Slot
-    // Contributors:   Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   7/5/2016
-    //
-    ///////////////////////////////////////////////////////////
-    void MainWindow::on_actionExit_triggered()
-    {
-
     }
 
     ///////////////////////////////////////////////////////////
@@ -1586,5 +1575,17 @@ namespace ame
             ui->openGLWidget_2->setMovementMode(true);
             ui->openGLWidget_2->update();
         }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_action_Connection_Editor_triggered()
+    {
+
     }
 }

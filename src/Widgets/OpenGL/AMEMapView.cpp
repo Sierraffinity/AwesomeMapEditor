@@ -474,7 +474,7 @@ namespace ame
         // Calculates the positions for the maps
         int biggestLeftMap = 0; // width of the biggest left-connected map
         int biggestTopMap = 0;  // height of the biggest top-connected map
-        const int defaultRowCount = 4;
+        const int defaultRowCount = 8;
         for (int i = 0; i < connex.size(); i++)
         {
             Connection *current = connex[i];

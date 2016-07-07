@@ -153,9 +153,9 @@ namespace ame
         void on_sldWildWaterChance_valueChanged(int value);
         void on_sldWildFishingChance_valueChanged(int value);
         void on_sldWildOtherChance_valueChanged(int value);
-        void on_entity_mouseClick(QMouseEvent *event);
-        void on_MapSortOrder_changed(QAction *action);
-        void on_RecentFile_triggered();
+        void entity_mouseClick(QMouseEvent *event);
+        void MapSortOrder_changed(QAction *action);
+        void RecentFile_triggered();
         void updateTreeView();
         void disableBeforeROMLoad();
         void enableAfterROMLoad();
@@ -170,9 +170,8 @@ namespace ame
         void on_lineEdit_textChanged(const QString &arg1);
         bool loadROM(const QString &file);
         void on_actionClearRecentFiles_triggered();
-        void on_actionExit_triggered();
         void on_tabWidget_2_currentChanged(int index);
-
+        void on_action_Connection_Editor_triggered();
 
     private:
 
