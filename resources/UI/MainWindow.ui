@@ -9038,7 +9038,7 @@
      <normaloff>:/icons/plugin.ico</normaloff>:/icons/plugin.ico</iconset>
    </property>
    <property name="text">
-    <string>Plugin Manager</string>
+    <string>&amp;Plugin Manager</string>
    </property>
   </action>
   <action name="actionSort_by_Name">

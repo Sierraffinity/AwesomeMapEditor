@@ -102,7 +102,7 @@ namespace ame
         if (settings["LastPath"].Type() != YAML::NodeType::Null)
             LastPath        = QString::fromStdString(settings["LastPath"].as<std::string>());
         else
-            LastPath        = QDir::homePath();
+            LastPath        = QString();
 
         YAML::Node RecentFileNode = settings["RecentFiles"];
         int fileCount = 0;

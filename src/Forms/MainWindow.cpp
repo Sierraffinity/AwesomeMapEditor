@@ -38,6 +38,8 @@
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Forms/MainWindow.h>
 #include <AME/Forms/ErrorWindow.h>
+#include <AME/Forms/SettingsDialog.h>
+#include <AME/Forms/TilesetDialog.h>
 #include "ui_MainWindow.h"
 #include <QFileDialog>
 #include <QtEvents>
@@ -1587,5 +1589,31 @@ namespace ame
     void MainWindow::on_action_Connection_Editor_triggered()
     {
 
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_action_Settings_triggered()
+    {
+        SettingsDialog *settingsDialog = new SettingsDialog(this);
+        settingsDialog->exec();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   7/10/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_action_Tileset_Editor_triggered()
+    {
+        TilesetDialog *tilesetDialog = new TilesetDialog(this);
+        tilesetDialog->exec();
     }
 }

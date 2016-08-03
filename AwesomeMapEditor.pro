@@ -91,7 +91,9 @@ SOURCES += \
     src/Entities/EntityRawData.cpp \
     src/Mapping/MapLayoutTable.cpp \
     src/Widgets/QFilterChildrenProxyModel.cpp \
-    src/Structures/ItemTable.cpp
+    src/Structures/ItemTable.cpp \
+    src/Forms/SettingsDialog.cpp \
+    src/Forms/TilesetDialog.cpp
 
 
 #
@@ -156,14 +158,18 @@ HEADERS  += \
     include/AME/Mapping/MapName.hpp \
     include/AME/Mapping/MapLayoutTable.hpp \
     include/AME/Widgets/QFilterChildrenProxyModel.h \
-    include/AME/Structures/ItemTable.hpp
+    include/AME/Structures/ItemTable.hpp \
+    include/AME/Forms/SettingsDialog.h \
+    include/AME/Forms/TilesetDialog.h
 
 
 #
 # Forms
 #
 FORMS    += resources/UI/MainWindow.ui \
-    resources/UI/ErrorWindow.ui
+    resources/UI/ErrorWindow.ui \
+    resources/UI/SettingsDialog.ui \
+    resources/UI/TilesetDialog.ui
 
 #
 # Resources

@@ -173,6 +173,10 @@ namespace ame
         void on_tabWidget_2_currentChanged(int index);
         void on_action_Connection_Editor_triggered();
 
+        void on_action_Settings_triggered();
+
+        void on_action_Tileset_Editor_triggered();
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
