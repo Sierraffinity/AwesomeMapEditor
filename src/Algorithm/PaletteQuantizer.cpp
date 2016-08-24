@@ -106,7 +106,7 @@ namespace ame
             
         
         // Step 2: Try to eliminate similar colors and average them
-        //         as long as their amount is under the desired amount.
+        //         as soon as their amount is under the desired amount.
         int level = 0;
         while (rawColors.size() > colors)
         {
@@ -121,7 +121,7 @@ namespace ame
                     
                     if (AME_PQ_IsSimilar(rawColors.at(s), rawColors.at(t), level))
                     {
-                        // Remove one of the colors (preferrable 't' because of loop)
+                        // Remove one of the colors (preferrably 't' because of loop)
                         rawColors.removeAt(t);
                         
                         // Check if the desired amount is now reached and
@@ -141,7 +141,7 @@ namespace ame
         for (int i = 0; i < bCount; i++)
         {
             int col = *(int*)(img.constBits() + i*4);
-            if (col != rawColors.at(0)) // its already transparent
+            if (col != rawColors.at(0))
             {
                 // Now get the closest match
                 int closestIndex = 0;
