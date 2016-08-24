@@ -114,9 +114,16 @@ namespace ame
         // Map wild Pokémon indices to all the maps
         for (int i = 0; i < dat_WildPokemonTable->tables().size(); i++)
         {
-            dat_MapBankTable->banks()
-                    [dat_WildPokemonTable->tables().at(i)->bank()]->maps()
-                    [dat_WildPokemonTable->tables().at(i)->map()]->setWildTable(i);
+            quint8 bank = dat_WildPokemonTable->tables().at(i)->bank();
+            quint8 map  = dat_WildPokemonTable->tables().at(i)->map();
+            
+            if (bank < dat_MapBankTable->banks().size() &&
+                map  < dat_MapBankTable->banks().at(bank)->maps().size())
+            {
+                dat_MapBankTable->banks()
+                        [dat_WildPokemonTable->tables().at(i)->bank()]->maps()
+                        [dat_WildPokemonTable->tables().at(i)->map()]->setWildTable(i);
+            }
         }
 
         return stopWatch.elapsed();

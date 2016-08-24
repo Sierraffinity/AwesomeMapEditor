@@ -42,8 +42,13 @@ QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 #
 # QMake Settings, 4
 #
-unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
-unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/debug/ -lyaml-cpp
+CONFIG(debug, debug|release) {
+    unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
+    unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/debug/ -lyaml-cpp
+} else {
+    unix|win32: LIBS += -L$$PWD/../QBoy/bin/release/ -lQBoy
+    unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/release/ -lyaml-cpp
+}
 
 
 #
@@ -93,7 +98,8 @@ SOURCES += \
     src/Widgets/QFilterChildrenProxyModel.cpp \
     src/Structures/ItemTable.cpp \
     src/Forms/SettingsDialog.cpp \
-    src/Forms/TilesetDialog.cpp
+    src/Forms/TilesetDialog.cpp \
+    src/Algorithm/PaletteQuantizer.cpp
 
 
 #
@@ -160,7 +166,8 @@ HEADERS  += \
     include/AME/Widgets/QFilterChildrenProxyModel.h \
     include/AME/Structures/ItemTable.hpp \
     include/AME/Forms/SettingsDialog.h \
-    include/AME/Forms/TilesetDialog.h
+    include/AME/Forms/TilesetDialog.h \
+    include/AME/Algorithm/PaletteQuantizer.hpp
 
 
 #

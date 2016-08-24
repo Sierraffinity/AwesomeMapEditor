@@ -184,19 +184,23 @@ namespace ame
                 continue;
 
             // Checks if the npc, warp, trigger and sign pointers are valid
-            rom.seek(events);
-            rom.readWord();
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
-
-            if (!rom.checkOffset(rom.readPointer()))
-                break;
+            // Events are not necessary for a map
+            if (events)
+            {
+                rom.seek(events);
+                rom.readWord();
+                if (!rom.checkOffset(rom.readPointer()))
+                    break;
+    
+                if (!rom.checkOffset(rom.readPointer()))
+                    break;
+    
+                if (!rom.checkOffset(rom.readPointer()))
+                    break;
+    
+                if (!rom.checkOffset(rom.readPointer()))
+                    break;
+            }
 
 
             // =============  LEVEL 4  =============

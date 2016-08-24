@@ -91,6 +91,9 @@ namespace ame
             delete pal;
         foreach (qboy::Image *img, m_Images)
             delete img;
+        
+        m_Palettes.clear();
+        m_Images.clear();
     }
 
 
