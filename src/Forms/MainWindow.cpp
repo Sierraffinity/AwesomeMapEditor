@@ -109,6 +109,7 @@ namespace ame
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
 
+        ui->openGLWidget_2->setBlockView(ui->openGLWidget_3);
         disableBeforeROMLoad();
 
         if (SETTINGS(RecentFiles).count() > 0)

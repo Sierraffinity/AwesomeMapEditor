@@ -59,7 +59,8 @@ namespace ame
     AMEBlockView::AMEBlockView(QWidget *parent)
         : QOpenGLWidget(parent),
           QOpenGLFunctions(),
-          m_Palettes(NULL)
+          m_Palettes(NULL),
+          m_SelectedBlock(-1)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -112,6 +113,13 @@ namespace ame
         m_Program.bind();
         m_Program.setUniformValue("smp_texture", 0);
         m_Program.setUniformValue("smp_palette", 1);
+        
+        // Initializes the primitive shader program
+        m_PmtProg.create();
+        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
+        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
+        m_PmtProg.link();
+        
 
         // Initializes the vao
         m_VAO.create();
@@ -207,6 +215,60 @@ namespace ame
         m_Program.setUniformValue("is_background", false);
         glCheck(glBindTexture(GL_TEXTURE_2D, m_Textures.at(3)));
         glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+        
+        
+        // Draw selection rectangle
+        if (m_SelectedBlock != -1)
+        {
+            // Defines the uniform vertex attributes
+            static const float vertRect[8]
+            {
+                0.5f,  0.5f,
+                15.5f, 0.5f,
+                15.5f, 15.5f,
+                0.5f,  15.5f
+            };
+            
+            
+            // Computes the position on-widget
+            float x = (m_SelectedBlock % 8) * 16;
+            float y = (m_SelectedBlock / 8) * 16;
+            
+            unsigned rectBuffer = 0;
+            glCheck(glGenBuffers(1, &rectBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
+            
+            
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(x, y);
+            
+            // Modifies program states
+            m_PmtProg.bind();
+            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 0.8f));
+            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            
+            // Perform rendering
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, vertRect, GL_STATIC_DRAW));
+            glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
+            glCheck(glDeleteBuffers(1, &rectBuffer));
+        }
+    }
+    
+    
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   8/25/2016
+    //
+    ///////////////////////////////////////////////////////////
+    int AMEBlockView::selectedBlock() const
+    {
+        return m_SelectedBlock;
     }
 
 
@@ -339,5 +401,34 @@ namespace ame
 
 
         doneCurrent();
+    }
+    
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   8/25/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::mouseReleaseEvent(QMouseEvent *event)
+    {
+        int mouseX = event->pos().x();
+        int mouseY = event->pos().y();
+        if (mouseX >= width() || mouseY >= height())
+        {
+            m_SelectedBlock = -1;
+            repaint();
+            return;
+        }
+        
+        // Align the position to a multiple of 16px
+        while (mouseX % 16 != 0)
+            mouseX--;
+        while (mouseY % 16 != 0)
+            mouseY--;
+        
+        // Determines the tile-number
+        m_SelectedBlock = ((mouseY/16)*8) + (mouseX/16);
+        repaint();
     }
 }

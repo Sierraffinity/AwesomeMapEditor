@@ -46,6 +46,8 @@
 
 namespace ame
 {
+    class AMEBlockView;
+    
     ///////////////////////////////////////////////////////////
     /// \file    AMEMapView.h
     /// \author  Pokedude
@@ -116,6 +118,12 @@ namespace ame
         ///
         ///////////////////////////////////////////////////////////
         void setMovementMode(bool isInMovementMode);
+        
+        ///////////////////////////////////////////////////////////
+        /// \brief Specifies the block view.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setBlockView(AMEBlockView *view);
 
 
         ///////////////////////////////////////////////////////////
@@ -204,6 +212,12 @@ namespace ame
         ///
         ///////////////////////////////////////////////////////////
         void paintGL();
+        
+        ///////////////////////////////////////////////////////////
+        /// \brief Puts a map block.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mouseReleaseEvent(QMouseEvent *event);
 
 
     private:
@@ -246,6 +260,7 @@ namespace ame
         Boolean m_LayoutView;
         MapHeader m_Header;
         Boolean m_MovementMode;
+        AMEBlockView *m_BlockView;
     };
 }
 

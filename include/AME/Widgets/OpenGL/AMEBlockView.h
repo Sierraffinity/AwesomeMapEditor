@@ -85,7 +85,14 @@ namespace ame
         ///
         ///////////////////////////////////////////////////////////
         void freeGL();
-
+        
+        
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves the selected block.
+        ///
+        ///////////////////////////////////////////////////////////
+        int selectedBlock() const;
+        
 
     protected:
 
@@ -106,7 +113,13 @@ namespace ame
         ///
         ///////////////////////////////////////////////////////////
         void paintGL();
-
+        
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse click event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mouseReleaseEvent(QMouseEvent *event);
+        
 
     private:
 
@@ -121,12 +134,14 @@ namespace ame
         QVector<qboy::GLColor> *m_Palettes;
         QOpenGLVertexArrayObject m_VAO;
         QOpenGLShaderProgram m_Program;
+        QOpenGLShaderProgram m_PmtProg;
         QSize m_PrimarySetSize;
         QSize m_SecondarySetSize;
         UInt8 *m_PrimaryForeground;
         UInt8 *m_PrimaryBackground;
         UInt8 *m_SecondaryForeground;
         UInt8 *m_SecondaryBackground;
+        Int32 m_SelectedBlock;
     };
 }
 

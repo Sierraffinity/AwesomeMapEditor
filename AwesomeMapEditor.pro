@@ -37,6 +37,8 @@ DEPENDPATH  += $$PWD/../QBoy/include
 INCLUDEPATH += $$PWD/../yaml-cpp/include
 DEPENDPATH += $$PWD/../yaml-cpp/include
 QMAKE_LFLAGS += -static-libgcc -static-libstdc++
+win32: LIBS += -lopengl32
+unix:  LIBS += -lGL
 
 
 #

@@ -38,6 +38,7 @@
 #include <AME/System/Configuration.hpp>
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Widgets/OpenGL/AMEEntityView.h>
+#include <AME/Widgets/OpenGL/AMEBlockView.h>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -363,7 +364,6 @@ namespace ame
         }
     }
 
-
     ///////////////////////////////////////////////////////////
     // Function type:  Helper
     // Contributors:   Pokedude
@@ -440,6 +440,58 @@ namespace ame
         for (int y2 = 0; y2 < 16; y2++)
             for (int x2 = 0; x2 < 16; x2++)
                 blockBuffer[pos++] = pixels[(x+x2) + (y+y2) * 128];
+    }
+       
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   8/25/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::mouseReleaseEvent(QMouseEvent *event)
+    {
+        int mouseX = event->pos().x();
+        int mouseY = event->pos().y();
+        if (mouseX >= width() || mouseY >= height())
+            return;
+        if (m_BlockView->selectedBlock() == -1)
+            return;
+        
+        
+        // Fetches relevant data
+        Map *mm = m_Maps[0];
+        UInt32 bg = m_MapTextures[0];
+        UInt32 fg = m_MapTextures[1];
+        Int32 selected = m_BlockView->selectedBlock();
+        
+        // Align the position to a multiple of 16px
+        while (mouseX % 16 != 0)
+            mouseX--;
+        while (mouseY % 16 != 0)
+            mouseY--;
+        
+        // Determines the tile-number
+        int mapBlockIndex = ((mouseY/16)*8) + (mouseX/16);
+        
+        // Sets the block in the data
+        mm->header().blocks()[mapBlockIndex]->block = (UInt16)selected;
+        
+        // Sets the block in the actual image (BG & FG)
+        if (selected >= m_PrimaryBlockCount)
+            extractBlock(m_SecondaryBackground, selected-m_PrimaryBlockCount);
+        else
+            extractBlock(m_PrimaryBackground, selected);
+        glBindTexture(GL_TEXTURE_2D, bg);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, mouseX, mouseY, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+        
+        if (selected >= m_PrimaryBlockCount)
+            extractBlock(m_SecondaryForeground, selected-m_PrimaryBlockCount);
+        else
+            extractBlock(m_PrimaryForeground, selected);
+        glBindTexture(GL_TEXTURE_2D, fg);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, mouseX, mouseY, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+        repaint();
     }
 
 
@@ -1205,7 +1257,7 @@ namespace ame
 
         return true;
     }
-
+    
 
     ///////////////////////////////////////////////////////////
     // Function type:  Setter
@@ -1386,6 +1438,18 @@ namespace ame
     {
         m_MovementMode = isInMovementMode;
     }  
+    
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   7/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::setBlockView(AMEBlockView *view)
+    {
+        m_BlockView = view;
+    }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
