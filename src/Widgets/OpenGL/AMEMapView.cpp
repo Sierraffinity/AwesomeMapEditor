@@ -1424,6 +1424,7 @@ namespace ame
         m_ConnectParts.clear();
 
         doneCurrent();
+        repaint();
     }
 
 
@@ -1585,7 +1586,7 @@ namespace ame
     // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
-    MapBorder AMEMapView::border()
+    MapBorder &AMEMapView::border()
     {
         return m_Header.border();
     }

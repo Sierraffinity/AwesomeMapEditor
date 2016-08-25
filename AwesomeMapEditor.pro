@@ -101,7 +101,8 @@ SOURCES += \
     src/Structures/ItemTable.cpp \
     src/Forms/SettingsDialog.cpp \
     src/Forms/TilesetDialog.cpp \
-    src/Algorithm/PaletteQuantizer.cpp
+    src/Algorithm/PaletteQuantizer.cpp \
+    src/Widgets/Listeners/MovePermissionListener.cpp
 
 
 #
@@ -169,7 +170,8 @@ HEADERS  += \
     include/AME/Structures/ItemTable.hpp \
     include/AME/Forms/SettingsDialog.h \
     include/AME/Forms/TilesetDialog.h \
-    include/AME/Algorithm/PaletteQuantizer.hpp
+    include/AME/Algorithm/PaletteQuantizer.hpp \
+    include/AME/Widgets/Listeners/MovePermissionListener.hpp
 
 
 #

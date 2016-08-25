@@ -190,7 +190,7 @@ namespace ame
         /// \brief Retrieves the border.
         ///
         ///////////////////////////////////////////////////////////
-        MapBorder border();
+        MapBorder &border();
 
 
     protected:

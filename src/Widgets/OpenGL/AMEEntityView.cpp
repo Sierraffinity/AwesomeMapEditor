@@ -423,5 +423,6 @@ namespace ame
         m_Selection = CurrentEntity();
         m_Entities = NULL;
         m_MapView = NULL;
+        repaint();
     }
 }

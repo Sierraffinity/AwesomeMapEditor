@@ -87,8 +87,12 @@ namespace ame
     ///////////////////////////////////////////////////////////
     OverworldTable::~OverworldTable()
     {
+        m_Palettes = m_Palettes.toSet().toList();
+        m_Images = m_Images.toSet().toList();
+        
         foreach (qboy::Palette *pal, m_Palettes)
             delete pal;
+        
         foreach (qboy::Image *img, m_Images)
             delete img;
         

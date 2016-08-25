@@ -216,12 +216,13 @@ namespace ame
 
 
         // Fetches the border and the blockset pixel buffers
-        MapBorder border;
+        MapBorder *pbd;
         if (!layout)
-            border = view->mainMap()->header().border();
+            pbd = &view->mainMap()->header().border();
         else
-            border = view->border();
-
+            pbd = &view->border();
+        
+        MapBorder &border = *pbd;
         QList<UInt8 *> setPixels = view->mainPixels();
         UInt8 *primaryBg = setPixels[0];
         UInt8 *primaryFg = setPixels[1];
@@ -340,5 +341,6 @@ namespace ame
 
 
         doneCurrent();
+        repaint();
     }
 }

@@ -63,6 +63,8 @@ namespace ame
     {
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
+        m_MPListener = new MovePermissionListener;
+        ui->label->installEventFilter(m_MPListener);
 
         connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
 
@@ -190,9 +192,12 @@ namespace ame
         ui->openGLWidget_2->freeGL();
         ui->openGLWidget_3->freeGL();
         ui->openGLWidget_5->freeGL();
+        m_lastOpenedMap = NULL;
+        m_CurrentMap = NULL;
 
         // Sets the tab index to the map-index
         ui->tabWidget->setCurrentIndex(0);
+        ui->tabWidget->setEnabled(false);
     }
 
     ///////////////////////////////////////////////////////////
