@@ -39,8 +39,8 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <qboy/Graphics/Image.hpp>
-#include <qboy/Graphics/Palette.hpp>
+#include <QBoy/Graphics/Image.hpp>
+#include <QBoy/Graphics/Palette.hpp>
 
 
 namespace ame
