@@ -75,9 +75,6 @@ SOURCES += \
     src/Mapping/MapHeader.cpp \
     src/Mapping/MapNameTable.cpp \
     src/Mapping/Map.cpp \
-    src/Widgets/qhexedit.cpp \
-    src/Widgets/chunks.cpp \
-    src/Widgets/commands.cpp \
     src/Mapping/MapBank.cpp \
     src/Widgets/QHexLineEdit.cpp \
     src/Widgets/QHexSpinBox.cpp \
@@ -102,7 +99,10 @@ SOURCES += \
     src/Forms/SettingsDialog.cpp \
     src/Forms/TilesetDialog.cpp \
     src/Algorithm/PaletteQuantizer.cpp \
-    src/Widgets/Listeners/MovePermissionListener.cpp
+    src/Widgets/Listeners/MovePermissionListener.cpp \
+    src/Widgets/Chunks.cpp \
+    src/Widgets/QHexEdit.cpp \
+    src/Widgets/Commands.cpp
 
 
 #
@@ -143,9 +143,6 @@ HEADERS  += \
     include/AME/Mapping/MappingErrors.hpp \
     include/AME/Mapping/Map.hpp \
     include/AME/Mapping/MapBank.hpp \
-    include/AME/Widgets/qhexedit.h \
-    include/AME/Widgets/chunks.h \
-    include/AME/Widgets/commands.h \
     include/AME/Widgets/QHexLineEdit.h \
     include/AME/Widgets/QHexSpinBox.h \
     include/AME/Mapping/MapBankTable.hpp \
@@ -171,7 +168,10 @@ HEADERS  += \
     include/AME/Forms/SettingsDialog.h \
     include/AME/Forms/TilesetDialog.h \
     include/AME/Algorithm/PaletteQuantizer.hpp \
-    include/AME/Widgets/Listeners/MovePermissionListener.hpp
+    include/AME/Widgets/Listeners/MovePermissionListener.hpp \
+    include/AME/Widgets/Chunks.h \
+    include/AME/Widgets/Commands.h \
+    include/AME/Widgets/QHexEdit.h
 
 
 #

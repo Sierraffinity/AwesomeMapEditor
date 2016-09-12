@@ -95,7 +95,9 @@ namespace ame
 
 
         // Reads the whole Pokémon string, terminated by 0xFF
-        Q_ASSERT(rom.seek(offset));
+        if (!rom.seek(offset))
+            Q_ASSERT(false);
+
         while ((readByte = rom.readByte()) != 0xFF)
             encoded.push_back(readByte);
 

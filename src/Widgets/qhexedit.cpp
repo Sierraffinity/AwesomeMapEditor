@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include <qhexedit.h>
+#include <QHexEdit.h>
 
 //const int (lineWidth() * 3 - 1) = 47;
 //const int lineWidth() = 16;

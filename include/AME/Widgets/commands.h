@@ -5,7 +5,7 @@
 
 #include <QUndoStack>
 
-#include "chunks.h"
+#include "Chunks.h"
 
 /*! CharCommand is a class to provid undo/redo functionality in QHexEdit.
 A QUndoCommand represents a single editing action on a document. CharCommand
