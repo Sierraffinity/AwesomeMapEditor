@@ -9178,7 +9178,7 @@
   <customwidget>
    <class>QHexEdit</class>
    <extends>QWidget</extends>
-   <header location="global">qhexedit.h</header>
+   <header location="global">QHexEdit.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
