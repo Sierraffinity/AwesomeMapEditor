@@ -79,7 +79,7 @@ namespace ame
           m_SecondaryBackground(0),
           m_ShowSprites(false),
           m_MovementMode(false),
-          m_BlockView(false)
+          m_BlockView(0)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
