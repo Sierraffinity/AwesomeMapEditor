@@ -69,8 +69,17 @@ namespace ame
     AMEMapView::AMEMapView(QWidget *parent)
         : QOpenGLWidget(parent),
           QOpenGLFunctions(),
+          m_NPCBuffer(0u),
+          m_IndexBuffer(0u),
+          m_MoveTexture(0u),
+          m_MoveBuffer(0u),
+          m_PrimaryForeground(0),
+          m_PrimaryBackground(0),
+          m_SecondaryForeground(0),
+          m_SecondaryBackground(0),
           m_ShowSprites(false),
-          m_MovementMode(false)
+          m_MovementMode(false),
+          m_BlockView(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -115,7 +124,7 @@ namespace ame
 
 
         // Initializes the OpenGL functions
-        initializeOpenGLFunctions();     
+        initializeOpenGLFunctions();
 
         // Initializes the shader program
         m_Program.create();
@@ -441,7 +450,7 @@ namespace ame
             for (int x2 = 0; x2 < 16; x2++)
                 blockBuffer[pos++] = pixels[(x+x2) + (y+y2) * 128];
     }
-       
+
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
     // Contributors:   Pokedude
@@ -457,26 +466,26 @@ namespace ame
             return;
         if (m_BlockView->selectedBlock() == -1)
             return;
-        
-        
+
+
         // Fetches relevant data
         Map *mm = m_Maps[0];
         UInt32 bg = m_MapTextures[0];
         UInt32 fg = m_MapTextures[1];
         Int32 selected = m_BlockView->selectedBlock();
-        
+
         // Align the position to a multiple of 16px
         while (mouseX % 16 != 0)
             mouseX--;
         while (mouseY % 16 != 0)
             mouseY--;
-        
+
         // Determines the tile-number
         int mapBlockIndex = ((mouseY/16)*8) + (mouseX/16);
-        
+
         // Sets the block in the data
         mm->header().blocks()[mapBlockIndex]->block = (UInt16)selected;
-        
+
         // Sets the block in the actual image (BG & FG)
         if (selected >= m_PrimaryBlockCount)
             extractBlock(m_SecondaryBackground, selected-m_PrimaryBlockCount);
@@ -484,7 +493,7 @@ namespace ame
             extractBlock(m_PrimaryBackground, selected);
         glBindTexture(GL_TEXTURE_2D, bg);
         glTexSubImage2D(GL_TEXTURE_2D, 0, mouseX, mouseY, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
-        
+
         if (selected >= m_PrimaryBlockCount)
             extractBlock(m_SecondaryForeground, selected-m_PrimaryBlockCount);
         else
@@ -1257,7 +1266,7 @@ namespace ame
 
         return true;
     }
-    
+
 
     ///////////////////////////////////////////////////////////
     // Function type:  Setter
@@ -1438,8 +1447,8 @@ namespace ame
     void AMEMapView::setMovementMode(bool isInMovementMode)
     {
         m_MovementMode = isInMovementMode;
-    }  
-    
+    }
+
     ///////////////////////////////////////////////////////////
     // Function type:  Setter
     // Contributors:   Pokedude
