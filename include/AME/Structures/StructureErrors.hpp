@@ -58,27 +58,27 @@ namespace ame
     // Class: WildPokemonTable
     //
     ///////////////////////////////////////////////////////////
-    #define WPT_ERROR_OFFSET    "The location of the wildpokemon head table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define WPT_ERROR_RANGE     "The wildpokemon head table exceeded the ROM's range."
+    #define WPT_ERROR_OFFSET    "The location of the wild Pokémon head table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define WPT_ERROR_RANGE     "The wild Pokémon head table exceeded the ROM's range."
 
     ///////////////////////////////////////////////////////////
     // Class: WildPokemonTable
     //
     ///////////////////////////////////////////////////////////
-    #define WPST_ERROR_OFFSET   "The location of a wildpokemon sub table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define WPST_ERROR_OFFSET   "The location of a wild Pokémon sub table (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define WPST_ERROR_RANGE    "While having attempted to read the encounter data, ROM's range was exceeded."
     #define WPST_ERROR_GRASS    "The location of the grass encounters (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define WPST_ERROR_WATER    "The location of the water encounters (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define WPST_ERROR_ROCK     "The location of the rock-smash encounters (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
-    #define WPST_ERROR_FISH     "The location of the fishing encounters (ref: 0x%offset%) is invalid\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data.."
-    #define WPST_ERROR_DATA     "The location of the encounter data (ref: 0x%offset%) is invalid\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data.."
+    #define WPST_ERROR_ROCK     "The location of the miscellaneous encounters (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
+    #define WPST_ERROR_FISH     "The location of the fishing encounters (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data.."
+    #define WPST_ERROR_DATA     "The location of the encounter data (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
 
     ///////////////////////////////////////////////////////////
     // Class: PokemonTable
     //
     ///////////////////////////////////////////////////////////
-    #define PKM_ERROR_NAMES     "The location of the pokemon name table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
-    #define PKM_ERROR_ICONS     "The location of the pokemon icon table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
+    #define PKM_ERROR_NAMES     "The location of the Pokémon name table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
+    #define PKM_ERROR_ICONS     "The location of the Pokémon icon table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
     #define PKM_ERROR_USAGE     "The location of the icon palette usage table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
     #define PKM_ERROR_PALS      "The location of the icon palette table is invalid.\nPlease check the YAML configuration file\nfor your game and approve its validity."
     #define PKM_ERROR_IMAGE     "The location of an icon image (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."

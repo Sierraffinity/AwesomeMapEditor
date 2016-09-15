@@ -70,7 +70,7 @@ namespace ame
     // Class: OverworldTable
     //
     ///////////////////////////////////////////////////////////
-    #define OWT_ERROR_OFFSET    "The location of the OW table is invalid.\nPlease check the YAML configuration file\nfor your game and approve it's validity."
+    #define OWT_ERROR_OFFSET    "The location of the OW table is invalid.\nPlease check the YAML configuration file\nfor your game."
     #define OWT_ERROR_PALETTE   "The location of an overworld palette (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define OWT_ERROR_STRUCT    "The location of an overworld entry (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
     #define OWT_ERROR_FRAMES    "The location of the frame data (ref: 0x%offset%) is invalid.\nPlease make sure that your pointer at the\ngiven offset is valid and contains valid data."
