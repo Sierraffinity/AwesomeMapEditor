@@ -458,14 +458,35 @@ namespace ame
     // Date of edit:   8/25/2016
     //
     ///////////////////////////////////////////////////////////
-    void AMEMapView::mouseReleaseEvent(QMouseEvent *event)
+    void AMEMapView::mousePressEvent(QMouseEvent *event)
     {
+        if (event->buttons() != Qt::LeftButton)
+            return; // Implement block selecting later
+
+
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
+        QPoint mp = m_MapPositions.at(0);
+        QSize mz = m_MapSizes.at(0);
+
+
+        if (mouseX < mp.x()              || mouseY < mp.y()            ||
+            mouseX > mp.x() + mz.width() || mouseY > mp.y() + mz.height())
+        {
+            QMessageBox box(this);
+            box.setText("Cannot place blocks on connected maps (yet).");
+            box.exec();
+            return;
+        }
+
         if (mouseX >= width() || mouseY >= height())
             return;
         if (m_BlockView->selectedBlock() == -1)
             return;
+
+
+        mouseX -= mp.x();
+        mouseY -= mp.y();
 
 
         // Fetches relevant data
@@ -501,6 +522,19 @@ namespace ame
         glBindTexture(GL_TEXTURE_2D, fg);
         glTexSubImage2D(GL_TEXTURE_2D, 0, mouseX, mouseY, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
         repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   9/26/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::mouseMoveEvent(QMouseEvent *event)
+    {
+        if (event->buttons() == Qt::LeftButton)
+            mousePressEvent(event);
     }
 
 

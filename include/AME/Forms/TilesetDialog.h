@@ -2,6 +2,8 @@
 #define AME_TILESETDIALOG_H
 
 #include <QDialog>
+#include <AME/Graphics/TilesetManager.hpp>
+#include <AME/Widgets/OpenGL/AMEBlockView.h>
 
 namespace ame {
 
@@ -14,11 +16,15 @@ class TilesetDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TilesetDialog(QWidget *parent = 0);
+
+    explicit TilesetDialog(QWidget *parent, AMEMapView *mv, AMEBlockView *bv);
     ~TilesetDialog();
 
 private:
+
     Ui::TilesetDialog *ui;
+    Tileset *m_TilesetPri;
+    Tileset *m_TilesetSec;
 };
 
 

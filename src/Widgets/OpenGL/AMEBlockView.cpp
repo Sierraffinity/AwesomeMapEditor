@@ -90,6 +90,32 @@ namespace ame
         }
     }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/18/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::copyBlocks(AMEBlockView *other)
+    {
+        other->m_VertexBuffers = m_VertexBuffers;
+        other->m_Textures = m_Textures;
+        other->m_PalTexture = m_PalTexture;
+        other->m_IndexBuffer = m_IndexBuffer;
+        other->m_Palettes = m_Palettes;
+        other->m_PrimarySetSize = m_PrimarySetSize;
+        other->m_SecondarySetSize = m_SecondarySetSize;
+        other->m_PrimaryForeground = m_PrimaryForeground;
+        other->m_PrimaryBackground = m_PrimaryBackground;
+        other->m_SecondaryBackground = m_SecondaryBackground;
+        other->m_SecondaryForeground = m_SecondaryForeground;
+        other->m_SelectedBlock = m_SelectedBlock;
+        other->setMinimumSize(minimumSize());
+        other->resize(minimumSize());
+        other->repaint();
+    }
+
 
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
@@ -104,7 +130,7 @@ namespace ame
             qboy::GLErrors::Current = new qboy::GLErrors;
 
 
-        initializeOpenGLFunctions();       
+        initializeOpenGLFunctions();
 
         // Initializes the shader program
         m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/BlockVertexShader.glsl");
@@ -113,13 +139,13 @@ namespace ame
         m_Program.bind();
         m_Program.setUniformValue("smp_texture", 0);
         m_Program.setUniformValue("smp_palette", 1);
-        
+
         // Initializes the primitive shader program
         m_PmtProg.create();
         m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
         m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
         m_PmtProg.link();
-        
+
 
         // Initializes the vao
         m_VAO.create();
@@ -215,8 +241,8 @@ namespace ame
         m_Program.setUniformValue("is_background", false);
         glCheck(glBindTexture(GL_TEXTURE_2D, m_Textures.at(3)));
         glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
-        
-        
+
+
         // Draw selection rectangle
         if (m_SelectedBlock != -1)
         {
@@ -228,28 +254,28 @@ namespace ame
                 15.5f, 15.5f,
                 0.5f,  15.5f
             };
-            
-            
+
+
             // Computes the position on-widget
             float x = (m_SelectedBlock % 8) * 16;
             float y = (m_SelectedBlock / 8) * 16;
-            
+
             unsigned rectBuffer = 0;
             glCheck(glGenBuffers(1, &rectBuffer));
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
-            
-            
+
+
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(x, y);
-            
+
             // Modifies program states
             m_PmtProg.bind();
             m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
             m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
             m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 0.8f));
             m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
-            
+
             // Perform rendering
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
             glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, vertRect, GL_STATIC_DRAW));
@@ -257,8 +283,8 @@ namespace ame
             glCheck(glDeleteBuffers(1, &rectBuffer));
         }
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
     // Contributors:   Pokedude
@@ -403,7 +429,7 @@ namespace ame
         doneCurrent();
         repaint();
     }
-    
+
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
     // Contributors:   Pokedude
@@ -421,13 +447,13 @@ namespace ame
             repaint();
             return;
         }
-        
+
         // Align the position to a multiple of 16px
         while (mouseX % 16 != 0)
             mouseX--;
         while (mouseY % 16 != 0)
             mouseY--;
-        
+
         // Determines the tile-number
         m_SelectedBlock = ((mouseY/16)*8) + (mouseX/16);
         repaint();

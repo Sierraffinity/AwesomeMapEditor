@@ -52,6 +52,7 @@
 int main(int argc, char *argv[])
 {
     qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication a(argc, argv);
     ame::MainWindow w;
     w.show();

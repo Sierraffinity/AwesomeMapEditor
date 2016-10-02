@@ -1018,7 +1018,7 @@ namespace ame
 
         // Fills the wild-pokemon tab
         setupWildPokemon(currentMap);
-        
+
         // Fills the header tab
         setupHeader(currentMap);
         ui->cmbEntityTypeSelector->setCurrentIndex(0);
@@ -1606,20 +1606,20 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_action_Settings_triggered()
     {
-        SettingsDialog *settingsDialog = new SettingsDialog(this);
-        settingsDialog->exec();
+        SettingsDialog settingsDialog(this);
+        settingsDialog.exec();
     }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
     // Contributors:   Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   7/10/2016
+    // Last edit by:   Pokedude
+    // Date of edit:   9/23/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_action_Tileset_Editor_triggered()
     {
-        TilesetDialog *tilesetDialog = new TilesetDialog(this);
-        tilesetDialog->exec();
+        TilesetDialog tilesetDialog(this, ui->openGLWidget_2, ui->openGLWidget_3);
+        tilesetDialog.exec();
     }
 }
