@@ -41,6 +41,7 @@
 ///////////////////////////////////////////////////////////
 #include <QtWidgets>
 #include <QtOpenGL/QtOpenGL>
+#include <QColor>
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 
 
@@ -93,13 +94,36 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void freeGL();
 
-
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the selected block.
+        /// \brief Retrieves the selected blocks.
         ///
         ///////////////////////////////////////////////////////////
-        int selectedBlock() const;
+        QVector<UInt16> selectedBlocks();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Gets the current editor tool.
+        ///
+        ///////////////////////////////////////////////////////////
+        AMEMapView::Tool getCurrentTool(Qt::MouseButtons buttons);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the current editor tool.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setCurrentTool(AMEMapView::Tool newTool);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Selects a block and scrolls the view to meet it.
+        ///
+        ///////////////////////////////////////////////////////////
+        void selectBlock(UInt16 newBlock);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Deselects the selected blocks in the case of
+        /// the user picking from the map instead.
+        ///
+        ///////////////////////////////////////////////////////////
+        void deselectBlocks();
 
     protected:
 
@@ -122,10 +146,34 @@ namespace ame
         void paintGL();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Overrides the mouse click event.
+        /// \brief Overrides the mouse press event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mousePressEvent(QMouseEvent *event);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse release event.
         ///
         ///////////////////////////////////////////////////////////
         void mouseReleaseEvent(QMouseEvent *event);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse move event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mouseMoveEvent(QMouseEvent *event);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the enter event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void enterEvent(QEvent *event);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse leave event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void leaveEvent(QEvent *event);
 
 
     private:
@@ -148,7 +196,13 @@ namespace ame
         UInt8 *m_PrimaryBackground;
         UInt8 *m_SecondaryForeground;
         UInt8 *m_SecondaryBackground;
-        Int32 m_SelectedBlock;
+        QVector<UInt16> m_SelectedBlocks;
+        Int32 m_FirstBlock;
+        Int32 m_LastBlock;
+        Int32 m_HighlightedBlock;
+        AMEMapView::Tool m_CurrentTool;
+        QColor m_CursorColor;
+        Boolean m_ShowHighlight;
     };
 }
 

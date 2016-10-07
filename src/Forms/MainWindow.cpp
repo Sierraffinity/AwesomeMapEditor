@@ -274,7 +274,7 @@ namespace ame
             m_Rom.clearCache();
             m_Rom.close();
 
-            Messages::showError(this, WND_ERROR_ROM);
+            Messages::showError(this, m_Rom.lastError());
             return false;
         }
 
@@ -1251,6 +1251,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_cmbSignType_currentIndexChanged(int index)
     {
+        Q_UNUSED(index);
         Sign *eventS = m_CurrentMap->entities().signs()[ui->spnEntityScroller->value()];
         showCorrectSignType(eventS);
     }

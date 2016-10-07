@@ -60,7 +60,12 @@ namespace ame
         : QOpenGLWidget(parent),
           QOpenGLFunctions(),
           m_Palettes(NULL),
-          m_SelectedBlock(-1)
+          m_SelectedBlocks({ 0 }),
+          m_FirstBlock(0),
+          m_LastBlock(0),
+          m_CurrentTool(AMEMapView::Tool::None),
+          m_CursorColor(Qt::GlobalColor::red),
+          m_ShowHighlight(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -110,7 +115,12 @@ namespace ame
         other->m_PrimaryBackground = m_PrimaryBackground;
         other->m_SecondaryBackground = m_SecondaryBackground;
         other->m_SecondaryForeground = m_SecondaryForeground;
-        other->m_SelectedBlock = m_SelectedBlock;
+        other->m_SelectedBlocks = m_SelectedBlocks;
+        other->m_FirstBlock = m_FirstBlock;
+        other->m_LastBlock = m_LastBlock;
+        other->m_CurrentTool = m_CurrentTool;
+        other->m_CursorColor = m_CursorColor;
+        other->m_ShowHighlight = m_ShowHighlight;
         other->setMinimumSize(minimumSize());
         other->resize(minimumSize());
         other->repaint();
@@ -242,12 +252,74 @@ namespace ame
         glCheck(glBindTexture(GL_TEXTURE_2D, m_Textures.at(3)));
         glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
 
+        m_PmtProg.bind();
 
         // Draw selection rectangle
-        if (m_SelectedBlock != -1)
+        if (m_FirstBlock != -1 && m_LastBlock != -1)
         {
+            // Computes the position on widget based on selected blocks
+            int firstX = (m_FirstBlock % 8);
+            int x = firstX;
+            int firstY = (m_FirstBlock / 8);
+            int y = firstY;
+
+            int lastX = (m_LastBlock % 8);
+            int lastY = (m_LastBlock / 8);
+
+            int selectorWidth = lastX - firstX;
+            int selectorHeight = lastY - firstY;
+
+            if (lastX < firstX)
+            {
+                x = lastX;
+                selectorWidth = firstX - x;
+            }
+
+            if (lastY < firstY)
+            {
+                y = lastY;
+                selectorHeight = firstY - y;
+            }
+
+            // This should be made user-changable later
+            x *= 16;
+            y *= 16;
+            selectorWidth *= 16;
+            selectorHeight *= 16;
+
             // Defines the uniform vertex attributes
-            static const float vertRect[8]
+            float vertRect[8]
+            {
+                0.5f,                0.5f,
+                selectorWidth+15.5f, 0.5f,
+                selectorWidth+15.5f, selectorHeight+15.5f,
+                0.5f,                selectorHeight+15.5f
+            };
+
+            unsigned rectBuffer = 0;
+            glCheck(glGenBuffers(1, &rectBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
+
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(x, y);
+
+            // Modifies program states
+            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProg.setUniformValue("uni_color", m_CursorColor);
+            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+
+            // Render current selected block rect
+            //glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, vertRect, GL_STATIC_DRAW));
+            glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
+            glCheck(glDeleteBuffers(1, &rectBuffer));
+        }
+
+        if (m_ShowHighlight)
+        {
+            static const float highlightRect[8]
             {
                 0.5f,  0.5f,
                 15.5f, 0.5f,
@@ -255,48 +327,75 @@ namespace ame
                 0.5f,  15.5f
             };
 
-
-            // Computes the position on-widget
-            float x = (m_SelectedBlock % 8) * 16;
-            float y = (m_SelectedBlock / 8) * 16;
-
-            unsigned rectBuffer = 0;
-            glCheck(glGenBuffers(1, &rectBuffer));
-            glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
-
+            int highlightX = (m_HighlightedBlock % 8) * 16;
+            int highlightY = (m_HighlightedBlock / 8) * 16;
 
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-            mat_mvp.translate(x, y);
+            mat_mvp.translate(highlightX, highlightY);
+
+            // Render highlighted block rect
+            unsigned highlightBuffer = 0;
+            glCheck(glGenBuffers(1, &highlightBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
 
             // Modifies program states
-            m_PmtProg.bind();
             m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
             m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 0.8f));
+            m_PmtProg.setUniformValue("uni_color", QColor(Qt::GlobalColor::green));
             m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
 
-            // Perform rendering
-            glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
-            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, vertRect, GL_STATIC_DRAW));
+            //glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, highlightRect, GL_STATIC_DRAW));
             glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
-            glCheck(glDeleteBuffers(1, &rectBuffer));
+            glCheck(glDeleteBuffers(1, &highlightBuffer));
         }
     }
 
 
     ///////////////////////////////////////////////////////////
     // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   8/25/2016
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/4/2016
     //
     ///////////////////////////////////////////////////////////
-    int AMEBlockView::selectedBlock() const
+    QVector<UInt16> AMEBlockView::selectedBlocks()
     {
-        return m_SelectedBlock;
+        return m_SelectedBlocks;
     }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::selectBlock(UInt16 newBlock)
+    {
+        m_FirstBlock = newBlock;
+        m_LastBlock = newBlock;
+        m_SelectedBlocks = { newBlock };
+        static_cast<QScrollArea>(parentWidget()).ensureVisible(0, (newBlock / 8) * 16);  // TODO: Does not scroll correctly, probably wrong parent
+        repaint();
+        return;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::deselectBlocks()
+    {
+        m_FirstBlock = -1;
+        m_LastBlock = -1;
+        m_SelectedBlocks.clear();
+        return;
+    }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Setter
@@ -431,31 +530,181 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    AMEMapView::Tool AMEBlockView::getCurrentTool(Qt::MouseButtons buttons)
+    {
+        if (buttons & Qt::LeftButton)
+        {
+            if (m_CurrentTool == AMEMapView::Tool::Select)
+                return AMEMapView::Tool::Select;
+            return AMEMapView::Tool::Draw;
+        }
+        else if (buttons & Qt::RightButton)
+        {
+            if (m_CurrentTool == AMEMapView::Tool::Draw)
+                return AMEMapView::Tool::Draw;
+            return AMEMapView::Tool::Select;
+        }
+        return AMEMapView::Tool::None;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::setCurrentTool(AMEMapView::Tool newTool)
+    {
+        m_CurrentTool = newTool;
+    }
+
+    ///////////////////////////////////////////////////////////
     // Function type:  Virtual
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   8/25/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::mousePressEvent(QMouseEvent *event)
+    {
+        m_ShowHighlight = false;
+        AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
+
+        int mouseX = event->pos().x();
+        int mouseY = event->pos().y();
+        if (mouseX < 0 || mouseY < 0 ||
+                mouseX >= width() || mouseY >= height())
+        {
+            return;
+        }
+
+        // Determines the block number
+        m_FirstBlock = (mouseX/16) + ((mouseY/16)*8);
+        m_LastBlock = m_FirstBlock;
+
+        if (currentTool == AMEMapView::Tool::Select)
+            m_CursorColor = Qt::GlobalColor::yellow;
+
+        repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/5/2016
     //
     ///////////////////////////////////////////////////////////
     void AMEBlockView::mouseReleaseEvent(QMouseEvent *event)
     {
-        int mouseX = event->pos().x();
-        int mouseY = event->pos().y();
-        if (mouseX >= width() || mouseY >= height())
-        {
-            m_SelectedBlock = -1;
-            repaint();
-            return;
-        }
-
-        // Align the position to a multiple of 16px
-        while (mouseX % 16 != 0)
-            mouseX--;
-        while (mouseY % 16 != 0)
-            mouseY--;
+        Q_UNUSED(event);
+        m_ShowHighlight = true;
+        m_CursorColor = Qt::GlobalColor::red;
 
         // Determines the tile-number
-        m_SelectedBlock = ((mouseY/16)*8) + (mouseX/16);
+        int selectionWidth = (m_LastBlock % 8) - (m_FirstBlock % 8);
+        if (selectionWidth < 0)
+        {
+            selectionWidth = -selectionWidth;
+            m_FirstBlock -= selectionWidth;
+            m_LastBlock += selectionWidth;
+        }
+        selectionWidth++;
+
+        int selectionHeight = (m_LastBlock / 8) - (m_FirstBlock / 8);
+        if (selectionHeight < 0)
+        {
+            selectionHeight = -selectionHeight;
+            m_FirstBlock -= selectionHeight * 8;
+            m_LastBlock += selectionHeight * 8;
+        }
+        selectionHeight++;
+
+        m_SelectedBlocks.clear();
+
+        for (int i = 0; i < selectionHeight; i++)
+        {
+            for (int j = 0; j < selectionWidth; j++)
+            {
+                m_SelectedBlocks.push_back(m_FirstBlock + j + (i * 8));
+            }
+        }
+        repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::mouseMoveEvent(QMouseEvent *event)
+    {
+        int mouseX = event->pos().x();
+        int mouseY = event->pos().y();
+        if (mouseX < 0)
+            mouseX = 0;
+        else if (mouseY < 0)
+            mouseY = 0;
+        else if (mouseX >= width())
+            mouseX = width();
+        else if (mouseY >= height())
+            mouseY = height();
+
+        AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
+
+        if (currentTool == AMEMapView::Tool::Draw)
+        {
+            // Determines the block number
+            m_FirstBlock = (mouseX/16) + ((mouseY/16)*8);
+            m_LastBlock = m_FirstBlock;
+        }
+        else if (currentTool == AMEMapView::Tool::Select)
+        {
+            // Determines the block number
+            m_LastBlock = (mouseX/16) + ((mouseY/16)*8);
+        }
+
+        m_HighlightedBlock = (mouseX/16) + ((mouseY/16)*8);
+
+        repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::enterEvent(QEvent *event)
+    {
+        Q_UNUSED(event);
+        m_ShowHighlight = true;
+
+        repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::leaveEvent(QEvent *event)
+    {
+        Q_UNUSED(event);
+        m_ShowHighlight = false;
+
         repaint();
     }
 }

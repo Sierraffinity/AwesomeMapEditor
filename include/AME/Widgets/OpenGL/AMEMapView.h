@@ -192,6 +192,24 @@ namespace ame
         ///////////////////////////////////////////////////////////
         MapBorder &border();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Enumeration for the selected editing tool.
+        ///
+        ///////////////////////////////////////////////////////////
+        enum Tool {
+            None,
+            Draw,
+            Select,
+            Fill,
+            FillAll
+        };
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Retrieves the current editing tool.
+        ///
+        ///////////////////////////////////////////////////////////
+        AMEMapView::Tool getCurrentTool(Qt::MouseButtons buttons);
+
 
     protected:
 
@@ -214,13 +232,19 @@ namespace ame
         void paintGL();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Puts a map block.
+        /// \brief Overrides the mouse press event.
         ///
         ///////////////////////////////////////////////////////////
         void mousePressEvent(QMouseEvent *event);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Sends consecutive mouse-press-events.
+        /// \brief Overrides the mouse release event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mouseReleaseEvent(QMouseEvent *event);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse move event.
         ///
         ///////////////////////////////////////////////////////////
         void mouseMoveEvent(QMouseEvent *event);
@@ -250,6 +274,7 @@ namespace ame
         QList<UInt8 *> m_ForePixelBuffers;
         QOpenGLVertexArrayObject m_VAO;
         QOpenGLShaderProgram m_Program;
+        QOpenGLShaderProgram m_PmtProg;
         QOpenGLShaderProgram m_MoveProgram;
         UInt32 m_MoveTexture;
         UInt32 m_MoveBuffer;
@@ -267,6 +292,13 @@ namespace ame
         MapHeader m_Header;
         Boolean m_MovementMode;
         AMEBlockView *m_BlockView;
+        QVector<UInt16> m_SelectedBlocks;
+        UInt16 m_FirstBlock;
+        UInt16 m_LastBlock;
+        UInt16 m_HighlightedBlock;
+        AMEMapView::Tool m_CurrentTool;
+        QColor m_CursorColor;
+        Boolean m_ShowHighlight;
     };
 }
 

@@ -79,7 +79,10 @@ namespace ame
           m_SecondaryBackground(0),
           m_ShowSprites(false),
           m_MovementMode(false),
-          m_BlockView(0)
+          m_BlockView(0),
+          m_FirstBlock(0),
+          m_LastBlock(0),
+          m_CurrentTool(AMEMapView::Tool::None)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -135,6 +138,11 @@ namespace ame
         m_Program.setUniformValue("smp_texture", 0);
         m_Program.setUniformValue("smp_palette", 1);
 
+        // Initializes the primitive shader program
+        m_PmtProg.create();
+        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
+        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
+        m_PmtProg.link();
 
         // Initializes all the movement permission stuff
         m_MoveProgram.create();
@@ -311,10 +319,10 @@ namespace ame
         {
             float buf[16] =
             {
-                0, 0,   0, 0,
+                0,  0,  0, 0,
                 16, 0,  1, 0,
                 16, 16, 1, 1,
-                0, 16,  0, 1
+                0,  16, 0, 1
             };
 
             const float texWidth = 16;
@@ -370,6 +378,45 @@ namespace ame
                 glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*16, buf, GL_DYNAMIC_DRAW));
                 glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
             }
+        }
+
+        // Show the cursor
+        if (m_ShowHighlight)
+        {
+            QMatrix4x4 mat_mvp;
+
+            m_PmtProg.bind();
+
+            static const float highlightRect[8]
+            {
+                0.5f,  0.5f,
+                15.5f, 0.5f,
+                15.5f, 15.5f,
+                0.5f,  15.5f
+            };
+
+            int highlightX = (m_HighlightedBlock % 8) * 16;
+            int highlightY = (m_HighlightedBlock / 8) * 16;
+
+            mat_mvp.setToIdentity();
+            mat_mvp.ortho(0, width(), height(), 0, -1, 1);
+            mat_mvp.translate(highlightX, highlightY);
+
+            // Render highlighted block rect
+            unsigned highlightBuffer = 0;
+            glCheck(glGenBuffers(1, &highlightBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
+
+            // Modifies program states
+            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProg.setUniformValue("uni_color", QColor(Qt::GlobalColor::green));
+            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+
+            //glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, highlightRect, GL_STATIC_DRAW));
+            glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
+            glCheck(glDeleteBuffers(1, &highlightBuffer));
         }
     }
 
@@ -452,6 +499,30 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/4/2016
+    //
+    ///////////////////////////////////////////////////////////
+    AMEMapView::Tool AMEMapView::getCurrentTool(Qt::MouseButtons buttons)
+    {
+        if (buttons & Qt::LeftButton)
+        {
+            if (m_CurrentTool == AMEMapView::Tool::Select)
+                return AMEMapView::Tool::Select;
+            return AMEMapView::Tool::Draw;
+        }
+        else if (buttons & Qt::RightButton)
+        {
+            if (m_CurrentTool == AMEMapView::Tool::Draw)
+                return AMEMapView::Tool::Draw;
+            return AMEMapView::Tool::Select;
+        }
+        return AMEMapView::Tool::None;
+    }
+
+    ///////////////////////////////////////////////////////////
     // Function type:  Virtual
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
@@ -460,10 +531,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mousePressEvent(QMouseEvent *event)
     {
-        if (event->buttons() != Qt::LeftButton)
-            return; // Implement block selecting later
-
-
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
         QPoint mp = m_MapPositions.at(0);
@@ -473,54 +540,141 @@ namespace ame
         if (mouseX < mp.x()              || mouseY < mp.y()            ||
             mouseX > mp.x() + mz.width() || mouseY > mp.y() + mz.height())
         {
-            QMessageBox box(this);
-            box.setText("Cannot place blocks on connected maps (yet).");
-            box.exec();
             return;
         }
 
-        if (mouseX >= width() || mouseY >= height())
-            return;
-        if (m_BlockView->selectedBlock() == -1)
-            return;
-
+        // Seems to be redundant?
+        //if (mouseX >= width() || mouseY >= height())
+        //    return;
 
         mouseX -= mp.x();
         mouseY -= mp.y();
 
-
-        // Fetches relevant data
         Map *mm = m_Maps[0];
-        UInt32 bg = m_MapTextures[0];
-        UInt32 fg = m_MapTextures[1];
-        Int32 selected = m_BlockView->selectedBlock();
+        int mapWidth = mm->header().size().width();
 
-        // Align the position to a multiple of 16px
-        while (mouseX % 16 != 0)
-            mouseX--;
-        while (mouseY % 16 != 0)
-            mouseY--;
+        AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
 
-        // Determines the tile-number
-        int mapBlockIndex = ((mouseY/16)*8) + (mouseX/16);
+        if (currentTool == AMEMapView::Tool::Draw)
+        {
+            m_CursorColor = Qt::GlobalColor::red;
+            QVector<UInt16> selected;
+            int selectionWidth = 0;
+            int selectionHeight = 0;
+            if (m_BlockView->selectedBlocks().empty())
+            {
+                selected = m_SelectedBlocks;
+                selectionWidth = (m_LastBlock % mapWidth) - (m_FirstBlock % mapWidth) + 1;
+                selectionHeight = (m_LastBlock / mapWidth) - (m_FirstBlock / mapWidth) + 1;
+            }
+            else
+            {
+                selected = m_BlockView->selectedBlocks();
+                selectionWidth = (selected.last() % 8) - (selected.first() % 8) + 1;
+                selectionHeight = (selected.last() / 8) - (selected.first() / 8) + 1;
+            }
 
-        // Sets the block in the data
-        mm->header().blocks()[mapBlockIndex]->block = (UInt16)selected;
+            // Fetches relevant data
+            UInt32 bg = m_MapTextures[0];
+            UInt32 fg = m_MapTextures[1];
 
-        // Sets the block in the actual image (BG & FG)
-        if (selected >= m_PrimaryBlockCount)
-            extractBlock(m_SecondaryBackground, selected-m_PrimaryBlockCount);
-        else
-            extractBlock(m_PrimaryBackground, selected);
-        glBindTexture(GL_TEXTURE_2D, bg);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, mouseX, mouseY, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+            // Determines the tile-number
+            int mapBlockIndex = ((mouseY/16)*mapWidth) + (mouseX/16);
 
-        if (selected >= m_PrimaryBlockCount)
-            extractBlock(m_SecondaryForeground, selected-m_PrimaryBlockCount);
-        else
-            extractBlock(m_PrimaryForeground, selected);
-        glBindTexture(GL_TEXTURE_2D, fg);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, mouseX, mouseY, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+            // Sets the block in the data
+            for (int i = 0; i < selectionHeight; i++)
+            {
+                for (int j = 0; j < selectionWidth; j++)
+                {
+                    if ((mapBlockIndex + j + (i * mapWidth)) >= (mapWidth * mm->header().size().height()))
+                        continue;
+                    mm->header().blocks()[mapBlockIndex + j + (i * mapWidth)]->block = (UInt16)selected[j + (i * selectionWidth)];
+
+                    int currBlockIndex = selected[j + (i * selectionWidth)];
+
+                    // Sets the block in the actual image (BG & FG)
+                    if (currBlockIndex >= m_PrimaryBlockCount)
+                        extractBlock(m_SecondaryBackground, currBlockIndex - m_PrimaryBlockCount);
+                    else
+                        extractBlock(m_PrimaryBackground, currBlockIndex);
+                    glBindTexture(GL_TEXTURE_2D, bg);
+                    glTexSubImage2D(GL_TEXTURE_2D, 0, ((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+
+                    if (currBlockIndex >= m_PrimaryBlockCount)
+                        extractBlock(m_SecondaryForeground, currBlockIndex - m_PrimaryBlockCount);
+                    else
+                        extractBlock(m_PrimaryForeground, currBlockIndex);
+                    glBindTexture(GL_TEXTURE_2D, fg);
+                    glTexSubImage2D(GL_TEXTURE_2D, 0, ((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+                }
+            }
+        }
+        else if (currentTool == AMEMapView::Tool::Select)
+        {
+            // Determines the moused-over block number
+            m_FirstBlock = (mouseX/16) + ((mouseY/16)*mapWidth);
+            m_LastBlock = m_FirstBlock;
+            m_BlockView->deselectBlocks();
+            m_BlockView->repaint();
+
+            m_CursorColor = Qt::GlobalColor::yellow;
+        }
+        repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/6/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::mouseReleaseEvent(QMouseEvent *event)
+    {
+        m_CursorColor = Qt::GlobalColor::red;
+
+        AMEMapView::Tool currentTool = getCurrentTool(event->button());
+
+        if (currentTool == AMEMapView::Tool::Select)
+        {
+            Map *mm = m_Maps[0];
+
+            // Determines the tile-number
+            int mapWidth = mm->header().size().width();
+
+            int selectionWidth = (m_LastBlock % mapWidth) - (m_FirstBlock % mapWidth);
+            if (selectionWidth < 0)
+            {
+                selectionWidth = -selectionWidth;
+                m_FirstBlock -= selectionWidth;
+                m_LastBlock += selectionWidth;
+            }
+            selectionWidth++;
+
+            int selectionHeight = (m_LastBlock / mapWidth) - (m_FirstBlock / mapWidth);
+            if (selectionHeight < 0)
+            {
+                selectionHeight = -selectionHeight;
+                m_FirstBlock -= selectionHeight * mapWidth;
+                m_LastBlock += selectionHeight * mapWidth;
+            }
+            selectionHeight++;
+
+            m_SelectedBlocks.clear();
+
+            for (int i = 0; i < selectionHeight; i++)
+            {
+                for (int j = 0; j < selectionWidth; j++)
+                {
+                    m_SelectedBlocks.push_back(mm->header().blocks()[m_FirstBlock + j + (i * mm->header().size().width())]->block);
+                }
+            }
+
+            if (m_SelectedBlocks.length() == 1)
+            {
+                m_BlockView->selectBlock(m_SelectedBlocks[0]);
+            }
+        }
         repaint();
     }
 
@@ -533,8 +687,36 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseMoveEvent(QMouseEvent *event)
     {
-        if (event->buttons() == Qt::LeftButton)
+        int mouseX = event->pos().x();
+        int mouseY = event->pos().y();
+
+        QPoint mp = m_MapPositions.at(0);
+        mouseX -= mp.x();
+        mouseY -= mp.y();
+
+        if (mouseX < 0)
+            mouseX = 0;
+        else if (mouseY < 0)
+            mouseY = 0;
+        else if (mouseX >= width())
+            mouseX = width();
+        else if (mouseY >= height())
+            mouseY = height();
+
+        AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
+
+        if (currentTool == AMEMapView::Tool::Draw)
+        {
+            // Determines the block number
             mousePressEvent(event);
+        }
+        else if (currentTool == AMEMapView::Tool::Select)
+        {
+            // Determines the block number
+            m_LastBlock = (mouseX/16) + ((mouseY/16)*m_Maps[0]->header().size().width());
+        }
+
+        repaint();
     }
 
 
@@ -547,6 +729,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool AMEMapView::setMap(const qboy::Rom &rom, Map *mainMap)
     {
+        Q_UNUSED(rom);
         const QSize mainSize = mainMap->header().size();
         const QList<Connection *> connex = mainMap->connections().connections();
         m_Maps.push_back(mainMap);
@@ -1096,7 +1279,6 @@ namespace ame
                 m_SecondarySetSize = QSize(128, tilesetHeight2);
             }
 
-
             // Parses all the primary block data
             for (int j = 0; j < primary->blocks().size(); j++)
             {
@@ -1297,7 +1479,6 @@ namespace ame
             }
 
         }
-
         return true;
     }
 
