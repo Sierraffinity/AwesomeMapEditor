@@ -249,6 +249,11 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void mouseMoveEvent(QMouseEvent *event);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse leave event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void leaveEvent(QEvent *event);
 
     private:
 
@@ -296,9 +301,10 @@ namespace ame
         UInt16 m_FirstBlock;
         UInt16 m_LastBlock;
         UInt16 m_HighlightedBlock;
+        QSize m_SelectSize;
         AMEMapView::Tool m_CurrentTool;
         QColor m_CursorColor;
-        Boolean m_ShowHighlight;
+        Boolean m_ShowCursor;
     };
 }
 

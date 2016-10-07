@@ -655,9 +655,9 @@ namespace ame
         else if (mouseY < 0)
             mouseY = 0;
         else if (mouseX >= width())
-            mouseX = width();
+            mouseX = width() - 1;
         else if (mouseY >= height())
-            mouseY = height();
+            mouseY = height() - 1;
 
         AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
 
