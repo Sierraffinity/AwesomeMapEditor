@@ -524,7 +524,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QScrollArea" name="scrollArea_2">
+                <widget class="QScrollArea" name="scrlBlockChooser">
                  <property name="minimumSize">
                   <size>
                    <width>147</width>

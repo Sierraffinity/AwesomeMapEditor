@@ -958,6 +958,7 @@ namespace ame
                 ui->openGLWidget_2->makeGL();
                 ui->openGLWidget_2->update();
                 ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
+                //ui->openGLWidget_3->setScrollArea(ui->scrlBlockChooser);
                 ui->openGLWidget_3->update();
                 ui->openGLWidget->setMapView(ui->openGLWidget_2, true);
                 ui->openGLWidget->update();

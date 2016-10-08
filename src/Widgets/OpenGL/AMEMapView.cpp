@@ -763,6 +763,7 @@ namespace ame
     {
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
+        bool needsRepaint = false;
 
         QPoint mp = m_MapPositions.at(0);
         QSize mz = m_MapSizes.at(0);
@@ -776,14 +777,19 @@ namespace ame
         {
             if (mouseX < 0)
                 mouseX = 0;
-            else if (mouseY < 0)
-                mouseY = 0;
             else if (mouseX >= mz.width())
-                mouseX = mz.width();
-            else if (mouseY >= mz.height())
-                mouseY = mz.height();
+                mouseX = mz.width() - 1;
 
-            m_LastBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+            if (mouseY < 0)
+                mouseY = 0;
+            else if (mouseY >= mz.height())
+                mouseY = mz.height() - 1;
+
+            if (m_LastBlock != (mouseX/16) + ((mouseY/16)*(mz.width()/16)))
+            {
+                needsRepaint = true;
+                m_LastBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+            }
         }
         else
         {
@@ -802,10 +808,20 @@ namespace ame
             }
         }
 
-        m_ShowCursor = true;
-        m_HighlightedBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+        if (m_ShowCursor != true)
+        {
+            needsRepaint = true;
+            m_ShowCursor = true;
+        }
 
-        repaint();
+        if (m_HighlightedBlock != (mouseX/16) + ((mouseY/16)*(mz.width()/16)))
+        {
+            needsRepaint = true;
+            m_HighlightedBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+        }
+
+        if (needsRepaint)
+            repaint();
     }
 
     ///////////////////////////////////////////////////////////

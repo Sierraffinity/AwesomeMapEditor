@@ -377,7 +377,7 @@ namespace ame
         m_FirstBlock = newBlock;
         m_LastBlock = newBlock;
         m_SelectedBlocks = { newBlock };
-        static_cast<QScrollArea>(parentWidget()).ensureVisible(0, (newBlock / 8) * 16);  // TODO: Does not scroll correctly, probably wrong parent
+        static_cast<QScrollArea*>(this->parentWidget()->parentWidget()->parentWidget())->ensureVisible(((newBlock % 8) * 16) + 8, ((newBlock / 8) * 16) + 8, 16, 16);  // TODO: Does not scroll correctly, probably wrong parent
         repaint();
         return;
     }
