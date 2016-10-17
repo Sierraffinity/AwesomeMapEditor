@@ -277,10 +277,6 @@ namespace ame
         QList<QVector<qboy::GLColor>> m_Palettes;
         QList<UInt8 *> m_BackPixelBuffers;
         QList<UInt8 *> m_ForePixelBuffers;
-        QOpenGLVertexArrayObject m_VAO;
-        QOpenGLShaderProgram m_Program;
-        QOpenGLShaderProgram m_PmtProg;
-        QOpenGLShaderProgram m_MoveProgram;
         UInt32 m_MoveTexture;
         UInt32 m_MoveBuffer;
         QSize m_PrimarySetSize;
@@ -305,6 +301,7 @@ namespace ame
         AMEMapView::Tool m_CurrentTool;
         QColor m_CursorColor;
         Boolean m_ShowCursor;
+        Boolean m_IsInit;
     };
 }
 

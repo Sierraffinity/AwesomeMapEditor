@@ -36,6 +36,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/OpenGL/AMEBlockView.h>
+#include <AME/Widgets/OpenGL/AMEOpenGLShared.hpp>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -65,7 +66,9 @@ namespace ame
           m_LastBlock(0),
           m_CurrentTool(AMEMapView::Tool::None),
           m_CursorColor(Qt::GlobalColor::red),
-          m_ShowHighlight(false)
+          m_ShowHighlight(false),
+          m_IsCopy(false),
+          m_IsInit(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -84,15 +87,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEBlockView::~AMEBlockView()
     {
-        if (m_VAO.isCreated())
-        {
+        if (m_IsInit && !m_IsCopy)
             freeGL();
-
-            makeCurrent();
-            m_Program.removeAllShaders();
-            m_VAO.destroy();
-            doneCurrent();
-        }
     }
 
     ///////////////////////////////////////////////////////////
@@ -124,6 +120,8 @@ namespace ame
         other->setMinimumSize(minimumSize());
         other->resize(minimumSize());
         other->repaint();
+        other->m_IsInit = m_IsInit;
+        other->m_IsCopy = true;
     }
 
 
@@ -139,27 +137,7 @@ namespace ame
         if (qboy::GLErrors::Current == NULL)
             qboy::GLErrors::Current = new qboy::GLErrors;
 
-
         initializeOpenGLFunctions();
-
-        // Initializes the shader program
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/BlockVertexShader.glsl");
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/BlockFragmentShader.glsl");
-        m_Program.link();
-        m_Program.bind();
-        m_Program.setUniformValue("smp_texture", 0);
-        m_Program.setUniformValue("smp_palette", 1);
-
-        // Initializes the primitive shader program
-        m_PmtProg.create();
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
-        m_PmtProg.link();
-
-
-        // Initializes the vao
-        m_VAO.create();
-        m_VAO.bind();
 
         // Enables blending
         glEnable(GL_BLEND);
@@ -194,7 +172,6 @@ namespace ame
             return;
 
         // Binds the vertex array and the index buffer
-        glCheck(m_VAO.bind());
         glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer));
 
 
@@ -252,7 +229,7 @@ namespace ame
         glCheck(glBindTexture(GL_TEXTURE_2D, m_Textures.at(3)));
         glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
 
-        m_PmtProg.bind();
+        m_PmtProgram.bind();
 
         // Draw selection rectangle
         if (m_FirstBlock != -1 && m_LastBlock != -1)
@@ -305,10 +282,10 @@ namespace ame
             mat_mvp.translate(x, y);
 
             // Modifies program states
-            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
-            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", m_CursorColor);
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProgram.setUniformValue("uni_color", m_CursorColor);
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
             // Render current selected block rect
             //glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
@@ -340,10 +317,10 @@ namespace ame
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
 
             // Modifies program states
-            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
-            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", QColor(Qt::GlobalColor::green));
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProgram.setUniformValue("uni_color", QColor(Qt::GlobalColor::green));
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
             //glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
             glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, highlightRect, GL_STATIC_DRAW));
@@ -408,6 +385,7 @@ namespace ame
     {
         makeCurrent();
         initializeOpenGLFunctions();
+        m_IsInit = true;
 
         // Retrieves necessary members from AMEMapView
         QList<UInt8 *> pixels = view->mainPixels();
@@ -506,9 +484,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEBlockView::freeGL()
     {
-        if (!m_VAO.isCreated())
-            return;
-
         makeCurrent();
 
 

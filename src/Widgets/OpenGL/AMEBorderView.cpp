@@ -36,6 +36,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/OpenGL/AMEBorderView.h>
+#include <AME/Widgets/OpenGL/AMEOpenGLShared.hpp>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -60,7 +61,8 @@ namespace ame
         : QOpenGLWidget(parent),
           QOpenGLFunctions(),
           m_Foreground(0),
-          m_Background(0)
+          m_Background(0),
+          m_IsInit(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -79,15 +81,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEBorderView::~AMEBorderView()
     {
-        if (m_VAO.isCreated())
-        {
+        if (m_IsInit)
             freeGL();
-
-            makeCurrent();
-            m_Program.removeAllShaders();
-            m_VAO.destroy();
-            doneCurrent();
-        }
     }
 
 
@@ -103,20 +98,7 @@ namespace ame
         if (qboy::GLErrors::Current == NULL)
             qboy::GLErrors::Current = new qboy::GLErrors;
 
-
         initializeOpenGLFunctions();
-
-        // Initializes the shader program
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/BlockVertexShader.glsl");
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/BlockFragmentShader.glsl");
-        m_Program.link();
-        m_Program.bind();
-        m_Program.setUniformValue("smp_texture", 0);
-        m_Program.setUniformValue("smp_palette", 1);
-
-        // Initializes the vao
-        m_VAO.create();
-        m_VAO.bind();
 
         // Enables blending
         glEnable(GL_BLEND);
@@ -151,7 +133,6 @@ namespace ame
             return;
 
         // Binds the vertex array, vertex buffer and the index buffer
-        glCheck(m_VAO.bind());
         glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer));
         glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer));
 
@@ -213,6 +194,7 @@ namespace ame
     {
         makeCurrent();
         initializeOpenGLFunctions();
+        m_IsInit = true;
 
 
         // Fetches the border and the blockset pixel buffers
@@ -221,7 +203,7 @@ namespace ame
             pbd = &view->mainMap()->header().border();
         else
             pbd = &view->border();
-        
+
         MapBorder &border = *pbd;
         QList<UInt8 *> setPixels = view->mainPixels();
         UInt8 *primaryBg = setPixels[0];
@@ -321,9 +303,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEBorderView::freeGL()
     {
-        if (!m_VAO.isCreated())
-            return;
-
         makeCurrent();
 
 

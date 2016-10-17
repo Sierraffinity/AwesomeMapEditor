@@ -157,14 +157,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         EventTable *m_Entities;         ///< Holds all entities
         AMEMapView *m_MapView;          ///< Abuses the map view
-        QOpenGLVertexArrayObject m_VAO; ///< VAO for entities
-        QOpenGLShaderProgram m_Program; ///< 32ARGB textures
-        QOpenGLShaderProgram m_PmtProg; ///< Primitive program
         UInt32 m_TextureAtlas;          ///< Multiple textures
         UInt32 m_VertexBuffer;
         UInt32 m_IndexBuffer;
         QPoint m_Translation;           ///< Fix for connections
         CurrentEntity m_Selection;      ///< Currently selected entity
+        Boolean m_IsInit;
     };
 }
 

@@ -39,6 +39,7 @@
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Widgets/OpenGL/AMEEntityView.h>
 #include <AME/Widgets/OpenGL/AMEBlockView.h>
+#include <AME/Widgets/OpenGL/AMEOpenGLShared.hpp>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -86,7 +87,8 @@ namespace ame
           m_SelectSize(QSize(1,1)),
           m_CurrentTool(AMEMapView::Tool::None),
           m_CursorColor(Qt::GlobalColor::green),
-          m_ShowCursor(false)
+          m_ShowCursor(false),
+          m_IsInit(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -105,15 +107,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEMapView::~AMEMapView()
     {
-        if (m_VAO.isCreated())
-        {
+        if (m_IsInit)
             freeGL();
-
-            makeCurrent();
-            m_Program.removeAllShaders();
-            m_VAO.destroy();
-            doneCurrent();
-        }
     }
 
 
@@ -129,32 +124,8 @@ namespace ame
         if (qboy::GLErrors::Current == NULL)
             qboy::GLErrors::Current = new qboy::GLErrors;
 
-
         // Initializes the OpenGL functions
         initializeOpenGLFunctions();
-
-        // Initializes the shader program
-        m_Program.create();
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/MapVertexShader.glsl");
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/MapFragmentShader.glsl");
-        m_Program.link();
-        m_Program.bind();
-        m_Program.setUniformValue("smp_texture", 0);
-        m_Program.setUniformValue("smp_palette", 1);
-
-        // Initializes the primitive shader program
-        m_PmtProg.create();
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
-        m_PmtProg.link();
-
-        // Initializes all the movement permission stuff
-        m_MoveProgram.create();
-        m_MoveProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/NormalVertexShader.glsl");
-        m_MoveProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/NormalFragmentShader.glsl");
-        m_MoveProgram.link();
-        m_MoveProgram.bind();
-        m_MoveProgram.setUniformValue("smp_texture", 0);
 
         glCheck(glGenBuffers(1, &m_MoveBuffer));
         glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_MoveBuffer));
@@ -166,12 +137,6 @@ namespace ame
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
         glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 16, 1024, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.bits()));
-
-
-        // Initializes the vao
-        m_VAO.create();
-        m_VAO.bind();
-
 
         // Enables blending
         glEnable(GL_BLEND);
@@ -207,7 +172,6 @@ namespace ame
 
         // Binds the vertex array and the index buffer
         // (which is the same for all) initially.
-        glCheck(m_VAO.bind());
         glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer));
         m_Program.bind();
 
@@ -318,6 +282,8 @@ namespace ame
                 glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2+1)));
                 glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
             }
+
+            m_Program.setUniformValue("is_connection", false);
         }
         if (m_MovementMode)
         {
@@ -339,12 +305,12 @@ namespace ame
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(m_MapPositions.at(0).x(), m_MapPositions.at(0).y());
-            m_MoveProgram.bind();
-            m_MoveProgram.setUniformValue("uni_mvp", mat_mvp);
-            m_MoveProgram.enableAttributeArray(MV_VERTEX_ATTR);
-            m_MoveProgram.enableAttributeArray(MV_COORD_ATTR);
-            m_MoveProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
-            m_MoveProgram.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
+            m_RgbProgram.bind();
+            m_RgbProgram.setUniformValue("uni_mvp", mat_mvp);
+            m_RgbProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_RgbProgram.enableAttributeArray(MV_COORD_ATTR);
+            m_RgbProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
+            m_RgbProgram.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
 
 
             // Draws all the movement permissions
@@ -388,7 +354,7 @@ namespace ame
         if (m_ShowCursor)
         {
             QMatrix4x4 mat_mvp;
-            m_PmtProg.bind();
+            m_PmtProgram.bind();
             int mapWidth = m_MapSizes.at(0).width() / 16;
             int x = 0;
             int y = 0;
@@ -479,10 +445,10 @@ namespace ame
             mat_mvp.translate(x, y);
 
             // Modifies program states
-            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
-            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", m_CursorColor);
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProgram.setUniformValue("uni_color", m_CursorColor);
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
             // Render current selected block rect
             //glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
@@ -1662,6 +1628,7 @@ namespace ame
     {
         makeCurrent();
         m_VAO.bind();
+        m_IsInit = true;
 
         // Creates, binds and buffers the static index buffer
         const unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
@@ -1732,9 +1699,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::freeGL()
     {
-        if (!m_VAO.isCreated())
-            return;
-
         makeCurrent();
 
 

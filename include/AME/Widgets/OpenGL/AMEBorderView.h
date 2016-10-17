@@ -119,10 +119,9 @@ namespace ame
         UInt32 m_ForeTexture;
         UInt32 m_PalTexture;
         UInt32 m_IndexBuffer;
-        QOpenGLVertexArrayObject m_VAO;
-        QOpenGLShaderProgram m_Program;
         UInt8 *m_Foreground;
         UInt8 *m_Background;
+        Boolean m_IsInit;
     };
 }
 

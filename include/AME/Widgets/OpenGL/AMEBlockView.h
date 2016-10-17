@@ -187,9 +187,6 @@ namespace ame
         UInt32 m_PalTexture;
         UInt32 m_IndexBuffer;
         QVector<qboy::GLColor> *m_Palettes;
-        QOpenGLVertexArrayObject m_VAO;
-        QOpenGLShaderProgram m_Program;
-        QOpenGLShaderProgram m_PmtProg;
         QSize m_PrimarySetSize;
         QSize m_SecondarySetSize;
         UInt8 *m_PrimaryForeground;
@@ -203,6 +200,8 @@ namespace ame
         AMEMapView::Tool m_CurrentTool;
         QColor m_CursorColor;
         Boolean m_ShowHighlight;
+        Boolean m_IsCopy;
+        Boolean m_IsInit;
     };
 }
 
