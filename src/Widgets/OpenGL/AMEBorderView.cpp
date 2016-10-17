@@ -306,8 +306,8 @@ namespace ame
         makeCurrent();
 
 
-        delete m_Foreground;
-        delete m_Background;
+        delete[] m_Foreground;
+        delete[] m_Background;
 
         glCheck(glDeleteBuffers(1, &m_VertexBuffer));
         glCheck(glDeleteTextures(1, &m_BackTexture));

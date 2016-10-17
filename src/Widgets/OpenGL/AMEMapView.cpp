@@ -1709,15 +1709,15 @@ namespace ame
         foreach (UInt32 id, m_VertexBuffers)
             glCheck(glDeleteBuffers(1, &id));
         foreach (UInt8 *v, m_BackPixelBuffers)
-            delete v;
+            delete[] v;
         foreach (UInt8 *v, m_ForePixelBuffers)
-            delete v;
+            delete[] v;
 
         glCheck(glDeleteBuffers(1, &m_IndexBuffer));
-        delete m_PrimaryForeground;
-        delete m_PrimaryBackground;
-        delete m_SecondaryForeground;
-        delete m_SecondaryBackground;
+        delete[] m_PrimaryForeground;
+        delete[] m_PrimaryBackground;
+        delete[] m_SecondaryForeground;
+        delete[] m_SecondaryBackground;
 
         m_Maps.clear();
         m_MapSizes.clear();

@@ -8,7 +8,7 @@
 #
 # QMake Settings, 1
 #
-QT         += core gui opengl widgets
+QT         += core gui opengl
 TARGET      = AwesomeMapEditor
 TEMPLATE    = app
 CONFIG     += c++11
