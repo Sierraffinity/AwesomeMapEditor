@@ -39,6 +39,7 @@
 #include <AME/Widgets/OpenGL/AMEMapView.h>
 #include <AME/Widgets/OpenGL/AMEEntityView.h>
 #include <AME/Widgets/OpenGL/AMEBlockView.h>
+#include <AME/Widgets/OpenGL/AMEOpenGLShared.hpp>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -80,9 +81,14 @@ namespace ame
           m_ShowSprites(false),
           m_MovementMode(false),
           m_BlockView(0),
-          m_FirstBlock(0),
-          m_LastBlock(0),
-          m_CurrentTool(AMEMapView::Tool::None)
+          m_FirstBlock(-1),
+          m_LastBlock(-1),
+          m_HighlightedBlock(-1),
+          m_SelectSize(QSize(1,1)),
+          m_CurrentTool(AMEMapView::Tool::None),
+          m_CursorColor(Qt::GlobalColor::green),
+          m_ShowCursor(false),
+          m_IsInit(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -101,15 +107,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEMapView::~AMEMapView()
     {
-        if (m_VAO.isCreated())
-        {
+        if (m_IsInit)
             freeGL();
-
-            makeCurrent();
-            m_Program.removeAllShaders();
-            m_VAO.destroy();
-            doneCurrent();
-        }
     }
 
 
@@ -125,32 +124,8 @@ namespace ame
         if (qboy::GLErrors::Current == NULL)
             qboy::GLErrors::Current = new qboy::GLErrors;
 
-
         // Initializes the OpenGL functions
         initializeOpenGLFunctions();
-
-        // Initializes the shader program
-        m_Program.create();
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/MapVertexShader.glsl");
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/MapFragmentShader.glsl");
-        m_Program.link();
-        m_Program.bind();
-        m_Program.setUniformValue("smp_texture", 0);
-        m_Program.setUniformValue("smp_palette", 1);
-
-        // Initializes the primitive shader program
-        m_PmtProg.create();
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
-        m_PmtProg.link();
-
-        // Initializes all the movement permission stuff
-        m_MoveProgram.create();
-        m_MoveProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/NormalVertexShader.glsl");
-        m_MoveProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/NormalFragmentShader.glsl");
-        m_MoveProgram.link();
-        m_MoveProgram.bind();
-        m_MoveProgram.setUniformValue("smp_texture", 0);
 
         glCheck(glGenBuffers(1, &m_MoveBuffer));
         glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_MoveBuffer));
@@ -162,12 +137,6 @@ namespace ame
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
         glCheck(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
         glCheck(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 16, 1024, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.bits()));
-
-
-        // Initializes the vao
-        m_VAO.create();
-        m_VAO.bind();
-
 
         // Enables blending
         glEnable(GL_BLEND);
@@ -203,7 +172,6 @@ namespace ame
 
         // Binds the vertex array and the index buffer
         // (which is the same for all) initially.
-        glCheck(m_VAO.bind());
         glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer));
         m_Program.bind();
 
@@ -314,6 +282,8 @@ namespace ame
                 glCheck(glBindTexture(GL_TEXTURE_2D, m_MapTextures.at(i*2+1)));
                 glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
             }
+
+            m_Program.setUniformValue("is_connection", false);
         }
         if (m_MovementMode)
         {
@@ -335,12 +305,12 @@ namespace ame
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(m_MapPositions.at(0).x(), m_MapPositions.at(0).y());
-            m_MoveProgram.bind();
-            m_MoveProgram.setUniformValue("uni_mvp", mat_mvp);
-            m_MoveProgram.enableAttributeArray(MV_VERTEX_ATTR);
-            m_MoveProgram.enableAttributeArray(MV_COORD_ATTR);
-            m_MoveProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
-            m_MoveProgram.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
+            m_RgbProgram.bind();
+            m_RgbProgram.setUniformValue("uni_mvp", mat_mvp);
+            m_RgbProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_RgbProgram.enableAttributeArray(MV_COORD_ATTR);
+            m_RgbProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
+            m_RgbProgram.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
 
 
             // Draws all the movement permissions
@@ -381,42 +351,110 @@ namespace ame
         }
 
         // Show the cursor
-        if (m_ShowHighlight)
+        if (m_ShowCursor)
         {
             QMatrix4x4 mat_mvp;
+            m_PmtProgram.bind();
+            int mapWidth = m_MapSizes.at(0).width() / 16;
+            int x = 0;
+            int y = 0;
+            int selectorWidth = 0;
+            int selectorHeight = 0;
 
-            m_PmtProg.bind();
-
-            static const float highlightRect[8]
+            if (m_SelectedBlocks.empty() && m_BlockView->selectedBlocks().empty())
             {
-                0.5f,  0.5f,
-                15.5f, 0.5f,
-                15.5f, 15.5f,
-                0.5f,  15.5f
+                // Computes the position on widget based on selected blocks
+                int firstX = (m_FirstBlock % mapWidth);
+                int firstY = (m_FirstBlock / mapWidth);
+                int lastX = (m_LastBlock % mapWidth);
+                int lastY = (m_LastBlock / mapWidth);
+
+                x = firstX;
+                y = firstY;
+
+                selectorWidth = lastX - firstX;
+                selectorHeight = lastY - firstY;
+
+                if (lastX < firstX)
+                {
+                    x = lastX;
+                    selectorWidth = firstX - x;
+                }
+
+                if (lastY < firstY)
+                {
+                    y = lastY;
+                    selectorHeight = firstY - y;
+                }
+            }
+            else if (m_BlockView->selectedBlocks().empty())
+            {
+                x = (m_HighlightedBlock % mapWidth);
+                y = (m_HighlightedBlock / mapWidth);
+
+                selectorWidth = m_SelectSize.width() - 1;
+                selectorHeight = m_SelectSize.height() - 1;
+            }
+            else
+            {
+                // Computes the position on widget based on selected blocks
+                int firstX = (m_BlockView->selectedBlocks().first() % 8);
+                int firstY = (m_BlockView->selectedBlocks().first() / 8);
+                int lastX = (m_BlockView->selectedBlocks().last() % 8);
+                int lastY = (m_BlockView->selectedBlocks().last() / 8);
+
+                selectorWidth = lastX - firstX;
+                selectorHeight = lastY - firstY;
+
+                x = (m_HighlightedBlock % mapWidth);
+                y = (m_HighlightedBlock / mapWidth);
+            }
+
+            if (x + selectorWidth >= mapWidth)
+                selectorWidth = mapWidth - x - 1;
+
+            if (y + selectorHeight >= (m_MapSizes.at(0).height() / 16))
+                selectorHeight = (m_MapSizes.at(0).height() / 16) - y - 1;
+
+            // This should be made user-changable later
+            x *= 16;
+            y *= 16;
+            selectorWidth *= 16;
+            selectorHeight *= 16;
+
+            QPoint mp = m_MapPositions.at(0);
+
+            x += mp.x();
+            y += mp.y();
+
+            // Defines the uniform vertex attributes
+            float vertRect[8]
+            {
+                0.5f,                0.5f,
+                selectorWidth+15.5f, 0.5f,
+                selectorWidth+15.5f, selectorHeight+15.5f,
+                0.5f,                selectorHeight+15.5f
             };
 
-            int highlightX = (m_HighlightedBlock % 8) * 16;
-            int highlightY = (m_HighlightedBlock / 8) * 16;
+            unsigned rectBuffer = 0;
+            glCheck(glGenBuffers(1, &rectBuffer));
+            glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
 
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
-            mat_mvp.translate(highlightX, highlightY);
-
-            // Render highlighted block rect
-            unsigned highlightBuffer = 0;
-            glCheck(glGenBuffers(1, &highlightBuffer));
-            glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
+            mat_mvp.translate(x, y);
 
             // Modifies program states
-            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
-            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", QColor(Qt::GlobalColor::green));
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProgram.setUniformValue("uni_color", m_CursorColor);
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
-            //glCheck(glBindBuffer(GL_ARRAY_BUFFER, highlightBuffer));
-            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, highlightRect, GL_STATIC_DRAW));
+            // Render current selected block rect
+            //glCheck(glBindBuffer(GL_ARRAY_BUFFER, rectBuffer));
+            glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, vertRect, GL_STATIC_DRAW));
             glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
-            glCheck(glDeleteBuffers(1, &highlightBuffer));
+            glCheck(glDeleteBuffers(1, &rectBuffer));
         }
     }
 
@@ -549,7 +587,6 @@ namespace ame
         QPoint mp = m_MapPositions.at(0);
         QSize mz = m_MapSizes.at(0);
 
-
         if (mouseX < mp.x()              || mouseY < mp.y()            ||
             mouseX > mp.x() + mz.width() || mouseY > mp.y() + mz.height())
         {
@@ -577,8 +614,8 @@ namespace ame
             if (m_BlockView->selectedBlocks().empty())
             {
                 selected = m_SelectedBlocks;
-                selectionWidth = (m_LastBlock % mapWidth) - (m_FirstBlock % mapWidth) + 1;
-                selectionHeight = (m_LastBlock / mapWidth) - (m_FirstBlock / mapWidth) + 1;
+                selectionWidth = m_SelectSize.width();
+                selectionHeight = m_SelectSize.height();
             }
             else
             {
@@ -624,13 +661,14 @@ namespace ame
         }
         else if (currentTool == AMEMapView::Tool::Select)
         {
+            m_CursorColor = Qt::GlobalColor::yellow;
+
             // Determines the moused-over block number
             m_FirstBlock = (mouseX/16) + ((mouseY/16)*mapWidth);
             m_LastBlock = m_FirstBlock;
+            m_SelectedBlocks.clear();
             m_BlockView->deselectBlocks();
             m_BlockView->repaint();
-
-            m_CursorColor = Qt::GlobalColor::yellow;
         }
         repaint();
     }
@@ -644,7 +682,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseReleaseEvent(QMouseEvent *event)
     {
-        m_CursorColor = Qt::GlobalColor::red;
+        m_CursorColor = Qt::GlobalColor::green;
 
         AMEMapView::Tool currentTool = getCurrentTool(event->button());
 
@@ -672,6 +710,8 @@ namespace ame
                 m_LastBlock += selectionHeight * mapWidth;
             }
             selectionHeight++;
+
+            m_SelectSize = QSize(selectionWidth, selectionHeight);
 
             m_SelectedBlocks.clear();
 
@@ -702,36 +742,81 @@ namespace ame
     {
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
+        bool needsRepaint = false;
 
         QPoint mp = m_MapPositions.at(0);
+        QSize mz = m_MapSizes.at(0);
+
         mouseX -= mp.x();
         mouseY -= mp.y();
 
-        if (mouseX < 0)
-            mouseX = 0;
-        else if (mouseY < 0)
-            mouseY = 0;
-        else if (mouseX >= width())
-            mouseX = width();
-        else if (mouseY >= height())
-            mouseY = height();
-
         AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
 
-        if (currentTool == AMEMapView::Tool::Draw)
+        if (currentTool == AMEMapView::Tool::Select)
         {
-            // Determines the block number
-            mousePressEvent(event);
+            if (mouseX < 0)
+                mouseX = 0;
+            else if (mouseX >= mz.width())
+                mouseX = mz.width() - 1;
+
+            if (mouseY < 0)
+                mouseY = 0;
+            else if (mouseY >= mz.height())
+                mouseY = mz.height() - 1;
+
+            if (m_LastBlock != (mouseX/16) + ((mouseY/16)*(mz.width()/16)))
+            {
+                needsRepaint = true;
+                m_LastBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+            }
         }
-        else if (currentTool == AMEMapView::Tool::Select)
+        else
         {
-            // Determines the block number
-            m_LastBlock = (mouseX/16) + ((mouseY/16)*m_Maps[0]->header().size().width());
+            if (mouseX < 0           || mouseY < 0            ||
+                mouseX >= mz.width() || mouseY >= mz.height())
+            {
+                m_ShowCursor = false;
+                repaint();
+                return;
+            }
+
+            if (currentTool == AMEMapView::Tool::Draw)
+            {
+                // Determines the block number
+                mousePressEvent(event);
+            }
         }
+
+        if (m_ShowCursor != true)
+        {
+            needsRepaint = true;
+            m_ShowCursor = true;
+        }
+
+        if (m_HighlightedBlock != (mouseX/16) + ((mouseY/16)*(mz.width()/16)))
+        {
+            needsRepaint = true;
+            m_HighlightedBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+        }
+
+        if (needsRepaint)
+            repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::leaveEvent(QEvent *event)
+    {
+        Q_UNUSED(event);
+        m_ShowCursor = false;
 
         repaint();
     }
-
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
@@ -1556,6 +1641,7 @@ namespace ame
     {
         makeCurrent();
         m_VAO.bind();
+        m_IsInit = true;
 
         // Creates, binds and buffers the static index buffer
         const unsigned int indices[] = { 0, 1, 2, 2, 3, 0 };
@@ -1626,9 +1712,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::freeGL()
     {
-        if (!m_VAO.isCreated())
-            return;
-
         makeCurrent();
 
 
@@ -1639,15 +1722,15 @@ namespace ame
         foreach (UInt32 id, m_VertexBuffers)
             glCheck(glDeleteBuffers(1, &id));
         foreach (UInt8 *v, m_BackPixelBuffers)
-            delete v;
+            delete[] v;
         foreach (UInt8 *v, m_ForePixelBuffers)
-            delete v;
+            delete[] v;
 
         glCheck(glDeleteBuffers(1, &m_IndexBuffer));
-        delete m_PrimaryForeground;
-        delete m_PrimaryBackground;
-        delete m_SecondaryForeground;
-        delete m_SecondaryBackground;
+        delete[] m_PrimaryForeground;
+        delete[] m_PrimaryBackground;
+        delete[] m_SecondaryForeground;
+        delete[] m_SecondaryBackground;
 
         m_Maps.clear();
         m_MapSizes.clear();

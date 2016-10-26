@@ -61,6 +61,7 @@ namespace ame
         QMainWindow(parent),
         ui(new Ui::MainWindow)
     {
+        // Setup GUI
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
         m_MPListener = new MovePermissionListener;
@@ -143,6 +144,7 @@ namespace ame
     MainWindow::~MainWindow()
     {
         delete ui;
+        delete m_OpenGLSharedObj;
     }
 
 
@@ -236,6 +238,13 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool MainWindow::loadROM(const QString &file)
     {
+        if (m_OpenGLSharedObj == NULL)
+        {
+            // Create fake OpenGL widget
+            m_OpenGLSharedObj = new AMEOpenGLShared(this);
+        }
+
+
         // Add ROM file to recent files list
         QList<QString> recentFiles = SETTINGS(RecentFiles);
 

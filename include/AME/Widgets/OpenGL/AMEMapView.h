@@ -255,6 +255,11 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void mouseMoveEvent(QMouseEvent *event);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse leave event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void leaveEvent(QEvent *event);
 
     private:
 
@@ -278,10 +283,6 @@ namespace ame
         QList<QVector<qboy::GLColor>> m_Palettes;
         QList<UInt8 *> m_BackPixelBuffers;
         QList<UInt8 *> m_ForePixelBuffers;
-        QOpenGLVertexArrayObject m_VAO;
-        QOpenGLShaderProgram m_Program;
-        QOpenGLShaderProgram m_PmtProg;
-        QOpenGLShaderProgram m_MoveProgram;
         UInt32 m_MoveTexture;
         UInt32 m_MoveBuffer;
         QSize m_PrimarySetSize;
@@ -302,9 +303,11 @@ namespace ame
         UInt16 m_FirstBlock;
         UInt16 m_LastBlock;
         UInt16 m_HighlightedBlock;
+        QSize m_SelectSize;
         AMEMapView::Tool m_CurrentTool;
         QColor m_CursorColor;
-        Boolean m_ShowHighlight;
+        Boolean m_ShowCursor;
+        Boolean m_IsInit;
     };
 }
 

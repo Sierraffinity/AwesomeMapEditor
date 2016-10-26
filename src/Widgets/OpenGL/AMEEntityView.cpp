@@ -36,6 +36,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/OpenGL/AMEEntityView.h>
+#include <AME/Widgets/OpenGL/AMEOpenGLShared.hpp>
 #include <QBoy/OpenGL/GLErrors.hpp>
 
 
@@ -59,7 +60,8 @@ namespace ame
     AMEEntityView::AMEEntityView(QWidget *parent)
         : QOpenGLWidget(parent),
           QOpenGLFunctions(),
-          m_MapView(0)
+          m_MapView(0),
+          m_IsInit(false)
     {
         QSurfaceFormat format = this->format();
         format.setDepthBufferSize(24);
@@ -78,19 +80,14 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEEntityView::~AMEEntityView()
     {
-        if (m_VAO.isCreated())
+        if (m_IsInit)
         {
             freeGL();
-            makeCurrent();
 
             /* Static data; only destroy on app close */
             glCheck(glDeleteBuffers(1, &m_VertexBuffer));
             glCheck(glDeleteBuffers(1, &m_IndexBuffer));
             glCheck(glDeleteTextures(1, &m_TextureAtlas));
-
-            m_Program.removeAllShaders();
-            m_VAO.destroy();
-            doneCurrent();
         }
     }
 
@@ -107,7 +104,7 @@ namespace ame
         if (qboy::GLErrors::Current == NULL)
             qboy::GLErrors::Current = new qboy::GLErrors;
 
-
+        m_IsInit = true;
         initializeOpenGLFunctions();
 
         // Defines constant buffers
@@ -116,20 +113,6 @@ namespace ame
             0, 1, 2,
             2, 3, 0
         };
-
-        // Initializes the VAO
-        m_VAO.create();
-        m_VAO.bind();
-
-        // Initializes the shader program
-        m_Program.create();
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/NormalVertexShader.glsl");
-        m_Program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/NormalFragmentShader.glsl");
-        m_Program.link();
-        m_PmtProg.create();
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/PrimitiveVertexShader.glsl");
-        m_PmtProg.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/PrimitiveFragmentShader.glsl");
-        m_PmtProg.link();
 
         // Initializes the buffers
         glCheck(glGenBuffers(1, &m_VertexBuffer));
@@ -190,7 +173,6 @@ namespace ame
         painter.endNativePainting();
 
         // Binds the buffers
-        glCheck(m_VAO.bind());
         glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer));
         glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer));
 
@@ -209,11 +191,11 @@ namespace ame
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, boundsBuffer));
 
             // Sets up the primitives program
-            m_PmtProg.bind();
-            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
-            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 1.0f, 0.2f));
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.bind();
+            m_PmtProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProgram.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 1.0f, 0.2f));
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
 
             Npc *currentNpc = (Npc *) m_Selection.entity;
@@ -224,13 +206,13 @@ namespace ame
                 (m_Translation.y()+currentNpc->positionY*16)-currentNpc->moveRadiusY*16
             );
 
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
             float npcBounds[8] { 0.5f, 0.5f, currentNpc->moveRadiusX*32+15.5f, 0.5f, currentNpc->moveRadiusX*32+15.5f, currentNpc->moveRadiusY*32+15.5f, 0.5f, currentNpc->moveRadiusY*32+15.5f };
             glCheck(glBindBuffer(GL_ARRAY_BUFFER, boundsBuffer));
             glCheck(glBufferData(GL_ARRAY_BUFFER, sizeof(float)*8, npcBounds, GL_STATIC_DRAW));
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
-            glCheck(m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 1.0f, 0.4f)));
+            glCheck(m_PmtProgram.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 1.0f, 0.4f)));
             glCheck(glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, NULL));
             glCheck(glDeleteBuffers(1, &boundsBuffer));
         }
@@ -238,13 +220,13 @@ namespace ame
 
 
         // Binds the program and associates some properties
-        //m_PmtProg.release();
+        //m_PmtProgram.release();
         glCheck(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer));
-        m_Program.bind();
-        m_Program.enableAttributeArray(MV_VERTEX_ATTR);
-        m_Program.enableAttributeArray(MV_COORD_ATTR);
-        m_Program.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
-        m_Program.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
+        m_RgbProgram.bind();
+        m_RgbProgram.enableAttributeArray(MV_VERTEX_ATTR);
+        m_RgbProgram.enableAttributeArray(MV_COORD_ATTR);
+        m_RgbProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 4*sizeof(float));
+        m_RgbProgram.setAttributeBuffer(MV_COORD_ATTR,  GL_FLOAT, 2*sizeof(float), 2, 4*sizeof(float));
 
         // Iterates through the entities and draws them
         const float bNpc[16] = { 0, 0, 0.0f, 0.0f, 16, 0, 0.25f, 0.0f, 16, 16, 0.25f, 1.0f, 0, 16, 0.0f, 1.0f };
@@ -256,7 +238,7 @@ namespace ame
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(npc->positionX*16+m_Translation.x(), npc->positionY*16+m_Translation.y());
-            m_Program.setUniformValue("uni_mvp", mat_mvp);
+            m_RgbProgram.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
         }
@@ -269,7 +251,7 @@ namespace ame
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(warp->positionX*16+m_Translation.x(), warp->positionY*16+m_Translation.y());
-            m_Program.setUniformValue("uni_mvp", mat_mvp);
+            m_RgbProgram.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
         }
@@ -282,7 +264,7 @@ namespace ame
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(trigger->positionX*16+m_Translation.x(), trigger->positionY*16+m_Translation.y());
-            m_Program.setUniformValue("uni_mvp", mat_mvp);
+            m_RgbProgram.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
         }
@@ -295,7 +277,7 @@ namespace ame
             mat_mvp.setToIdentity();
             mat_mvp.ortho(0, width(), height(), 0, -1, 1);
             mat_mvp.translate(sign->positionX*16+m_Translation.x(), sign->positionY*16+m_Translation.y());
-            m_Program.setUniformValue("uni_mvp", mat_mvp);
+            m_RgbProgram.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
         }
@@ -326,11 +308,11 @@ namespace ame
             glCheck(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
             glCheck(glBindTexture(GL_TEXTURE_2D, 0));
 
-            m_PmtProg.bind();
-            m_PmtProg.enableAttributeArray(MV_VERTEX_ATTR);
-            m_PmtProg.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
-            m_PmtProg.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 1.0f));
-            m_PmtProg.setUniformValue("uni_mvp", mat_mvp);
+            m_PmtProgram.bind();
+            m_PmtProgram.enableAttributeArray(MV_VERTEX_ATTR);
+            m_PmtProgram.setAttributeBuffer(MV_VERTEX_ATTR, GL_FLOAT, 0*sizeof(float), 2, 2*sizeof(float));
+            m_PmtProgram.setUniformValue("uni_color", QVector4D(1.0f, 0.0f, 0.0f, 1.0f));
+            m_PmtProgram.setUniformValue("uni_mvp", mat_mvp);
 
             glCheck(glDrawArrays(GL_LINE_STRIP, 0, 5));
             glCheck(glDeleteBuffers(1, &tempBuffer));
@@ -415,11 +397,6 @@ namespace ame
     {
         /* In this case, we destroy nothing because
          * the data is independent from the map */
-
-        if (!m_VAO.isCreated())
-            return;
-
-
         m_Selection = CurrentEntity();
         m_Entities = NULL;
         m_MapView = NULL;

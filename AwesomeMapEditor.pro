@@ -8,11 +8,14 @@
 #
 # QMake Settings, 1
 #
-QT         += core gui opengl widgets
+QT         += core gui opengl
 TARGET      = AwesomeMapEditor
 TEMPLATE    = app
 CONFIG     += c++11
 DEFINES    += AME_EDITOR
+
+# do only use if getting those useless BUILT_IN warnings
+CONFIG     += warn_off
 
 
 #
@@ -102,7 +105,8 @@ SOURCES += \
     src/Widgets/Listeners/MovePermissionListener.cpp \
     src/Widgets/Chunks.cpp \
     src/Widgets/QHexEdit.cpp \
-    src/Widgets/Commands.cpp
+    src/Widgets/Commands.cpp \
+    src/Widgets/OpenGL/AMEOpenGLShared.cpp
 
 
 #
@@ -171,7 +175,8 @@ HEADERS  += \
     include/AME/Widgets/Listeners/MovePermissionListener.hpp \
     include/AME/Widgets/Chunks.h \
     include/AME/Widgets/Commands.h \
-    include/AME/Widgets/QHexEdit.h
+    include/AME/Widgets/QHexEdit.h \
+    include/AME/Widgets/OpenGL/AMEOpenGLShared.hpp
 
 
 #
