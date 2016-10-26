@@ -156,6 +156,7 @@ namespace ame
         void on_sldWildOtherChance_valueChanged(int value);
         void entity_mouseClick(QMouseEvent *event);
         void MapSortOrder_changed(QAction *action);
+        void MapTabTool_changed(QAction *action);
         void RecentFile_triggered();
         void updateTreeView();
         void disableBeforeROMLoad();
@@ -175,7 +176,6 @@ namespace ame
         void on_action_Connection_Editor_triggered();
         void on_action_Settings_triggered();
         void on_action_Tileset_Editor_triggered();
-        
 
     private:
 

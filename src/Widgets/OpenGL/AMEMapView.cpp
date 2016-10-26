@@ -499,25 +499,38 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/24/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::setCurrentTool(AMEMapView::Tool tool)
+    {
+        m_CurrentTool = tool;
+    }
+
+    ///////////////////////////////////////////////////////////
     // Function type:  Getter
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   10/4/2016
+    // Date of edit:   10/24/2016
     //
     ///////////////////////////////////////////////////////////
     AMEMapView::Tool AMEMapView::getCurrentTool(Qt::MouseButtons buttons)
     {
+        if (m_CurrentTool != AMEMapView::Tool::None)
+            return m_CurrentTool;
         if (buttons & Qt::LeftButton)
-        {
-            if (m_CurrentTool == AMEMapView::Tool::Select)
-                return AMEMapView::Tool::Select;
             return AMEMapView::Tool::Draw;
-        }
         else if (buttons & Qt::RightButton)
-        {
-            if (m_CurrentTool == AMEMapView::Tool::Draw)
-                return AMEMapView::Tool::Draw;
             return AMEMapView::Tool::Select;
+        else if (buttons & Qt::MiddleButton)
+        {
+            if (QGuiApplication::keyboardModifiers() & Qt::ControlModifier)
+                return AMEMapView::Tool::FillAll;
+            else
+                return AMEMapView::Tool::Fill;
         }
         return AMEMapView::Tool::None;
     }

@@ -66,7 +66,7 @@ namespace ame
         m_MPListener = new MovePermissionListener;
         ui->label->installEventFilter(m_MPListener);
 
-        connect(ui->openGLWidget_5, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
+        connect(ui->glEntityEditor, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
 
         statusLabel = new QLabel(tr("No ROM loaded."));
         ui->statusBar->addWidget(statusLabel);
@@ -102,8 +102,10 @@ namespace ame
         ui->btnMapEyedropper->setDefaultAction(ui->actionEyedropper);
         mapToolbarActionGroup->addAction(ui->actionFill);
         ui->btnMapFill->setDefaultAction(ui->actionFill);
-        mapToolbarActionGroup->addAction(ui->actionFill_All);
-        ui->btnMapFillAll->setDefaultAction(ui->actionFill_All);
+        mapToolbarActionGroup->addAction(ui->actionFillAll);
+        ui->btnMapFillAll->setDefaultAction(ui->actionFillAll);
+
+        connect(mapToolbarActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(MapTabTool_changed(QAction*)));
 
         ui->btnMapGrid->setDefaultAction(ui->action_Show_Grid);
         ui->btnEntitiesGrid->setDefaultAction(ui->action_Show_Grid);
@@ -111,7 +113,7 @@ namespace ame
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
 
-        ui->openGLWidget_2->setBlockView(ui->openGLWidget_3);
+        ui->glMapEditor->setBlockView(ui->glBlockEditor);
         disableBeforeROMLoad();
 
         if (SETTINGS(RecentFiles).count() > 0)
@@ -188,10 +190,10 @@ namespace ame
         //ui->treeView->clear();
 
         // Clears all the OpenGL widgets
-        ui->openGLWidget->freeGL();
-        ui->openGLWidget_2->freeGL();
-        ui->openGLWidget_3->freeGL();
-        ui->openGLWidget_5->freeGL();
+        ui->glBorderEditor->freeGL();
+        ui->glMapEditor->freeGL();
+        ui->glBlockEditor->freeGL();
+        ui->glEntityEditor->freeGL();
         m_lastOpenedMap = NULL;
         m_CurrentMap = NULL;
 
@@ -951,16 +953,16 @@ namespace ame
                 }
 
 
-                ui->openGLWidget->freeGL();
-                ui->openGLWidget_2->freeGL();
-                ui->openGLWidget_3->freeGL();
-                ui->openGLWidget_2->setLayout(header);
-                ui->openGLWidget_2->makeGL();
-                ui->openGLWidget_2->update();
-                ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
-                ui->openGLWidget_3->update();
-                ui->openGLWidget->setMapView(ui->openGLWidget_2, true);
-                ui->openGLWidget->update();
+                ui->glBorderEditor->freeGL();
+                ui->glMapEditor->freeGL();
+                ui->glBlockEditor->freeGL();
+                ui->glMapEditor->setLayout(header);
+                ui->glMapEditor->makeGL();
+                ui->glMapEditor->update();
+                ui->glBlockEditor->setMapView(ui->glMapEditor);
+                ui->glBlockEditor->update();
+                ui->glBorderEditor->setMapView(ui->glMapEditor, true);
+                ui->glBorderEditor->update();
 
                 // Sets up the header, invisibles
                 ui->tabWidget->setTabEnabled(1, false);
@@ -994,10 +996,10 @@ namespace ame
         stopWatch.start();
 
         // Clears all the OpenGL widgets
-        ui->openGLWidget->freeGL();
-        ui->openGLWidget_2->freeGL();
-        ui->openGLWidget_3->freeGL();
-        ui->openGLWidget_5->freeGL();
+        ui->glBorderEditor->freeGL();
+        ui->glMapEditor->freeGL();
+        ui->glBlockEditor->freeGL();
+        ui->glEntityEditor->freeGL();
 
 
         // Retrieves the new map from the stored property
@@ -1005,15 +1007,15 @@ namespace ame
         Map *currentMap = dat_MapBankTable->banks()[data.at(0)]->maps()[data.at(1)];
 
         // Fills all the OpenGL widgets
-        ui->openGLWidget_2->setMap(m_Rom, currentMap);
-        ui->openGLWidget_2->makeGL();
-        ui->openGLWidget_2->update();
-        ui->openGLWidget_3->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget_3->update();
-        ui->openGLWidget->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget->update();
-        ui->openGLWidget_5->setMapView(ui->openGLWidget_2);
-        ui->openGLWidget_5->setEntities(currentMap);
+        ui->glMapEditor->setMap(m_Rom, currentMap);
+        ui->glMapEditor->makeGL();
+        ui->glMapEditor->update();
+        ui->glBlockEditor->setMapView(ui->glMapEditor);
+        ui->glBlockEditor->update();
+        ui->glBorderEditor->setMapView(ui->glMapEditor);
+        ui->glBorderEditor->update();
+        ui->glEntityEditor->setMapView(ui->glMapEditor);
+        ui->glEntityEditor->setEntities(currentMap);
         m_CurrentMap = currentMap;
 
         // Fills the wild-pokemon tab
@@ -1029,8 +1031,8 @@ namespace ame
         (
             10, Qt::PreciseTimer, [this] ()
             {
-                QPoint scrollPos = ui->openGLWidget_2->mainPos();
-                QSize size = ui->openGLWidget_2->mainMap()->header().size();
+                QPoint scrollPos = ui->glMapEditor->mainPos();
+                QSize size = ui->glMapEditor->mainMap()->header().size();
 
                 int xMap = (ui->scrollArea->viewport()->width() - size.width() * 16) / 2;
                 int yMap = (ui->scrollArea->viewport()->height() - size.height() * 16) / 2;
@@ -1077,6 +1079,37 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/26/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::MapTabTool_changed(QAction *action)
+    {
+        if (action == ui->actionPencil)
+        {
+            ui->glMapEditor->setCurrentTool(AMEMapView::Tool::Draw);
+        }
+        else if (action == ui->actionEyedropper)
+        {
+            ui->glMapEditor->setCurrentTool(AMEMapView::Tool::Select);
+        }
+        else if (action == ui->actionFill)
+        {
+            ui->glMapEditor->setCurrentTool(AMEMapView::Tool::Fill);
+        }
+        else if (action == ui->actionFillAll)
+        {
+            ui->glMapEditor->setCurrentTool(AMEMapView::Tool::FillAll);
+        }
+        else
+        {
+            ui->glMapEditor->setCurrentTool(AMEMapView::Tool::None);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   7/3/2016
@@ -1093,7 +1126,7 @@ namespace ame
             if (m_CurrentMap->entities().npcs().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
             else
-                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
+                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
         else if (index == 1)
         {
@@ -1104,7 +1137,7 @@ namespace ame
             if (m_CurrentMap->entities().warps().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
             else
-                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
+                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
         else if (index == 2)
         {
@@ -1115,7 +1148,7 @@ namespace ame
             if (m_CurrentMap->entities().triggers().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
             else
-                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
+                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
         else
         {
@@ -1126,7 +1159,7 @@ namespace ame
             if (m_CurrentMap->entities().signs().size() > 0)
                 on_spnEntityScroller_valueChanged(0);
             else
-                ui->openGLWidget_5->setCurrentEntity(CurrentEntity());
+                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
     }
 
@@ -1143,7 +1176,7 @@ namespace ame
             return;
 
 
-        QPoint startPos = ui->openGLWidget_2->mainPos();
+        QPoint startPos = ui->glMapEditor->mainPos();
         if (ui->cmbEntityTypeSelector->currentIndex() == 0 && m_CurrentMap->entities().npcs().size() > 0)
         {
             Npc *eventN = m_CurrentMap->entities().npcs()[arg1];
@@ -1171,7 +1204,7 @@ namespace ame
             entity.type = ET_Npc;
             entity.entity = eventN;
             entity.index = arg1;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 1 && m_CurrentMap->entities().warps().size() > 0)
         {
@@ -1193,7 +1226,7 @@ namespace ame
             entity.type = ET_Warp;
             entity.entity = eventW;
             entity.index = arg1;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 2 && m_CurrentMap->entities().triggers().size() > 0)
         {
@@ -1215,7 +1248,7 @@ namespace ame
             entity.type = ET_Trigger;
             entity.entity = eventT;
             entity.index = arg1;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (m_CurrentMap->entities().signs().size() > 0)
         {
@@ -1236,7 +1269,7 @@ namespace ame
             entity.type = ET_Sign;
             entity.entity = eventS;
             entity.index = arg1;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
 
             showCorrectSignType(eventS);
         }
@@ -1266,8 +1299,8 @@ namespace ame
     void MainWindow::entity_mouseClick(QMouseEvent *event)
     {
         // Map coordinates to block-coordinates
-        int blockX = (event->pos().x()-ui->openGLWidget_2->mainPos().x()) / 16;
-        int blockY = (event->pos().y()-ui->openGLWidget_2->mainPos().y()) / 16;
+        int blockX = (event->pos().x()-ui->glMapEditor->mainPos().x()) / 16;
+        int blockY = (event->pos().y()-ui->glMapEditor->mainPos().y()) / 16;
         int indexN, indexW, indexT, indexS;
 
         Npc *eventN = nullptr;
@@ -1313,7 +1346,7 @@ namespace ame
             entity.type = ET_Npc;
             entity.entity = eventN;
             entity.index = indexN;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
 
             return;
         }
@@ -1349,7 +1382,7 @@ namespace ame
             entity.type = ET_Warp;
             entity.entity = eventW;
             entity.index = indexW;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
 
             return;
         }
@@ -1385,7 +1418,7 @@ namespace ame
             entity.type = ET_Trigger;
             entity.entity = eventT;
             entity.index = indexT;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
 
             return;
         }
@@ -1420,7 +1453,7 @@ namespace ame
             entity.type = ET_Sign;
             entity.entity = eventS;
             entity.index = indexS;
-            ui->openGLWidget_5->setCurrentEntity(entity);
+            ui->glEntityEditor->setCurrentEntity(entity);
 
             showCorrectSignType(eventS);
 
@@ -1437,13 +1470,13 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_tabWidget_currentChanged(int index)
     {
-        QPoint scrollPos = ui->openGLWidget_2->mainPos();
+        QPoint scrollPos = ui->glMapEditor->mainPos();
 
         QSize size;
-        if(ui->openGLWidget_2->mainMap() != NULL)
-            size = ui->openGLWidget_2->mainMap()->header().size();
+        if(ui->glMapEditor->mainMap() != NULL)
+            size = ui->glMapEditor->mainMap()->header().size();
         else
-            size = ui->openGLWidget_2->layoutHeader()->size();
+            size = ui->glMapEditor->layoutHeader()->size();
 
         if (index == 0)
         {
@@ -1507,15 +1540,15 @@ namespace ame
     void MainWindow::closeEvent(QCloseEvent *event)
     {
         // Destroys OpenGL objects
-        delete ui->openGLWidget;
-        delete ui->openGLWidget_2;
-        delete ui->openGLWidget_3;
-        delete ui->openGLWidget_5;
+        delete ui->glBorderEditor;
+        delete ui->glMapEditor;
+        delete ui->glBlockEditor;
+        delete ui->glEntityEditor;
 
-        ui->openGLWidget = NULL;
-        ui->openGLWidget_2 = NULL;
-        ui->openGLWidget_3 = NULL;
-        ui->openGLWidget_5 = NULL;
+        ui->glBorderEditor = NULL;
+        ui->glMapEditor = NULL;
+        ui->glBlockEditor = NULL;
+        ui->glEntityEditor = NULL;
 
         // Destroys the window
         QMainWindow::closeEvent(event);
@@ -1576,13 +1609,13 @@ namespace ame
 
         if (index == 0)
         {
-            ui->openGLWidget_2->setMovementMode(false);
-            ui->openGLWidget_2->update();
+            ui->glMapEditor->setMovementMode(false);
+            ui->glMapEditor->update();
         }
         else
         {
-            ui->openGLWidget_2->setMovementMode(true);
-            ui->openGLWidget_2->update();
+            ui->glMapEditor->setMovementMode(true);
+            ui->glMapEditor->update();
         }
     }
 
@@ -1620,7 +1653,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_action_Tileset_Editor_triggered()
     {
-        TilesetDialog tilesetDialog(this, ui->openGLWidget_2, ui->openGLWidget_3);
+        TilesetDialog tilesetDialog(this, ui->glMapEditor, ui->glBlockEditor);
         tilesetDialog.exec();
     }
 }

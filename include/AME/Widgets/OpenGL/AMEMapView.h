@@ -210,6 +210,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         AMEMapView::Tool getCurrentTool(Qt::MouseButtons buttons);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the current editing tool from the UI.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setCurrentTool(AMEMapView::Tool tool);
+
 
     protected:
 
