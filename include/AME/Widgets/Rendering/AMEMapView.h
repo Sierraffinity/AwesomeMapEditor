@@ -256,6 +256,7 @@ namespace ame
         QList<QPoint> m_NPCPositions;
         QList<UInt8> m_NPCSprites;
         QVector<QRgb> m_Palettes;
+        QVector<QRgb> m_PalCopy;
         QVector<QVector<QRgb>> m_ConnPalettes;
         QImage m_BlockForeground;
         QImage m_BlockBackground;

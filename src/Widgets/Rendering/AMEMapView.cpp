@@ -108,6 +108,22 @@ namespace ame
     // Date of edit:   6/17/2016
     //
     ///////////////////////////////////////////////////////////
+    inline void updatePixels(int x, int y, int w, int h, QImage &i, uchar *src)
+    {
+        if (x >= i.width() || y >= i.height())
+            return;
+        for (int px = 0; px < w; px++)
+            for (int py = 0; py < h; py++)
+                i.bits()[x+px+((y+py)*i.width())] = src[px+py*w];
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/17/2016
+    //
+    ///////////////////////////////////////////////////////////
     inline void convertGrayScale(QImage &img)
     {
         for (int i = 0; i < img.height(); i++)
@@ -307,16 +323,16 @@ namespace ame
                         extractBlock(m_SecondaryBackground, currBlockIndex - m_PrimaryBlockCount);
                     else
                         extractBlock(m_PrimaryBackground, currBlockIndex);
-                    /*glBindTexture(GL_TEXTURE_2D, bg);
-                    glTexSubImage2D(GL_TEXTURE_2D, 0, ((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
+
+                    updatePixels(((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, m_MapBackground, blockBuffer);
 
                     if (currBlockIndex >= m_PrimaryBlockCount)
                         extractBlock(m_SecondaryForeground, currBlockIndex - m_PrimaryBlockCount);
                     else
                         extractBlock(m_PrimaryForeground, currBlockIndex);
-                    glBindTexture(GL_TEXTURE_2D, fg);
-                    glTexSubImage2D(GL_TEXTURE_2D, 0, ((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, GL_RED, GL_UNSIGNED_BYTE, blockBuffer);
-                */}
+
+                    updatePixels(((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, m_MapForeground, blockBuffer);
+                }
             }
         }
         else if (currentTool == AMEMapView::Tool::Select)
@@ -839,51 +855,49 @@ namespace ame
 
 
         // Creates the image for the main map
-        for (int i = 0; i < 1; i++)
+        MapHeader &header = m_Maps[0]->header();
+        QSize mapSize = header.size();
+
+        // Creates a new pixel buffer for the map
+        UInt8 *backMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
+        UInt8 *foreMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
+        UInt8 *primaryBg = blocksetBack.at(0);
+        UInt8 *secondaryBg = blocksetBack.at(1);
+        UInt8 *primaryFg = blocksetFore.at(0);
+        UInt8 *secondaryFg = blocksetFore.at(1);
+
+        // Iterates through every map block and writes it to the map buffer
+        for (int j = 0; j < header.blocks().size(); j++)
         {
-            MapHeader &header = m_Maps[i]->header();
-            QSize mapSize = header.size();
+            MapBlock block = *header.blocks().at(j);
+            Int32 mapX = (j % mapSize.width()) * 16;
+            Int32 mapY = (j / mapSize.width()) * 16;
 
-            // Creates a new pixel buffer for the map
-            UInt8 *backMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
-            UInt8 *foreMapBuffer = new UInt8[mapSize.width()*16 * mapSize.height()*16];
-            UInt8 *primaryBg = blocksetBack.at(i*2);
-            UInt8 *secondaryBg = blocksetBack.at(i*2+1);
-            UInt8 *primaryFg = blocksetFore.at(i*2);
-            UInt8 *secondaryFg = blocksetFore.at(i*2+1);
+            if (block.block >= blockCountPrimary)
+                extractBlock(secondaryBg, block.block - blockCountPrimary);
+            else
+                extractBlock(primaryBg, block.block);
 
-            // Iterates through every map block and writes it to the map buffer
-            for (int j = 0; j < header.blocks().size(); j++)
-            {
-                MapBlock block = *header.blocks().at(j);
-                Int32 mapX = (j % mapSize.width()) * 16;
-                Int32 mapY = (j / mapSize.width()) * 16;
+            int pos = 0;
+            for (int y = 0; y < 16; y++)
+                for (int x = 0; x < 16; x++)
+                    backMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
 
-                if (block.block >= blockCountPrimary)
-                    extractBlock(secondaryBg, block.block - blockCountPrimary);
-                else
-                    extractBlock(primaryBg, block.block);
+            if (block.block >= blockCountPrimary)
+                extractBlock(secondaryFg, block.block - blockCountPrimary);
+            else
+                extractBlock(primaryFg, block.block);
 
-                int pos = 0;
-                for (int y = 0; y < 16; y++)
-                    for (int x = 0; x < 16; x++)
-                        backMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
-
-                if (block.block >= blockCountPrimary)
-                    extractBlock(secondaryFg, block.block - blockCountPrimary);
-                else
-                    extractBlock(primaryFg, block.block);
-
-                pos = 0;
-                for (int y = 0; y < 16; y++)
-                    for (int x = 0; x < 16; x++)
-                        foreMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
-            }
-
-            // Appends the pixel buffers
-            m_BackPixelBuffers.push_back(backMapBuffer);
-            m_ForePixelBuffers.push_back(foreMapBuffer);
+            pos = 0;
+            for (int y = 0; y < 16; y++)
+                for (int x = 0; x < 16; x++)
+                    foreMapBuffer[(x+mapX) + (y+mapY) * mapSize.width()*16] = blockBuffer[pos++];
         }
+
+        // Appends the pixel buffers
+        m_BackPixelBuffers.push_back(backMapBuffer);
+        m_ForePixelBuffers.push_back(foreMapBuffer);
+
 
         // Renders all the connected maps
         for (int n = 0; n < m_ConnectParts.size(); n++)
@@ -1003,6 +1017,7 @@ namespace ame
         Int32 tsh2 = blockCountSecondary / 8 * 16;
         Int32 lpct = 128 * tsh1;
         Int32 lsct = 128 * tsh2;
+        QRgb c = m_Palettes[0];
 
         m_BlockForeground = QImage(tsw, tsh1 + tsh2, QImage::Format_Indexed8);
         m_BlockBackground = QImage(tsw, tsh1 + tsh2, QImage::Format_Indexed8);
@@ -1017,7 +1032,9 @@ namespace ame
             m_BlockBackground.bits()[lpct+i] = m_SecondaryBackground[i];
 
         m_BlockForeground.setColorTable(m_Palettes);
-        m_BlockBackground.setColorTable(m_Palettes);
+        m_PalCopy = m_Palettes;
+        m_PalCopy[0] = qRgba(qRed(c), qGreen(c), qBlue(c), 255);
+        m_BlockBackground.setColorTable(m_PalCopy);
 
 
         // Generates all the images
@@ -1030,7 +1047,7 @@ namespace ame
             m_MapBackground.bits()[i] = m_BackPixelBuffers[0][i];
 
         m_MapForeground.setColorTable(m_Palettes);
-        m_MapBackground.setColorTable(m_Palettes);
+        m_MapBackground.setColorTable(m_PalCopy);
 
         for (int i = 1; i < m_Maps.size(); i++)
         {
@@ -1038,6 +1055,7 @@ namespace ame
             QImage bkg(m_MapSizes.at(i).width(), m_MapSizes.at(i).height(), QImage::Format_Indexed8);
             UInt8 *fgp = m_ForePixelBuffers[i];
             UInt8 *bgp = m_BackPixelBuffers[i];
+            c = m_ConnPalettes[i-1][0];
 
             for (int j = 0; j < frg.byteCount(); j++)
                 frg.bits()[j] = fgp[j];
@@ -1045,6 +1063,7 @@ namespace ame
                 bkg.bits()[j] = bgp[j];
 
             frg.setColorTable(m_ConnPalettes.at(i-1));
+            m_ConnPalettes[i-1][0] = qRgba(qRed(c), qGreen(c), qBlue(c), 255);
             bkg.setColorTable(m_ConnPalettes.at(i-1));
 
             QImage fullimg = bkg.convertToFormat(QImage::Format_ARGB32_Premultiplied);
@@ -1357,6 +1376,7 @@ namespace ame
         Int32 tsh2 = blockCountSecondary / 8 * 16;
         Int32 lpct = 128 * tsh1;
         Int32 lsct = 128 * tsh2;
+        QRgb c = m_Palettes[0];
 
         m_BlockForeground = QImage(tsw, tsh1 + tsh2, QImage::Format_Indexed8);
         m_BlockBackground = QImage(tsw, tsh1 + tsh2, QImage::Format_Indexed8);
@@ -1371,7 +1391,9 @@ namespace ame
             m_BlockBackground.bits()[lpct+i] = m_SecondaryBackground[i];
 
         m_BlockForeground.setColorTable(m_Palettes);
-        m_BlockBackground.setColorTable(m_Palettes);
+        m_PalCopy = m_Palettes;
+        m_PalCopy[0] = qRgba(qRed(c), qGreen(c), qBlue(c), 255);
+        m_BlockBackground.setColorTable(m_PalCopy);
 
 
         // Generates all the images
@@ -1384,7 +1406,7 @@ namespace ame
             m_MapBackground.bits()[i] = m_BackPixelBuffers[0][i];
 
         m_MapForeground.setColorTable(m_Palettes);
-        m_MapBackground.setColorTable(m_Palettes);
+        m_MapBackground.setColorTable(m_PalCopy);
 
 
         m_IsInit = true;
@@ -1439,6 +1461,79 @@ namespace ame
                     int posY = blocks.at(i)->permission * 16;
                     painter.drawImage(QRect(mapX, mapY, 16, 16), m_MovePerm, QRect(0, posY, 16, 16));
                 }
+            }
+            if (m_ShowCursor)
+            {
+                int mapWidth = m_MapSizes.at(0).width() / 16;
+                int x = 0, y = 0, sWid = 0, sHei = 0;
+                if (m_SelectedBlocks.empty() && m_BlockView->selectedBlocks().empty())
+                {
+                    // Computes the position of the widget
+                    int firstX = (m_FirstBlock % mapWidth);
+                    int firstY = (m_FirstBlock / mapWidth);
+                    int lastX = (m_LastBlock % mapWidth);
+                    int lastY = (m_LastBlock / mapWidth);
+
+                    x = firstX;
+                    y = firstY;
+                    sWid = lastX - firstX;
+                    sHei = lastY - firstY;
+
+                    if (lastX < firstX)
+                    {
+                        x = lastX;
+                        sWid = firstX - x;
+                    }
+                    if (lastY - firstY)
+                    {
+                        y = lastY;
+                        sHei = firstY - y;
+                    }
+                }
+                else if (m_BlockView->selectedBlocks().isEmpty())
+                {
+                    x = (m_HighlightedBlock % mapWidth);
+                    y = (m_HighlightedBlock / mapWidth);
+                    sWid = m_SelectSize.width() -1;
+                    sHei = m_SelectSize.height() - 1;
+                }
+                else
+                {
+                    // Computes the position on widget
+                    int firstX = (m_BlockView->selectedBlocks().first() % 8);
+                    int firstY = (m_BlockView->selectedBlocks().first() / 8);
+                    int lastX = (m_BlockView->selectedBlocks().last() % 8);
+                    int lastY = (m_BlockView->selectedBlocks().last() / 8);
+
+                    sWid = lastX - firstX;
+                    sHei = lastY - firstY;
+
+                    x = (m_HighlightedBlock % mapWidth);
+                    y = (m_HighlightedBlock / mapWidth);
+
+                    if (m_SelectedBlocks.size() == 1)
+                    {
+                        sWid = 1;
+                        sHei = 1;
+                    }
+                }
+
+                if (x + sWid >= mapWidth)
+                    sWid = mapWidth - x - 1;
+                if (y + sHei >= (m_MapSizes.at(0).height() / 16))
+                    sHei = (m_MapSizes.at(0).height() / 16) - y - 1;
+
+                x *= 16;
+                y *= 16;
+                sWid *= 16;
+                sHei *= 16;
+
+                QPoint mp = m_MapPositions.at(0);
+                x += mp.x();
+                y += mp.y();
+
+                painter.setPen(m_CursorColor);
+                painter.drawRect(x, y, sWid, sHei);
             }
 
             painter.end();
