@@ -35,7 +35,7 @@
 #include <AME/System/Configuration.hpp>
 #include <AME/System/Settings.hpp>
 #include <AME/Widgets/Misc/Messages.hpp>
-#include <AME/Widgets/OpenGL/AMEMapView.h>
+#include <AME/Widgets/Rendering/AMEMapView.h>
 #include <AME/Forms/MainWindow.h>
 #include <AME/Forms/ErrorWindow.h>
 #include <AME/Forms/SettingsDialog.h>
@@ -144,7 +144,6 @@ namespace ame
     MainWindow::~MainWindow()
     {
         delete ui;
-        delete m_OpenGLSharedObj;
     }
 
 
@@ -191,11 +190,6 @@ namespace ame
         //ui->treeView->collapseAll();
         //ui->treeView->clear();
 
-        // Clears all the OpenGL widgets
-        ui->glBorderEditor->freeGL();
-        ui->glMapEditor->freeGL();
-        ui->glBlockEditor->freeGL();
-        ui->glEntityEditor->freeGL();
         m_lastOpenedMap = NULL;
         m_CurrentMap = NULL;
 
@@ -238,13 +232,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool MainWindow::loadROM(const QString &file)
     {
-        if (m_OpenGLSharedObj == NULL)
-        {
-            // Create fake OpenGL widget
-            m_OpenGLSharedObj = new AMEOpenGLShared(this);
-        }
-
-
         // Add ROM file to recent files list
         QList<QString> recentFiles = SETTINGS(RecentFiles);
 
@@ -962,11 +949,7 @@ namespace ame
                 }
 
 
-                ui->glBorderEditor->freeGL();
-                ui->glMapEditor->freeGL();
-                ui->glBlockEditor->freeGL();
                 ui->glMapEditor->setLayout(header);
-                ui->glMapEditor->makeGL();
                 ui->glMapEditor->update();
                 ui->glBlockEditor->setMapView(ui->glMapEditor);
                 ui->glBlockEditor->update();
@@ -1004,20 +987,12 @@ namespace ame
         QTime stopWatch;
         stopWatch.start();
 
-        // Clears all the OpenGL widgets
-        ui->glBorderEditor->freeGL();
-        ui->glMapEditor->freeGL();
-        ui->glBlockEditor->freeGL();
-        ui->glEntityEditor->freeGL();
-
-
         // Retrieves the new map from the stored property
         QByteArray data = ui->treeView->model()->data(index, Qt::UserRole).toByteArray();
         Map *currentMap = dat_MapBankTable->banks()[data.at(0)]->maps()[data.at(1)];
 
         // Fills all the OpenGL widgets
         ui->glMapEditor->setMap(m_Rom, currentMap);
-        ui->glMapEditor->makeGL();
         ui->glMapEditor->update();
         ui->glBlockEditor->setMapView(ui->glMapEditor);
         ui->glBlockEditor->update();

@@ -41,7 +41,6 @@
 ///////////////////////////////////////////////////////////
 #include <QBoy/Core/Rom.hpp>
 #include <AME/Mapping/Map.hpp>
-#include <AME/Widgets/OpenGL/AMEOpenGLShared.hpp>
 #include <AME/Widgets/QFilterChildrenProxyModel.h>
 #include <AME/Widgets/Listeners/MovePermissionListener.hpp>
 #include <QMainWindow>
@@ -193,7 +192,6 @@ namespace ame
         QLabel* statusLabelCredit;                  ///< Status bar label reference for credit
         QFilterChildrenProxyModel *m_proxyModel;    ///< Tree view proxy model reference
         MovePermissionListener *m_MPListener;       ///< Move permission event listener
-        AMEOpenGLShared *m_OpenGLSharedObj = NULL;  ///< Fake widget for global objects
     };
 
 

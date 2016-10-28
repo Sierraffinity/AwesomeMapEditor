@@ -8,7 +8,7 @@
 #
 # QMake Settings, 1
 #
-QT         += core gui opengl
+QT         += core gui widgets
 TARGET      = AwesomeMapEditor
 TEMPLATE    = app
 CONFIG     += c++11
@@ -34,14 +34,15 @@ win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
 INCLUDEPATH += include
 INCLUDEPATH += include/AME/Forms
 INCLUDEPATH += include/AME/Widgets
-INCLUDEPATH += include/AME/Widgets/OpenGL
+#INCLUDEPATH += include/AME/Widgets/OpenGL
+INCLUDEPATH += include/AME/Widgets/Rendering
 INCLUDEPATH += $$PWD/../QBoy/include
 DEPENDPATH  += $$PWD/../QBoy/include
 INCLUDEPATH += $$PWD/../yaml-cpp/include
 DEPENDPATH += $$PWD/../yaml-cpp/include
 QMAKE_LFLAGS += -static-libgcc -static-libstdc++
-win32: LIBS += -lopengl32
-unix:  LIBS += -lGL
+#win32: LIBS += -lopengl32
+#unix:  LIBS += -lGL
 
 
 #
@@ -85,14 +86,14 @@ SOURCES += \
     src/System/Configuration.cpp \
     src/System/LoadedData.cpp \
     src/Widgets/Misc/Messages.cpp \
-    src/Widgets/OpenGL/AMEMapView.cpp \
-    src/Widgets/OpenGL/AMEBlockView.cpp \
+    #src/Widgets/OpenGL/AMEMapView.cpp \
+    #src/Widgets/OpenGL/AMEBlockView.cpp \
     src/Widgets/AMEImageButton.cpp \
     src/Forms/ErrorWindow.cpp \
-    src/Widgets/OpenGL/AMEBorderView.cpp \
+    #src/Widgets/OpenGL/AMEBorderView.cpp \
     src/Structures/PokemonTable.cpp \
     src/Graphics/OverworldTable.cpp \
-    src/Widgets/OpenGL/AMEEntityView.cpp \
+    #src/Widgets/OpenGL/AMEEntityView.cpp \
     src/Graphics/PropertyTable.cpp \
     src/System/Settings.cpp \
     src/Entities/EntityRawData.cpp \
@@ -106,7 +107,11 @@ SOURCES += \
     src/Widgets/Chunks.cpp \
     src/Widgets/QHexEdit.cpp \
     src/Widgets/Commands.cpp \
-    src/Widgets/OpenGL/AMEOpenGLShared.cpp
+    #src/Widgets/OpenGL/AMEOpenGLShared.cpp
+    src/Widgets/Rendering/AMEBlockView.cpp \
+    src/Widgets/Rendering/AMEBorderView.cpp \
+    src/Widgets/Rendering/AMEEntityView.cpp \
+    src/Widgets/Rendering/AMEMapView.cpp
 
 
 #
@@ -154,14 +159,14 @@ HEADERS  += \
     include/AME/System/Configuration.hpp \
     include/AME/System/LoadedData.hpp \
     include/AME/Widgets/Misc/Messages.hpp \
-    include/AME/Widgets/OpenGL/AMEMapView.h \
-    include/AME/Widgets/OpenGL/AMEBlockView.h \
+    #include/AME/Widgets/OpenGL/AMEMapView.h \
+    #include/AME/Widgets/OpenGL/AMEBlockView.h \
     include/AME/Widgets/AMEImageButton.h \
     include/AME/Forms/ErrorWindow.h \
-    include/AME/Widgets/OpenGL/AMEBorderView.h \
+    #include/AME/Widgets/OpenGL/AMEBorderView.h \
     include/AME/Structures/PokemonTable.hpp \
     include/AME/Graphics/OverworldTable.hpp \
-    include/AME/Widgets/OpenGL/AMEEntityView.h \
+    #include/AME/Widgets/OpenGL/AMEEntityView.h \
     include/AME/Graphics/PropertyTable.hpp \
     include/AME/Graphics/Property.hpp \
     include/AME/System/Settings.hpp \
@@ -176,7 +181,11 @@ HEADERS  += \
     include/AME/Widgets/Chunks.h \
     include/AME/Widgets/Commands.h \
     include/AME/Widgets/QHexEdit.h \
-    include/AME/Widgets/OpenGL/AMEOpenGLShared.hpp
+    #include/AME/Widgets/OpenGL/AMEOpenGLShared.hpp
+    include/AME/Widgets/Rendering/AMEBlockView.h \
+    include/AME/Widgets/Rendering/AMEBorderView.h \
+    include/AME/Widgets/Rendering/AMEEntityView.h \
+    include/AME/Widgets/Rendering/AMEMapView.h
 
 
 #
@@ -191,11 +200,11 @@ FORMS    += resources/UI/MainWindow.ui \
 # Resources
 #
 RESOURCES += \
-    resources/images.qrc \
-    resources/shaders.qrc
+    resources/images.qrc #\
+    #resources/shaders.qrc
 
 DISTFILES += \
     resources/config/BPRE.yaml \
-    resources/shaders/NormalFragmentShader \
-    resources/shaders/PrimitiveVertexShader.glsl \
-    resources/shaders/PrimitiveFragmentShader.glsl
+    #resources/shaders/NormalFragmentShader \
+    #resources/shaders/PrimitiveVertexShader.glsl \
+    #resources/shaders/PrimitiveFragmentShader.glsl

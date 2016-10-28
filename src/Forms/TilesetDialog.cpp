@@ -11,7 +11,6 @@ TilesetDialog::TilesetDialog(QWidget *parent, AMEMapView *mv, AMEBlockView *bv) 
 {
 
     ui->setupUi(this);
-    bv->copyBlocks(ui->openGLWidget);
 }
 
 TilesetDialog::~TilesetDialog()
