@@ -304,6 +304,7 @@ namespace ame
 
         setupAfterLoading();
         m_Rom.clearCache();
+        ui->glEntityEditor->setOverworlds(&dat_OverworldTable->argbImages());
     }
 
     ///////////////////////////////////////////////////////////

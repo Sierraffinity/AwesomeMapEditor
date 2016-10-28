@@ -179,6 +179,28 @@ namespace ame
         }
 
 
+        // Converts all of these to ARGB images
+        for (unsigned i = 0; i < CONFIG(OverworldCount); i++)
+        {
+            const qboy::Image *img = m_Images.at(i);
+            const qboy::Palette *pal = m_Palettes.at(i);
+
+            QVector<QRgb> cp;
+            cp.push_back(qRgba(0, 0, 0, 0));
+            for (int i = 1; i < 16; i++)
+            {
+                qboy::Color c = pal->raw().at(i);
+                cp.push_back(qRgba(c.r, c.g, c.b, c.a));
+            }
+
+            QImage qi(img->size(), QImage::Format_Indexed8);
+            for (int i = 0; i < qi.byteCount(); i++)
+                qi.bits()[i] = (uchar)(img->raw().at(i));
+
+            qi.setColorTable(cp);
+            m_Argb.push_back(qi);
+        }
+
         return true;
     }
 
@@ -193,6 +215,18 @@ namespace ame
     const QList<qboy::Image *> &OverworldTable::images() const
     {
         return m_Images;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    const QList<QImage> &OverworldTable::argbImages() const
+    {
+        return m_Argb;
     }
 
     ///////////////////////////////////////////////////////////

@@ -93,6 +93,12 @@ namespace ame
         void setEntities(Map *map);
 
         ///////////////////////////////////////////////////////////
+        /// \brief Specifies the currently selected entity.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setOverworlds(const QList<QImage> *ows);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Creates the textures for the images and pals.
         ///
         ///////////////////////////////////////////////////////////
@@ -143,6 +149,7 @@ namespace ame
         QImage m_FieldImage;            ///< P, S, S, W sign image
         CurrentEntity m_Selection;      ///< Currently selected entity
         Boolean m_IsInit;
+        const QList<QImage> *m_OW;      ///< Overworld images
     };
 }
 

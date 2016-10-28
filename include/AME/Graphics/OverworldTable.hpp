@@ -113,6 +113,12 @@ namespace ame
         const QList<qboy::Image *> &images() const;
 
         ///////////////////////////////////////////////////////////
+        /// \brief Retrieves all OW pictures in ARGB.
+        ///
+        ///////////////////////////////////////////////////////////
+        const QList<QImage> &argbImages() const;
+
+        ///////////////////////////////////////////////////////////
         /// \brief Retrieves all OW palettes.
         ///
         ///////////////////////////////////////////////////////////
@@ -127,6 +133,7 @@ namespace ame
         ///////////////////////////////////////////////////////////
         QList<qboy::Palette *> m_Palettes;
         QList<qboy::Image *> m_Images;
+        QList<QImage> m_Argb;
     };
 }
 

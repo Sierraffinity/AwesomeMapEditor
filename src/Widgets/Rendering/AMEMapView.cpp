@@ -1071,7 +1071,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool AMEMapView::setLayout(MapHeader &mainMap)
     {
-        /*const QSize mainSize = mainMap.size();
+        const QSize mainSize = mainMap.size();
         m_Maps.push_back(NULL);
         m_MapSizes.push_back(QSize(mainSize.width()*16, mainSize.height()*16));
         m_MapPositions.push_back(QPoint(0, 0));
@@ -1161,7 +1161,6 @@ namespace ame
                 Int32 blockX = (j % 8) * 16;
                 Int32 blockY = (j / 8) * 16;
 
-                /* BACKGROUND
                 for (int k = 0; k < 4; k++)
                 {
                     Tile tile = curBlock->tiles[k];
@@ -1188,7 +1187,6 @@ namespace ame
                             background1[(x+subX) + (y+subY) * 128] = pixelBuffer[pos++];
                 }
 
-                /* FOREGROUND
                 for (int k = 0; k < 4; k++)
                 {
                     Tile tile = curBlock->tiles[k+4];
@@ -1223,7 +1221,6 @@ namespace ame
                 Int32 blockX = (j % 8) * 16;
                 Int32 blockY = (j / 8) * 16;
 
-                /* BACKGROUND
                 for (int k = 0; k < 4; k++)
                 {
                     Tile tile = curBlock->tiles[k];
@@ -1250,7 +1247,6 @@ namespace ame
                             background2[(x+subX) + (y+subY) * 128] = pixelBuffer[pos++];
                 }
 
-                /* FOREGROUND
                 for (int k = 0; k < 4; k++)
                 {
                     Tile tile = curBlock->tiles[k+4];
@@ -1354,7 +1350,46 @@ namespace ame
             }
 
         }
-        return true;*/
+
+
+        const Int32 tsw = 128;
+        Int32 tsh1 = blockCountPrimary / 8 * 16;
+        Int32 tsh2 = blockCountSecondary / 8 * 16;
+        Int32 lpct = 128 * tsh1;
+        Int32 lsct = 128 * tsh2;
+
+        m_BlockForeground = QImage(tsw, tsh1 + tsh2, QImage::Format_Indexed8);
+        m_BlockBackground = QImage(tsw, tsh1 + tsh2, QImage::Format_Indexed8);
+
+        for (int i = 0; i < lpct; i++)
+            m_BlockForeground.bits()[i] = m_PrimaryForeground[i];
+        for (int i = 0; i < lsct; i++)
+            m_BlockForeground.bits()[lpct+i] = m_SecondaryForeground[i];
+        for (int i = 0; i < lpct; i++)
+            m_BlockBackground.bits()[i] = m_PrimaryBackground[i];
+        for (int i = 0; i < lsct; i++)
+            m_BlockBackground.bits()[lpct+i] = m_SecondaryBackground[i];
+
+        m_BlockForeground.setColorTable(m_Palettes);
+        m_BlockBackground.setColorTable(m_Palettes);
+
+
+        // Generates all the images
+        m_MapForeground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
+        m_MapBackground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
+
+        for (int i = 0; i < m_MapForeground.byteCount(); i++)
+            m_MapForeground.bits()[i] = m_ForePixelBuffers[0][i];
+        for (int i = 0; i < m_MapBackground.byteCount(); i++)
+            m_MapBackground.bits()[i] = m_BackPixelBuffers[0][i];
+
+        m_MapForeground.setColorTable(m_Palettes);
+        m_MapBackground.setColorTable(m_Palettes);
+
+
+        m_IsInit = true;
+        setMinimumSize(m_WidgetSize);
+        return true;
     }
 
     ///////////////////////////////////////////////////////////
@@ -1372,13 +1407,21 @@ namespace ame
             QPoint pmain = mainPos();
             QPainter painter(this);
             painter.drawImage(pmain.x(), pmain.y(), m_MapBackground);
+
+
+            // Between background and foreground, draw the overworld sprites on the map.
+
+
             painter.drawImage(pmain.x(), pmain.y(), m_MapForeground);
 
-            int conncnt = m_MapSizes.size()-1;
-            for (int i = 0; i < conncnt; i++)
+            if (!m_LayoutView)
             {
-                QPoint pconn = m_MapPositions.at(i+1);
-                painter.drawImage(pconn.x(), pconn.y(), m_ConnImages.at(i));
+                int conncnt = m_MapSizes.size()-1;
+                for (int i = 0; i < conncnt; i++)
+                {
+                    QPoint pconn = m_MapPositions.at(i+1);
+                    painter.drawImage(pconn.x(), pconn.y(), m_ConnImages.at(i));
+                }
             }
 
             // Draws the movement data, if requested
@@ -1400,18 +1443,6 @@ namespace ame
 
             painter.end();
         }
-    }
-
-
-    ///////////////////////////////////////////////////////////
-    // Function type:  Setter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/21/2016
-    //
-    ///////////////////////////////////////////////////////////
-    void AMEMapView::setEntities(const QList<Npc *> &npcs)
-    {
     }
 
     ///////////////////////////////////////////////////////////

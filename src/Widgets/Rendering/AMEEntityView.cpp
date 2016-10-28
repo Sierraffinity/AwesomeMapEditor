@@ -114,7 +114,6 @@ namespace ame
                 painter.setOpacity(1.0);
             }
 
-            QRect nsrc(0, 0, 16, 16);
             QRect wsrc(16, 0, 16, 16);
             QRect tsrc(32, 0, 16, 16);
             QRect ssrc(48, 0, 16, 16);
@@ -123,8 +122,15 @@ namespace ame
             // Paints all entities
             foreach (const Npc *npc, m_Entities->npcs())
             {
-                QRect dst(npc->positionX*16, npc->positionY*16, 16, 16);
-                painter.drawImage(dst, m_FieldImage, nsrc);
+                const QImage &img = m_OW->at(npc->imageID);
+                int x = (npc->positionX*16+8) - img.width()/2;
+                int y = (npc->positionY*16) - img.height()/2;
+
+                QRect dst(x, y, img.width(), img.height());
+                QRect src(0, 0, img.width(), img.height());
+                painter.setOpacity(1.0);
+                painter.drawImage(dst, img, src);
+                painter.setOpacity(0.5);
             }
             foreach (const Warp *warp, m_Entities->warps())
             {
@@ -166,6 +172,18 @@ namespace ame
     void AMEEntityView::setEntities(Map *map)
     {
         m_Entities = &map->entities();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Pokedude
+    // Last edit by:   Pokedude
+    // Date of edit:   6/19/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::setOverworlds(const QList<QImage> *ows)
+    {
+        m_OW = ows;
     }
 
     ///////////////////////////////////////////////////////////
