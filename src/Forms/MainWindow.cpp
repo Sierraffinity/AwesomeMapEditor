@@ -911,7 +911,7 @@ namespace ame
     // Date of edit:   7/5/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
+    void MainWindow::on_treeView_activated(const QModelIndex &index)
     {
         if (!index.parent().isValid())
         {

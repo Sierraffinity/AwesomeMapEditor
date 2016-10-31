@@ -168,7 +168,7 @@ namespace ame
         void on_cmbSignType_currentIndexChanged(int index);
         void showCorrectSignType(Sign *sign);
         void on_tabWidget_currentChanged(int index);
-        void on_treeView_doubleClicked(const QModelIndex &index);
+        void on_treeView_activated(const QModelIndex &index);
         void on_lineEdit_textChanged(const QString &arg1);
         bool loadROM(const QString &file);
         void on_actionClearRecentFiles_triggered();
@@ -176,7 +176,6 @@ namespace ame
         void on_action_Connection_Editor_triggered();
         void on_action_Settings_triggered();
         void on_action_Tileset_Editor_triggered();
-
 
     private:
 

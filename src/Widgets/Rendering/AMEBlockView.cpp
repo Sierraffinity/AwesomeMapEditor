@@ -51,8 +51,8 @@ namespace ame
     AMEBlockView::AMEBlockView(QWidget *parent)
         : QWidget(parent),
           m_SelectedBlocks({ 0 }),
-          m_FirstBlock(-1),
-          m_LastBlock(-1),
+          m_FirstBlock(0),
+          m_LastBlock(0),
           m_CurrentTool(AMEMapView::Tool::None),
           m_CursorColor(Qt::GlobalColor::red),
           m_ShowHighlight(false),

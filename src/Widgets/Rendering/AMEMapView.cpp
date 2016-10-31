@@ -237,18 +237,21 @@ namespace ame
     ///////////////////////////////////////////////////////////
     AMEMapView::Tool AMEMapView::getCurrentTool(Qt::MouseButtons buttons)
     {
-        if (m_CurrentTool != AMEMapView::Tool::None)
-            return m_CurrentTool;
-        if (buttons & Qt::LeftButton)
-            return AMEMapView::Tool::Draw;
-        else if (buttons & Qt::RightButton)
-            return AMEMapView::Tool::Select;
-        else if (buttons & Qt::MiddleButton)
+        if (buttons != Qt::NoButton)
         {
-            if (QGuiApplication::keyboardModifiers() & Qt::ControlModifier)
-                return AMEMapView::Tool::FillAll;
-            else
-                return AMEMapView::Tool::Fill;
+            if (m_CurrentTool != AMEMapView::Tool::None)
+                return m_CurrentTool;
+            if (buttons & Qt::LeftButton)
+                return AMEMapView::Tool::Draw;
+            else if (buttons & Qt::RightButton)
+                return AMEMapView::Tool::Select;
+            else if (buttons & Qt::MiddleButton)
+            {
+                if (QGuiApplication::keyboardModifiers() & Qt::ControlModifier)
+                    return AMEMapView::Tool::FillAll;
+                else
+                    return AMEMapView::Tool::Fill;
+            }
         }
         return AMEMapView::Tool::None;
     }
@@ -280,9 +283,6 @@ namespace ame
         mouseX -= mp.x();
         mouseY -= mp.y();
 
-        Map *mm = m_Maps[0];
-        int mapWidth = mm->header().size().width();
-
         AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
 
         if (currentTool == AMEMapView::Tool::Draw)
@@ -304,34 +304,12 @@ namespace ame
                 selectionHeight = (selected.last() / 8) - (selected.first() / 8) + 1;
             }
 
-            // Determines the tile-number
-            int mapBlockIndex = ((mouseY/16)*mapWidth) + (mouseX/16);
-
             // Sets the block in the data
             for (int i = 0; i < selectionHeight; i++)
             {
                 for (int j = 0; j < selectionWidth; j++)
                 {
-                    if ((mapBlockIndex + j + (i * mapWidth)) >= (mapWidth * mm->header().size().height()))
-                        continue;
-                    mm->header().blocks()[mapBlockIndex + j + (i * mapWidth)]->block = (UInt16)selected[j + (i * selectionWidth)];
-
-                    int currBlockIndex = selected[j + (i * selectionWidth)];
-
-                    // Sets the block in the actual image (BG & FG)
-                    if (currBlockIndex >= m_PrimaryBlockCount)
-                        extractBlock(m_SecondaryBackground, currBlockIndex - m_PrimaryBlockCount);
-                    else
-                        extractBlock(m_PrimaryBackground, currBlockIndex);
-
-                    updatePixels(((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, m_MapBackground, blockBuffer);
-
-                    if (currBlockIndex >= m_PrimaryBlockCount)
-                        extractBlock(m_SecondaryForeground, currBlockIndex - m_PrimaryBlockCount);
-                    else
-                        extractBlock(m_PrimaryForeground, currBlockIndex);
-
-                    updatePixels(((mouseX / 16) + j) * 16, ((mouseY / 16) + i) * 16, 16, 16, m_MapForeground, blockBuffer);
+                    placeBlock((mouseX/16) + j, (mouseY/16) + i, (UInt16)selected[j + (i * selectionWidth)]);
                 }
             }
         }
@@ -340,13 +318,79 @@ namespace ame
             m_CursorColor = Qt::GlobalColor::yellow;
 
             // Determines the moused-over block number
-            m_FirstBlock = (mouseX/16) + ((mouseY/16)*mapWidth);
+            m_FirstBlock = (mouseX/16) + ((mouseY/16) * m_Maps[0]->header().size().width());
             m_LastBlock = m_FirstBlock;
             m_SelectedBlocks.clear();
             m_BlockView->deselectBlocks();
             m_BlockView->repaint();
         }
+        else if (currentTool == AMEMapView::Tool::FillAll)
+        {
+            UInt16 newBlock = 0;
+            int selectionWidth = 0;
+            int selectionHeight = 0;
+            if (m_BlockView->selectedBlocks().empty())
+            {
+                newBlock = m_SelectedBlocks[0];
+                selectionWidth = m_SelectSize.width();
+                selectionHeight = m_SelectSize.height();
+            }
+            else
+            {
+                newBlock = m_BlockView->selectedBlocks()[0];
+                selectionWidth = (m_BlockView->selectedBlocks().last() % 8) - (m_BlockView->selectedBlocks().first() % 8) + 1;
+                selectionHeight = (m_BlockView->selectedBlocks().last() / 8) - (m_BlockView->selectedBlocks().first() / 8) + 1;
+            }
+
+            if (selectionWidth > 1 || selectionHeight > 1)
+                return;
+
+            QSize mapSize = m_Maps[0]->header().size();
+
+            UInt16 oldBlock = m_Maps[0]->header().blocks()[(mouseX/16) + ((mouseY/16)*mapSize.width())]->block;
+            for (int i = 0; i < mapSize.height(); i++)
+            {
+                for (int j = 0; j < mapSize.width(); j++)
+                {
+                    if (m_Maps[0]->header().blocks()[j + (i * mapSize.width())]->block == oldBlock)
+                        placeBlock(j, i, newBlock);
+                }
+            }
+
+        }
         repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   10/31/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::placeBlock(int x, int y, UInt16 newBlock)
+    {
+        QSize mapSize = m_Maps[0]->header().size();
+
+        if ((x + (y * mapSize.width())) >= (mapSize.width() * mapSize.height()))
+            return;
+
+        m_Maps[0]->header().blocks()[x + (y * mapSize.width())]->block = newBlock;
+
+        // Sets the block in the actual image (BG & FG)
+        if (newBlock >= m_PrimaryBlockCount)
+            extractBlock(m_SecondaryBackground, newBlock - m_PrimaryBlockCount);
+        else
+            extractBlock(m_PrimaryBackground, newBlock);
+
+        updatePixels(x * 16, y * 16, 16, 16, m_MapBackground, blockBuffer);
+
+        if (newBlock >= m_PrimaryBlockCount)
+            extractBlock(m_SecondaryForeground, newBlock - m_PrimaryBlockCount);
+        else
+            extractBlock(m_PrimaryForeground, newBlock);
+
+        updatePixels(x * 16, y * 16, 16, 16, m_MapForeground, blockBuffer);
     }
 
     ///////////////////////////////////////////////////////////
@@ -1466,36 +1510,42 @@ namespace ame
             {
                 int mapWidth = m_MapSizes.at(0).width() / 16;
                 int x = 0, y = 0, sWid = 0, sHei = 0;
-                if (m_SelectedBlocks.empty() && m_BlockView->selectedBlocks().empty())
+                if (m_BlockView->selectedBlocks().empty())
                 {
-                    // Computes the position of the widget
-                    int firstX = (m_FirstBlock % mapWidth);
-                    int firstY = (m_FirstBlock / mapWidth);
-                    int lastX = (m_LastBlock % mapWidth);
-                    int lastY = (m_LastBlock / mapWidth);
-
-                    x = firstX;
-                    y = firstY;
-                    sWid = lastX - firstX;
-                    sHei = lastY - firstY;
-
-                    if (lastX < firstX)
+                    if (m_SelectedBlocks.empty())
                     {
-                        x = lastX;
-                        sWid = firstX - x;
+                        // Computes the position of the widget
+                        int firstX = (m_FirstBlock % mapWidth);
+                        int firstY = (m_FirstBlock / mapWidth);
+                        int lastX = (m_LastBlock % mapWidth);
+                        int lastY = (m_LastBlock / mapWidth);
+
+                        x = firstX;
+                        y = firstY;
+                        sWid = lastX - firstX;
+                        sHei = lastY - firstY;
+
+                        if (sWid < 0)
+                        {
+                            x = lastX;
+                            sWid = firstX - x;
+                        }
+                        if (sHei < 0)
+                        {
+                            y = lastY;
+                            sHei = firstY - y;
+                        }
+
+                        sWid++;
+                        sHei++;
                     }
-                    if (lastY - firstY)
+                    else
                     {
-                        y = lastY;
-                        sHei = firstY - y;
+                        x = (m_HighlightedBlock % mapWidth);
+                        y = (m_HighlightedBlock / mapWidth);
+                        sWid = m_SelectSize.width();
+                        sHei = m_SelectSize.height();
                     }
-                }
-                else if (m_BlockView->selectedBlocks().isEmpty())
-                {
-                    x = (m_HighlightedBlock % mapWidth);
-                    y = (m_HighlightedBlock / mapWidth);
-                    sWid = m_SelectSize.width() -1;
-                    sHei = m_SelectSize.height() - 1;
                 }
                 else
                 {
@@ -1511,7 +1561,7 @@ namespace ame
                     x = (m_HighlightedBlock % mapWidth);
                     y = (m_HighlightedBlock / mapWidth);
 
-                    if (m_SelectedBlocks.size() == 1)
+                    if (m_BlockView->selectedBlocks().size() == 1)
                     {
                         sWid = 1;
                         sHei = 1;
@@ -1519,9 +1569,9 @@ namespace ame
                 }
 
                 if (x + sWid >= mapWidth)
-                    sWid = mapWidth - x - 1;
+                    sWid = mapWidth - x;
                 if (y + sHei >= (m_MapSizes.at(0).height() / 16))
-                    sHei = (m_MapSizes.at(0).height() / 16) - y - 1;
+                    sHei = (m_MapSizes.at(0).height() / 16) - y;
 
                 x *= 16;
                 y *= 16;

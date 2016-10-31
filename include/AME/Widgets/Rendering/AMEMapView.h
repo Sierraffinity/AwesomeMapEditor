@@ -208,6 +208,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void setCurrentTool(AMEMapView::Tool tool);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Changes a block in both the map data and image.
+        ///
+        ///////////////////////////////////////////////////////////
+        void placeBlock(int x, int y, UInt16 newBlock);
+
 
     protected:
 
