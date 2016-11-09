@@ -68,9 +68,9 @@ namespace ame
           m_ShowSprites(false),
           m_MovementMode(false),
           m_BlockView(0),
-          m_FirstBlock(-1),
-          m_LastBlock(-1),
-          m_HighlightedBlock(-1),
+          m_FirstBlock(QPoint(-1,-1)),
+          m_LastBlock(QPoint(-1,-1)),
+          m_HighlightedBlock(QPoint(-1,-1)),
           m_SelectSize(QSize(1,1)),
           m_CurrentTool(AMEMapView::Tool::None),
           m_CursorColor(Qt::GlobalColor::green),
@@ -276,10 +276,6 @@ namespace ame
             return;
         }
 
-        // Seems to be redundant?
-        //if (mouseX >= width() || mouseY >= height())
-        //    return;
-
         mouseX -= mp.x();
         mouseY -= mp.y();
 
@@ -318,34 +314,84 @@ namespace ame
             m_CursorColor = Qt::GlobalColor::yellow;
 
             // Determines the moused-over block number
-            m_FirstBlock = (mouseX/16) + ((mouseY/16) * m_Maps[0]->header().size().width());
+            m_FirstBlock = QPoint(mouseX/16, mouseY/16);
             m_LastBlock = m_FirstBlock;
             m_SelectedBlocks.clear();
             m_BlockView->deselectBlocks();
             m_BlockView->repaint();
         }
-        else if (currentTool == AMEMapView::Tool::FillAll)
+        else if (currentTool == AMEMapView::Tool::Fill)
         {
-            UInt16 newBlock = 0;
+            QVector<UInt16> newBlocks = m_SelectedBlocks;
             int selectionWidth = 0;
             int selectionHeight = 0;
             if (m_BlockView->selectedBlocks().empty())
             {
-                newBlock = m_SelectedBlocks[0];
                 selectionWidth = m_SelectSize.width();
                 selectionHeight = m_SelectSize.height();
             }
             else
             {
-                newBlock = m_BlockView->selectedBlocks()[0];
+                newBlocks = m_BlockView->selectedBlocks();
                 selectionWidth = (m_BlockView->selectedBlocks().last() % 8) - (m_BlockView->selectedBlocks().first() % 8) + 1;
                 selectionHeight = (m_BlockView->selectedBlocks().last() / 8) - (m_BlockView->selectedBlocks().first() / 8) + 1;
             }
 
-            if (selectionWidth > 1 || selectionHeight > 1)
-                return;
+            QSize mapSize = m_Maps[0]->header().size();
+            int hOffset = (mouseX/16) % selectionWidth;
+            int vOffset = (mouseY/16) % selectionHeight;
+
+            UInt16 oldBlock = m_Maps[0]->header().blocks()[(mouseX/16) + ((mouseY/16)*mapSize.width())]->block;
+            QQueue<QPoint> queue;
+            queue.enqueue(QPoint(mouseX/16, mouseY/16));
+            while (!queue.isEmpty())
+            {
+                QPoint cur = queue.dequeue();
+                int placeX = (cur.x() % selectionWidth) - hOffset;
+                int placeY = (cur.y() % selectionHeight) - vOffset;
+
+                if (placeX < 0)
+                    placeX += selectionWidth;
+                if (placeY < 0)
+                    placeY += selectionHeight;
+
+                if (placeBlock(cur.x(), cur.y(), newBlocks[placeX + (placeY * selectionWidth)]))
+                {
+                    if (m_Maps[0]->header().blocks()[cur.x() + ((cur.y() - 1) * mapSize.width())]->block == oldBlock)
+                        queue.enqueue(QPoint(cur.x(), cur.y() - 1));
+
+                    if (m_Maps[0]->header().blocks()[cur.x() + ((cur.y() + 1) * mapSize.width())]->block == oldBlock)
+                        queue.enqueue(QPoint(cur.x(), cur.y() + 1));
+
+                    if (m_Maps[0]->header().blocks()[cur.x() - 1 + (cur.y() * mapSize.width())]->block == oldBlock)
+                        queue.enqueue(QPoint(cur.x() - 1, cur.y()));
+
+                    if (m_Maps[0]->header().blocks()[cur.x() + 1 + (cur.y() * mapSize.width())]->block == oldBlock)
+                        queue.enqueue(QPoint(cur.x() + 1, cur.y()));
+                }
+
+            }
+        }
+        else if (currentTool == AMEMapView::Tool::FillAll)
+        {
+            QVector<UInt16> newBlocks = m_SelectedBlocks;
+            int selectionWidth = 0;
+            int selectionHeight = 0;
+            if (m_BlockView->selectedBlocks().empty())
+            {
+                selectionWidth = m_SelectSize.width();
+                selectionHeight = m_SelectSize.height();
+            }
+            else
+            {
+                newBlocks = m_BlockView->selectedBlocks();
+                selectionWidth = (m_BlockView->selectedBlocks().last() % 8) - (m_BlockView->selectedBlocks().first() % 8) + 1;
+                selectionHeight = (m_BlockView->selectedBlocks().last() / 8) - (m_BlockView->selectedBlocks().first() / 8) + 1;
+            }
 
             QSize mapSize = m_Maps[0]->header().size();
+            int hOffset = (mouseX/16) % selectionWidth;
+            int vOffset = (mouseY/16) % selectionHeight;
 
             UInt16 oldBlock = m_Maps[0]->header().blocks()[(mouseX/16) + ((mouseY/16)*mapSize.width())]->block;
             for (int i = 0; i < mapSize.height(); i++)
@@ -353,7 +399,17 @@ namespace ame
                 for (int j = 0; j < mapSize.width(); j++)
                 {
                     if (m_Maps[0]->header().blocks()[j + (i * mapSize.width())]->block == oldBlock)
-                        placeBlock(j, i, newBlock);
+                    {
+                        int placeX = (j % selectionWidth) - hOffset;
+                        int placeY = (i % selectionHeight) - vOffset;
+
+                        if (placeX < 0)
+                            placeX += selectionWidth;
+                        if (placeY < 0)
+                            placeY += selectionHeight;
+
+                        placeBlock(j, i, newBlocks[placeX + (placeY * selectionWidth)]);
+                    }
                 }
             }
 
@@ -368,12 +424,12 @@ namespace ame
     // Date of edit:   10/31/2016
     //
     ///////////////////////////////////////////////////////////
-    void AMEMapView::placeBlock(int x, int y, UInt16 newBlock)
+    bool AMEMapView::placeBlock(int x, int y, UInt16 newBlock)
     {
         QSize mapSize = m_Maps[0]->header().size();
 
         if ((x + (y * mapSize.width())) >= (mapSize.width() * mapSize.height()))
-            return;
+            return false;
 
         m_Maps[0]->header().blocks()[x + (y * mapSize.width())]->block = newBlock;
 
@@ -391,6 +447,7 @@ namespace ame
             extractBlock(m_PrimaryForeground, newBlock);
 
         updatePixels(x * 16, y * 16, 16, 16, m_MapForeground, blockBuffer);
+        return true;
     }
 
     ///////////////////////////////////////////////////////////
@@ -409,37 +466,35 @@ namespace ame
         if (currentTool == AMEMapView::Tool::Select)
         {
             Map *mm = m_Maps[0];
-
-            // Determines the tile-number
             int mapWidth = mm->header().size().width();
 
-            int selectionWidth = (m_LastBlock % mapWidth) - (m_FirstBlock % mapWidth);
-            if (selectionWidth < 0)
+            m_SelectSize.setWidth(m_LastBlock.x() - m_FirstBlock.x());
+            if (m_SelectSize.width() < 0)
             {
-                selectionWidth = -selectionWidth;
+                m_SelectSize.setWidth(-m_SelectSize.width());
+                QPoint selectionWidth = QPoint(m_SelectSize.width(), 0);
                 m_FirstBlock -= selectionWidth;
                 m_LastBlock += selectionWidth;
             }
-            selectionWidth++;
+            m_SelectSize += QSize(1,0);
 
-            int selectionHeight = (m_LastBlock / mapWidth) - (m_FirstBlock / mapWidth);
-            if (selectionHeight < 0)
+            m_SelectSize.setHeight(m_LastBlock.y() - m_FirstBlock.y());
+            if (m_SelectSize.height() < 0)
             {
-                selectionHeight = -selectionHeight;
-                m_FirstBlock -= selectionHeight * mapWidth;
-                m_LastBlock += selectionHeight * mapWidth;
+                m_SelectSize.setHeight(-m_SelectSize.height());
+                QPoint selectionHeight = QPoint(0, m_SelectSize.height());
+                m_FirstBlock -= selectionHeight;
+                m_LastBlock += selectionHeight;
             }
-            selectionHeight++;
-
-            m_SelectSize = QSize(selectionWidth, selectionHeight);
+            m_SelectSize += QSize(0,1);
 
             m_SelectedBlocks.clear();
 
-            for (int i = 0; i < selectionHeight; i++)
+            for (int i = 0; i < m_SelectSize.height(); i++)
             {
-                for (int j = 0; j < selectionWidth; j++)
+                for (int j = 0; j < m_SelectSize.width(); j++)
                 {
-                    m_SelectedBlocks.push_back(mm->header().blocks()[m_FirstBlock + j + (i * mm->header().size().width())]->block);
+                    m_SelectedBlocks.push_back(mm->header().blocks()[m_FirstBlock.x() + (m_FirstBlock.y() * mapWidth) + j + (i * mapWidth)]->block);
                 }
             }
 
@@ -484,10 +539,10 @@ namespace ame
             else if (mouseY >= mz.height())
                 mouseY = mz.height() - 1;
 
-            if (m_LastBlock != (mouseX/16) + ((mouseY/16)*(mz.width()/16)))
+            if (m_LastBlock != QPoint(mouseX/16, mouseY/16))
             {
                 needsRepaint = true;
-                m_LastBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+                m_LastBlock = QPoint(mouseX/16, mouseY/16);
             }
         }
         else
@@ -502,7 +557,6 @@ namespace ame
 
             if (currentTool == AMEMapView::Tool::Draw)
             {
-                // Determines the block number
                 mousePressEvent(event);
             }
         }
@@ -513,10 +567,25 @@ namespace ame
             m_ShowCursor = true;
         }
 
-        if (m_HighlightedBlock != (mouseX/16) + ((mouseY/16)*(mz.width()/16)))
+
+        if (m_HighlightedBlock != QPoint(mouseX/16, mouseY/16))
         {
+            QPoint newBlock = QPoint(mouseX/16, mouseY/16);
+            int hOffset = m_HighlightedBlock.x() % m_SelectSize.width();
+            int vOffset = m_HighlightedBlock.y() % m_SelectSize.height();
+            if (currentTool == AMEMapView::Tool::Draw)
+            {
+                if( ((m_HighlightedBlock.x() - hOffset) / m_SelectSize.width()) !=
+                    (((mouseX/16) - hOffset) / m_SelectSize.width()) ||
+                    ((m_HighlightedBlock.y() - vOffset) / m_SelectSize.height()) !=
+                    (((mouseY/16) - vOffset) / m_SelectSize.height()))
+                {
+                    needsRepaint = true;
+                    newBlock = QPoint((mouseX/16) - hOffset, (mouseY/16) - vOffset);
+                }
+            }
             needsRepaint = true;
-            m_HighlightedBlock = (mouseX/16) + ((mouseY/16)*(mz.width()/16));
+            m_HighlightedBlock = newBlock;
         }
 
         if (needsRepaint)
@@ -1460,9 +1529,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Event
-    // Contributors:   Diegoisawesome
+    // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   10/24/2016
+    // Date of edit:   11/7/2016
     //
     ///////////////////////////////////////////////////////////
     void AMEMapView::paintEvent(QPaintEvent *event)
@@ -1476,8 +1545,6 @@ namespace ame
 
 
             // Between background and foreground, draw the overworld sprites on the map.
-
-
             painter.drawImage(pmain.x(), pmain.y(), m_MapForeground);
 
             if (!m_LayoutView)
@@ -1515,10 +1582,10 @@ namespace ame
                     if (m_SelectedBlocks.empty())
                     {
                         // Computes the position of the widget
-                        int firstX = (m_FirstBlock % mapWidth);
-                        int firstY = (m_FirstBlock / mapWidth);
-                        int lastX = (m_LastBlock % mapWidth);
-                        int lastY = (m_LastBlock / mapWidth);
+                        int firstX = m_FirstBlock.x();
+                        int firstY = m_FirstBlock.y();
+                        int lastX = m_LastBlock.x();
+                        int lastY = m_LastBlock.y();
 
                         x = firstX;
                         y = firstY;
@@ -1541,8 +1608,8 @@ namespace ame
                     }
                     else
                     {
-                        x = (m_HighlightedBlock % mapWidth);
-                        y = (m_HighlightedBlock / mapWidth);
+                        x = m_HighlightedBlock.x();
+                        y = m_HighlightedBlock.y();
                         sWid = m_SelectSize.width();
                         sHei = m_SelectSize.height();
                     }
@@ -1558,8 +1625,8 @@ namespace ame
                     sWid = lastX - firstX;
                     sHei = lastY - firstY;
 
-                    x = (m_HighlightedBlock % mapWidth);
-                    y = (m_HighlightedBlock / mapWidth);
+                    x = m_HighlightedBlock.x();
+                    y = m_HighlightedBlock.y();
 
                     if (m_BlockView->selectedBlocks().size() == 1)
                     {

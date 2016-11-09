@@ -212,7 +212,7 @@ namespace ame
         /// \brief Changes a block in both the map data and image.
         ///
         ///////////////////////////////////////////////////////////
-        void placeBlock(int x, int y, UInt16 newBlock);
+        bool placeBlock(int x, int y, UInt16 newBlock);
 
 
     protected:
@@ -288,9 +288,9 @@ namespace ame
         Boolean m_MovementMode;
         AMEBlockView *m_BlockView;
         QVector<UInt16> m_SelectedBlocks;
-        UInt16 m_FirstBlock;
-        UInt16 m_LastBlock;
-        UInt16 m_HighlightedBlock;
+        QPoint m_FirstBlock;
+        QPoint m_LastBlock;
+        QPoint m_HighlightedBlock;
         QSize m_SelectSize;
         AMEMapView::Tool m_CurrentTool;
         QImage m_MovePerm;
