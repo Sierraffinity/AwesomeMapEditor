@@ -226,6 +226,32 @@ namespace ame
     // Function type:  Getter
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
+    // Date of edit:   11/9/2016
+    //
+    ///////////////////////////////////////////////////////////
+    MapBlock *MapHeader::getBlock(int x, int y)
+    {
+        if (x < 0 || x >= m_Width || y < 0 || y >= m_Height)
+            return NULL;
+        return m_Blocks[x + (m_Width * y)];
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   11/9/2016
+    //
+    ///////////////////////////////////////////////////////////
+    MapBlock *MapHeader::getBlock(QPoint pos)
+    {
+        return this->getBlock(pos.x(), pos.y());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
     // Date of edit:   7/4/2016
     //
     ///////////////////////////////////////////////////////////

@@ -356,11 +356,15 @@ namespace ame
                     y = lastY;
                     sHei = firstY - y;
                 }
-                if (m_SelectedBlocks.size() == 1)
+
+                /*if (m_SelectedBlocks.size() == 1)
                 {
                     sWid = 1;
                     sHei = 1;
-                }
+                }*/
+
+                sWid++;
+                sHei++;
 
                 // TODO: Dynamic
                 x *= 16;
