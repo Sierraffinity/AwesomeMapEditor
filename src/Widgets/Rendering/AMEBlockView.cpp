@@ -57,6 +57,7 @@ namespace ame
           m_CursorColor(Qt::GlobalColor::red),
           m_ShowHighlight(false),
           m_IsCopy(false),
+          m_ShowGrid(false),
           m_IsInit(false)
     {
     }
@@ -172,6 +173,19 @@ namespace ame
     void AMEBlockView::setCurrentTool(AMEMapView::Tool newTool)
     {
         m_CurrentTool = newTool;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   11/9/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::setGridVisible(bool visible)
+    {
+        m_ShowGrid = visible;
+        repaint();
     }
 
     ///////////////////////////////////////////////////////////
@@ -333,6 +347,16 @@ namespace ame
             painter.drawImage(0, 0, m_Background);
             painter.drawImage(0, 0, m_Foreground);
 
+            if (m_ShowGrid)
+            {
+                QVector<QLine> lines;
+                for (int i = 0; i <= width() / 16; i++)
+                    lines.append(QLine(i * 16, 0, i * 16, height() * 16));
+                for (int i = 0; i <= height() / 16; i++)
+                    lines.append(QLine(0, i * 16, width() * 16, i * 16));
+                painter.setPen(Qt::GlobalColor::black);
+                painter.drawLines(lines);
+            }
 
             // Draw selection rectangle
             if (m_FirstBlock != -1 && m_LastBlock != -1)

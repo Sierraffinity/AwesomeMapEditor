@@ -220,6 +220,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         bool placeBlock(int x, int y, UInt16 newBlock);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the visibility of the grid from the UI.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setGridVisible(bool visible);
+
 
     protected:
 
@@ -302,6 +308,7 @@ namespace ame
         QImage m_MovePerm;
         QColor m_CursorColor;
         Boolean m_ShowCursor;
+        Boolean m_ShowGrid;
         Boolean m_IsInit;
     };
 }

@@ -177,6 +177,8 @@ namespace ame
         void on_action_Settings_triggered();
         void on_action_Tileset_Editor_triggered();
 
+        void on_btnMapGrid_toggled(bool checked);
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////

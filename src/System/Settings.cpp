@@ -60,6 +60,7 @@ namespace ame
     QString Settings::LastPath;
     bool Settings::ShowRawMapHeader;
     bool Settings::ShowRawLayoutHeader;
+    bool Settings::ShowGrid;
     int Settings::MapAccuracyLevel;
     QList<QString> Settings::RecentFiles;
 
@@ -98,6 +99,7 @@ namespace ame
             HexPrefix       = QString::fromStdString(settings["HexPrefix"].as<std::string>());
         ShowRawMapHeader    = settings["ShowRawMapHeader"].as<bool>();
         ShowRawLayoutHeader = settings["ShowRawLayoutHeader"].as<bool>();
+        ShowGrid = settings["ShowRawLayoutHeader"].as<bool>();
         MapAccuracyLevel    = settings["MapAccuracyLevel"].as<int>();
         if (settings["LastPath"].Type() != YAML::NodeType::Null)
             LastPath        = QString::fromStdString(settings["LastPath"].as<std::string>());
@@ -146,6 +148,7 @@ namespace ame
         settings["HexPrefix"]           = HexPrefix.toStdString();
         settings["ShowRawMapHeader"]    = ShowRawMapHeader;
         settings["ShowRawLayoutHeader"] = ShowRawLayoutHeader;
+        settings["ShowGrid"]            = ShowRawLayoutHeader;
         settings["MapAccuracyLevel"]    = MapAccuracyLevel;
         settings["LastPath"]            = LastPath.toStdString();
 

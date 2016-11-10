@@ -111,6 +111,13 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void deselectBlocks();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the visibility of the grid from the UI.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setGridVisible(bool visible);
+
+
     protected:
 
         ///////////////////////////////////////////////////////////
@@ -169,6 +176,7 @@ namespace ame
         QColor m_CursorColor;
         Boolean m_ShowHighlight;
         Boolean m_IsCopy;
+        Boolean m_ShowGrid;
         Boolean m_IsInit;
     };
 }

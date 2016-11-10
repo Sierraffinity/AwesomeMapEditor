@@ -36,6 +36,7 @@
 #include <AME/System/Settings.hpp>
 #include <AME/Widgets/Misc/Messages.hpp>
 #include <AME/Widgets/Rendering/AMEMapView.h>
+#include <AME/Widgets/Rendering/AMEBlockView.h>
 #include <AME/Forms/MainWindow.h>
 #include <AME/Forms/ErrorWindow.h>
 #include <AME/Forms/SettingsDialog.h>
@@ -115,6 +116,8 @@ namespace ame
             return;         // TODO: create default config file if none exists
 
         ui->glMapEditor->setBlockView(ui->glBlockEditor);
+        ui->glMapEditor->setGridVisible(SETTINGS(ShowGrid));
+        ui->glBlockEditor->setGridVisible(SETTINGS(ShowGrid));
         disableBeforeROMLoad();
 
         if (SETTINGS(RecentFiles).count() > 0)
@@ -1641,4 +1644,18 @@ namespace ame
         TilesetDialog tilesetDialog(this, ui->glMapEditor, ui->glBlockEditor);
         tilesetDialog.exec();
     }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   11/9/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnMapGrid_toggled(bool checked)
+    {
+        ui->glMapEditor->setGridVisible(checked);
+        ui->glBlockEditor->setGridVisible(checked);
+    }
 }
+

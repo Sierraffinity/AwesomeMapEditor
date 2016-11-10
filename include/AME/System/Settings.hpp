@@ -98,6 +98,7 @@ namespace ame
         static QString LastPath;
         static bool ShowRawMapHeader;
         static bool ShowRawLayoutHeader;
+        static bool ShowGrid;
         static int MapAccuracyLevel;
         static QList<QString> RecentFiles;
     };

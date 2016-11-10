@@ -75,6 +75,7 @@ namespace ame
           m_CurrentTool(AMEMapView::Tool::None),
           m_CursorColor(Qt::GlobalColor::green),
           m_ShowCursor(false),
+          m_ShowGrid(false),
           m_IsInit(false)
     {
         m_MovePerm = QImage(":/images/PermGL.png");
@@ -1580,7 +1581,6 @@ namespace ame
             QPainter painter(this);
             painter.drawImage(pmain.x(), pmain.y(), m_MapBackground);
 
-
             // Between background and foreground, draw the overworld sprites on the map.
             painter.drawImage(pmain.x(), pmain.y(), m_MapForeground);
 
@@ -1609,6 +1609,17 @@ namespace ame
                     int posY = blocks.at(i)->permission * 16;
                     painter.drawImage(QRect(mapX, mapY, 16, 16), m_MovePerm, QRect(0, posY, 16, 16));
                 }
+            }
+            if (m_ShowGrid)
+            {
+                const QSize &ms = m_Maps.at(0)->header().size();
+                QVector<QLine> lines;
+                for (int i = 0; i <= ms.width(); i++)
+                    lines.append(QLine(orig.x() + (i * 16), orig.y(), orig.x() + (i * 16), orig.y() + ms.height() * 16));
+                for (int i = 0; i <= ms.height(); i++)
+                    lines.append(QLine(orig.x(), orig.y() + (i * 16), orig.x() + ms.width() * 16, orig.y() + (i * 16)));
+                painter.setPen(Qt::GlobalColor::black);
+                painter.drawLines(lines);
             }
             if (m_ShowCursor)
             {
@@ -1868,5 +1879,18 @@ namespace ame
     MapBorder &AMEMapView::border()
     {
         return m_Header.border();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   11/9/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::setGridVisible(bool visible)
+    {
+        m_ShowGrid = visible;
+        repaint();
     }
 }
