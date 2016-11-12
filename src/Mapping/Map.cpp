@@ -63,7 +63,9 @@ namespace ame
           m_DarknessType(0),
           m_WeatherType(0),
           m_MapType(0),
-          m_LabelType(0),
+          m_MiscByte1(0),
+          m_MiscByte2(0),
+          m_MiscByte3(0),
           m_BattleType(0),
           m_WildTable(-1)
     {
@@ -89,7 +91,9 @@ namespace ame
           m_DarknessType(rvalue.m_DarknessType),
           m_WeatherType(rvalue.m_WeatherType),
           m_MapType(rvalue.m_MapType),
-          m_LabelType(rvalue.m_LabelType),
+          m_MiscByte1(rvalue.m_MiscByte1),
+          m_MiscByte2(rvalue.m_MiscByte2),
+          m_MiscByte3(rvalue.m_MiscByte3),
           m_BattleType(rvalue.m_BattleType),
           m_Header(rvalue.m_Header),
           m_Events(rvalue.m_Events),
@@ -119,7 +123,9 @@ namespace ame
         m_DarknessType = rvalue.m_DarknessType;
         m_WeatherType = rvalue.m_WeatherType;
         m_MapType = rvalue.m_MapType;
-        m_LabelType = rvalue.m_LabelType;
+        m_MiscByte1 = rvalue.m_MiscByte1,
+        m_MiscByte2 = rvalue.m_MiscByte2,
+        m_MiscByte3 = rvalue.m_MiscByte3,
         m_BattleType = rvalue.m_BattleType;
         m_Header = rvalue.m_Header;
         m_Events = rvalue.m_Events;
@@ -198,9 +204,11 @@ namespace ame
         m_DarknessType = rom.readByte();
         m_WeatherType = rom.readByte();
         m_MapType = rom.readByte();
+        m_MiscByte1 = rom.readByte();
+        m_MiscByte2 = rom.readByte();
+        m_MiscByte3 = rom.readByte();
         m_BattleType = rom.readByte();
-        m_LabelType = rom.readByte();
-        rom.readHWord(); // padding
+
         m_Offset = offset;
         return true;
     }
@@ -319,10 +327,10 @@ namespace ame
         ba.append((Int8) m_DarknessType);
         ba.append((Int8) m_WeatherType);
         ba.append((Int8) m_MapType);
+        ba.append((Int8) m_MiscByte1);
+        ba.append((Int8) m_MiscByte2);
+        ba.append((Int8) m_MiscByte3);
         ba.append((Int8) m_BattleType);
-        ba.append((Int8) m_LabelType);
-        ba.push_back((Int8)0); // might be used for expanded map names later
-        ba.push_back((Int8)0); // might be used for expanded map names later
 
         return ba;
     }

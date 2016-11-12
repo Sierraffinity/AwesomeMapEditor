@@ -1,0 +1,418 @@
+﻿---
+Songs:
+    RS: &RS
+        0x015E: Littleroot Town Test
+        0x015F: Gold/Silver - Route 38
+        0x0160: Wild Pokemon Defeat
+        0x0161: Wild Pokemon Defeat w/Intro
+        0x0162: Gym Leader Defeat
+        0x0163: Acquired Badge
+        0x0164: Crystal - Pokémon Center
+        0x0165: Gold/Silver - Saffron City
+        0x0166: Crystal - Battle with Legendary Dogs
+        0x0167: Route Theme 1
+        0x0168: Route Theme 2
+        0x0169: Route Theme 3
+        0x016A: Petalburg City
+        0x016B: Oldale Town, Lavaridge Town
+        0x016C: Gym
+        0x016D: Surfing
+        0x016E: Caves & Darkness(Rusturf Tunnel, Granite Cave, Petalburg Woods, Jagged Pass, Fiery Path, Scorched Slab)
+        0x016F: Level Up
+        0x0170: Pokemon Healed
+        0x0171: Big Victory
+        0x0172: Acquired Item
+        0x0173: Pokemon Caught
+        0x0174: Got TM/HM
+        0x0175: Lilycove Museum
+        0x0176: Route Theme 4
+        0x0177: Slateport Museum(Oceanic Museum)
+        0x0178: Evolve Intro
+        0x0179: Evolving
+        0x017A: Unknown Victory 1
+        0x017B: Tuber Encounter
+        0x017C: Boy Encounter
+        0x017D: A Far-away Place (Shipwreck-Abandoned Ship)
+        0x017E: Fortree City
+        0x017F: Birch's Lab
+        0x0180: Battle Tower
+        0x0181: Swimmer Ecounter
+        0x0183: Got a Berry
+        0x0184: Unknown Victory 2
+        0x0185: Unknown Victory 3
+        0x0186: Unknown Victory 4
+        0x0187: Pay No Attention!
+        0x0188: Unknown Victory 1
+        0x0189: Beauty Contest 1
+        0x018A: Beauty Contest 2
+        0x018B: Beauty Contest 3
+        0x018C: Beauty Contest 4
+        0x018D: Ship Ecounter
+        0x018E: Verdanturf Town
+        0x018F: Rustboro City, Mauville City, Mossdeep City
+        0x0190: Pokemon Center
+        0x0191: Route Theme 5
+        0x0192: Route Theme 6
+        0x0193: Bicycle Ride
+        0x0194: PokéMart
+        0x0195: Littleroot Town
+        0x0196: Sky Pillar, Mt.Chimney
+        0x0197: Girl Encounter
+        0x0198: Lilycove City
+        0x0199: The Sandy Desert
+        0x019A: Help Me! (Rescue Birch)
+        0x019B: Underwater Dive
+        0x019C: Trainer Defeat
+        0x019D: Title Screen
+        0x019E: Introduction
+        0x019F: May's Theme
+        0x01A0: Electric Encounter
+        0x01A1: Biker Encounter
+        0x01A2: Route Theme 7
+        0x01A3: Aqua Encounter
+        0x01A4: Show Me Around
+        0x01A5: Brendan's Theme
+        0x01A6: Evergrande City, Link-Zentrale
+        0x01A7: Psychic Encounter
+        0x01A8: Important Defeat
+        0x01A9: Riding the Cable Car
+        0x01AA: Game Corner
+        0x01AB: Dewford Town
+        0x01AC: Safari Zone
+        0x01AD: Path to Victory-Victory Road
+        0x01AE: Team Magma/Aqua Hideout
+        0x01AF: Sailing the Sea (MS Tide)
+        0x01B0: Mt.Pyre, Shoal Cave, New Mauville
+        0x01B1: Slateport City
+        0x01B2: The Fog of Mt. Pyre
+        0x01B3: Pokémon Trainer School
+        0x01B4: You're the Champ!
+        0x01B5: Lavaridge Town, Fallarbor Town
+        0x01B6: Desert Ruins, Island Cave, Ancient Tomb
+        0x01B7: Important Defeat 2
+        0x01B8: Beauty Contest
+        0x01B9: Magma Encounter
+        0x01BA: The Pokémon!
+        0x01BB: The Flood
+        0x01BC: The Drought
+        0x01BD: Sootopolis City
+        0x01BE: Berry Blending Results
+        0x01BF: Hall of Fame
+        0x01C0: You're Being Watched!
+        0x01C1: Kid Encounter
+        0x01C2: Elite Four Theme
+        0x01C3: Sailor Encounter
+        0x01C4: Beauty Contest Lobby (Pokemon Contest)
+        0x01C5: What's On TV?
+        0x01C6: Unknown Encounter
+        0x01C7: Ending Credits
+        0x01C8: The End!
+        0x01C9: Battle - Wild Pokémon
+        0x01CA: Battle - Aqua/Magma
+        0x01CB: Battle - Pokémon Trainer
+        0x01CC: Battle - Gym Leader
+        0x01CD: Battle - Champion Steven
+        0x01CE: Battle - Regirock, Regice and Registeel
+        0x01CF: Battle - Legendary Pokémon
+        0x01D0: Battle - Rival
+        0x01D1: Battle - Elite Four
+        0x01D2: Battle - Team Leader
+        0x01D3: Gold/Silver - Team Rocket (US Ruby Version Only)
+
+    FRLG: &FRLG
+        0x0100: Healing (RS)
+        0x0101: Level Up 
+        0x0107: Evolution Start
+        0x0108: Evolution/Safari
+        0x0109: Battle 1
+        0x010A: Battle 2
+        0x010C: Fanfare 1
+        0x010B: Calm Song
+        0x010D: Fanfare 2
+        0x010E: You Fail It!
+        0x010F: You Fail It Again!
+        0x0110: Follow Me
+        0x0111: Game Corner
+        0x0112: Evil Lurks
+        0x0113: Gym
+        0x0114: Jigglypuff's Song 
+        0x0115: Introducion
+        0x0116: Pokemon Theme
+        0x0117: Cinnabar Island
+        0x0118: Lavender Town
+        0x0119: Healing
+        0x011A: Bicycle
+        0x011B: Encounter 1
+        0x011C: Encounter 2
+        0x011D: Encounter 3
+        0x011E: You're In The Hall Of Fame!
+        0x011F: Viridian Forest
+        0x0120: Mount Moon
+        0x0121: Abandoned Place
+        0x0122: End Credits
+        0x0123: Route Theme 1
+        0x0124: Route Theme 2 / Intro
+        0x0125: Route Theme 3
+        0x0126: Route Theme 4
+        0x0127: Indigo Plateau
+        0x0128: Battle 3
+        0x0129: Battle 4
+        0x012A: Battle 5
+        0x012B: Battle 6
+        0x012C: Pallet Town
+        0x012D: Oak's Lab
+        0x012E: Oak's Theme
+        0x012F: Pokémon Center
+        0x0130: SS Anne
+        0x0131: Surf's Up
+        0x0132: Pokémon Tower
+        0x0133: Silph Co.
+        0x0134: Cerulean City
+        0x0135: Celadon City
+        0x0136: Victory 1
+        0x0137: Victory 2
+        0x0138: Victory 3
+        0x0139: Vermillion City
+        0x013A: Viridian City
+        0x013B: Gary's Theme
+        0x013C: Gary's Theme (bis)
+        0x013D: Fanfare 3
+        0x013E: Fanfare 4
+        0x013F: You caught a Pokémon!
+        0x0140: Trainer Card Photo
+        0x0141: Gamefreak
+        0x0142: Victory 2 (bis)
+        0x0143: Intro Message 1
+        0x0144: Intro Message 2
+        0x0145: Intro Message 3
+        0x0146: Game Corner (+1)
+        0x0147: Game Corner (+2)
+        0x0148: Net Center
+        0x0149: Mystery Connection
+        0x014A: Game Corner (+3)
+        0x014B: Mount Ember
+        0x014C: Follow Me (alt)
+        0x014D: Water Labyrinth (Route 42, Johto Remix)
+        0x014E: Tanoby Ruins
+        0x014F: Islands 1-3
+        0x0150: Islands 4-5 (Azalea Town, Johto Remix)
+        0x0151: Islands 6-7 (Violet City, Johto Remix)
+        0x0152: PokéFlute
+        0x0153: Battle - Deoys
+        0x0154: Battle 5 (+1)
+        0x0155: Battle 5 (+2)
+        0x0156: Encounter 4
+        0x0157: Deoxys Encounter
+        0x0158: Trainer Tower
+        0x0159: Pallet Town (fame mix)
+        0x015A: Teachy TV
+
+    E:
+        0x015E: Littleroot Town Test 'TETSUJI'
+        0x015F: GS - Route 38
+        0x0160: Wild Pokemon Defeat
+        0x0161: Wild Pokemon Defeat w/Intro
+        0x0162: Gym Leader Defeat
+        0x0163: Acquired Badge
+        0x0164: Crystal - Pokémon Center
+        0x0165: GS - Saffron City
+        0x0166: Crystal - Battle with Legendary Dogs
+        0x0167: Route Theme 1
+        0x0168: Route Theme 2
+        0x0169: Route Theme 3
+        0x016A: Petalburg City
+        0x016C: Gym
+        0x016D: Surfing
+        0x016F: Level Up
+        0x0170: Pokemon Healed
+        0x0171: Big Victory
+        0x0172: Acquired Item
+        0x0173: Pokemon Caught
+        0x0174: Got TM/HM
+        0x0175: Lilycove Museum
+        0x0176: Route Theme 4
+        0x0177: Slateport Museum
+        0x0178: Evolve Intro
+        0x0179: Evolving
+        0x017A: Unknown Victory 1
+        0x017B: Tuber Encounter
+        0x017C: Boy Encounter
+        0x017D: A Far-away Place
+        0x017E: Fortree City
+        0x017F: Birch's Lab
+        0x0180: Battle Tower
+        0x0181: Swimmer Encounter
+        0x0182: Meteor Falls
+        0x0183: Got a Berry
+        0x0184: Unknown Victory 1
+        0x0185: Unknown Victory 3
+        0x0186: Unknown Victory 4
+        0x0187: Pay No Attention!
+        0x0188: Unknown Theme 1
+        0x0189: Beauty Contest Test 1
+        0x018A: Beauty Contest Test 2
+        0x018B: Beauty Contest Test 3
+        0x018C: Beauty Contest Test 4
+        0x018D: Ship Encounter
+        0x018E: Verdanturf Town
+        0x018F: Rustboro City
+        0x0190: Pokémon Center
+        0x0191: Route Theme 5
+        0x0192: Route Theme 6
+        0x0193: Bicycle Ride
+        0x0194: PokéMart
+        0x0195: Littleroot Town
+        0x0196: Sky Pillar
+        0x0197: Girl Encounter
+        0x0198: Lilycove City
+        0x0199: The Sandy Desert
+        0x019A: Help Me!
+        0x019B: Underwater Dive
+        0x019C: Trainer Defeat
+        0x019D: Title Screen
+        0x019E: Introduction
+        0x019F: May's Theme
+        0x01A0: Electric Encounter
+        0x01A1: Biker Encounter
+        0x01A2: Route Theme 7
+        0x01A3: Aqua Encounter
+        0x01A4: Show Me Around
+        0x01A5: Brendan's Theme
+        0x01A6: Evergrande City
+        0x01A7: Psychic Encounter
+        0x01A8: Important Defeat
+        0x01A9: Riding the Cable Car
+        0x01AA: Game Corner
+        0x01AB: Dewford Town
+        0x01AC: Safari Zone
+        0x01AD: Victory Road
+        0x01AE: Team Hideout
+        0x01AF: Sailing the Sea
+        0x01B0: Shoal Cave
+        0x01B1: Slateport City
+        0x01B2: The Fog of Mt. Pyre
+        0x01B3: Pokémon Trainer School
+        0x01B4: You're the Champ!
+        0x01B5: Lavaridge Town
+        0x01B6: Island Cave
+        0x01B7: Important 2 Defeat
+        0x01B8: Beauty Contest
+        0x01B9: Magma Encounter
+        0x01BA: The Pokémon!
+        0x01BB: The Flood
+        0x01BC: The Drought
+        0x01BD: Sootopolis City
+        0x01BE: Berry Blending Results
+        0x01BF: Hall of Fame
+        0x01C0: You're Being Watched!
+        0x01C1: Kid Encounter
+        0x01C2: Elite Four Theme
+        0x01C3: Sailor Encounter
+        0x01C4: Beauty Contest Lobby
+        0x01C5: What's On TV?
+        0x01C6: Unknown Encounter
+        0x01C7: Ending Credits
+        0x01C8: The End!
+        0x01C9: Battle Frontier
+        0x01CA: Battle Arena
+        0x01CB: Battle Point!
+        0x01CC: Registered Trainer
+        0x01CD: Battle Pyramid
+        0x01CE: Pyramid Top
+        0x01CF: Battle Palace
+        0x01D0: Rayquaza Enters
+        0x01D1: Battle Tower
+        0x01D2: Frontier Badge!
+        0x01D3: Dome Tournament
+        0x01D4: Battle Tube
+        0x01D5: Battle Factory
+        0x01D6: Battle - Legendary Pokémon
+        0x01D7: Battle - Frontier Brains
+        0x01D8: Battle - Mew
+        0x01D9: Battle Dome Lobby
+        0x01DA: Battle - Wild Pokémon
+        0x01DB: Battle - Aqua/Magma
+        0x01DC: Battle - Pokémon Trainer
+        0x01DD: Battle - Gym Leader
+        0x01DE: Battle - Champion Wallace
+        0x01DF: Battle - Regirock, Regice and Registeel
+        0x01E0: Battle - Legendary Pokémon
+        0x01E1: Battle - Rival
+        0x01E2: Battle - Elite Four
+        0x01E3: Battle - Team Leader
+        0x01E4: Follow Me
+        0x01E5: Game Corner
+        0x01E6: Evil Lurks
+        0x01E7: Gym(FRLG)
+        0x01E8: Jigglypuff's Song 
+        0x01E9: Introduction (FRLG)
+        0x01EA: Pokémon Theme
+        0x01EB: Cinnabar Island
+        0x01EC: Lavender Town
+        0x01ED: Healing
+        0x01EE: Bicycle
+        0x01EF: Encounter 1
+        0x01F0: Encounter 2
+        0x01F1: Encounter 3
+        0x01F2: You're in the Hall Of Fame!
+        0x01F3: Viridian Forest
+        0x01F4: Mount Moon
+        0x01F5: Abandoned Place
+        0x01F6: End Credits (FRLG)
+        0x01F7: Route Theme 8
+        0x01F8: Route Theme 9 (FRLG Intro)
+        0x01F9: Route Theme 10
+        0x01FA: Route Theme 11
+        0x01FB: Indigo Plateau
+        0x01FC: Battle 3
+        0x01FD: Battle 4
+        0x01FE: Battle 5
+        0x01FF: Battle 6
+        0x0200: Pallet Town
+        0x0201: Oak's Lab
+        0x0202: Oak's Theme
+        0x0203: Pokémon Center
+        0x0204: SS Anne
+        0x0205: Surf's Up
+        0x0206: Pokémon Tower
+        0x0207: Silph Co.
+        0x0208: Cerulean City
+        0x0209: Celadon City
+        0x020A: Victory 1
+        0x020B: Victory 2
+        0x020C: Victory 3
+        0x020D: Vermillion City
+        0x020E: Viridian City
+        0x020F: Gary's Theme
+        0x0210: Gary's Theme (bis)
+        0x0211: Fanfare 3
+        0x0212: Fanfare 4
+        0x0213: You caught a Pokémon!
+        0x0214: Trainer Card Photo
+        0x0215: Gamefreak
+        0x0216: Victory 2 (bis)
+        0x0217: Intro Message 1
+        0x0218: Intro Message 2
+        0x0219: Intro Message 3
+        0x021A: Game Corner (+1)
+        0x021B: Game Corner (+2)
+        0x021C: Net Center
+        0x021D: Mystery Connection
+        0x021E: Game Corner (+3)
+        0x021F: Mount Ember
+        0x0220: Follow Me (alt)
+        0x0221: Sevii Island Paths
+        0x0222: Tanoby Ruins
+        0x0223: Islands 1-3
+        0x0224: Islands 4-5
+        0x0225: Islands 6-7
+        0x0226: PokéFlute
+        0x0227: Battle - Deoxys
+        0x0228: Battle 5 (+1)
+        0x0229: Battle 5 (+2)
+        0x022A: Encounter 4
+        0x022B: Deoxys Encounter
+        0x022C: Trainer Tower
+        0x022D: Pallet Town (fame mix)
+        0x022E: Teachy TV
+...

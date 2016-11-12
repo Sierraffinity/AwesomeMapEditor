@@ -351,6 +351,19 @@ namespace ame
         // Sets the max item IDs within the spinboxes
         ui->spnSignItem->setRange(0, CONFIG(ItemCount));
 
+        // Fills map name combobox in header view with names
+
+        QStandardItemModel *mapNameModel = new QStandardItemModel;
+        for (unsigned i = 0; i < CONFIG(MapNameCount); i++)
+        {
+            QStandardItem *item = new QStandardItem;
+            item->setText(dat_MapNameTable->names()[i]->name);
+            mapNameModel->appendRow(item);
+        }
+
+        ui->cmbHeaderMapName->setModel(mapNameModel);
+
+        ui->header_mapname->setRange(CONFIG(MapNameTotal) - CONFIG(MapNameCount), CONFIG(MapNameTotal) - 1);
 
         // Updates the treeview
         updateTreeView();
@@ -815,6 +828,7 @@ namespace ame
         ui->header_ptr_event->setValue(map->m_PtrEvents);
         ui->header_ptr_connex->setValue(map->m_PtrConnections);
 
+        ui->cmbHeaderMapName->setCurrentIndex(map->m_NameIndex - CONFIG(MapNameTotal) + CONFIG(MapNameCount));
         ui->header_mapname->setValue(map->m_NameIndex);
         ui->header_ftr_index->setValue(map->m_HeaderID);
         ui->header_music_index->setValue(map->m_MusicID);
@@ -822,12 +836,24 @@ namespace ame
         ui->cbMapType->setCurrentIndex(map->m_MapType);
         ui->cbWeather->setCurrentIndex(map->m_WeatherType);
         ui->cbBattleBG->setCurrentIndex(map->m_BattleType);
-        ui->header_check_run->setChecked(map->m_MapType != 5 && map->m_MapType != 8);
-        ui->header_check_bike->setChecked(map->m_MapType != 5 && map->m_MapType != 8 && map->m_MapType != 9);
-        ui->header_check_bike->setChecked(map->m_MapType != 5 && map->m_MapType != 8 && map->m_MapType != 9);
-        ui->header_check_showname->setChecked(map->m_LabelType == 1 || map->m_LabelType == 6 || map->m_LabelType == 13);
+
+        if (CONFIG(RomType) == RT_FRLG)
+        {
+            ui->header_check_showname->setChecked(map->m_MiscByte2 & 4);
+            ui->header_check_run->setChecked(map->m_MiscByte2 & 2);
+            ui->header_check_bike->setChecked(map->m_MiscByte1 & 1);
+            ui->header_check_escape->setChecked(map->m_MiscByte2 & 1);
+        }
+        else if (CONFIG(RomType) == RT_EM)
+        {
+            ui->header_check_showname->setChecked(map->m_MiscByte3 & 8);
+            ui->header_check_run->setChecked(map->m_MiscByte3 & 4);
+            ui->header_check_bike->setChecked(map->m_MiscByte3 & 1);
+            ui->header_check_escape->setChecked(map->m_MiscByte3 & 2);
+        }
+
         ui->header_raw_data->setData(map->rawData());
-        ui->header_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(map->m_Offset, 16));
+        ui->header_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(map->m_Offset, 16).toUpper());
 
 
         // Loads all the footer-specific data
@@ -841,7 +867,7 @@ namespace ame
         ui->header_border_width->setText(QString::number(header.border().width()));
         ui->header_border_height->setText(QString::number(header.border().height()));
         ui->header_ftr_raw_data->setData(header.rawData());
-        ui->header_ftr_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(header.m_Offset, 16));
+        ui->header_ftr_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(header.m_Offset, 16).toUpper());
     }
 
 
@@ -1169,7 +1195,7 @@ namespace ame
         {
             Npc *eventN = m_CurrentMap->entities().npcs()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
-            ui->npc_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventN->offset, 16));
+            ui->npc_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventN->offset, 16).toUpper());
             ui->npc_num->setValue(eventN->npcID);
             ui->npc_sprite->setValue(eventN->imageID);
             ui->npc_pos_x->setValue(eventN->positionX);
@@ -1198,7 +1224,7 @@ namespace ame
         {
             Warp *eventW = m_CurrentMap->entities().warps()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
-            ui->warp_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventW->offset, 16));
+            ui->warp_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventW->offset, 16).toUpper());
             ui->warp_pos_x->setValue(eventW->positionX);
             ui->warp_pos_y->setValue(eventW->positionY);
             ui->warp_number->setValue(eventW->warp);
@@ -1220,7 +1246,7 @@ namespace ame
         {
             Trigger *eventT = m_CurrentMap->entities().triggers()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
-            ui->trigger_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventT->offset, 16));
+            ui->trigger_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventT->offset, 16).toUpper());
             ui->trigger_pos_x->setValue(eventT->positionX);
             ui->trigger_pos_y->setValue(eventT->positionY);
             ui->trigger_var->setValue(eventT->variable);
@@ -1242,7 +1268,7 @@ namespace ame
         {
             Sign *eventS = m_CurrentMap->entities().signs()[arg1];
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
-            ui->sign_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventS->offset, 16));
+            ui->sign_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventS->offset, 16).toUpper());
             ui->sign_pos_x->setValue(eventS->positionX);
             ui->sign_pos_y->setValue(eventS->positionY);
             ui->sign_script->setValue(eventS->ptrScript);
@@ -1311,7 +1337,7 @@ namespace ame
         {
             // Load NPC properties
             ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
-            ui->npc_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventN->offset, 16));
+            ui->npc_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventN->offset, 16).toUpper());
             ui->npc_num->setValue(eventN->npcID);
             ui->npc_sprite->setValue(eventN->imageID);
             ui->npc_pos_x->setValue(eventN->positionX);
@@ -1354,7 +1380,7 @@ namespace ame
         {
             // Load warp properties
             ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
-            ui->warp_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventW->offset, 16));
+            ui->warp_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventW->offset, 16).toUpper());
             ui->warp_pos_x->setValue(eventW->positionX);
             ui->warp_pos_y->setValue(eventW->positionY);
             ui->warp_number->setValue(eventW->warp);
@@ -1390,7 +1416,7 @@ namespace ame
         {
             // Load trigger properties
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
-            ui->trigger_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventT->offset, 16));
+            ui->trigger_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventT->offset, 16).toUpper());
             ui->trigger_pos_x->setValue(eventT->positionX);
             ui->trigger_pos_y->setValue(eventT->positionY);
             ui->trigger_var->setValue(eventT->variable);
@@ -1426,7 +1452,7 @@ namespace ame
         {
             // Load sign properties
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
-            ui->sign_group_raw->setTitle(QString("Raw Data @ 0x") + QString::number(eventS->offset, 16));
+            ui->sign_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventS->offset, 16).toUpper());
             ui->sign_pos_x->setValue(eventS->positionX);
             ui->sign_pos_y->setValue(eventS->positionY);
             ui->sign_script->setValue(eventS->ptrScript);

@@ -222,7 +222,9 @@ namespace ame
         UInt8 m_DarknessType;           ///< Darkness type (caves, forests)
         UInt8 m_WeatherType;            ///< Current weather on the map
         UInt8 m_MapType;                ///< Map type (indoor, outdoor)
-        UInt8 m_LabelType;              ///< Label upon entering map
+        UInt8 m_MiscByte1;              ///< Miscellaneous bitmask byte 1
+        UInt8 m_MiscByte2;              ///< Miscellaneous bitmask byte 2
+        UInt8 m_MiscByte3;              ///< Miscellaneous bitmask byte 3
         UInt8 m_BattleType;             ///< Battle intro type
         MapHeader m_Header;             ///< Holds the map header properties
         EventTable m_Events;            ///< Holds all the entities
