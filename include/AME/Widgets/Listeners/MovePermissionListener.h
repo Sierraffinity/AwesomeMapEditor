@@ -40,6 +40,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <QtWidgets>
+#include <QBoy/Config.hpp>
 
 
 namespace ame
@@ -72,6 +73,15 @@ namespace ame
         ///////////////////////////////////////////////////////////
         ~MovePermissionListener();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Destructor
+        ///
+        /// Destroys the MovePermissionListener.
+        ///
+        ///////////////////////////////////////////////////////////
+        UInt16 getSelectedIndex();
+
+
 
     protected:
 
@@ -88,7 +98,11 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QPair<int, int> m_SelectedIndex;
+        UInt8 m_SelectedIndex;
+        UInt8 m_HighlightedBlock;
+        Boolean m_ShowCursor;
+        Boolean m_Selecting;
+
     };
 }
 

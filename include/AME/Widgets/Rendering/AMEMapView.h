@@ -43,6 +43,7 @@
 #include <QVector>
 #include <QRgb>
 #include <AME/System/LoadedData.hpp>
+#include <AME/Widgets/Listeners/MovePermissionListener.h>
 
 
 namespace ame
@@ -212,19 +213,25 @@ namespace ame
         /// \brief Action that occurs when draw tool used.
         ///
         ///////////////////////////////////////////////////////////
-        void drawOnMousePress(QPoint pos);
+        void drawOnMousePress(QPoint pos, QVector<MapBlock> selected, int selectionWidth, int selectionHeight);
 
         ///////////////////////////////////////////////////////////
         /// \brief Changes a block in both the map data and image.
         ///
         ///////////////////////////////////////////////////////////
-        bool placeBlock(int x, int y, UInt16 newBlock);
+        bool placeBlock(int x, int y, MapBlock newBlock);
 
         ///////////////////////////////////////////////////////////
         /// \brief Sets the visibility of the grid from the UI.
         ///
         ///////////////////////////////////////////////////////////
         void setGridVisible(bool visible);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the associated permission editor object.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setMPListener(MovePermissionListener *listener);
 
 
     protected:
@@ -299,7 +306,8 @@ namespace ame
         MapHeader m_Header;
         Boolean m_MovementMode;
         AMEBlockView *m_BlockView;
-        QVector<UInt16> m_SelectedBlocks;
+        MovePermissionListener *m_MPListener;
+        QVector<MapBlock> m_SelectedBlocks;
         QPoint m_FirstBlock;
         QPoint m_LastBlock;
         QPoint m_HighlightedBlock;

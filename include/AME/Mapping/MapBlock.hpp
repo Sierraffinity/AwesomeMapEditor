@@ -57,8 +57,8 @@ namespace ame
     ///////////////////////////////////////////////////////////
     struct MapBlock
     {
-        UInt16 block;       ///< Block index within the tileset
-        UInt16 permission;  ///< Movement permission in-game
+        Int16 block;       ///< Block index within the tileset
+        Int16 permission;  ///< Movement permission in-game
     };
 }
 

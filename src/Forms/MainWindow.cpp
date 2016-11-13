@@ -66,7 +66,7 @@ namespace ame
         ui->setupUi(this);
         m_lastOpenedMap = NULL;
         m_MPListener = new MovePermissionListener;
-        ui->label->installEventFilter(m_MPListener);
+        ui->lblMovementPerms->installEventFilter(m_MPListener);
 
         connect(ui->glEntityEditor, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
 
@@ -116,6 +116,7 @@ namespace ame
             return;         // TODO: create default config file if none exists
 
         ui->glMapEditor->setBlockView(ui->glBlockEditor);
+        ui->glMapEditor->setMPListener(m_MPListener);
         ui->glMapEditor->setGridVisible(SETTINGS(ShowGrid));
         ui->glBlockEditor->setGridVisible(SETTINGS(ShowGrid));
         disableBeforeROMLoad();
@@ -1678,10 +1679,9 @@ namespace ame
     // Date of edit:   11/9/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_btnMapGrid_toggled(bool checked)
+    void MainWindow::on_action_Show_Grid_toggled(bool checked)
     {
         ui->glMapEditor->setGridVisible(checked);
         ui->glBlockEditor->setGridVisible(checked);
     }
 }
-

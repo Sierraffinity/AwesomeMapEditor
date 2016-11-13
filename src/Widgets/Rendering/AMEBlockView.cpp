@@ -176,19 +176,6 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
-    // Function type:  Setter
-    // Contributors:   Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   11/9/2016
-    //
-    ///////////////////////////////////////////////////////////
-    void AMEBlockView::setGridVisible(bool visible)
-    {
-        m_ShowGrid = visible;
-        repaint();
-    }
-
-    ///////////////////////////////////////////////////////////
     // Function type:  Virtual
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
@@ -410,5 +397,18 @@ namespace ame
                 painter.drawRect(hiX, hiY, 16, 16);
             }
         }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   11/9/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEBlockView::setGridVisible(bool visible)
+    {
+        m_ShowGrid = visible;
+        repaint();
     }
 }

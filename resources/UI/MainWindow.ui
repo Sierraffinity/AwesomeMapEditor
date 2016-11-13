@@ -696,9 +696,9 @@
                     </spacer>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QLabel" name="label">
+                    <widget class="QLabel" name="lblMovementPerms">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -708,6 +708,9 @@
                        <width>0</width>
                        <height>0</height>
                       </size>
+                     </property>
+                     <property name="mouseTracking">
+                      <bool>true</bool>
                      </property>
                      <property name="text">
                       <string/>

@@ -177,7 +177,6 @@ HEADERS  += \
     include/AME/Forms/SettingsDialog.h \
     include/AME/Forms/TilesetDialog.h \
     include/AME/Algorithm/PaletteQuantizer.hpp \
-    include/AME/Widgets/Listeners/MovePermissionListener.hpp \
     include/AME/Widgets/Chunks.h \
     include/AME/Widgets/Commands.h \
     include/AME/Widgets/QHexEdit.h \
@@ -185,7 +184,8 @@ HEADERS  += \
     include/AME/Widgets/Rendering/AMEBlockView.h \
     include/AME/Widgets/Rendering/AMEBorderView.h \
     include/AME/Widgets/Rendering/AMEEntityView.h \
-    include/AME/Widgets/Rendering/AMEMapView.h
+    include/AME/Widgets/Rendering/AMEMapView.h \
+    include/AME/Widgets/Listeners/MovePermissionListener.h
 
 
 #

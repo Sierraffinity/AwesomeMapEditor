@@ -35,7 +35,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <AME/Widgets/Listeners/MovePermissionListener.hpp>
+#include <AME/Widgets/Listeners/MovePermissionListener.h>
 
 
 namespace ame
@@ -50,8 +50,9 @@ namespace ame
     MovePermissionListener::MovePermissionListener(QWidget *parent)
         : QObject(parent)
     {
-        m_SelectedIndex.first = -1;
-        m_SelectedIndex.second = -1;
+        m_SelectedIndex = 0;
+        m_HighlightedBlock = 0;
+        m_ShowCursor = false;
     }
 
     ///////////////////////////////////////////////////////////
@@ -75,49 +76,102 @@ namespace ame
     bool MovePermissionListener::eventFilter(QObject *o, QEvent *event)
     {
         QLabel *obj = dynamic_cast<QLabel *>(o);
-        if (event->type() == QEvent::MouseButtonRelease)
+
+        if (event->type() == QEvent::MouseButtonPress)
         {
             QMouseEvent *me = reinterpret_cast<QMouseEvent *>(event);
-            
+
             int mouseX = me->pos().x();
             int mouseY = me->pos().y();
-            if (mouseX >= obj->width() || mouseY >= obj->height())
+            if (mouseX < 0 || mouseY < 0 ||
+                mouseX >= obj->width() || mouseY >= obj->height() ||
+                me->buttons() != Qt::MouseButton::LeftButton)
             {
-                m_SelectedIndex.first = -1;
-                m_SelectedIndex.second = -1;
-                obj->repaint();
                 return QObject::eventFilter(o, event);
             }
-            
-            // Align the position to a multiple of 16px
-            while (mouseX % 16 != 0)
-                mouseX--;
-            while (mouseY % 16 != 0)
-                mouseY--;
-            
+
+            m_ShowCursor = false;
+            m_Selecting = true;
+
+            // Align the position to a block
+            mouseX /= 16;
+            mouseY /= 16;
+
             // Sets the position
-            m_SelectedIndex.first = mouseX;
-            m_SelectedIndex.second = mouseY;
+            m_SelectedIndex = mouseX + (mouseY * 4);
             obj->repaint();
-            
+
             // Simulates mouse button press on label
             return QObject::eventFilter(o, event);
         }
-        else if (event->type() == QEvent::Paint && m_SelectedIndex.first != -1 && m_SelectedIndex.second != -1)
+        if (event->type() == QEvent::MouseButtonRelease)
+        {
+            m_ShowCursor = true;
+            m_Selecting = false;
+        }
+        else if (event->type() == QEvent::MouseMove)
+        {
+            QMouseEvent *me = reinterpret_cast<QMouseEvent *>(event);
+
+            int mouseX = me->pos().x();
+            int mouseY = me->pos().y();
+
+            if (mouseX < 0)
+                mouseX = 0;
+            if (mouseY < 0)
+                mouseY = 0;
+            if (mouseX >= obj->width())
+                mouseX = obj->width() - 1;
+            if (mouseY >= obj->height())
+                mouseY = obj->height() - 1;
+
+            if (!m_Selecting)
+                m_ShowCursor = true;
+
+            // Align the position to a block
+            mouseX /= 16;
+            mouseY /= 16;
+
+            // Sets the position
+            if (m_HighlightedBlock != mouseX + (mouseY * 4))
+            {
+                m_HighlightedBlock = mouseX + (mouseY * 4);
+                if (m_Selecting)
+                    m_SelectedIndex = m_HighlightedBlock;
+                obj->repaint();
+            }
+
+            // Simulates mouse button press on label
+            return QObject::eventFilter(o, event);
+        }
+        else if (event->type() == QEvent::Leave)
+        {
+            m_ShowCursor = false;
+        }
+        else if (event->type() == QEvent::Paint/* && m_SelectedIndex.first != -1 && m_SelectedIndex.second != -1*/)
         {
             bool result = QObject::eventFilter(o, event);
-            
+
             QPixmap pm(":/images/Permissions_16x16.png");
             QPainter painter(&pm);
-            painter.setPen(0xFF0000);
-            painter.setOpacity(0.8f);
-            painter.drawRect(m_SelectedIndex.first, m_SelectedIndex.second, 15, 15);
+            painter.setPen(Qt::GlobalColor::red);
+            painter.drawRect((m_SelectedIndex % 4) * 16, (m_SelectedIndex / 4) * 16, 15, 15);
+            if (m_ShowCursor)
+            {
+                painter.setPen(Qt::GlobalColor::green);
+                painter.drawRect((m_HighlightedBlock % 4) * 16, (m_HighlightedBlock / 4) * 16, 15, 15);
+            }
             painter.end();
             obj->setPixmap(pm);
-                        
+
             return result;
         }
         
         return QObject::eventFilter(o, event);
+    }
+
+    UInt16 MovePermissionListener::getSelectedIndex()
+    {
+        return m_SelectedIndex;
     }
 }

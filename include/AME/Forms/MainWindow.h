@@ -42,7 +42,7 @@
 #include <QBoy/Core/Rom.hpp>
 #include <AME/Mapping/Map.hpp>
 #include <AME/Widgets/QFilterChildrenProxyModel.h>
-#include <AME/Widgets/Listeners/MovePermissionListener.hpp>
+#include <AME/Widgets/Listeners/MovePermissionListener.h>
 #include <QMainWindow>
 #include <QtWidgets>
 
@@ -176,8 +176,7 @@ namespace ame
         void on_action_Connection_Editor_triggered();
         void on_action_Settings_triggered();
         void on_action_Tileset_Editor_triggered();
-
-        void on_btnMapGrid_toggled(bool checked);
+        void on_action_Show_Grid_toggled(bool arg1);
 
     private:
 
