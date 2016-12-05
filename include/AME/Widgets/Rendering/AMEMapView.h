@@ -255,6 +255,12 @@ namespace ame
         void mouseMoveEvent(QMouseEvent *event);
 
         ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse double-click event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mouseDoubleClickEvent(QMouseEvent *event);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Overrides the mouse leave event.
         ///
         ///////////////////////////////////////////////////////////
@@ -318,6 +324,7 @@ namespace ame
         Boolean m_ShowCursor;
         Boolean m_ShowGrid;
         Boolean m_IsInit;
+        Boolean m_ValidPress;
     };
 }
 

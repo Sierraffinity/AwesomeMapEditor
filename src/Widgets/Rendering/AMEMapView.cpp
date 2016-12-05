@@ -278,6 +278,8 @@ namespace ame
             return;
         }
 
+        m_ValidPress = true;
+
         mouseX -= mp.x();
         mouseY -= mp.y();
 
@@ -476,31 +478,6 @@ namespace ame
     void AMEMapView::drawOnMousePress(QPoint pos, QVector<MapBlock> selected,int selectionWidth, int selectionHeight)
     {
         m_CursorColor = Qt::GlobalColor::red;
-        /*QVector<MapBlock> selected;
-        int selectionWidth = 0;
-        int selectionHeight = 0;
-        if (m_BlockView->selectedBlocks().empty())
-        {
-            selected = m_SelectedBlocks;
-            selectionWidth = m_SelectSize.width();
-            selectionHeight = m_SelectSize.height();
-        }
-        else
-        {
-            selected.clear();
-            foreach (UInt16 block, m_BlockView->selectedBlocks())
-            {
-                MapBlock newBlock;
-                newBlock.block = block;
-                newBlock.permission = -1;
-                selected.append(newBlock);
-            }
-
-            selectionWidth = (selected.last().block % 8) - (selected.first().block % 8) + 1;
-            selectionHeight = (selected.last().block / 8) - (selected.first().block / 8) + 1;
-        }*/
-
-        // Sets the block in the data
 
         for (int i = 0; i < selectionHeight; i++)
         {
@@ -581,7 +558,7 @@ namespace ame
 
         AMEMapView::Tool currentTool = getCurrentTool(event->button());
 
-        if (currentTool == AMEMapView::Tool::Select)
+        if (currentTool == AMEMapView::Tool::Select && m_ValidPress)
         {
             Map *mm = m_Maps[0];
             //int mapWidth = mm->header().size().width();
@@ -626,6 +603,7 @@ namespace ame
             }
         }
         repaint();
+        m_ValidPress = false;
     }
 
     ///////////////////////////////////////////////////////////
@@ -649,7 +627,7 @@ namespace ame
 
         AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
 
-        if (currentTool == AMEMapView::Tool::Select)
+        if (currentTool == AMEMapView::Tool::Select && m_ValidPress)
         {
             if (mouseX < 0)
                 mouseX = 0;
@@ -672,6 +650,7 @@ namespace ame
             if (mouseX < 0           || mouseY < 0            ||
                 mouseX >= mz.width() || mouseY >= mz.height())
             {
+                // TODO: Highlight connected map when hovered
                 m_ShowCursor = false;
                 repaint();
                 return;
@@ -748,6 +727,33 @@ namespace ame
 
         if (needsRepaint)
             repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/5/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::mouseDoubleClickEvent(QMouseEvent *event)
+    {
+        if (event->button() == Qt::LeftButton)
+        {
+            int mouseX = event->pos().x();
+            int mouseY = event->pos().y();
+            for (int i = 1; i < m_Maps.count(); i++)
+            {
+                QPoint mp = m_MapPositions.at(i);
+                QSize mz = m_MapSizes.at(i);
+                if (mouseX >= mp.x()              && mouseY >= mp.y()            &&
+                    mouseX <= mp.x() + mz.width() && mouseY <= mp.y() + mz.height())
+                {
+                    // TODO: Finish this
+                }
+            }
+
+        }
     }
 
     ///////////////////////////////////////////////////////////
@@ -1736,9 +1742,9 @@ namespace ame
                 const QSize &ms = m_Maps.at(0)->header().size();
                 QVector<QLine> lines;
                 for (int i = 0; i <= ms.width(); i++)
-                    lines.append(QLine(orig.x() + (i * 16), orig.y(), orig.x() + (i * 16), orig.y() + ms.height() * 16));
+                    lines.append(QLine(orig.x() + (i * 16), orig.y(), orig.x() + (i * 16), orig.y() + ms.height() * 16 - 1));
                 for (int i = 0; i <= ms.height(); i++)
-                    lines.append(QLine(orig.x(), orig.y() + (i * 16), orig.x() + ms.width() * 16, orig.y() + (i * 16)));
+                    lines.append(QLine(orig.x(), orig.y() + (i * 16), orig.x() + ms.width() * 16 - 1, orig.y() + (i * 16)));
                 painter.setPen(Qt::GlobalColor::black);
                 painter.drawLines(lines);
             }

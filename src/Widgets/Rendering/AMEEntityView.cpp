@@ -36,6 +36,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/Rendering/AMEEntityView.h>
+#include <AME/System/Configuration.hpp>
 
 
 namespace ame
@@ -122,7 +123,11 @@ namespace ame
             // Paints all entities
             foreach (const Npc *npc, m_Entities->npcs())
             {
-                const QImage &img = m_OW->at(npc->imageID);
+                // TODO: Decide what to do with 'invalid' image IDs going forward
+                UInt8 imageID = npc->imageID;
+                if (imageID > CONFIG(OverworldCount))
+                    imageID = 0;
+                const QImage &img = m_OW->at(imageID);
                 int x = (npc->positionX*16+8) - img.width()/2;
                 int y = (npc->positionY*16) - img.height()/2;
 
