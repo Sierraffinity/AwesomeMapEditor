@@ -131,10 +131,18 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void mousePressEvent(QMouseEvent *event);
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse double-click event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void mouseDoubleClickEvent(QMouseEvent *event);
+
 
     signals:
 
         void onMouseClick(QMouseEvent *event);
+        void onDoubleClick(QMouseEvent *event);
+        bool loadMapChangeTreeView(Map *map);
 
 
     private:

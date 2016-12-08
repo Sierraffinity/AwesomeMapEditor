@@ -549,7 +549,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -650,7 +650,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>512</height>
+                    <height>529</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -756,8 +756,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>587</width>
-              <height>571</height>
+              <width>582</width>
+              <height>580</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -905,8 +905,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>444</width>
-              <height>574</height>
+              <width>451</width>
+              <height>583</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -1046,6 +1046,26 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item>
+            <widget class="QToolButton" name="tbSpriteMode">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../images.qrc">
+               <normaloff>:/icons/npcabove.ico</normaloff>:/icons/npcabove.ico</iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::MenuButtonPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QComboBox" name="cbEntitiesTimeOfDay">
@@ -1240,8 +1260,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>278</width>
-                    <height>761</height>
+                    <width>265</width>
+                    <height>710</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -2631,7 +2651,7 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_2">
+                    <widget class="QPushButton" name="btnNPCOpenScript">
                      <property name="text">
                       <string> Open Script in Editor</string>
                      </property>
@@ -2845,7 +2865,9 @@
                    <item>
                     <widget class="QPushButton" name="pushButton_3">
                      <property name="styleSheet">
-                      <string notr="true">color : red;</string>
+                      <string notr="true">QPushButton::enabled {
+color : red;
+}</string>
                      </property>
                      <property name="text">
                       <string>Delete Entity</string>
@@ -2969,8 +2991,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>378</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3403,7 +3425,7 @@
                        </layout>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_5">
+                       <widget class="QPushButton" name="btnWarpToDest">
                         <property name="text">
                          <string> Travel to Destination</string>
                         </property>
@@ -3433,7 +3455,9 @@
                    <item>
                     <widget class="QPushButton" name="pushButton_7">
                      <property name="styleSheet">
-                      <string notr="true">color : red;</string>
+                      <string notr="true">QPushButton::enabled {
+color : red;
+}</string>
                      </property>
                      <property name="text">
                       <string>Delete Entity</string>
@@ -3557,8 +3581,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>222</width>
-                    <height>494</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4174,7 +4198,7 @@
                     </layout>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_8">
+                    <widget class="QPushButton" name="btnTriggerOpenScript">
                      <property name="text">
                       <string> Open Script in Editor</string>
                      </property>
@@ -4208,7 +4232,9 @@
                    <item>
                     <widget class="QPushButton" name="pushButton_10">
                      <property name="styleSheet">
-                      <string notr="true">color : red;</string>
+                      <string notr="true">QPushButton::enabled {
+color : red;
+}</string>
                      </property>
                      <property name="text">
                       <string>Delete Entity</string>
@@ -4332,8 +4358,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>230</width>
-                    <height>581</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4877,7 +4903,7 @@
                        </layout>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_11">
+                       <widget class="QPushButton" name="btnSignOpenScript">
                         <property name="text">
                          <string> Open Script in Editor</string>
                         </property>
@@ -5207,7 +5233,9 @@
                    <item>
                     <widget class="QPushButton" name="pushButton_13">
                      <property name="styleSheet">
-                      <string notr="true">color : red;</string>
+                      <string notr="true">QPushButton::enabled {
+color : red;
+}</string>
                      </property>
                      <property name="text">
                       <string>Delete Entity</string>
@@ -5354,8 +5382,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>742</width>
-                  <height>575</height>
+                  <width>737</width>
+                  <height>584</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -6094,8 +6122,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>275</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6508,8 +6536,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>477</height>
+                  <width>338</width>
+                  <height>436</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -7230,8 +7258,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>341</width>
-                  <height>275</height>
+                  <width>338</width>
+                  <height>249</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7652,8 +7680,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>732</width>
-              <height>676</height>
+              <width>743</width>
+              <height>610</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -9182,6 +9210,42 @@
   <action name="actionClearRecentFiles">
    <property name="text">
     <string>&amp;Clear</string>
+   </property>
+  </action>
+  <action name="actionSpriteAbove">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/npcabove.ico</normaloff>:/icons/npcabove.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Above</string>
+   </property>
+  </action>
+  <action name="actionSpriteTranslucent">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/npctranslucent.ico</normaloff>:/icons/npctranslucent.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Translucent</string>
+   </property>
+  </action>
+  <action name="actionSpriteBelow">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/npcbelow.ico</normaloff>:/icons/npcbelow.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Below</string>
+   </property>
+  </action>
+  <action name="actionSpriteBlocks">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/icons/npcblock.ico</normaloff>:/icons/npcblock.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Blocks</string>
    </property>
   </action>
  </widget>

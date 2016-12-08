@@ -1,9 +1,9 @@
-ShowSprites:            true
+SpriteMode:             0
 ScriptEditor:           ~
 Translucency:           50
 Language:               ~
 CreateBackups:          true
-MapSortOrder:           1
+MapSortOrder:           0
 HexPrefix:              0x
 ShowRawMapHeader:       false
 ShowRawLayoutHeader:    false

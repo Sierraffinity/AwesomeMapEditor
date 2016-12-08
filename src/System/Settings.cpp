@@ -50,7 +50,7 @@ namespace ame
     // Static variable definition
     //
     ///////////////////////////////////////////////////////////
-    bool Settings::ShowSprites;
+    SpriteModeType Settings::SpriteMode;
     QString Settings::ScriptEditor;
     int Settings::Translucency;
     QString Settings::Language;
@@ -87,7 +87,7 @@ namespace ame
             Messages::showMessage(NULL, "Wherpsidingles");
 
         // Tries to parse all the properties
-        ShowSprites         = settings["ShowSprites"].as<bool>();
+        SpriteMode         = static_cast<SpriteModeType>(settings["SpriteMode"].as<int>());
         if (settings["ScriptEditor"].Type() != YAML::NodeType::Null)
             ScriptEditor    = QString::fromStdString(settings["ScriptEditor"].as<std::string>());
         Translucency        = settings["Translucency"].as<int>();
@@ -139,7 +139,7 @@ namespace ame
         YAML::Node settings = YAML::LoadFile(filePath.toStdString());
 
         // Tries to write all the properties
-        settings["ShowSprites"]         = ShowSprites;
+        settings["SpriteMode"]          = static_cast<int>(SpriteMode);
         settings["ScriptEditor"]        = ScriptEditor.toStdString();
         settings["Translucency"]        = Translucency;
         settings["Language"]            = Language.toStdString();

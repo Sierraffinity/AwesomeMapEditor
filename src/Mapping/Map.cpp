@@ -67,7 +67,8 @@ namespace ame
           m_MiscByte2(0),
           m_MiscByte3(0),
           m_BattleType(0),
-          m_WildTable(-1)
+          m_WildTable(-1),
+          m_TreeViewIndex(NULL)
     {
     }
 
@@ -346,5 +347,29 @@ namespace ame
     void Map::setWildTable(UInt32 index)
     {
         m_WildTable = index;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Getter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    QModelIndex *Map::getTreeViewIndex()
+    {
+        return m_TreeViewIndex;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void Map::setTreeViewIndex(const QModelIndex &treeIndex)
+    {
+        m_TreeViewIndex = new QModelIndex(treeIndex);
     }
 }

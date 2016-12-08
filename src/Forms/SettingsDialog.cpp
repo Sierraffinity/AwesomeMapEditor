@@ -104,15 +104,15 @@ namespace ame {
 
     void SettingsDialog::on_btnScriptEditor_clicked()
     {
-        QFileDialog dialog;
-        dialog.setFilter(QDir::Executable | QDir::AllDirs);
+        QFileDialog *dialog = new QFileDialog(this, tr("Choose Script Editor"));
+        dialog->setFilter(QDir::Executable | QDir::AllDirs);
 #ifdef Q_OS_WIN
-        dialog.setNameFilter(tr("Executable files (*.exe)"));
+        dialog->setNameFilter(tr("Executable files (*.exe)"));
 #endif
-        dialog.setFileMode(QFileDialog::ExistingFile);
-        if(dialog.exec())
+        dialog->setFileMode(QFileDialog::ExistingFile);
+        if(dialog->exec())
         {
-            QString file = dialog.selectedFiles()[0];
+            QString file = dialog->selectedFiles()[0];
 
             // Determines whether the dialog was successful
             if (!file.isNull() && !file.isEmpty())

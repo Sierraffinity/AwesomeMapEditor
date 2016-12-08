@@ -77,6 +77,7 @@ namespace ame
           m_CursorColor(Qt::GlobalColor::green),
           m_ShowCursor(false),
           m_ShowGrid(false),
+          m_HoveredConnection(0),
           m_IsInit(false)
     {
         m_MovePerm = QImage(":/images/PermGL.png");
@@ -622,49 +623,71 @@ namespace ame
         QPoint mp = m_MapPositions.at(0);
         QSize mz = m_MapSizes.at(0);
 
-        mouseX -= mp.x();
-        mouseY -= mp.y();
+        int mX = mouseX - mp.x();
+        int mY = mouseY - mp.y();
 
         AMEMapView::Tool currentTool = getCurrentTool(event->buttons());
 
         if (currentTool == AMEMapView::Tool::Select && m_ValidPress)
         {
-            if (mouseX < 0)
-                mouseX = 0;
-            else if (mouseX >= mz.width())
-                mouseX = mz.width() - 1;
+            if (mX < 0)
+                mX = 0;
+            else if (mX >= mz.width())
+                mX = mz.width() - 1;
 
-            if (mouseY < 0)
-                mouseY = 0;
-            else if (mouseY >= mz.height())
-                mouseY = mz.height() - 1;
+            if (mY < 0)
+                mY = 0;
+            else if (mY >= mz.height())
+                mY = mz.height() - 1;
 
-            if (m_LastBlock != QPoint(mouseX/16, mouseY/16))
+            if (m_LastBlock != QPoint(mX/16, mY/16))
             {
                 needsRepaint = true;
-                m_LastBlock = QPoint(mouseX/16, mouseY/16);
+                m_LastBlock = QPoint(mX/16, mY/16);
             }
         }
         else
         {
-            if (mouseX < 0           || mouseY < 0            ||
-                mouseX >= mz.width() || mouseY >= mz.height())
+            if (mX < 0           || mY < 0            ||
+                mX >= mz.width() || mY >= mz.height())
             {
-                // TODO: Highlight connected map when hovered
-                m_ShowCursor = false;
-                repaint();
+                for (int i = 1; i < m_Maps.count(); i++)
+                {
+                    QPoint mpc = m_MapPositions.at(i);
+                    QSize mzc = m_MapSizes.at(i);
+                    if (mouseX >= mpc.x()              && mouseY >= mpc.y()            &&
+                        mouseX <= mpc.x() + mzc.width() && mouseY <= mpc.y() + mzc.height() &&
+                        i != m_HoveredConnection)
+                    {
+                        m_ShowCursor = false;
+                        m_HoveredConnection = i;
+                        repaint();
+                        return;
+                    }
+                }
+                if (m_ShowCursor)
+                {
+                    m_ShowCursor = false;
+                    repaint();
+                }
                 return;
             }
         }
 
+        if (m_HoveredConnection != 0)
+        {
+            m_HoveredConnection = 0;
+            needsRepaint = true;
+        }
+
         if (m_ShowCursor != true)
         {
-            needsRepaint = true;
             m_ShowCursor = true;
+            needsRepaint = true;
         }
 
 
-        if (m_HighlightedBlock != QPoint(mouseX/16, mouseY/16))
+        if (m_HighlightedBlock != QPoint(mX/16, mY/16))
         {
 
             int selectionWidth = 1;
@@ -703,24 +726,24 @@ namespace ame
 
             int xBlockOffset = (m_HighlightedBlock.x() + selectionWidth) % selectionWidth;
             int yBlockOffset = (m_HighlightedBlock.y() + selectionHeight) % selectionHeight;
-            int xMouseOffset = ((mouseX/16) - xBlockOffset + selectionWidth) % selectionWidth;
-            int yMouseOffset = ((mouseY/16) - yBlockOffset + selectionHeight) % selectionHeight;
+            int xMouseOffset = ((mX/16) - xBlockOffset + selectionWidth) % selectionWidth;
+            int yMouseOffset = ((mY/16) - yBlockOffset + selectionHeight) % selectionHeight;
             if (currentTool == AMEMapView::Tool::Draw)
             {
                 if( ((m_HighlightedBlock.x() + selectionWidth) / selectionWidth) !=
-                    (((mouseX/16) - xMouseOffset + selectionWidth) / selectionWidth) ||
+                    (((mX/16) - xMouseOffset + selectionWidth) / selectionWidth) ||
                     ((m_HighlightedBlock.y() + selectionHeight) / selectionHeight) !=
-                    (((mouseY/16) - yMouseOffset + selectionHeight) / selectionHeight))
+                    (((mY/16) - yMouseOffset + selectionHeight) / selectionHeight))
                 {
-                    m_HighlightedBlock = QPoint((mouseX/16) - xMouseOffset,
-                                                (mouseY/16) - yMouseOffset);
+                    m_HighlightedBlock = QPoint((mX/16) - xMouseOffset,
+                                                (mY/16) - yMouseOffset);
                     drawOnMousePress(m_HighlightedBlock, selected, selectionWidth, selectionHeight);
                     needsRepaint = true;
                 }
             }
             else
             {
-                m_HighlightedBlock = QPoint(mouseX/16, mouseY/16);
+                m_HighlightedBlock = QPoint(mX/16, mY/16);
                 needsRepaint = true;
             }
         }
@@ -733,7 +756,7 @@ namespace ame
     // Function type:  Virtual
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   12/5/2016
+    // Date of edit:   12/7/2016
     //
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseDoubleClickEvent(QMouseEvent *event)
@@ -749,7 +772,7 @@ namespace ame
                 if (mouseX >= mp.x()              && mouseY >= mp.y()            &&
                     mouseX <= mp.x() + mz.width() && mouseY <= mp.y() + mz.height())
                 {
-                    // TODO: Finish this
+                    emit loadMapChangeTreeView(m_Maps[i]);
                 }
             }
 
@@ -760,13 +783,31 @@ namespace ame
     // Function type:  Virtual
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   10/7/2016
+    // Date of edit:   12/8/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEMapView::wheelEvent(QWheelEvent *event)
+    {
+        // TODO: Get this updating after the event, not before
+        /*QMouseEvent eve( (QEvent::MouseMove), event->pos() + event->pixelDelta(),
+                         Qt::NoButton,
+                         event->buttons(),
+                         event->modifiers()   );
+        mouseMoveEvent(&eve);*/
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
     //
     ///////////////////////////////////////////////////////////
     void AMEMapView::leaveEvent(QEvent *event)
     {
         Q_UNUSED(event);
         m_ShowCursor = false;
+        m_HoveredConnection = 0;
 
         repaint();
     }
@@ -803,6 +844,7 @@ namespace ame
         m_ConnImages.clear();
         m_BackPixelBuffers.clear();
         m_ForePixelBuffers.clear();
+        m_HoveredConnection = 0;
 
 
         Q_UNUSED(rom);
@@ -1842,6 +1884,16 @@ namespace ame
 
                 painter.setPen(m_CursorColor);
                 painter.drawRect(x, y, sWid, sHei);
+            }
+            if (m_HoveredConnection != 0)
+            {
+                QRect connRect = QRect(m_MapPositions.at(m_HoveredConnection), m_MapSizes.at(m_HoveredConnection) + QSize(-1,-1));
+                painter.setOpacity(0.2);
+                painter.fillRect(connRect, QColor(255, 0, 255));
+                painter.setOpacity(0.4);
+                painter.setPen(QColor(255, 0, 255));
+                painter.drawRect(connRect);
+                painter.setOpacity(1.0);
             }
 
             painter.end();

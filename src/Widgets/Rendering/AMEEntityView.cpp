@@ -37,6 +37,7 @@
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/Rendering/AMEEntityView.h>
 #include <AME/System/Configuration.hpp>
+#include <AME/System/Settings.hpp>
 
 
 namespace ame
@@ -82,6 +83,36 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::mouseDoubleClickEvent(QMouseEvent *event)
+    {
+        /*if (event->button() == Qt::LeftButton)
+        {
+            // TODO: Make this work for event view as well
+            int mouseX = event->pos().x();
+            int mouseY = event->pos().y();
+            for (int i = 1; i < m_MapView->m_Maps.count(); i++)
+            {
+                QList<QPoint> &mapPos = m_MapView->m_MapPositions;
+                QList<QSize> &mapSize = m_MapView->m_MapSizes;
+                QPoint mp = mapPos.at(i);
+                QSize mz = mapSize.at(i);
+                if (mouseX >= mp.x()              && mouseY >= mp.y()            &&
+                    mouseX <= mp.x() + mz.width() && mouseY <= mp.y() + mz.height())
+                {
+                    emit loadMapChangeTreeView(m_MapView->m_Maps[i]);
+                }
+            }
+        }*/
+        emit onDoubleClick(event);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Virtual
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   7/1/2016
@@ -115,6 +146,7 @@ namespace ame
                 painter.setOpacity(1.0);
             }
 
+            QRect nsrc(0, 0, 16, 16);
             QRect wsrc(16, 0, 16, 16);
             QRect tsrc(32, 0, 16, 16);
             QRect ssrc(48, 0, 16, 16);
@@ -123,19 +155,28 @@ namespace ame
             // Paints all entities
             foreach (const Npc *npc, m_Entities->npcs())
             {
-                // TODO: Decide what to do with 'invalid' image IDs going forward
-                UInt8 imageID = npc->imageID;
-                if (imageID > CONFIG(OverworldCount))
-                    imageID = 0;
-                const QImage &img = m_OW->at(imageID);
-                int x = (npc->positionX*16+8) - img.width()/2;
-                int y = (npc->positionY*16) - img.height()/2;
+                if (SETTINGS(SpriteMode) == SpriteModeType::SPM_Block)
+                {
+                    QRect dst(npc->positionX*16, npc->positionY*16, 16, 16);
+                    painter.drawImage(dst, m_FieldImage, nsrc);
+                }
+                else
+                {
+                    // TODO: Decide what to do with 'invalid' image IDs going forward
+                    // TODO: Place sprites below or make them translucent.
+                    UInt8 imageID = npc->imageID;
+                    if (imageID > CONFIG(OverworldCount))
+                        imageID = 0;
+                    const QImage &img = m_OW->at(imageID);
+                    int x = (npc->positionX * 16) - (img.width() / 2) + 8;
+                    int y = (npc->positionY * 16) - img.height() + 16;
 
-                QRect dst(x, y, img.width(), img.height());
-                QRect src(0, 0, img.width(), img.height());
-                painter.setOpacity(1.0);
-                painter.drawImage(dst, img, src);
-                painter.setOpacity(0.5);
+                    QRect dst(x, y, img.width(), img.height());
+                    QRect src(0, 0, img.width(), img.height());
+                    painter.setOpacity(1.0);
+                    painter.drawImage(dst, img, src);
+                    painter.setOpacity(0.5);
+                }
             }
             foreach (const Warp *warp, m_Entities->warps())
             {

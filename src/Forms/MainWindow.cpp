@@ -60,6 +60,10 @@ namespace ame
     ///////////////////////////////////////////////////////////
     MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
+        m_CurrentNPC(0),
+        m_CurrentWarp(0),
+        m_CurrentTrigger(0),
+        m_CurrentSign(0),
         ui(new Ui::MainWindow)
     {
         // Setup GUI
@@ -68,7 +72,10 @@ namespace ame
         m_MPListener = new MovePermissionListener;
         ui->lblMovementPerms->installEventFilter(m_MPListener);
 
+        connect(ui->glMapEditor, SIGNAL(loadMapChangeTreeView(Map*)), this, SLOT(loadMapChangeTreeView(Map*)));
+        connect(ui->glEntityEditor, SIGNAL(loadMapChangeTreeView(Map*)), this, SLOT(loadMapChangeTreeView(Map*)));
         connect(ui->glEntityEditor, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
+        connect(ui->glEntityEditor, SIGNAL(onDoubleClick(QMouseEvent*)), this, SLOT(entity_doubleClick(QMouseEvent*)));
 
         statusLabel = new QLabel(tr("No ROM loaded."));
         ui->statusBar->addWidget(statusLabel);
@@ -86,12 +93,12 @@ namespace ame
         mapSortOrderMenu->addAction(ui->actionSort_by_Bank);
         mapSortOrderMenu->addAction(ui->actionSort_by_Layout);
         mapSortOrderMenu->addAction(ui->actionSort_by_Tileset);
+        ui->tbMapSortOrder->setMenu(mapSortOrderMenu);
 
         mapSortOrderActionGroup->addAction(ui->actionSort_by_Name);
         mapSortOrderActionGroup->addAction(ui->actionSort_by_Bank);
         mapSortOrderActionGroup->addAction(ui->actionSort_by_Layout);
         mapSortOrderActionGroup->addAction(ui->actionSort_by_Tileset);
-        ui->tbMapSortOrder->setMenu(mapSortOrderMenu);
 
         connect(ui->tbMapSortOrder, SIGNAL(triggered(QAction*)), this, SLOT(MapSortOrder_changed(QAction*)));
 
@@ -108,6 +115,22 @@ namespace ame
         ui->btnMapFillAll->setDefaultAction(ui->actionFillAll);
 
         connect(mapToolbarActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(MapTabTool_changed(QAction*)));
+
+        QMenu *spriteModeMenu = new QMenu();
+        QActionGroup *spriteModeActionGroup = new QActionGroup(this);
+
+        spriteModeMenu->addAction(ui->actionSpriteAbove);
+        spriteModeMenu->addAction(ui->actionSpriteTranslucent);
+        spriteModeMenu->addAction(ui->actionSpriteBelow);
+        spriteModeMenu->addAction(ui->actionSpriteBlocks);
+        ui->tbSpriteMode->setMenu(spriteModeMenu);
+
+        spriteModeActionGroup->addAction(ui->actionSpriteAbove);
+        spriteModeActionGroup->addAction(ui->actionSpriteTranslucent);
+        spriteModeActionGroup->addAction(ui->actionSpriteBelow);
+        spriteModeActionGroup->addAction(ui->actionSpriteBlocks);
+
+        connect(ui->tbSpriteMode, SIGNAL(triggered(QAction*)), this, SLOT(SpriteMode_changed(QAction*)));
 
         ui->btnMapGrid->setDefaultAction(ui->action_Show_Grid);
         ui->btnEntitiesGrid->setDefaultAction(ui->action_Show_Grid);
@@ -130,8 +153,25 @@ namespace ame
         ui->tbMapSortOrder->setIcon(sortOrder->icon());
         sortOrder->setChecked(true);
 
+        QAction* spriteMode = ui->tbSpriteMode->menu()->actions()[SETTINGS(SpriteMode)];
+        ui->tbSpriteMode->setIcon(spriteMode->icon());
+        spriteMode->setChecked(true);
+
         m_proxyModel = new QFilterChildrenProxyModel(this);
         ui->treeView->setModel(m_proxyModel);
+
+        if (!SETTINGS(ScriptEditor).isEmpty())
+        {
+            ui->btnNPCOpenScript->setEnabled(true);
+            ui->btnTriggerOpenScript->setEnabled(true);
+            ui->btnSignOpenScript->setEnabled(true);
+        }
+        else
+        {
+            ui->btnNPCOpenScript->setEnabled(false);
+            ui->btnTriggerOpenScript->setEnabled(false);
+            ui->btnSignOpenScript->setEnabled(false);
+        }
     }
 
 
@@ -236,28 +276,6 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool MainWindow::loadROM(const QString &file)
     {
-        // Add ROM file to recent files list
-        QList<QString> recentFiles = SETTINGS(RecentFiles);
-
-        int count = recentFiles.count();
-        for (int i = 0; i < count; i++)
-        {
-            if (recentFiles[i] == file)
-            {
-                recentFiles.removeAt(i);
-                i--;
-                count--;
-            }
-        }
-
-        recentFiles.prepend(file);
-        if(recentFiles.count() > 10)
-            recentFiles.removeLast();
-
-        CHANGESETTING(RecentFiles, recentFiles);
-        Settings::write();
-        loadRecentlyUsedFiles();
-
         // Close a previous ROM and destroy objects
         if (m_Rom.info().isLoaded())
         {
@@ -279,6 +297,28 @@ namespace ame
             Messages::showError(this, m_Rom.lastError());
             return false;
         }
+
+        // Add ROM file to recent files list
+        QList<QString> recentFiles = SETTINGS(RecentFiles);
+
+        int count = recentFiles.count();
+        for (int i = 0; i < count; i++)
+        {
+            if (recentFiles[i] == file)
+            {
+                recentFiles.removeAt(i);
+                i--;
+                count--;
+            }
+        }
+
+        recentFiles.prepend(file);
+        if(recentFiles.count() > 10)
+            recentFiles.removeLast();
+
+        CHANGESETTING(RecentFiles, recentFiles);
+        Settings::write();
+        loadRecentlyUsedFiles();
 
         // Loading successful
         return true;
@@ -513,10 +553,11 @@ namespace ame
                         nameItem->appendRow(mapItem);
 
                         // Sets properties to identify map on click
-                        QByteArray array;
+                        /*QByteArray array;
                         array.append(i);
-                        array.append(j);
-                        mapItem->setData(array, Qt::UserRole);
+                        array.append(j);*/
+                        mapItem->setData(QVariant::fromValue(map), Qt::UserRole);
+                        map->setTreeViewIndex(mapItem->index());
                     }
                 }
                 break;
@@ -549,10 +590,11 @@ namespace ame
                             dat_MapNameTable->names()[map->nameIndex() + CONFIG(MapNameCount) - CONFIG(MapNameTotal)]->name);
 
                         // Sets properties to identify map on click
-                        QByteArray array;
+                        /*QByteArray array;
                         array.append(i);
-                        array.append(j);
-                        mapItem->setData(array, Qt::UserRole);
+                        array.append(j);*/
+                        mapItem->setData(QVariant::fromValue(map), Qt::UserRole);
+                        map->setTreeViewIndex(mapItem->index());
 
                         // Adds the map to the bank
                         bankItem->appendRow(mapItem);
@@ -607,10 +649,11 @@ namespace ame
                         layoutItem->appendRow(mapItem);
 
                         // Sets properties to identify map on click
-                        QByteArray array;
+                        /*QByteArray array;
                         array.append(i);
-                        array.append(j);
-                        mapItem->setData(array, Qt::UserRole);
+                        array.append(j);*/
+                        mapItem->setData(QVariant::fromValue(map), Qt::UserRole);
+                        map->setTreeViewIndex(mapItem->index());
                     }
                 }
                 break;
@@ -678,10 +721,11 @@ namespace ame
                             dat_MapNameTable->names()[map->nameIndex() + CONFIG(MapNameCount) - CONFIG(MapNameTotal)]->name);
 
                         // Sets properties to identify map on click
-                        QByteArray array;
+                        /*QByteArray array;
                         array.append(i);
-                        array.append(j);
-                        mapItem->setData(array, Qt::UserRole);
+                        array.append(j);*/
+                        mapItem->setData(QVariant::fromValue(map), Qt::UserRole);
+                        map->setTreeViewIndex(mapItem->index());
 
                         primaryItem->appendRow(mapItem);
                         secondaryItem->appendRow(mapItem->clone());
@@ -945,12 +989,9 @@ namespace ame
     {
         if (!index.parent().isValid())
         {
-            if (index.child(0, 0).isValid())
-                return;
-
-            if (SETTINGS(MapSortOrder) == MSO_Layout)
+            if (!index.child(0, 0).isValid() && SETTINGS(MapSortOrder) == MSO_Layout)
             {
-                // Switch icon
+                // Switch opened map icon
                 if(m_lastOpenedMap != NULL)
                 {
                     ui->treeView->setExpanded(*m_lastOpenedMap, false);
@@ -960,7 +1001,7 @@ namespace ame
                 ui->treeView->setExpanded(index, true);
                 m_lastOpenedMap = new QModelIndex(index);
 
-                // Fills the map tab
+                // Populates the map tab
                 UInt32 offset = ui->treeView->model()->data(index, Qt::UserRole).toUInt();
                 if (offset == 0)
                 {
@@ -992,35 +1033,115 @@ namespace ame
                 ui->tabWidget->setTabEnabled(2, false);
                 //setupHeader(currentMap);
                 enableAfterMapLoad();
-                return;
             }
-            else
-            {
-                return;
-            }
+            return;
         }
 
-        // Switch icon
+        changeTreeViewMap(index);
+
+        // Retrieves the new map from the stored property
+        //QByteArray data = ui->treeView->model()->data(index, Qt::UserRole).toByteArray();
+
+        loadMap(qvariant_cast<Map *>(ui->treeView->model()->data(index, Qt::UserRole)), ui->treeView->model()->data(index, Qt::DisplayRole).toString());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::changeTreeViewMap(const QModelIndex &index)
+    {
         if(m_lastOpenedMap != NULL)
         {
             ui->treeView->setExpanded(*m_lastOpenedMap, false);
             delete m_lastOpenedMap;
         }
 
+        ui->treeView->scrollTo(index);
         ui->treeView->setExpanded(index, true);
         m_lastOpenedMap = new QModelIndex(index);
+    }
 
-        ui->tabWidget->setTabEnabled(1, true);
-        ui->tabWidget->setTabEnabled(2, true);
-        enableAfterMapLoad();
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadMapChangeTreeView(int bank, int map)
+    {
+        Map *currentMap = dat_MapBankTable->banks()[bank]->maps()[map];
+        return loadMapChangeTreeView(currentMap);
+    }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadMapChangeTreeView(Map *map)
+    {
+        const QModelIndex index = m_proxyModel->mapFromSource(*map->getTreeViewIndex());
+        changeTreeViewMap(index);
+
+        return loadMap(map, index.data(Qt::DisplayRole).toString());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadMap(int bank, int map)
+    {
+        return loadMap(bank, map, NULL);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadMap(int bank, int map, const QString &name)
+    {
+        Map *currentMap = dat_MapBankTable->banks()[bank]->maps()[map];
+        return loadMap(currentMap, name);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadMap(Map *currentMap)
+    {
+        return loadMap(currentMap, NULL);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::loadMap(Map *currentMap, const QString &name)
+    {
         // Counts how long it takes to load a map
         QTime stopWatch;
         stopWatch.start();
-
-        // Retrieves the new map from the stored property
-        QByteArray data = ui->treeView->model()->data(index, Qt::UserRole).toByteArray();
-        Map *currentMap = dat_MapBankTable->banks()[data.at(0)]->maps()[data.at(1)];
 
         // Fills all the OpenGL widgets
         ui->glMapEditor->setMap(m_Rom, currentMap);
@@ -1033,13 +1154,24 @@ namespace ame
         ui->glEntityEditor->setEntities(currentMap);
         m_CurrentMap = currentMap;
 
-        // Fills the wild-pokemon tab
+        // Populates the wild Pokémon tab
         setupWildPokemon(currentMap);
 
-        // Fills the header tab
+        // Populates the header tab
         setupHeader(currentMap);
-        ui->cmbEntityTypeSelector->setCurrentIndex(0);
-        on_cmbEntityTypeSelector_currentIndexChanged(0);
+        //ui->cmbEntityTypeSelector->setCurrentIndex(0);
+        on_cmbEntityTypeSelector_currentIndexChanged(ui->cmbEntityTypeSelector->currentIndex());
+
+        if (name != NULL)
+        {
+            statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(name, QString::number(stopWatch.elapsed())));
+            setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), name));
+        }
+        else
+        {
+            statusLabel->setText(tr("Map loaded in %2 ms.").arg(QString::number(stopWatch.elapsed())));
+            setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
+        }
 
         // FIX: Scroll to main map
         QTimer::singleShot
@@ -1058,12 +1190,33 @@ namespace ame
                 int yEnt = (ui->scrollArea_5->viewport()->height() - size.height() * 16) / 2;
                 ui->scrollArea_5->horizontalScrollBar()->setValue(scrollPos.x() - ((xEnt > 0) ? xEnt : 0));
                 ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - ((yEnt > 0) ? yEnt : 0));
+
+                if (ui->tabWidget->currentIndex() == 0)
+                {
+                    QMouseEvent eve( (QEvent::MouseMove), ui->glMapEditor->mapFromGlobal(QCursor::pos()),
+                                     Qt::NoButton,
+                                     QApplication::mouseButtons(),
+                                     QApplication::keyboardModifiers()   );
+                    QApplication::sendEvent(ui->glMapEditor, &eve);
+                }
+                else if (ui->tabWidget->currentIndex() == 1)
+                {
+                    QMouseEvent eve( (QEvent::MouseMove), ui->glEntityEditor->mapFromGlobal(QCursor::pos()),
+                                     Qt::NoButton,
+                                     QApplication::mouseButtons(),
+                                     QApplication::keyboardModifiers()   );
+                    QApplication::sendEvent(ui->glEntityEditor, &eve);
+                }
             }
         );
 
-        setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), ui->treeView->model()->data(index, Qt::DisplayRole).toString()));
-        statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(ui->treeView->model()->data(index, Qt::DisplayRole).toString(), QString::number(stopWatch.elapsed())));
+        ui->tabWidget->setTabEnabled(1, true);
+        ui->tabWidget->setTabEnabled(2, true);
+        enableAfterMapLoad();
+
+        return true;
     }
+
 
 
     ///////////////////////////////////////////////////////////
@@ -1125,6 +1278,32 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::SpriteMode_changed(QAction *action)
+    {
+        ui->tbSpriteMode->setIcon(action->icon());
+        QList<QAction*> items = ui->tbSpriteMode->menu()->actions();
+        int index = 0;
+        for (int i = 0; i < items.count(); i++)
+        {
+            if(items[i] == action)
+            {
+                index = i;
+                break;
+            }
+        }
+        CHANGESETTING(SpriteMode, static_cast<SpriteModeType>(index));
+        Settings::write();
+        if(m_Rom.info().isLoaded() && ui->tabWidget->currentIndex() == 1)
+            ui->glEntityEditor->repaint();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   7/3/2016
@@ -1139,7 +1318,7 @@ namespace ame
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().npcs().size() > 0);
 
             if (m_CurrentMap->entities().npcs().size() > 0)
-                on_spnEntityScroller_valueChanged(0);
+                on_spnEntityScroller_valueChanged(m_CurrentNPC);
             else
                 ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
@@ -1150,7 +1329,7 @@ namespace ame
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().warps().size() > 0);
 
             if (m_CurrentMap->entities().warps().size() > 0)
-                on_spnEntityScroller_valueChanged(0);
+                on_spnEntityScroller_valueChanged(m_CurrentWarp);
             else
                 ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
@@ -1161,7 +1340,7 @@ namespace ame
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().triggers().size() > 0);
 
             if (m_CurrentMap->entities().triggers().size() > 0)
-                on_spnEntityScroller_valueChanged(0);
+                on_spnEntityScroller_valueChanged(m_CurrentTrigger);
             else
                 ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
@@ -1172,7 +1351,7 @@ namespace ame
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().signs().size() > 0);
 
             if (m_CurrentMap->entities().signs().size() > 0)
-                on_spnEntityScroller_valueChanged(0);
+                on_spnEntityScroller_valueChanged(m_CurrentSign);
             else
                 ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
@@ -1194,7 +1373,11 @@ namespace ame
         QPoint startPos = ui->glMapEditor->mainPos();
         if (ui->cmbEntityTypeSelector->currentIndex() == 0 && m_CurrentMap->entities().npcs().size() > 0)
         {
-            Npc *eventN = m_CurrentMap->entities().npcs()[arg1];
+            if (arg1 >= m_CurrentMap->entities().npcs().size())
+                m_CurrentNPC = m_CurrentMap->entities().npcs().size() - 1;
+            else
+                m_CurrentNPC = arg1;
+            Npc *eventN = m_CurrentMap->entities().npcs()[m_CurrentNPC];
             ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
             ui->npc_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventN->offset, 16).toUpper());
             ui->npc_num->setValue(eventN->npcID);
@@ -1211,19 +1394,23 @@ namespace ame
             ui->npc_script->setValue(eventN->ptrScript);
             ui->npc_flag->setValue(eventN->flag);
             ui->npc_raw_data->setData(eventN->rawData());
-            ui->spnEntityScroller->setValue(arg1);
+            ui->spnEntityScroller->setValue(m_CurrentNPC);
             startPos += QPoint(eventN->positionX*16, eventN->positionY*16);
 
             CurrentEntity entity;
             entity.absPos = startPos;
             entity.type = ET_Npc;
             entity.entity = eventN;
-            entity.index = arg1;
+            entity.index = m_CurrentNPC;
             ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 1 && m_CurrentMap->entities().warps().size() > 0)
         {
-            Warp *eventW = m_CurrentMap->entities().warps()[arg1];
+            if (arg1 >= m_CurrentMap->entities().warps().size())
+                m_CurrentWarp = m_CurrentMap->entities().warps().size() - 1;
+            else
+                m_CurrentWarp = arg1;
+            Warp *eventW = m_CurrentMap->entities().warps()[m_CurrentWarp];
             ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
             ui->warp_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventW->offset, 16).toUpper());
             ui->warp_pos_x->setValue(eventW->positionX);
@@ -1233,19 +1420,23 @@ namespace ame
             ui->warp_bank->setValue(eventW->bank);
             ui->spnWarpHeight->setValue(eventW->level);
             ui->warp_raw_data->setData(eventW->rawData());
-            ui->spnEntityScroller->setValue(arg1);
+            ui->spnEntityScroller->setValue(m_CurrentWarp);
             startPos += QPoint(eventW->positionX*16, eventW->positionY*16);
 
             CurrentEntity entity;
             entity.absPos = startPos;
             entity.type = ET_Warp;
             entity.entity = eventW;
-            entity.index = arg1;
+            entity.index = m_CurrentWarp;
             ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 2 && m_CurrentMap->entities().triggers().size() > 0)
         {
-            Trigger *eventT = m_CurrentMap->entities().triggers()[arg1];
+            if (arg1 >= m_CurrentMap->entities().triggers().size())
+                m_CurrentTrigger = m_CurrentMap->entities().triggers().size() - 1;
+            else
+                m_CurrentTrigger = arg1;
+            Trigger *eventT = m_CurrentMap->entities().triggers()[m_CurrentTrigger];
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
             ui->trigger_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventT->offset, 16).toUpper());
             ui->trigger_pos_x->setValue(eventT->positionX);
@@ -1255,19 +1446,23 @@ namespace ame
             ui->trigger_script->setValue(eventT->ptrScript);
             ui->spnTriggerHeight->setValue(eventT->level);
             ui->trigger_raw_data->setData(eventT->rawData());
-            ui->spnEntityScroller->setValue(arg1);
+            ui->spnEntityScroller->setValue(m_CurrentTrigger);
             startPos += QPoint(eventT->positionX*16, eventT->positionY*16);
 
             CurrentEntity entity;
             entity.absPos = startPos;
             entity.type = ET_Trigger;
             entity.entity = eventT;
-            entity.index = arg1;
+            entity.index = m_CurrentTrigger;
             ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (m_CurrentMap->entities().signs().size() > 0)
         {
-            Sign *eventS = m_CurrentMap->entities().signs()[arg1];
+            if (arg1 >= m_CurrentMap->entities().signs().size())
+                m_CurrentSign = m_CurrentMap->entities().signs().size() - 1;
+            else
+                m_CurrentSign = arg1;
+            Sign *eventS = m_CurrentMap->entities().signs()[m_CurrentSign];
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
             ui->sign_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventS->offset, 16).toUpper());
             ui->sign_pos_x->setValue(eventS->positionX);
@@ -1276,14 +1471,14 @@ namespace ame
             ui->sign_raw_data->setData(eventS->rawData());
             ui->spnSignHeight->setValue(eventS->level);
             ui->spnSignType->setValue(static_cast<int>(eventS->type));
-            ui->spnEntityScroller->setValue(arg1);
+            ui->spnEntityScroller->setValue(m_CurrentSign);
             startPos += QPoint(eventS->positionX*16, eventS->positionY*16);
 
             CurrentEntity entity;
             entity.absPos = startPos;
             entity.type = ET_Sign;
             entity.entity = eventS;
-            entity.index = arg1;
+            entity.index = m_CurrentSign;
             ui->glEntityEditor->setCurrentEntity(entity);
 
             showCorrectSignType(eventS);
@@ -1478,6 +1673,100 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::entity_doubleClick(QMouseEvent *event)
+    {
+        // Map coordinates to block-coordinates
+        int blockX = (event->pos().x()-ui->glMapEditor->mainPos().x()) / 16;
+        int blockY = (event->pos().y()-ui->glMapEditor->mainPos().y()) / 16;
+        int indexN, indexW, indexT, indexS;
+
+        Npc *eventN = nullptr;
+        Warp *eventW = nullptr;
+        Trigger *eventT = nullptr;
+        Sign *eventS = nullptr;
+
+        // Find the NPC entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().npcs().size(); i++)
+        {
+            Npc *npc = m_CurrentMap->entities().npcs()[i];
+            if (npc->positionX == blockX && npc->positionY == blockY)
+            {
+                eventN = npc;
+                indexN = i;
+                break;
+            }
+        }
+        if (eventN != NULL)
+        {
+            if (!SETTINGS(ScriptEditor).isEmpty())
+                openScript(ui->npc_script->value());
+            return;
+        }
+
+        // Find the warp entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().warps().size(); i++)
+        {
+            Warp *warp = m_CurrentMap->entities().warps()[i];
+            if (warp->positionX == blockX && warp->positionY == blockY)
+            {
+                eventW = warp;
+                indexW = i;
+                break;
+            }
+        }
+        if (eventW != NULL)
+        {
+            m_CurrentWarp = ui->warp_number->value();
+            loadMapChangeTreeView(ui->warp_bank->value(), ui->warp_map->value());
+            return;
+        }
+
+        // Find the trigger entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().triggers().size(); i++)
+        {
+            Trigger *trigger = m_CurrentMap->entities().triggers()[i];
+            if (trigger->positionX == blockX && trigger->positionY == blockY)
+            {
+                eventT = trigger;
+                indexT = i;
+                break;
+            }
+        }
+        if (eventT != NULL)
+        {
+            if (!SETTINGS(ScriptEditor).isEmpty())
+                openScript(ui->trigger_script->value());
+            return;
+        }
+
+        // Find the sign entity at that position
+        for (int i = 0; i < m_CurrentMap->entities().signs().size(); i++)
+        {
+            Sign *sign = m_CurrentMap->entities().signs()[i];
+            if (sign->positionX == blockX && sign->positionY == blockY)
+            {
+                eventS = sign;
+                indexS = i;
+                break;
+            }
+        }
+        if (eventS != NULL)
+        {
+            if (ui->sign_base_id->value() <= ST_ScriptLeft && !SETTINGS(ScriptEditor).isEmpty())
+            {
+                openScript(ui->sign_script->value());
+            }
+            return;
+        }
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   7/3/2016
@@ -1657,11 +1946,23 @@ namespace ame
     {
         SettingsDialog settingsDialog(this);
         settingsDialog.exec();
+        if (!SETTINGS(ScriptEditor).isEmpty())
+        {
+            ui->btnNPCOpenScript->setEnabled(true);
+            ui->btnTriggerOpenScript->setEnabled(true);
+            ui->btnSignOpenScript->setEnabled(true);
+        }
+        else
+        {
+            ui->btnNPCOpenScript->setEnabled(false);
+            ui->btnTriggerOpenScript->setEnabled(false);
+            ui->btnSignOpenScript->setEnabled(false);
+        }
     }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
-    // Contributors:   Diegoisawesome
+    // Contributors:   Diegoisawesome, Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   9/23/2016
     //
@@ -1684,4 +1985,73 @@ namespace ame
         ui->glMapEditor->setGridVisible(checked);
         ui->glBlockEditor->setGridVisible(checked);
     }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnWarpToDest_clicked()
+    {
+        loadMapChangeTreeView(ui->warp_bank->value(), ui->warp_map->value());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/7/2016
+    //
+    ///////////////////////////////////////////////////////////
+    bool MainWindow::openScript(UInt32 scriptAddr)
+    {
+        if (SETTINGS(ScriptEditor).isEmpty())
+        {
+            Messages::showMessage(this, tr("You have not yet selected a script editor.\nPlease choose a script editor from the Settings dialog."));
+            return false;
+        }
+        QStringList args;
+        args << QDir::toNativeSeparators(m_Rom.info().path()) << QString::number(scriptAddr, 16);
+        return QProcess::startDetached(SETTINGS(ScriptEditor), args);
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/8/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnNPCOpenScript_clicked()
+    {
+        openScript(ui->npc_script->value());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/8/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnTriggerOpenScript_clicked()
+    {
+        openScript(ui->trigger_script->value());
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/8/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnSignOpenScript_clicked()
+    {
+        openScript(ui->sign_script->value());
+    }
 }
+

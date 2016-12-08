@@ -55,13 +55,14 @@ namespace ame
     /// \author  Pokedude
     /// \version 1.0.0.0
     /// \date    6/17/2016
-    /// \brief   Displays a map with all it's connections.
+    /// \brief   Displays a map with all its connections.
     ///
     ///////////////////////////////////////////////////////////
     class AMEMapView : public QWidget {
     friend class AMEEntityView;
     friend class AMEBorderView;
     friend class AMEBlockView;
+    Q_OBJECT
     public:
 
         ///////////////////////////////////////////////////////////
@@ -234,6 +235,7 @@ namespace ame
         void setMPListener(MovePermissionListener *listener);
 
 
+
     protected:
 
         ///////////////////////////////////////////////////////////
@@ -267,11 +269,19 @@ namespace ame
         void leaveEvent(QEvent *event);
 
         ///////////////////////////////////////////////////////////
+        /// \brief Overrides the mouse wheel event.
+        ///
+        ///////////////////////////////////////////////////////////
+        void wheelEvent(QWheelEvent *event);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Paints the map image.
         ///
         ///////////////////////////////////////////////////////////
         void paintEvent(QPaintEvent *event);
 
+    signals:
+        bool loadMapChangeTreeView(Map *map);
 
     private:
 
@@ -325,6 +335,7 @@ namespace ame
         Boolean m_ShowGrid;
         Boolean m_IsInit;
         Boolean m_ValidPress;
+        Int32 m_HoveredConnection;
     };
 }
 

@@ -44,6 +44,7 @@
 #include <AME/Entities/Tables/EventTable.hpp>
 #include <AME/Entities/Tables/MapScriptTable.hpp>
 #include <AME/Entities/Tables/ConnectionTable.hpp>
+#include <QStandardItem>
 
 
 namespace ame
@@ -197,12 +198,24 @@ namespace ame
         ///////////////////////////////////////////////////////////
         QByteArray rawData();
 
-
         ///////////////////////////////////////////////////////////
         /// \brief Specifies the wild-pokemon table.
         ///
         ///////////////////////////////////////////////////////////
         void setWildTable(UInt32 index);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Gets the current item in the treeview.
+        ///
+        ///////////////////////////////////////////////////////////
+        QModelIndex *getTreeViewIndex();
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the current treeview item from the UI.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setTreeViewIndex(const QModelIndex &treeItem);
+
 
 
     private:
@@ -230,9 +243,11 @@ namespace ame
         EventTable m_Events;            ///< Holds all the entities
         MapScriptTable m_Scripts;       ///< Holds all level scripts
         ConnectionTable m_Connections;  ///< Holds all connections
-        Int32 m_WildTable;              ///< Holds the wildpokemon table index
+        Int32 m_WildTable;              ///< Holds the wild Pokémon table index
+        QModelIndex *m_TreeViewIndex;   ///< Holds a pointer to the model index
     };
 }
+Q_DECLARE_METATYPE(ame::Map *)
 
 
 #endif // __AME_MAP_HPP__

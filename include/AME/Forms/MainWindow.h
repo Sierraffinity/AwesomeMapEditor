@@ -109,6 +109,25 @@ namespace ame
         bool openRomDialog();
 
         ///////////////////////////////////////////////////////////
+        /// \brief Loads a map to the editor.
+        ///
+        /// Loads the specified map into the editor window.
+        /// Can be called with bank and map or with a Map object,
+        /// and with or without a display name.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool loadMap(int bank, int map);
+        bool loadMap(int bank, int map, const QString &name);
+        bool loadMap(Map *currentMap);
+        bool loadMap(Map *currentMap, const QString &name);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Changes the loaded map in the treeview.
+        ///
+        ///////////////////////////////////////////////////////////
+        void changeTreeViewMap(const QModelIndex &index);
+
+        ///////////////////////////////////////////////////////////
         /// \brief Attempts to load all map-related data.
         ///
         /// Loads the configuration file and reads all data.
@@ -119,7 +138,7 @@ namespace ame
         void loadMapData();
 
         ///////////////////////////////////////////////////////////
-        /// \brief Sets the wild-pokemon tab up.
+        /// \brief Sets the wild Pokémon tab up.
         ///
         ///////////////////////////////////////////////////////////
         void setupWildPokemon(Map *map);
@@ -142,6 +161,12 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void clearBeforeLoading();
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Open the specified script in a script editor.
+        ///
+        ///////////////////////////////////////////////////////////
+        bool openScript(UInt32 scriptAddr);
+
 
     private slots:
 
@@ -154,9 +179,13 @@ namespace ame
         void on_sldWildWaterChance_valueChanged(int value);
         void on_sldWildFishingChance_valueChanged(int value);
         void on_sldWildOtherChance_valueChanged(int value);
+        bool loadMapChangeTreeView(Map *map);
+        bool loadMapChangeTreeView(int bank, int map);
         void entity_mouseClick(QMouseEvent *event);
+        void entity_doubleClick(QMouseEvent *event);
         void MapSortOrder_changed(QAction *action);
         void MapTabTool_changed(QAction *action);
+        void SpriteMode_changed(QAction *action);
         void RecentFile_triggered();
         void updateTreeView();
         void disableBeforeROMLoad();
@@ -178,6 +207,14 @@ namespace ame
         void on_action_Tileset_Editor_triggered();
         void on_action_Show_Grid_toggled(bool arg1);
 
+        void on_btnWarpToDest_clicked();
+
+        void on_btnNPCOpenScript_clicked();
+
+        void on_btnTriggerOpenScript_clicked();
+
+        void on_btnSignOpenScript_clicked();
+
     private:
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,6 +229,10 @@ namespace ame
         QLabel* statusLabelCredit;                  ///< Status bar label reference for credit
         QFilterChildrenProxyModel *m_proxyModel;    ///< Tree view proxy model reference
         MovePermissionListener *m_MPListener;       ///< Move permission event listener
+        UInt32 m_CurrentNPC;                        ///< Current NPC ID
+        UInt32 m_CurrentWarp;                       ///< Current warp ID
+        UInt32 m_CurrentTrigger;                    ///< Current trigger ID
+        UInt32 m_CurrentSign;                       ///< Current sign ID
     };
 
 
