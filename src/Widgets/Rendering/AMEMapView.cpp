@@ -656,20 +656,29 @@ namespace ame
                     QPoint mpc = m_MapPositions.at(i);
                     QSize mzc = m_MapSizes.at(i);
                     if (mouseX >= mpc.x()              && mouseY >= mpc.y()            &&
-                        mouseX <= mpc.x() + mzc.width() && mouseY <= mpc.y() + mzc.height() &&
-                        i != m_HoveredConnection)
+                        mouseX <= mpc.x() + mzc.width() && mouseY <= mpc.y() + mzc.height())
                     {
-                        m_ShowCursor = false;
-                        m_HoveredConnection = i;
-                        repaint();
+                        if (i != m_HoveredConnection)
+                        {
+                            m_ShowCursor = false;
+                            m_HoveredConnection = i;
+                            repaint();
+                        }
                         return;
                     }
+                }
+                if (m_HoveredConnection != 0)
+                {
+                    m_HoveredConnection = 0;
+                    needsRepaint = true;
                 }
                 if (m_ShowCursor)
                 {
                     m_ShowCursor = false;
-                    repaint();
+                    needsRepaint = true;
                 }
+                if (needsRepaint)
+                    repaint();
                 return;
             }
         }
@@ -1783,9 +1792,9 @@ namespace ame
             {
                 const QSize &ms = m_Maps.at(0)->header().size();
                 QVector<QLine> lines;
-                for (int i = 0; i <= ms.width(); i++)
+                for (int i = 0; i < ms.width(); i++)
                     lines.append(QLine(orig.x() + (i * 16), orig.y(), orig.x() + (i * 16), orig.y() + ms.height() * 16 - 1));
-                for (int i = 0; i <= ms.height(); i++)
+                for (int i = 0; i < ms.height(); i++)
                     lines.append(QLine(orig.x(), orig.y() + (i * 16), orig.x() + ms.width() * 16 - 1, orig.y() + (i * 16)));
                 painter.setPen(Qt::GlobalColor::black);
                 painter.drawLines(lines);

@@ -1062,7 +1062,7 @@ namespace ame
 
         ui->treeView->scrollTo(index);
         ui->treeView->setExpanded(index, true);
-        m_lastOpenedMap = new QModelIndex(index);
+        m_lastOpenedMap = new QModelIndex(m_proxyModel->mapToSource(index));
     }
 
     ///////////////////////////////////////////////////////////
@@ -1195,16 +1195,16 @@ namespace ame
                 {
                     QMouseEvent eve( (QEvent::MouseMove), ui->glMapEditor->mapFromGlobal(QCursor::pos()),
                                      Qt::NoButton,
-                                     QApplication::mouseButtons(),
-                                     QApplication::keyboardModifiers()   );
+                                     Qt::NoButton,
+                                     Qt::NoModifier   );
                     QApplication::sendEvent(ui->glMapEditor, &eve);
                 }
                 else if (ui->tabWidget->currentIndex() == 1)
                 {
                     QMouseEvent eve( (QEvent::MouseMove), ui->glEntityEditor->mapFromGlobal(QCursor::pos()),
                                      Qt::NoButton,
-                                     QApplication::mouseButtons(),
-                                     QApplication::keyboardModifiers()   );
+                                     Qt::NoButton,
+                                     Qt::NoModifier   );
                     QApplication::sendEvent(ui->glEntityEditor, &eve);
                 }
             }
@@ -1869,6 +1869,9 @@ namespace ame
     {
         m_proxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive,
                                                                    QRegExp::FixedString));
+        const QModelIndex index = m_proxyModel->mapFromSource(*m_CurrentMap->getTreeViewIndex());
+        if (index.isValid())
+            changeTreeViewMap(index);
     }
 
     ///////////////////////////////////////////////////////////
