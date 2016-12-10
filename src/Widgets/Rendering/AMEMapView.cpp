@@ -120,6 +120,15 @@ namespace ame
                 i.bits()[x+px+((y+py)*i.width())] = src[px+py*w];
     }
 
+    inline void updatePixels(int x1, int y1, int w1, int h1, QPixmap &p,
+                             int x2, int y2, int w2, int h2, QImage &i)
+    {
+        QPainter painter(&p);
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+        painter.drawImage(QRect(x1,y1,w1,h1), i, QRect(x2,y2,w2,h2));
+        painter.end();
+    }
+
     ///////////////////////////////////////////////////////////
     // Function type:  Helper
     // Contributors:   Pokedude
@@ -522,20 +531,38 @@ namespace ame
         if (newBlock.block >= 0)
         {
             block->block = newBlock.block;
+            x *= 16;
+            y *= 16;
+
             // Sets the block in the actual image (BG & FG)
+            int x2, y2;
             if (newBlock.block >= m_PrimaryBlockCount)
-                extractBlock(m_SecondaryBackground, newBlock.block - m_PrimaryBlockCount);
+            {
+                x2 = ((newBlock.block - m_PrimaryBlockCount) % 8) * 16;
+                y2 = ((newBlock.block - m_PrimaryBlockCount) / 8) * 16;
+            }
             else
-                extractBlock(m_PrimaryBackground, newBlock.block);
+            {
+                x2 = (newBlock.block % 8) * 16;
+                y2 = (newBlock.block / 8) * 16;
+            }
 
-            updatePixels(x * 16, y * 16, 16, 16, m_MapBackground, blockBuffer);
+            updatePixels(x, y, 16, 16, m_MapBackground,
+                         x2,y2,16, 16, m_BlockBackground);
 
             if (newBlock.block >= m_PrimaryBlockCount)
-                extractBlock(m_SecondaryForeground, newBlock.block - m_PrimaryBlockCount);
+            {
+                x2 = ((newBlock.block - m_PrimaryBlockCount) % 8) * 16;
+                y2 = ((newBlock.block - m_PrimaryBlockCount) / 8) * 16;
+            }
             else
-                extractBlock(m_PrimaryForeground, newBlock.block);
+            {
+                x2 = (newBlock.block % 8) * 16;
+                y2 = (newBlock.block / 8) * 16;
+            }
 
-            updatePixels(x * 16, y * 16, 16, 16, m_MapForeground, blockBuffer);
+            updatePixels(x, y, 16, 16, m_MapForeground,
+                         x2,y2,16, 16, m_BlockForeground);
         }
 
         if (newBlock.permission >= 0)
@@ -1366,16 +1393,16 @@ namespace ame
 
 
         // Generates all the images
-        m_MapForeground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
-        m_MapBackground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
+        m_iMapForeground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
+        m_iMapBackground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
 
-        for (int i = 0; i < m_MapForeground.byteCount(); i++)
-            m_MapForeground.bits()[i] = m_ForePixelBuffers[0][i];
-        for (int i = 0; i < m_MapBackground.byteCount(); i++)
-            m_MapBackground.bits()[i] = m_BackPixelBuffers[0][i];
+        for (int i = 0; i < m_iMapForeground.byteCount(); i++)
+            m_iMapForeground.bits()[i] = m_ForePixelBuffers[0][i];
+        for (int i = 0; i < m_iMapBackground.byteCount(); i++)
+            m_iMapBackground.bits()[i] = m_BackPixelBuffers[0][i];
 
-        m_MapForeground.setColorTable(m_Palettes);
-        m_MapBackground.setColorTable(m_PalCopy);
+        m_iMapForeground.setColorTable(m_Palettes);
+        m_iMapBackground.setColorTable(m_PalCopy);
 
         for (int i = 1; i < m_Maps.size(); i++)
         {
@@ -1405,6 +1432,8 @@ namespace ame
 
 
         m_IsInit = true;
+        m_MapBackground = QPixmap::fromImage(m_iMapBackground);
+        m_MapForeground = QPixmap::fromImage(m_iMapForeground);
         setMinimumSize(m_WidgetSize);
         return true;
     }
@@ -1725,17 +1754,18 @@ namespace ame
 
 
         // Generates all the images
-        m_MapForeground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
-        m_MapBackground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
+        m_iMapForeground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
+        m_iMapBackground = QImage(m_MapSizes.at(0).width(), m_MapSizes.at(0).height(), QImage::Format_Indexed8);
 
-        for (int i = 0; i < m_MapForeground.byteCount(); i++)
-            m_MapForeground.bits()[i] = m_ForePixelBuffers[0][i];
-        for (int i = 0; i < m_MapBackground.byteCount(); i++)
-            m_MapBackground.bits()[i] = m_BackPixelBuffers[0][i];
+        for (int i = 0; i < m_iMapForeground.byteCount(); i++)
+            m_iMapForeground.bits()[i] = m_ForePixelBuffers[0][i];
+        for (int i = 0; i < m_iMapBackground.byteCount(); i++)
+            m_iMapBackground.bits()[i] = m_BackPixelBuffers[0][i];
 
-        m_MapForeground.setColorTable(m_Palettes);
-        m_MapBackground.setColorTable(m_PalCopy);
-
+        m_iMapForeground.setColorTable(m_Palettes);
+        m_iMapBackground.setColorTable(m_PalCopy);
+        m_MapForeground = QPixmap::fromImage(m_iMapForeground);
+        m_MapBackground = QPixmap::fromImage(m_iMapBackground);
 
         m_IsInit = true;
         setMinimumSize(m_WidgetSize);
@@ -1756,10 +1786,10 @@ namespace ame
             Q_UNUSED(event);
             QPoint pmain = mainPos();
             QPainter painter(this);
-            painter.drawImage(pmain.x(), pmain.y(), m_MapBackground);
+            painter.drawPixmap(pmain.x(), pmain.y(), m_MapBackground);
 
             // Between background and foreground, draw the overworld sprites on the map.
-            painter.drawImage(pmain.x(), pmain.y(), m_MapForeground);
+            painter.drawPixmap(pmain.x(), pmain.y(), m_MapForeground);
 
             if (!m_LayoutView)
             {
