@@ -301,8 +301,10 @@ namespace ame
         QVector<QVector<QRgb>> m_ConnPalettes;
         QImage m_BlockForeground;
         QImage m_BlockBackground;
-        QImage m_MapForeground;
-        QImage m_MapBackground;
+        QImage m_iMapForeground;
+        QImage m_iMapBackground;
+        QPixmap m_MapForeground;
+        QPixmap m_MapBackground;
         QList<QImage> m_ConnMapFore;
         QList<QImage> m_ConnMapBack;
         QList<QImage> m_ConnImages;

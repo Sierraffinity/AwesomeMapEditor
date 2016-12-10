@@ -95,7 +95,8 @@ namespace ame
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QImage m_BorderImage;
+        QImage m_iBorderImage;
+        QPixmap m_BorderImage;
         Boolean m_IsInit;
     };
 }

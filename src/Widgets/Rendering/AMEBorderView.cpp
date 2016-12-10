@@ -105,9 +105,9 @@ namespace ame
             pbd = &view->border();
 
         MapBorder &border = *pbd;
-        m_BorderImage = QImage(pbd->width() * 16, pbd->height() * 16, QImage::Format_ARGB32_Premultiplied);
+        m_iBorderImage = QImage(pbd->width() * 16, pbd->height() * 16, QImage::Format_ARGB32_Premultiplied);
 
-        QPainter painter(&m_BorderImage);
+        QPainter painter(&m_iBorderImage);
         // Fetches every block and copies it to the pixel buffers
         for (int i = 0; i < border.blocks().size(); i++)
         {
@@ -123,6 +123,7 @@ namespace ame
 
         // Sets the minimum size
         painter.end();
+        m_BorderImage = QPixmap::fromImage(m_iBorderImage);
         setMinimumSize(border.width()*16, border.height()*16);
     }
 
@@ -137,7 +138,7 @@ namespace ame
     {
         Q_UNUSED(event);
         QPainter painter(this);
-        painter.drawImage(0, 0, m_BorderImage);
+        painter.drawPixmap(0, 0, m_BorderImage);
         painter.end();
     }
 }
