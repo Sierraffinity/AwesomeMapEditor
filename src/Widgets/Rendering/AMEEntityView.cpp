@@ -124,9 +124,12 @@ namespace ame
         if (m_MapView && m_Entities)
         {
             // Draws the original map
-            QPixmap pix = m_MapView->grab();
             QPainter painter(this);
-            painter.drawPixmap(0, 0, pix);
+            QPoint mpos = m_MapView->mainPos();
+
+            painter.drawPixmap(mpos.x(), mpos.y(), m_MapView->m_MapBackground);
+            /* Do your entity stuff here, Diego <3 */
+            painter.drawPixmap(mpos.x(), mpos.y(), m_MapView->m_MapForeground);
             painter.translate(m_Translation);
 
             // Draws movement boundaries

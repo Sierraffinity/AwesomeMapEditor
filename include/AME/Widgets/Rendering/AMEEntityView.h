@@ -39,7 +39,7 @@
 // Include files
 //
 ///////////////////////////////////////////////////////////
-#include <AME/Widgets/OpenGL/AMEMapView.h>
+#include <AME/Widgets/Rendering/AMEMapView.h>
 
 
 namespace ame

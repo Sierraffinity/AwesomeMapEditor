@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <AME/Graphics/TilesetManager.hpp>
-#include <AME/Widgets/OpenGL/AMEBlockView.h>
+#include <AME/Widgets/Rendering/AMEBlockView.h>
 
 namespace ame {
 
