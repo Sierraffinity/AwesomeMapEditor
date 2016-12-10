@@ -132,6 +132,16 @@ namespace ame
             painter.drawPixmap(mpos.x(), mpos.y(), m_MapView->m_MapForeground);
             painter.translate(m_Translation);
 
+            if (!m_MapView->m_LayoutView)
+            {
+                int conncnt = m_MapView->m_MapSizes.size()-1;
+                for (int i = 0; i < conncnt; i++)
+                {
+                    QPoint pconn = m_MapView->m_MapPositions.at(i+1);
+                    painter.drawImage(pconn.x(), pconn.y(), m_MapView->m_ConnImages.at(i));
+                }
+            }
+
             // Draws movement boundaries
             if (m_Selection.type == ET_Npc)
             {

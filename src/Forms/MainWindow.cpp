@@ -1796,9 +1796,6 @@ namespace ame
             ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea_5->viewport()->height() -
                                                              size.height() * 16) / 2);
         }
-
-        // Fix: Movement permissions shown in entity tab
-        ui->tabWidget_2->setCurrentIndex(0);
     }
 
 
