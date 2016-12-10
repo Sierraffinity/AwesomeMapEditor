@@ -1056,7 +1056,7 @@ namespace ame
     {
         if(m_lastOpenedMap != NULL)
         {
-            ui->treeView->setExpanded(*m_lastOpenedMap, false);
+            ui->treeView->setExpanded(m_proxyModel->mapFromSource(*m_lastOpenedMap), false);
             delete m_lastOpenedMap;
         }
 
