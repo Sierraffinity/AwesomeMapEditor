@@ -1769,7 +1769,7 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
-    // Date of edit:   7/3/2016
+    // Date of edit:   12/11/2016
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_tabWidget_currentChanged(int index)
@@ -1796,6 +1796,9 @@ namespace ame
             ui->scrollArea_5->verticalScrollBar()->setValue(scrollPos.y() - (ui->scrollArea_5->viewport()->height() -
                                                              size.height() * 16) / 2);
         }
+
+        // Fix: Movement permissions shown in entity tab
+        ui->tabWidget_2->setCurrentIndex(0);
     }
 
 
