@@ -130,7 +130,6 @@ namespace ame
             painter.drawPixmap(mpos.x(), mpos.y(), m_MapView->m_MapBackground);
             /* Do your entity stuff here, Diego <3 */
             painter.drawPixmap(mpos.x(), mpos.y(), m_MapView->m_MapForeground);
-            painter.translate(m_Translation);
 
             if (!m_MapView->m_LayoutView)
             {
@@ -141,6 +140,8 @@ namespace ame
                     painter.drawImage(pconn.x(), pconn.y(), m_MapView->m_ConnImages.at(i));
                 }
             }
+
+            painter.translate(m_Translation);
 
             // Draws movement boundaries
             if (m_Selection.type == ET_Npc)
