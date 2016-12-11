@@ -185,7 +185,6 @@ namespace ame
         void entity_doubleClick(QMouseEvent *event);
         void MapSortOrder_changed(QAction *action);
         void MapTabTool_changed(QAction *action);
-        void SpriteMode_changed(QAction *action);
         void RecentFile_triggered();
         void updateTreeView();
         void disableBeforeROMLoad();
@@ -214,6 +213,8 @@ namespace ame
         void on_btnTriggerOpenScript_clicked();
 
         void on_btnSignOpenScript_clicked();
+
+        void on_btnShowSprites_toggled(bool checked);
 
     private:
 

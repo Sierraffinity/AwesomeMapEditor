@@ -868,7 +868,7 @@
        <widget class="QWidget" name="tabEntities">
         <attribute name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/icons/viewsprites.ico</normaloff>:/icons/viewsprites.ico</iconset>
+          <normaloff>:/icons/npcsprite.ico</normaloff>:/icons/npcsprite.ico</iconset>
         </attribute>
         <attribute name="title">
          <string>Entities</string>
@@ -1048,19 +1048,16 @@
             </spacer>
            </item>
            <item>
-            <widget class="QToolButton" name="tbSpriteMode">
+            <widget class="QToolButton" name="btnShowSprites">
              <property name="text">
               <string/>
              </property>
              <property name="icon">
               <iconset resource="../images.qrc">
-               <normaloff>:/icons/npcabove.ico</normaloff>:/icons/npcabove.ico</iconset>
+               <normaloff>:/icons/npcsprite.ico</normaloff>:/icons/npcsprite.ico</iconset>
              </property>
              <property name="checkable">
-              <bool>false</bool>
-             </property>
-             <property name="popupMode">
-              <enum>QToolButton::MenuButtonPopup</enum>
+              <bool>true</bool>
              </property>
              <property name="autoRaise">
               <bool>true</bool>
@@ -2991,8 +2988,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>215</width>
+                    <height>349</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3581,8 +3578,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>215</width>
+                    <height>456</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4358,8 +4355,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>220</width>
+                    <height>549</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -7937,7 +7934,7 @@ color : red;
                   <item row="2" column="0">
                    <widget class="QLabel" name="label_103">
                     <property name="text">
-                     <string>Layout Script Pointer:</string>
+                     <string>Map Script Pointer:</string>
                     </property>
                    </widget>
                   </item>
@@ -9214,7 +9211,7 @@ color : red;
   </action>
   <action name="actionSpriteAbove">
    <property name="icon">
-    <iconset resource="../images.qrc">
+    <iconset>
      <normaloff>:/icons/npcabove.ico</normaloff>:/icons/npcabove.ico</iconset>
    </property>
    <property name="text">
@@ -9223,7 +9220,7 @@ color : red;
   </action>
   <action name="actionSpriteTranslucent">
    <property name="icon">
-    <iconset resource="../images.qrc">
+    <iconset>
      <normaloff>:/icons/npctranslucent.ico</normaloff>:/icons/npctranslucent.ico</iconset>
    </property>
    <property name="text">
@@ -9232,7 +9229,7 @@ color : red;
   </action>
   <action name="actionSpriteBelow">
    <property name="icon">
-    <iconset resource="../images.qrc">
+    <iconset>
      <normaloff>:/icons/npcbelow.ico</normaloff>:/icons/npcbelow.ico</iconset>
    </property>
    <property name="text">
@@ -9241,7 +9238,7 @@ color : red;
   </action>
   <action name="actionSpriteBlocks">
    <property name="icon">
-    <iconset resource="../images.qrc">
+    <iconset>
      <normaloff>:/icons/npcblock.ico</normaloff>:/icons/npcblock.ico</iconset>
    </property>
    <property name="text">

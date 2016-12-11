@@ -27,10 +27,6 @@
         <file>icons/magic_fill_color.ico</file>
         <file>icons/map.ico</file>
         <file>icons/map_header.ico</file>
-        <file>icons/npcabove.ico</file>
-        <file>icons/npcbelow.ico</file>
-        <file>icons/npcblock.ico</file>
-        <file>icons/npctranslucent.ico</file>
         <file>icons/page.ico</file>
         <file>icons/partyquestionmark.ico</file>
         <file>icons/pencil.ico</file>
@@ -46,7 +42,6 @@
         <file>icons/sort_map.ico</file>
         <file>icons/sort_number.ico</file>
         <file>icons/stamp_edit.ico</file>
-        <file>icons/viewsprites.ico</file>
         <file>icons/wildgrass.ico</file>
         <file>icons/workspace.ico</file>
         <file>icons/world_edit.ico</file>
@@ -60,5 +55,6 @@
         <file>images/Permissions_16x16.png</file>
         <file>images/PermGL.png</file>
         <file>images/Question mark.png</file>
+        <file>icons/npcsprite.ico</file>
     </qresource>
 </RCC>

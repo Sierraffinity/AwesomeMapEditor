@@ -65,18 +65,6 @@ namespace ame
         MSO_Tileset =  3
     };
 
-    ///////////////////////////////////////////////////////////
-    // Struct: SpriteModeType
-    //
-    ///////////////////////////////////////////////////////////
-    enum SpriteModeType
-    {
-        SPM_Above   =  0,
-        SPM_Trans   =  1,
-        SPM_Below   =  2,
-        SPM_Block   =  3
-    };
-
     class Settings {
     public:
 
@@ -100,7 +88,7 @@ namespace ame
         // Static class members
         //
         ///////////////////////////////////////////////////////////
-        static SpriteModeType SpriteMode;
+        static bool ShowSprites;
         static QString ScriptEditor;
         static int Translucency;
         static QString Language;

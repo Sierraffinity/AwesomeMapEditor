@@ -116,6 +116,13 @@ namespace ame
         ///////////////////////////////////////////////////////////
         const CurrentEntity &currentEntity() const;
 
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets the visibility of the grid from the UI.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setGridVisible(bool visible);
+
+
 
     protected:
 
@@ -158,6 +165,7 @@ namespace ame
         CurrentEntity m_Selection;      ///< Currently selected entity
         Boolean m_IsInit;
         const QList<QImage> *m_OW;      ///< Overworld images
+        Boolean m_ShowGrid;
     };
 }
 

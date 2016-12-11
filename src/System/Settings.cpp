@@ -50,7 +50,7 @@ namespace ame
     // Static variable definition
     //
     ///////////////////////////////////////////////////////////
-    SpriteModeType Settings::SpriteMode;
+    bool Settings::ShowSprites;
     QString Settings::ScriptEditor;
     int Settings::Translucency;
     QString Settings::Language;
@@ -87,7 +87,7 @@ namespace ame
             Messages::showMessage(NULL, "Wherpsidingles");
 
         // Tries to parse all the properties
-        SpriteMode         = static_cast<SpriteModeType>(settings["SpriteMode"].as<int>());
+        ShowSprites          = settings["ShowSprites"].as<bool>();
         if (settings["ScriptEditor"].Type() != YAML::NodeType::Null)
             ScriptEditor    = QString::fromStdString(settings["ScriptEditor"].as<std::string>());
         Translucency        = settings["Translucency"].as<int>();
@@ -139,7 +139,7 @@ namespace ame
         YAML::Node settings = YAML::LoadFile(filePath.toStdString());
 
         // Tries to write all the properties
-        settings["SpriteMode"]          = static_cast<int>(SpriteMode);
+        settings["ShowSprites"]         = ShowSprites;
         settings["ScriptEditor"]        = ScriptEditor.toStdString();
         settings["Translucency"]        = Translucency;
         settings["Language"]            = Language.toStdString();
@@ -148,7 +148,7 @@ namespace ame
         settings["HexPrefix"]           = HexPrefix.toStdString();
         settings["ShowRawMapHeader"]    = ShowRawMapHeader;
         settings["ShowRawLayoutHeader"] = ShowRawLayoutHeader;
-        settings["ShowGrid"]            = ShowRawLayoutHeader;
+        settings["ShowGrid"]            = ShowGrid;
         settings["MapAccuracyLevel"]    = MapAccuracyLevel;
         settings["LastPath"]            = LastPath.toStdString();
 

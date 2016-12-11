@@ -133,10 +133,10 @@ namespace ame
 
             if (!m_MapView->m_LayoutView)
             {
-                int conncnt = m_MapView->m_MapSizes.size()-1;
+                int conncnt = m_MapView->m_MapSizes.size() - 1;
                 for (int i = 0; i < conncnt; i++)
                 {
-                    QPoint pconn = m_MapView->m_MapPositions.at(i+1);
+                    QPoint pconn = m_MapView->m_MapPositions.at(i + 1);
                     painter.drawImage(pconn.x(), pconn.y(), m_MapView->m_ConnImages.at(i));
                 }
             }
@@ -147,10 +147,10 @@ namespace ame
             if (m_Selection.type == ET_Npc)
             {
                 Npc *npc = static_cast<Npc *>(m_Selection.entity);
-                Int32 nX = (npc->positionX*16)-(npc->moveRadiusX*16);
-                Int32 nY = (npc->positionY*16)-(npc->moveRadiusY*16);
-                Int32 nW = npc->moveRadiusX*32+16;
-                Int32 nH = npc->moveRadiusY*32+16;
+                Int32 nX = (npc->positionX * 16) - (npc->moveRadiusX * 16);
+                Int32 nY = (npc->positionY * 16) - (npc->moveRadiusY * 16);
+                Int32 nW = npc->moveRadiusX * 32 + 15;
+                Int32 nH = npc->moveRadiusY * 32 + 15;
 
                 painter.setOpacity(0.2);
                 painter.fillRect(nX, nY, nW, nH, QColor(255, 0, 255));
@@ -169,15 +169,9 @@ namespace ame
             // Paints all entities
             foreach (const Npc *npc, m_Entities->npcs())
             {
-                if (SETTINGS(SpriteMode) == SpriteModeType::SPM_Block)
-                {
-                    QRect dst(npc->positionX*16, npc->positionY*16, 16, 16);
-                    painter.drawImage(dst, m_FieldImage, nsrc);
-                }
-                else
+                if (SETTINGS(ShowSprites))
                 {
                     // TODO: Decide what to do with 'invalid' image IDs going forward
-                    // TODO: Place sprites below or make them translucent.
                     UInt8 imageID = npc->imageID;
                     if (imageID > CONFIG(OverworldCount))
                         imageID = 0;
@@ -190,6 +184,11 @@ namespace ame
                     painter.setOpacity(1.0);
                     painter.drawImage(dst, img, src);
                     painter.setOpacity(0.5);
+                }
+                else
+                {
+                    QRect dst(npc->positionX*16, npc->positionY*16, 16, 16);
+                    painter.drawImage(dst, m_FieldImage, nsrc);
                 }
             }
             foreach (const Warp *warp, m_Entities->warps())
@@ -208,11 +207,24 @@ namespace ame
                 painter.drawImage(dst, m_FieldImage, ssrc);
             }
 
+            painter.resetTransform();
+            painter.setOpacity(1.0);
+            QPoint orig = m_MapView->m_MapPositions.at(0);
+            if (m_ShowGrid)
+            {
+                const QSize &ms = m_MapView->m_Maps.at(0)->header().size();
+                QVector<QLine> lines;
+                for (int i = 0; i < ms.width(); i++)
+                    lines.append(QLine(orig.x() + (i * 16), orig.y(), orig.x() + (i * 16), orig.y() + ms.height() * 16 - 1));
+                for (int i = 0; i < ms.height(); i++)
+                    lines.append(QLine(orig.x(), orig.y() + (i * 16), orig.x() + ms.width() * 16 - 1, orig.y() + (i * 16)));
+                painter.setPen(Qt::GlobalColor::black);
+                painter.drawLines(lines);
+            }
+
             // Draws the selection square
             if (m_Selection.entity)
             {
-                painter.resetTransform();
-                painter.setOpacity(1.0);
                 Int32 pX = m_Selection.absPos.x();
                 Int32 pY = m_Selection.absPos.y();
                 painter.setPen(QColor(255, 0, 0));
@@ -284,5 +296,18 @@ namespace ame
     const CurrentEntity &AMEEntityView::currentEntity() const
     {
         return m_Selection;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   12/11/2016
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::setGridVisible(bool visible)
+    {
+        m_ShowGrid = visible;
+        repaint();
     }
 }

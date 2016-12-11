@@ -116,7 +116,7 @@ namespace ame
 
         connect(mapToolbarActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(MapTabTool_changed(QAction*)));
 
-        QMenu *spriteModeMenu = new QMenu();
+        /*QMenu *spriteModeMenu = new QMenu();
         QActionGroup *spriteModeActionGroup = new QActionGroup(this);
 
         spriteModeMenu->addAction(ui->actionSpriteAbove);
@@ -130,7 +130,7 @@ namespace ame
         spriteModeActionGroup->addAction(ui->actionSpriteBelow);
         spriteModeActionGroup->addAction(ui->actionSpriteBlocks);
 
-        connect(ui->tbSpriteMode, SIGNAL(triggered(QAction*)), this, SLOT(SpriteMode_changed(QAction*)));
+        connect(ui->tbSpriteMode, SIGNAL(triggered(QAction*)), this, SLOT(SpriteMode_changed(QAction*)));*/
 
         ui->btnMapGrid->setDefaultAction(ui->action_Show_Grid);
         ui->btnEntitiesGrid->setDefaultAction(ui->action_Show_Grid);
@@ -142,6 +142,7 @@ namespace ame
         ui->glMapEditor->setMPListener(m_MPListener);
         ui->glMapEditor->setGridVisible(SETTINGS(ShowGrid));
         ui->glBlockEditor->setGridVisible(SETTINGS(ShowGrid));
+        ui->btnShowSprites->setChecked(SETTINGS(ShowSprites));
         disableBeforeROMLoad();
 
         if (SETTINGS(RecentFiles).count() > 0)
@@ -153,9 +154,8 @@ namespace ame
         ui->tbMapSortOrder->setIcon(sortOrder->icon());
         sortOrder->setChecked(true);
 
-        QAction* spriteMode = ui->tbSpriteMode->menu()->actions()[SETTINGS(SpriteMode)];
-        ui->tbSpriteMode->setIcon(spriteMode->icon());
-        spriteMode->setChecked(true);
+        /*QAction* spriteMode = ui->tbSpriteMode->menu()->actions()[SETTINGS(SpriteMode)];
+        ui->tbSpriteMode->setIcon(spriteMode->icon());*/
 
         m_proxyModel = new QFilterChildrenProxyModel(this);
         ui->treeView->setModel(m_proxyModel);
@@ -1283,20 +1283,9 @@ namespace ame
     // Date of edit:   12/7/2016
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::SpriteMode_changed(QAction *action)
+    void MainWindow::on_btnShowSprites_toggled(bool checked)
     {
-        ui->tbSpriteMode->setIcon(action->icon());
-        QList<QAction*> items = ui->tbSpriteMode->menu()->actions();
-        int index = 0;
-        for (int i = 0; i < items.count(); i++)
-        {
-            if(items[i] == action)
-            {
-                index = i;
-                break;
-            }
-        }
-        CHANGESETTING(SpriteMode, static_cast<SpriteModeType>(index));
+        CHANGESETTING(ShowSprites, checked);
         Settings::write();
         if(m_Rom.info().isLoaded() && ui->tabWidget->currentIndex() == 1)
             ui->glEntityEditor->repaint();
@@ -1987,6 +1976,7 @@ namespace ame
     {
         ui->glMapEditor->setGridVisible(checked);
         ui->glBlockEditor->setGridVisible(checked);
+        ui->glEntityEditor->setGridVisible(checked);
     }
 
     ///////////////////////////////////////////////////////////
@@ -2057,4 +2047,3 @@ namespace ame
         openScript(ui->sign_script->value());
     }
 }
-
