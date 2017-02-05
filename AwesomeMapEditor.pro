@@ -50,11 +50,11 @@ QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 #
 CONFIG(debug, debug|release) {
     unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
-    unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/debug/ -lyaml-cpp
 } else {
     unix|win32: LIBS += -L$$PWD/../QBoy/bin/release/ -lQBoy
-    unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/release/ -lyaml-cpp
 }
+
+unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/ -lyaml-cpp
 
 
 #

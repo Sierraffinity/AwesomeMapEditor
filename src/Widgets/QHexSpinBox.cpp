@@ -30,6 +30,42 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-
 #include <QHexSpinBox.h>
+#include <QLineEdit>
+#include <QKeyEvent>
+#include <QDebug>
 
+int QHexSpinBox::byteLength() const
+{
+    return m_byteLength;
+}
+
+void QHexSpinBox::setByteLength(int length)
+{
+    m_byteLength = length;
+}
+
+bool QHexSpinBox::upperCase() const
+{
+    return m_upperCase;
+}
+
+void QHexSpinBox::setUpperCase(bool ucase)
+{
+    m_upperCase = ucase;
+}
+
+QAbstractSpinBox::StepEnabled QHexSpinBox::stepEnabled() const
+{
+    if (buttonSymbols() == ButtonSymbols::NoButtons)
+        return QAbstractSpinBox::StepNone;
+    return QSpinBox::stepEnabled();
+}
+
+QString QHexSpinBox::textFromValue (int value) const
+{
+    QString str = QString("%1").arg(QSpinBox::textFromValue(value), byteLength() * 2, QChar('0'));
+    if (upperCase())
+        str = str.toUpper();
+    return str;
+}

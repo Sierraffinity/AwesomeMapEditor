@@ -649,8 +649,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>145</width>
-                    <height>529</height>
+                    <width>81</width>
+                    <height>256</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -1312,7 +1312,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QSpinBox" name="npc_num">
+                      <widget class="QHexSpinBox" name="npc_num">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                          <horstretch>0</horstretch>
@@ -1332,6 +1332,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -1389,6 +1395,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -1450,6 +1462,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -1510,6 +1528,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -1558,9 +1582,6 @@
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -1569,6 +1590,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -1585,9 +1612,6 @@
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -1596,6 +1620,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -1617,7 +1647,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_18">
                      <item>
-                      <widget class="QSpinBox" name="spnNPCHeight">
+                      <widget class="QHexSpinBox" name="spnNPCHeight">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>0</horstretch>
@@ -1643,6 +1673,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -1754,7 +1790,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_8">
                      <item>
-                      <widget class="QSpinBox" name="spnNPCIdleAnim">
+                      <widget class="QHexSpinBox" name="spnNPCIdleAnim">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                          <horstretch>0</horstretch>
@@ -1780,6 +1816,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -2244,9 +2286,6 @@
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -2255,6 +2294,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>0</number>
                        </property>
                       </widget>
                      </item>
@@ -2271,9 +2316,6 @@
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -2282,6 +2324,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>0</number>
                        </property>
                       </widget>
                      </item>
@@ -2343,6 +2391,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -2402,6 +2456,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -2463,6 +2523,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -2511,9 +2577,6 @@
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -2522,6 +2585,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -2583,6 +2652,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -2642,6 +2717,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>4</number>
                        </property>
                       </widget>
                      </item>
@@ -2717,6 +2798,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -2777,6 +2864,12 @@
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -2836,6 +2929,12 @@
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -2988,8 +3087,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>349</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3055,9 +3154,6 @@ color : red;
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -3066,6 +3162,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -3082,9 +3184,6 @@ color : red;
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -3093,6 +3192,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -3140,6 +3245,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -3297,6 +3408,12 @@ color : red;
                           <property name="displayIntegerBase">
                            <number>16</number>
                           </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>1</number>
+                          </property>
                          </widget>
                         </item>
                        </layout>
@@ -3357,6 +3474,12 @@ color : red;
                           <property name="displayIntegerBase">
                            <number>16</number>
                           </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>1</number>
+                          </property>
                          </widget>
                         </item>
                        </layout>
@@ -3416,6 +3539,12 @@ color : red;
                           </property>
                           <property name="displayIntegerBase">
                            <number>16</number>
+                          </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>1</number>
                           </property>
                          </widget>
                         </item>
@@ -3578,8 +3707,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>215</width>
-                    <height>456</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3645,9 +3774,6 @@ color : red;
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -3656,6 +3782,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -3672,9 +3804,6 @@ color : red;
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -3683,6 +3812,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -3730,6 +3865,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -3881,6 +4022,12 @@ color : red;
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -3947,6 +4094,12 @@ color : red;
                           <property name="displayIntegerBase">
                            <number>16</number>
                           </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>2</number>
+                          </property>
                          </widget>
                         </item>
                        </layout>
@@ -4006,6 +4159,12 @@ color : red;
                           </property>
                           <property name="displayIntegerBase">
                            <number>16</number>
+                          </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>2</number>
                           </property>
                          </widget>
                         </item>
@@ -4070,6 +4229,12 @@ color : red;
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -4130,6 +4295,12 @@ color : red;
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -4189,6 +4360,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>4</number>
                        </property>
                       </widget>
                      </item>
@@ -4355,8 +4532,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>220</width>
-                    <height>549</height>
+                    <width>282</width>
+                    <height>572</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4422,9 +4599,6 @@ color : red;
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -4433,6 +4607,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -4449,9 +4629,6 @@ color : red;
                          <family>Courier New</family>
                         </font>
                        </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
                        <property name="prefix">
                         <string notr="true">0x</string>
                        </property>
@@ -4460,6 +4637,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -4507,6 +4690,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -4645,6 +4834,12 @@ color : red;
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                      <item>
@@ -4760,6 +4955,12 @@ color : red;
                        <property name="displayIntegerBase">
                         <number>16</number>
                        </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -4819,6 +5020,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -4894,6 +5101,12 @@ color : red;
                           </property>
                           <property name="displayIntegerBase">
                            <number>16</number>
+                          </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>4</number>
                           </property>
                          </widget>
                         </item>
@@ -4974,6 +5187,12 @@ color : red;
                           <property name="displayIntegerBase">
                            <number>16</number>
                           </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>1</number>
+                          </property>
                          </widget>
                         </item>
                         <item>
@@ -5043,6 +5262,12 @@ color : red;
                           </property>
                           <property name="displayIntegerBase">
                            <number>16</number>
+                          </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>1</number>
                           </property>
                          </widget>
                         </item>
@@ -5201,6 +5426,12 @@ color : red;
                           </property>
                           <property name="displayIntegerBase">
                            <number>16</number>
+                          </property>
+                          <property name="upperCase" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="byteLength" stdset="0">
+                           <number>1</number>
                           </property>
                          </widget>
                         </item>
@@ -7756,6 +7987,12 @@ color : red;
                       <property name="displayIntegerBase">
                        <number>16</number>
                       </property>
+                      <property name="upperCase" stdset="0">
+                       <bool>true</bool>
+                      </property>
+                      <property name="byteLength" stdset="0">
+                       <number>2</number>
+                      </property>
                      </widget>
                     </item>
                     <item>
@@ -7834,6 +8071,12 @@ color : red;
                     <property name="displayIntegerBase">
                      <number>16</number>
                     </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="1" column="2">
@@ -7868,6 +8111,12 @@ color : red;
                     <property name="displayIntegerBase">
                      <number>16</number>
                     </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="2" column="1">
@@ -7894,6 +8143,12 @@ color : red;
                     </property>
                     <property name="displayIntegerBase">
                      <number>16</number>
+                    </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
                     </property>
                    </widget>
                   </item>
@@ -7928,6 +8183,12 @@ color : red;
                     </property>
                     <property name="displayIntegerBase">
                      <number>16</number>
+                    </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
                     </property>
                    </widget>
                   </item>
@@ -8035,6 +8296,12 @@ color : red;
                        </property>
                        <property name="displayIntegerBase">
                         <number>16</number>
+                       </property>
+                       <property name="upperCase" stdset="0">
+                        <bool>true</bool>
+                       </property>
+                       <property name="byteLength" stdset="0">
+                        <number>2</number>
                        </property>
                       </widget>
                      </item>
@@ -8506,6 +8773,12 @@ color : red;
                     <property name="displayIntegerBase">
                      <number>16</number>
                     </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="2" column="2">
@@ -8584,6 +8857,12 @@ color : red;
                     <property name="displayIntegerBase">
                      <number>16</number>
                     </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="2" column="0">
@@ -8618,6 +8897,12 @@ color : red;
                     <property name="displayIntegerBase">
                      <number>16</number>
                     </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="1" column="1">
@@ -8644,6 +8929,12 @@ color : red;
                     </property>
                     <property name="displayIntegerBase">
                      <number>16</number>
+                    </property>
+                    <property name="upperCase" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="byteLength" stdset="0">
+                     <number>4</number>
                     </property>
                    </widget>
                   </item>

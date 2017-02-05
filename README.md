@@ -6,17 +6,17 @@ Awesome Map Editor (AME) is a map editor for 3rd generation Pokémon games: Ruby
 [yaml-cpp](https://github.com/jbeder/yaml-cpp)
 
 ## Getting Started
-1. Place the dependencies in the same directory as the AME root. 
+1. Place the dependencies in the same directory as the AME root.
 
-2. Copy `yaml-cpp.pro` from `deps` and paste it into the `yaml-cpp` root.
+2. Open all the projects in Qt and set their build directories to `bin`. For yaml-cpp, open the `CMakeLists.txt` file and ensure BUILD_SHARED_LIBS is enabled in its project settings.
 
-3. Open all the projects in Qt and set the dependencies' build directories to `bin` (relative to their individual roots). Build them!
+3. Build them all, working forwards from yaml-cpp to QBoy to AME itself.
 
 4. Copy the `resources/config` folder into the AME executable directory.
 
 Now you can help us develop the future of Pokémon ROM hacking!
 
 ## Credits
-**Pokedude** - Developer
-
 **Diegoisawesome** - Developer
+
+**Pokedude** - Developer
