@@ -52,6 +52,7 @@ namespace ame
     AMEEntityView::AMEEntityView(QWidget *parent)
         : QWidget(parent),
           m_MapView(0),
+          m_ShowGrid(false),
           m_IsInit(false)
     {
         m_FieldImage = QImage(":/images/Entities_16x16.png");
