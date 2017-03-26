@@ -167,6 +167,7 @@ namespace ame
         ///////////////////////////////////////////////////////////
         bool openScript(UInt32 scriptAddr);
 
+        void toggle_grid(bool arg1);
 
     private slots:
 
@@ -204,7 +205,6 @@ namespace ame
         void on_action_Connection_Editor_triggered();
         void on_action_Settings_triggered();
         void on_action_Tileset_Editor_triggered();
-        void on_action_Show_Grid_toggled(bool arg1);
 
         void on_btnWarpToDest_clicked();
 
@@ -215,6 +215,10 @@ namespace ame
         void on_btnSignOpenScript_clicked();
 
         void on_btnShowSprites_toggled(bool checked);
+
+        void on_btnMapGrid_toggled(bool checked);
+
+        void on_btnEntitiesGrid_toggled(bool checked);
 
     private:
 

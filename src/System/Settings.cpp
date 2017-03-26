@@ -67,9 +67,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Diegoisawesome, Pokedude
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   6/29/2016
+    // Contributors:   Diegoisawesome, Pokedude, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/26/2017
     //
     ///////////////////////////////////////////////////////////
     bool Settings::parse()
@@ -99,7 +99,7 @@ namespace ame
             HexPrefix       = QString::fromStdString(settings["HexPrefix"].as<std::string>());
         ShowRawMapHeader    = settings["ShowRawMapHeader"].as<bool>();
         ShowRawLayoutHeader = settings["ShowRawLayoutHeader"].as<bool>();
-        ShowGrid = settings["ShowRawLayoutHeader"].as<bool>();
+        ShowGrid = settings["ShowGrid"].as<bool>();
         MapAccuracyLevel    = settings["MapAccuracyLevel"].as<int>();
         if (settings["LastPath"].Type() != YAML::NodeType::Null)
             LastPath        = QString::fromStdString(settings["LastPath"].as<std::string>());

@@ -44,9 +44,9 @@ namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/19/2016
+    // Contributors:   Pokedude, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/18/2017
     //
     ///////////////////////////////////////////////////////////
     AMEEntityView::AMEEntityView(QWidget *parent)

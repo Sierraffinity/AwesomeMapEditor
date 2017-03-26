@@ -50,9 +50,9 @@ namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/2/2016
+    // Contributors:   Pokedude, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/26/2017
     // Comment:
     //
     // Added a function call to set the GUI up.
@@ -132,17 +132,17 @@ namespace ame
 
         connect(ui->tbSpriteMode, SIGNAL(triggered(QAction*)), this, SLOT(SpriteMode_changed(QAction*)));*/
 
-        ui->btnMapGrid->setDefaultAction(ui->action_Show_Grid);
-        ui->btnEntitiesGrid->setDefaultAction(ui->action_Show_Grid);
-
         if (!Settings::parse())
             return;         // TODO: create default config file if none exists
 
         ui->glMapEditor->setBlockView(ui->glBlockEditor);
         ui->glMapEditor->setMPListener(m_MPListener);
         ui->glMapEditor->setGridVisible(SETTINGS(ShowGrid));
+        ui->glEntityEditor->setGridVisible(SETTINGS(ShowGrid));
         ui->glBlockEditor->setGridVisible(SETTINGS(ShowGrid));
         ui->btnShowSprites->setChecked(SETTINGS(ShowSprites));
+        ui->btnMapGrid->setChecked(SETTINGS(ShowGrid));
+        ui->btnEntitiesGrid->setChecked(SETTINGS(ShowGrid));
         disableBeforeROMLoad();
 
         if (SETTINGS(RecentFiles).count() > 0)
@@ -1293,6 +1293,30 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/26/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnMapGrid_toggled(bool checked)
+    {
+        toggle_grid(checked);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/26/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_btnEntitiesGrid_toggled(bool checked)
+    {
+        toggle_grid(checked);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   7/3/2016
@@ -1966,17 +1990,19 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
-    // Function type:  Slot
-    // Contributors:   Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   11/9/2016
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/26/2017
     //
     ///////////////////////////////////////////////////////////
-    void MainWindow::on_action_Show_Grid_toggled(bool checked)
+    void MainWindow::toggle_grid(bool checked)
     {
         ui->glMapEditor->setGridVisible(checked);
         ui->glBlockEditor->setGridVisible(checked);
         ui->glEntityEditor->setGridVisible(checked);
+        CHANGESETTING(ShowGrid, checked);
+        Settings::write();
     }
 
     ///////////////////////////////////////////////////////////
