@@ -536,30 +536,15 @@ namespace ame
 
             // Sets the block in the actual image (BG & FG)
             int x2, y2;
-            if (newBlock.block >= m_PrimaryBlockCount)
-            {
-                x2 = ((newBlock.block - m_PrimaryBlockCount) % 8) * 16;
-                y2 = ((newBlock.block - m_PrimaryBlockCount) / 8) * 16;
-            }
-            else
-            {
-                x2 = (newBlock.block % 8) * 16;
-                y2 = (newBlock.block / 8) * 16;
-            }
+
+            x2 = (newBlock.block % 8) * 16;
+            y2 = (newBlock.block / 8) * 16;
 
             updatePixels(x, y, 16, 16, m_MapBackground,
                          x2,y2,16, 16, m_BlockBackground);
 
-            if (newBlock.block >= m_PrimaryBlockCount)
-            {
-                x2 = ((newBlock.block - m_PrimaryBlockCount) % 8) * 16;
-                y2 = ((newBlock.block - m_PrimaryBlockCount) / 8) * 16;
-            }
-            else
-            {
-                x2 = (newBlock.block % 8) * 16;
-                y2 = (newBlock.block / 8) * 16;
-            }
+            x2 = (newBlock.block % 8) * 16;
+            y2 = (newBlock.block / 8) * 16;
 
             updatePixels(x, y, 16, 16, m_MapForeground,
                          x2,y2,16, 16, m_BlockForeground);
