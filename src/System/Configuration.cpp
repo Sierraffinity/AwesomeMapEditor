@@ -84,9 +84,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/16/2016
+    // Contributors:   Pokedude, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/31/2017
     //
     ///////////////////////////////////////////////////////////
     bool Configuration::parse(const qboy::Rom &rom)
@@ -165,9 +165,11 @@ namespace ame
         FETCH(MapNames, rom.readPointer());
         FETCH(MapNameCount, rom.readByte());
         FETCH(MapNameTotal, rom.readByte());
-        OverworldCount++; // value is one less
-        ItemCount *= 2;
-        MapNameCount += (RomType == RT_FRLG ? 1 : 0); // correct FRLG
+        // the values from the ROM are the max indices, so we have to add 1
+        PokemonCount++;
+        OverworldCount++;
+        ItemCount = ItemCount * 2 + 1;
+        MapNameCount += (RomType == RT_RS ? 0 : 1);
 
         // Parsing successful
         return true;
