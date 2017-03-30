@@ -39,16 +39,27 @@
 QHexLineEdit::QHexLineEdit(QWidget *parent) :
     QLineEdit(parent)
 {
-    setStyleSheet("QLineEdit { padding: 0px 0px 0px 13px; }");
+    //setStyleSheet("QLineEdit { padding: 0px 0px 0px 13px; }");
+    QString mask = ">";
+    if (m_byteLength > 0)
+    {
+        for (int _ = 0; _ < m_byteLength; ++_)
+        {
+            mask.append("HH");
+        }
+    }
+    else
+        mask.append("H");
+    setInputMask(mask);
 }
 
 
 void QHexLineEdit::paintEvent(QPaintEvent *event)
 {
     QLineEdit::paintEvent(event);
-    QPainter painter(this);
-    painter.setPen(QColor::fromRgb(0x000000));
-    painter.drawText(contentsMargins().left() + 3, 0, fontMetrics().width("0x"), height() -1, Qt::AlignVCenter, "0x");
+    //QPainter painter(this);
+    //painter.setPen(QColor::fromRgb(0x000000));
+    //painter.drawText(contentsMargins().left() + 3, 0, fontMetrics().width("0x"), height() -1, Qt::AlignVCenter, "0x");
 }
 
 void QHexLineEdit::keyPressEvent(QKeyEvent *event)

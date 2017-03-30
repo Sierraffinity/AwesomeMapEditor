@@ -60,16 +60,19 @@ namespace ame
     ///////////////////////////////////////////////////////////
     MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
+        ui(new Ui::MainWindow),
         m_CurrentNPC(0),
         m_CurrentWarp(0),
         m_CurrentTrigger(0),
         m_CurrentSign(0),
-        ui(new Ui::MainWindow)
+        m_lastOpenedMap(NULL),
+        m_MPListener(new MovePermissionListener),
+        m_statusLabel(new QLabel(tr("No ROM loaded."))),
+        m_statusLabelCredit(new QLabel(tr("Created by ") + "<a href=\"http://domoreaweso.me/\">DoMoreAwesome</a>")),
+        m_proxyModel(new QFilterChildrenProxyModel())
     {
         // Setup GUI
         ui->setupUi(this);
-        m_lastOpenedMap = NULL;
-        m_MPListener = new MovePermissionListener;
         ui->lblMovementPerms->installEventFilter(m_MPListener);
 
         connect(ui->glMapEditor, SIGNAL(loadMapChangeTreeView(Map*)), this, SLOT(loadMapChangeTreeView(Map*)));
@@ -77,14 +80,12 @@ namespace ame
         connect(ui->glEntityEditor, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
         connect(ui->glEntityEditor, SIGNAL(onDoubleClick(QMouseEvent*)), this, SLOT(entity_doubleClick(QMouseEvent*)));
 
-        statusLabel = new QLabel(tr("No ROM loaded."));
-        ui->statusBar->addWidget(statusLabel);
+        ui->statusBar->addWidget(m_statusLabel);
 
-        statusLabelCredit = new QLabel(tr("Created by ") + "<a href=\"http://domoreaweso.me/\">DoMoreAwesome</a>");
-        statusLabelCredit->setTextFormat(Qt::RichText);
-        statusLabelCredit->setTextInteractionFlags(Qt::TextBrowserInteraction);
-        statusLabelCredit->setOpenExternalLinks(true);
-        ui->statusBar->addPermanentWidget(statusLabelCredit);
+        m_statusLabelCredit->setTextFormat(Qt::RichText);
+        m_statusLabelCredit->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        m_statusLabelCredit->setOpenExternalLinks(true);
+        ui->statusBar->addPermanentWidget(m_statusLabelCredit);
 
         QMenu *mapSortOrderMenu = new QMenu();
         QActionGroup *mapSortOrderActionGroup = new QActionGroup(this);
@@ -157,21 +158,9 @@ namespace ame
         /*QAction* spriteMode = ui->tbSpriteMode->menu()->actions()[SETTINGS(SpriteMode)];
         ui->tbSpriteMode->setIcon(spriteMode->icon());*/
 
-        m_proxyModel = new QFilterChildrenProxyModel(this);
         ui->treeView->setModel(m_proxyModel);
 
-        if (!SETTINGS(ScriptEditor).isEmpty())
-        {
-            ui->btnNPCOpenScript->setEnabled(true);
-            ui->btnTriggerOpenScript->setEnabled(true);
-            ui->btnSignOpenScript->setEnabled(true);
-        }
-        else
-        {
-            ui->btnNPCOpenScript->setEnabled(false);
-            ui->btnTriggerOpenScript->setEnabled(false);
-            ui->btnSignOpenScript->setEnabled(false);
-        }
+        setScriptEditorButtonsEnabled(!SETTINGS(ScriptEditor).isEmpty());
     }
 
 
@@ -189,8 +178,6 @@ namespace ame
     {
         delete ui;
     }
-
-
 
     ///////////////////////////////////////////////////////////
     // Function type:  I/O
@@ -325,6 +312,20 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
+    // Function type:  Helper
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   3/1/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::setScriptEditorButtonsEnabled(bool enabled)
+    {
+        ui->btnNPCOpenScript->setEnabled(enabled);
+        ui->btnTriggerOpenScript->setEnabled(enabled);
+        ui->btnSignOpenScript->setEnabled(enabled);
+    }
+
+    ///////////////////////////////////////////////////////////
     // Function type:  I/O
     // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
@@ -344,7 +345,7 @@ namespace ame
         }
 
         setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
-        statusLabel->setText(tr("ROM %1 loaded in %2 ms.").arg(m_Rom.info().name(), QString::number(result)));
+        m_statusLabel->setText(tr("ROM %1 loaded in %2 ms.").arg(m_Rom.info().name(), QString::number(result)));
 
         setupAfterLoading();
         m_Rom.clearCache();
@@ -1164,12 +1165,12 @@ namespace ame
 
         if (name != NULL)
         {
-            statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(name, QString::number(stopWatch.elapsed())));
+            m_statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(name, QString::number(stopWatch.elapsed())));
             setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), name));
         }
         else
         {
-            statusLabel->setText(tr("Map loaded in %2 ms.").arg(QString::number(stopWatch.elapsed())));
+            m_statusLabel->setText(tr("Map loaded in %2 ms.").arg(QString::number(stopWatch.elapsed())));
             setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
         }
 
@@ -1938,18 +1939,7 @@ namespace ame
     {
         SettingsDialog settingsDialog(this);
         settingsDialog.exec();
-        if (!SETTINGS(ScriptEditor).isEmpty())
-        {
-            ui->btnNPCOpenScript->setEnabled(true);
-            ui->btnTriggerOpenScript->setEnabled(true);
-            ui->btnSignOpenScript->setEnabled(true);
-        }
-        else
-        {
-            ui->btnNPCOpenScript->setEnabled(false);
-            ui->btnTriggerOpenScript->setEnabled(false);
-            ui->btnSignOpenScript->setEnabled(false);
-        }
+        setScriptEditorButtonsEnabled(!SETTINGS(ScriptEditor).isEmpty());
     }
 
     ///////////////////////////////////////////////////////////
