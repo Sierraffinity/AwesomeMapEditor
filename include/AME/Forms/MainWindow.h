@@ -198,6 +198,10 @@ namespace ame
         void on_cmbEntityTypeSelector_currentIndexChanged(int index);
         void on_spnEntityScroller_valueChanged(int arg1);
         void on_cmbSignType_currentIndexChanged(int index);
+        void on_warp_number_valueChanged(int value);
+        void on_warp_map_valueChanged(int value);
+        void on_warp_bank_valueChanged(int value);
+        void checkWarp();
         void on_tabWidget_currentChanged(int index);
         void on_treeView_activated(const QModelIndex &index);
         void on_lineEdit_textChanged(const QString &arg1);

@@ -1349,9 +1349,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   7/3/2016
+    // Contributors:   Pokedude, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/27/2017
     //
     /////////////////////////////////////////////////////////
     void MainWindow::on_spnEntityScroller_valueChanged(int arg1)
@@ -1412,6 +1412,8 @@ namespace ame
             ui->warp_raw_data->setData(eventW->rawData());
             ui->spnEntityScroller->setValue(m_CurrentWarp);
             startPos += QPoint(eventW->positionX*16, eventW->positionY*16);
+
+            checkWarp();
 
             CurrentEntity entity;
             entity.absPos = startPos;
@@ -1491,9 +1493,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   7/3/2016
+    // Contributors:   Pokedude, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/27/2017
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::entity_mouseClick(QMouseEvent *event)
@@ -1575,6 +1577,8 @@ namespace ame
             ui->spnWarpHeight->setValue(eventW->level);
             ui->warp_raw_data->setData(eventW->rawData());
             ui->spnEntityScroller->setValue(indexW);
+
+            checkWarp();
 
             CurrentEntity entity;
             entity.absPos.setX((event->pos().x()/16)*16);
@@ -1788,6 +1792,61 @@ namespace ame
         }
     }
 
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/27/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_warp_number_valueChanged(int value)
+    {
+        checkWarp();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/27/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_warp_map_valueChanged(int value)
+    {
+        checkWarp();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/27/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_warp_bank_valueChanged(int value)
+    {
+        checkWarp();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Event
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/29/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::checkWarp()
+    {
+    int tempBank = ui->warp_bank->value();
+    int tempMap = ui->warp_map->value();
+    int tempNum = ui->warp_number->value();
+    if (tempBank < dat_MapBankTable->banks().size() &&
+        tempMap < dat_MapBankTable->banks().at(tempBank)->maps().size() &&
+        tempNum < dat_MapBankTable->banks()[tempBank]->maps()[tempMap]->entities().warps().size())
+        ui->btnWarpToDest->setEnabled(true);
+    else
+        ui->btnWarpToDest->setEnabled(false);
+    }
 
     ///////////////////////////////////////////////////////////
     // Function type:  Event
@@ -1978,6 +2037,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_btnWarpToDest_clicked()
     {
+        m_CurrentWarp = ui->warp_number->value();
         loadMapChangeTreeView(ui->warp_bank->value(), ui->warp_map->value());
     }
 
