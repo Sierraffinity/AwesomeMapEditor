@@ -148,7 +148,7 @@ namespace ame
         ///////////////////////////////////////////////////////////
         UInt32 m_Offset;                ///< Offset of the tileset
         UInt8 m_IsCompressed;           ///< Is image compressed?
-        UInt8 m_IsPrimary;              ///< Is tileset a main one?
+        UInt8 m_IsSecondary;            ///< Is tileset a main one?
         UInt32 m_PtrImage;              ///< Offset of the image
         UInt32 m_PtrPalette;            ///< Offset of the 6/7 pals
         UInt32 m_PtrBlocks;             ///< Offset of the blocks

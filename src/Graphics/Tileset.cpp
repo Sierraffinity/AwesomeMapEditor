@@ -53,7 +53,7 @@ namespace ame
         : /*IUndoable(),*/
           m_Offset(0),
           m_IsCompressed(0),
-          m_IsPrimary(0),
+          m_IsSecondary(0),
           m_PtrImage(0),
           m_PtrPalette(0),
           m_PtrAnimations(0),
@@ -74,7 +74,7 @@ namespace ame
         : /*IUndoable(),*/
           m_Offset(rvalue.m_Offset),
           m_IsCompressed(rvalue.m_IsCompressed),
-          m_IsPrimary(rvalue.m_IsPrimary),
+          m_IsSecondary(rvalue.m_IsSecondary),
           m_PtrImage(rvalue.m_PtrImage),
           m_PtrPalette(rvalue.m_PtrPalette),
           m_PtrAnimations(rvalue.m_PtrAnimations),
@@ -97,7 +97,7 @@ namespace ame
     {
         m_Offset = rvalue.m_Offset;
         m_IsCompressed = rvalue.m_IsCompressed;
-        m_IsPrimary = rvalue.m_IsPrimary;
+        m_IsSecondary = rvalue.m_IsSecondary;
         m_PtrImage = rvalue.m_PtrImage;
         m_PtrPalette = rvalue.m_PtrPalette;
         m_PtrAnimations = rvalue.m_PtrAnimations;
@@ -143,7 +143,7 @@ namespace ame
 
         // Reads the first two properties for the following determination
         m_IsCompressed = rom.readByte();
-        m_IsPrimary = rom.readByte();
+        m_IsSecondary = rom.readByte();
         rom.readHWord(); // padding
 
 
@@ -154,7 +154,7 @@ namespace ame
         int uncompSize;
         if (CONFIG(RomType) == RT_FRLG)
         {
-            if (!m_IsPrimary) // = 0 in the games -.-
+            if (!m_IsSecondary) // = 0 in the games -.-
             {
                 countPal = 7;
                 countBlock = 640;
@@ -169,9 +169,9 @@ namespace ame
                 uncompSize = 24576;
             }
         }
-        else
+        else // RSE
         {
-            if (!m_IsPrimary) // = 0 in the games -.-
+            if (!m_IsSecondary) // = 0 in the games -.-
             {
                 countPal = 6;
                 countBlock = 512;
