@@ -175,11 +175,8 @@ namespace ame
         // Slots
         //
         ///////////////////////////////////////////////////////////
-        void on_action_Open_ROM_triggered();
-        void on_sldWildGrassChance_valueChanged(int value);
-        void on_sldWildWaterChance_valueChanged(int value);
-        void on_sldWildFishingChance_valueChanged(int value);
-        void on_sldWildOtherChance_valueChanged(int value);
+        void showCorrectSignType(Sign *sign);
+        bool loadROM(const QString &file);
         bool loadMapChangeTreeView(Map *map);
         bool loadMapChangeTreeView(int bank, int map);
         void entity_mouseClick(QMouseEvent *event);
@@ -192,28 +189,32 @@ namespace ame
         void enableAfterROMLoad();
         void enableAfterMapLoad();
         void loadRecentlyUsedFiles();
+        void setScriptEditorButtonsEnabled(bool enabled);
+
+        void on_action_Open_ROM_triggered();
+        void on_sldWildGrassChance_valueChanged(int value);
+        void on_sldWildWaterChance_valueChanged(int value);
+        void on_sldWildFishingChance_valueChanged(int value);
+        void on_sldWildOtherChance_valueChanged(int value);
         void on_cmbEntityTypeSelector_currentIndexChanged(int index);
         void on_spnEntityScroller_valueChanged(int arg1);
         void on_cmbSignType_currentIndexChanged(int index);
-        void showCorrectSignType(Sign *sign);
+        void on_warp_number_valueChanged(int value);
+        void on_warp_map_valueChanged(int value);
+        void on_warp_bank_valueChanged(int value);
+        void checkWarp();
         void on_tabWidget_currentChanged(int index);
         void on_treeView_activated(const QModelIndex &index);
         void on_lineEdit_textChanged(const QString &arg1);
-        bool loadROM(const QString &file);
         void on_actionClearRecentFiles_triggered();
         void on_tabWidget_2_currentChanged(int index);
         void on_action_Connection_Editor_triggered();
         void on_action_Settings_triggered();
         void on_action_Tileset_Editor_triggered();
-
         void on_btnWarpToDest_clicked();
-
         void on_btnNPCOpenScript_clicked();
-
         void on_btnTriggerOpenScript_clicked();
-
         void on_btnSignOpenScript_clicked();
-
         void on_btnShowSprites_toggled(bool checked);
 
         void on_btnMapGrid_toggled(bool checked);
@@ -230,8 +231,8 @@ namespace ame
         qboy::Rom m_Rom;                            ///< Global ROM across the application
         QModelIndex *m_lastOpenedMap;               ///< Reference to the model index for the last opened map
         Map *m_CurrentMap;                          ///< Reference to currently opened map
-        QLabel* statusLabel;                        ///< Status bar label reference
-        QLabel* statusLabelCredit;                  ///< Status bar label reference for credit
+        QLabel* m_statusLabel;                        ///< Status bar label reference
+        QLabel* m_statusLabelCredit;                  ///< Status bar label reference for credit
         QFilterChildrenProxyModel *m_proxyModel;    ///< Tree view proxy model reference
         MovePermissionListener *m_MPListener;       ///< Move permission event listener
         UInt32 m_CurrentNPC;                        ///< Current NPC ID

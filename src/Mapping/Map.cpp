@@ -356,7 +356,7 @@ namespace ame
     // Date of edit:   12/7/2016
     //
     ///////////////////////////////////////////////////////////
-    QModelIndex *Map::getTreeViewIndex()
+    QModelIndex* Map::getTreeViewIndex()
     {
         return m_TreeViewIndex;
     }

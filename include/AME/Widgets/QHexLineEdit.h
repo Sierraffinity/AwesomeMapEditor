@@ -7,18 +7,18 @@ class QHexLineEdit : public QLineEdit
 {
     Q_OBJECT
 
-    /*! Property prefix, sets the prefix.
-    */
-    //Q_PROPERTY(bool prefix READ prefix WRITE setPrefix)
+    //Q_PROPERTY(int byteLength READ byteLength WRITE setByteLength)
 
 public:
     explicit QHexLineEdit(QWidget *parent = 0);
-    //QString asciiArea;
-    //void setPrefix(QString prefix);
+
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);
-    
+
+private:
+    int m_byteLength;
+
 };
 
 #endif // QHEXLINEEDIT_H
