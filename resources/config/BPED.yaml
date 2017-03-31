@@ -1,0 +1,46 @@
+#
+# AME Configuration File
+#
+
+RomType:          2
+Name:             Pokémon Smaragd (D)
+Language:         Deutsch
+
+PokemonCount:     0x6D404
+PokemonNames:     0x144
+PokemonIcons:     0x138
+PokemonUsage:     0x13C
+PokemonPals:      0xC3FD4
+
+WildPokemon:      0xB4D64
+
+ItemData:         0x1C8
+ItemCount:        0xD70BA
+
+Overworlds:       0x8E6F4
+OverworldPals:    0x8E8D8
+OverworldCount:   0x8E6E0
+
+FlyingLocs:       0x1228A4
+StartBank:        0x84472
+StartMap:         0x84474
+StartX:           0x0 #calculated (center of the map)
+StartY:           0x0 #calculated (center of the map)
+
+MapBanks:         0x84AC0
+MapLayouts:       0x849E8
+MapLayoutCount:   0x1A5
+MapNames:         0x123768
+MapNameCount:     0x1241A8
+MapNameTotal:     0x1239EA
+
+SpriteNormalSet:  0x51B2D0
+SpriteSmallSet:   0x51B27C
+SpriteLargeSet:   0x51B324
+
+WorldMapCount:    1
+WorldMapGFX:      [0x122A38]
+WorldMapTileMap:  [0x122A84]
+WorldMapPal:      [0x122AB4]
+
+FreespaceStart:   0xE3CF64
