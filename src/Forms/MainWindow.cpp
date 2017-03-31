@@ -354,9 +354,9 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Event
-    // Contributors:   Pokedude, Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   7/2/2016
+    // Contributors:   Pokedude, Diegoisawesome, Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   3/30/2017
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::setupAfterLoading()
@@ -376,7 +376,7 @@ namespace ame
 
         // Sets the max Pokemon IDs within the spinboxes
         foreach (QSpinBox *box, ui->tabWidget_3->findChildren<QSpinBox *>(QRegularExpression("sbWild")))
-            box->setRange(0, CONFIG(PokemonCount));
+            box->setRange(0, CONFIG(PokemonCount) - 1);
 
         QStandardItemModel *itemModel = new QStandardItemModel;
         itemModel->appendRow(new QStandardItem(tr("Coins")));
@@ -391,7 +391,7 @@ namespace ame
         ui->cmbSignItem->setModel(itemModel);
 
         // Sets the max item IDs within the spinboxes
-        ui->spnSignItem->setRange(0, CONFIG(ItemCount));
+        ui->spnSignItem->setRange(0, CONFIG(ItemCount) - 1);
 
         // Fills map name combobox in header view with names
 
