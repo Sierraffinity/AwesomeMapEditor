@@ -1020,7 +1020,7 @@ namespace ame
                 MapHeader header;
                 header.read(m_Rom, offset);
                 if (header.primary()->image()->raw().isEmpty() ||
-                    header.primary()->image()->raw().isEmpty())
+                    header.secondary()->image()->raw().isEmpty())
                 {
                     // Tilesets invalid, abort
                     Messages::showMessage(this, "Layout says: \"I don't want to load tilesets!\"");
