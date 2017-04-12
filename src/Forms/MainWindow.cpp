@@ -914,6 +914,12 @@ namespace ame
         ui->header_border_height->setText(QString::number(header.border().height()));
         ui->header_ftr_raw_data->setData(header.rawData());
         ui->header_ftr_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(header.m_Offset, 16).toUpper());
+
+        if (CONFIG(RomType) != RT_FRLG)
+        {
+            ui->header_border_width->setEnabled(false);
+            ui->header_border_height->setEnabled(false);
+        }
     }
 
 
