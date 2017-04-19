@@ -870,15 +870,23 @@ namespace ame
 
         Q_UNUSED(rom);
         const QSize mainSize = mainMap->header().size();
-        const QList<Connection *> connex = mainMap->connections().connections();
+        const QList<Connection *> connexAll = mainMap->connections().connections();
+        //filter out dive/emerge connections
+        QList<Connection *> connexOw;
+        for (int i = 0; i < connexAll.size(); i++)
+        {
+            Connection *current = connexAll[i];
+            if (current->direction < DIR_Dive)
+                connexOw.push_back(current);
+        }
         m_Maps.push_back(mainMap);
         m_LayoutView = false;
 
 
         // Retrieves every connected map
-        for (int i = 0; i < connex.size(); i++)
+        for (int i = 0; i < connexOw.size(); i++)
         {
-            Connection *current = connex[i];
+            Connection *current = connexOw[i];
             Map *map = dat_MapBankTable->banks().at(current->bank)->maps().at(current->map);
             m_Maps.push_back(map);
         }
@@ -892,9 +900,9 @@ namespace ame
         int biggestLeftMap = 0; // width of the biggest left-connected map
         int biggestTopMap = 0;  // height of the biggest top-connected map
         const int defaultRowCount = 8;
-        for (int i = 0; i < connex.size(); i++)
+        for (int i = 0; i < connexOw.size(); i++)
         {
-            Connection *current = connex[i];
+            Connection *current = connexOw[i];
             Map *map = m_Maps[i+1];
             QPoint translation;
             Int32 signedOff = (Int32)(current->offset)*16;
@@ -1257,7 +1265,7 @@ namespace ame
             UInt8 *secondaryBg = blocksetBack.at((n+1)*2+1);
             UInt8 *primaryFg = blocksetFore.at((n+1)*2);
             UInt8 *secondaryFg = blocksetFore.at((n+1)*2+1);
-            DirectionType dir = m_Maps.at(0)->connections().connections().at(n)->direction;
+            DirectionType dir = connexOw.at(n)->direction;
             Int32 rowCount = m_MaxRows.at(n);
 
 
