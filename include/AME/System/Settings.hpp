@@ -101,6 +101,7 @@ namespace ame
         static bool ShowGrid;
         static int MapAccuracyLevel;
         static QList<QString> RecentFiles;
+		static float ScaleFactor;
     };
 
 

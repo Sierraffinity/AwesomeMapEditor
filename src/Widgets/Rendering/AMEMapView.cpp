@@ -60,27 +60,28 @@ namespace ame
     // Date of edit:   6/17/2016
     //
     ///////////////////////////////////////////////////////////
-    AMEMapView::AMEMapView(QWidget *parent)
-        : QWidget(parent),
-          m_PrimaryForeground(0),
-          m_PrimaryBackground(0),
-          m_SecondaryForeground(0),
-          m_SecondaryBackground(0),
-          m_ShowSprites(false),
-          m_MovementMode(false),
-          m_BlockView(0),
-          m_FirstBlock(QPoint(-1,-1)),
-          m_LastBlock(QPoint(-1,-1)),
-          m_HighlightedBlock(QPoint(-1,-1)),
-          m_SelectSize(QSize(1,1)),
-          m_CurrentTool(AMEMapView::Tool::None),
-          m_CursorColor(Qt::GlobalColor::green),
-          m_ShowCursor(false),
-          m_ShowGrid(false),
-          m_HoveredConnection(0),
-          m_IsInit(false)
+	AMEMapView::AMEMapView(QWidget *parent)
+		: QWidget(parent),
+		m_PrimaryForeground(0),
+		m_PrimaryBackground(0),
+		m_SecondaryForeground(0),
+		m_SecondaryBackground(0),
+		m_ShowSprites(false),
+		m_MovementMode(false),
+		m_BlockView(0),
+		m_FirstBlock(QPoint(-1, -1)),
+		m_LastBlock(QPoint(-1, -1)),
+		m_HighlightedBlock(QPoint(-1, -1)),
+		m_SelectSize(QSize(1, 1)),
+		m_CurrentTool(AMEMapView::Tool::None),
+		m_CursorColor(Qt::GlobalColor::green),
+		m_ShowCursor(false),
+		m_ShowGrid(false),
+		m_HoveredConnection(0),
+		m_IsInit(false),
+        m_MovePerm(QImage(":/images/PermGL.png")),
+		m_Cursor()
     {
-        m_MovePerm = QImage(":/images/PermGL.png");
     }
 
     ///////////////////////////////////////////////////////////
@@ -798,23 +799,6 @@ namespace ame
             }
 
         }
-    }
-
-    ///////////////////////////////////////////////////////////
-    // Function type:  Virtual
-    // Contributors:   Diegoisawesome
-    // Last edit by:   Diegoisawesome
-    // Date of edit:   12/8/2016
-    //
-    ///////////////////////////////////////////////////////////
-    void AMEMapView::wheelEvent(QWheelEvent *event)
-    {
-        // TODO: Get this updating after the event, not before
-        /*QMouseEvent eve( (QEvent::MouseMove), event->pos() + event->pixelDelta(),
-                         Qt::NoButton,
-                         event->buttons(),
-                         event->modifiers()   );
-        mouseMoveEvent(&eve);*/
     }
 
     ///////////////////////////////////////////////////////////
@@ -1774,9 +1758,17 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::paintEvent(QPaintEvent *event)
     {
+        Q_UNUSED(event);
+
         if (m_IsInit)
         {
-            Q_UNUSED(event);
+			// TODO: Refactor code so mouse position can be updated if necessary
+			/*QMouseEvent eve((QEvent::MouseMove), mapFromGlobal(QCursor::pos()),
+				Qt::NoButton,
+				Qt::NoButton,
+				Qt::NoModifier);
+			mouseMoveEvent(&eve);*/
+
             QPoint pmain = mainPos();
             QPainter painter(this);
             painter.drawPixmap(pmain.x(), pmain.y(), m_MapBackground);

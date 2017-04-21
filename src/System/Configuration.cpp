@@ -170,6 +170,7 @@ namespace ame
         OverworldCount++;
         ItemCount = ItemCount * 2 + 1;
         MapNameCount += (RomType == RT_RS ? 0 : 1);
+        MapNameTotal += (RomType == RT_EM ? 1 : 0);
 
         // Parsing successful
         return true;

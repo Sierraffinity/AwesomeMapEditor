@@ -111,7 +111,8 @@ SOURCES += \
     src/Widgets/Rendering/AMEBlockView.cpp \
     src/Widgets/Rendering/AMEBorderView.cpp \
     src/Widgets/Rendering/AMEEntityView.cpp \
-    src/Widgets/Rendering/AMEMapView.cpp
+    src/Widgets/Rendering/AMEMapView.cpp \
+    src/Widgets/Rendering/Cursor.cpp
 
 
 #
@@ -185,7 +186,8 @@ HEADERS  += \
     include/AME/Widgets/Rendering/AMEBorderView.h \
     include/AME/Widgets/Rendering/AMEEntityView.h \
     include/AME/Widgets/Rendering/AMEMapView.h \
-    include/AME/Widgets/Listeners/MovePermissionListener.h
+    include/AME/Widgets/Listeners/MovePermissionListener.h \
+    include/AME/Widgets/Rendering/Cursor.hpp
 
 
 #

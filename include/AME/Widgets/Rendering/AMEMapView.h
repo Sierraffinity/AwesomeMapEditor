@@ -44,6 +44,7 @@
 #include <QRgb>
 #include <AME/System/LoadedData.hpp>
 #include <AME/Widgets/Listeners/MovePermissionListener.h>
+#include <AME/Widgets/Rendering/Cursor.hpp>
 
 
 namespace ame
@@ -269,12 +270,6 @@ namespace ame
         void leaveEvent(QEvent *event);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Overrides the mouse wheel event.
-        ///
-        ///////////////////////////////////////////////////////////
-        void wheelEvent(QWheelEvent *event);
-
-        ///////////////////////////////////////////////////////////
         /// \brief Paints the map image.
         ///
         ///////////////////////////////////////////////////////////
@@ -338,6 +333,7 @@ namespace ame
         Boolean m_IsInit;
         Boolean m_ValidPress;
         Int32 m_HoveredConnection;
+		Cursor m_Cursor;
     };
 }
 

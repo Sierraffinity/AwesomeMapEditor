@@ -63,6 +63,7 @@ namespace ame
     bool Settings::ShowGrid;
     int Settings::MapAccuracyLevel;
     QList<QString> Settings::RecentFiles;
+	float Settings::ScaleFactor;
 
 
     ///////////////////////////////////////////////////////////

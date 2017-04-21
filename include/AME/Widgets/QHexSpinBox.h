@@ -11,7 +11,7 @@ class QHexSpinBox: public QSpinBox
     Q_PROPERTY(bool upperCase READ upperCase WRITE setUpperCase)
 
 public:
-    QHexSpinBox( QWidget * parent = 0) :
+    QHexSpinBox(QWidget * parent = 0) :
         QSpinBox(parent),
         m_byteLength(0),
         m_upperCase(false)
