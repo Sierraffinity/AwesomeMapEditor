@@ -7,7 +7,7 @@ MapSortOrder:           0
 HexPrefix:              0x
 ShowRawMapHeader:       false
 ShowRawLayoutHeader:    false
+ShowGrid:               false
 MapAccuracyLevel:       4
 LastPath:               ~
 RecentFiles:            ~
-ShowGrid:               false

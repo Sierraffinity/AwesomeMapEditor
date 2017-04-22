@@ -1814,7 +1814,7 @@ namespace ame
                 painter.setPen(Qt::GlobalColor::black);
                 painter.drawLines(lines);
             }
-            if (m_ShowCursor)
+            /*if (m_ShowCursor)
             {
                 int mapWidth = m_MapSizes.at(0).width() / 16;
                 int x = 0, y = 0, sWid = 1, sHei = 1;
@@ -1908,7 +1908,8 @@ namespace ame
 
                 painter.setPen(m_CursorColor);
                 painter.drawRect(x, y, sWid, sHei);
-            }
+            }*/
+			m_Cursor.paintEvent(event, painter, QRect(m_MapPositions.at(0), m_MapSizes.at(0)));
             if (m_HoveredConnection != 0)
             {
                 QRect connRect = QRect(m_MapPositions.at(m_HoveredConnection), m_MapSizes.at(m_HoveredConnection) + QSize(-1,-1));

@@ -37,11 +37,11 @@
 ///////////////////////////////////////////////////////////
 #include <AME/Widgets/Rendering/Cursor.hpp>
 #include <AME/System/Settings.hpp>
-
+#include <QDebug>
 
 namespace ame
 {
-	Cursor::Cursor(const QPoint& pos = QPoint(), Tool tool = None, bool visible = false) :
+	Cursor::Cursor(const QPoint& pos, Tool tool, bool visible) :
 		m_Position(pos),
 		m_Anchor(pos),
 		m_Tool(tool),
@@ -56,6 +56,22 @@ namespace ame
 	}
 
 	///////////////////////////////////////////////////////////
+	// Function type:  Helper
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/21/2017
+	//
+	///////////////////////////////////////////////////////////
+	QRect Cursor::getRect()
+	{
+        const int blockSize = SETTINGS(ScaleFactor) * 16;
+		QRect rect(m_Anchor, m_Position);
+		rect = rect.normalized();
+        rect.setSize(rect.size() * blockSize);
+        return rect - QMargins(0, 0, 1, 1);
+	}
+
+	///////////////////////////////////////////////////////////
 	// Function type:  Event
 	// Contributors:   Diegoisawesome
 	// Last edit by:   Diegoisawesome
@@ -66,12 +82,8 @@ namespace ame
 	{
 		if (m_Visible)
 		{
-			const int blockSize = SETTINGS(ScaleFactor) * 16;
-			QRect rect(m_Anchor, m_Position);
-			rect = rect.normalized();
-			rect.size.scale(blockSize);
-			rect += QMargins(0, 0, blockSize - 1, blockSize - 1);
-			rect &= bounds;
+            QRect rect = getRect().adjusted(bounds.x(), bounds.y(), bounds.x(), bounds.y());
+			rect &= (bounds - QMargins(0, 0, 1, 1));
 			painter.setPen(getToolColor());
 			painter.setBrush(Qt::transparent);
 			painter.drawRect(rect);

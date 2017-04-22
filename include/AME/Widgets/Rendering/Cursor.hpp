@@ -57,12 +57,13 @@ namespace ame
 
 		void setTool(Tool tool);
 
-	protected:
+		QRect getRect();
+
 		///////////////////////////////////////////////////////////
 		/// \brief Paints the cursor.
 		///
 		///////////////////////////////////////////////////////////
-		void paintEvent(QPaintEvent *event, QPainter& painter, const QRect& bounds);
+		void paintEvent(QPaintEvent* event, QPainter& painter, const QRect& bounds);
 
 	private:
 		QColor getToolColor();
