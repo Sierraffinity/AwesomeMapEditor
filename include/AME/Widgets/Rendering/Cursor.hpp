@@ -55,6 +55,8 @@ namespace ame
 	public:
 		Cursor(const QPoint& pos = QPoint(), Tool tool = None, bool visible = false);
 
+		void setTool(Tool tool);
+
 	protected:
 		///////////////////////////////////////////////////////////
 		/// \brief Paints the cursor.
@@ -63,6 +65,8 @@ namespace ame
 		void paintEvent(QPaintEvent *event, QPainter& painter, const QRect& bounds);
 
 	private:
+		QColor getToolColor();
+
 		QPoint m_Position;
 		QPoint m_Anchor;
 		Tool m_Tool;

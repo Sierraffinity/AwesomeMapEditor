@@ -50,6 +50,11 @@ namespace ame
 
 	}
 
+	void Cursor::setTool(Tool tool)
+	{
+		m_Tool = tool;
+	}
+
 	///////////////////////////////////////////////////////////
 	// Function type:  Event
 	// Contributors:   Diegoisawesome
@@ -61,17 +66,35 @@ namespace ame
 	{
 		if (m_Visible)
 		{
-			QPoint topLeft = m_Anchor;
-			QPoint bottomRight = m_Position;
+			const int blockSize = SETTINGS(ScaleFactor) * 16;
+			QRect rect(m_Anchor, m_Position);
+			rect = rect.normalized();
+			rect.size.scale(blockSize);
+			rect += QMargins(0, 0, blockSize - 1, blockSize - 1);
+			rect &= bounds;
+			painter.setPen(getToolColor());
+			painter.setBrush(Qt::transparent);
+			painter.drawRect(rect);
+		}
+	}
 
-			if (bottomRight.x() < topLeft.x())
-				std::swap(topLeft.rx(), bottomRight.rx());
-
-			if (bottomRight.y() < topLeft.y())
-				std::swap(topLeft.ry(), bottomRight.ry());
-
-			topLeft *= SETTINGS(ScaleFactor) * 16;
-			bottomRight *= SETTINGS(ScaleFactor) * 16;
+	///////////////////////////////////////////////////////////
+	// Function type:  Helper
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/21/2017
+	//
+	///////////////////////////////////////////////////////////
+	QColor Cursor::getToolColor()
+	{
+		switch (m_Tool)
+		{
+		case Draw:
+			return Qt::GlobalColor::red;
+		case Pick:
+			return Qt::GlobalColor::yellow;
+		default:
+			return Qt::GlobalColor::green;
 		}
 	}
 }
