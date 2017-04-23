@@ -57,7 +57,15 @@ namespace ame
 
 		void setTool(Tool tool);
 
-		QRect getRect();
+		void setPos(const QPoint & pos);
+
+		void beginPick(const QPoint& pos);
+
+		void resizeWithAnchor(const QPoint& pos, const QRect& bounds);
+
+		void setVisible(bool visible);
+
+		QRect getAdjustedRect(const QRect& bounds) const;
 
 		///////////////////////////////////////////////////////////
 		/// \brief Paints the cursor.
@@ -68,7 +76,7 @@ namespace ame
 	private:
 		QColor getToolColor();
 
-		QPoint m_Position;
+		QRect m_Rect;
 		QPoint m_Anchor;
 		Tool m_Tool;
 		bool m_Visible;

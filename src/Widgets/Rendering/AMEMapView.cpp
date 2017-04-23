@@ -349,6 +349,7 @@ namespace ame
 
             // Determines the moused-over block number
             m_FirstBlock = QPoint(mouseX/16, mouseY/16);
+			m_Cursor.beginPick(m_FirstBlock);
             m_LastBlock = m_FirstBlock;
             m_SelectedBlocks.clear();
             m_BlockView->deselectBlocks();
@@ -657,6 +658,7 @@ namespace ame
             {
                 needsRepaint = true;
                 m_LastBlock = QPoint(mX/16, mY/16);
+				m_Cursor.resizeWithAnchor(m_LastBlock, QRect(QPoint(0,0), m_MapSizes.at(0) / 16));
             }
         }
         else
@@ -674,6 +676,7 @@ namespace ame
                         if (i != m_HoveredConnection)
                         {
                             m_ShowCursor = false;
+							m_Cursor.setVisible(false);
                             m_HoveredConnection = i;
                             repaint();
                         }
@@ -688,6 +691,7 @@ namespace ame
                 if (m_ShowCursor)
                 {
                     m_ShowCursor = false;
+					m_Cursor.setVisible(false);
                     needsRepaint = true;
                 }
                 if (needsRepaint)
@@ -705,6 +709,7 @@ namespace ame
         if (m_ShowCursor != true)
         {
             m_ShowCursor = true;
+			m_Cursor.setVisible(true);
             needsRepaint = true;
         }
 
@@ -766,6 +771,7 @@ namespace ame
             else
             {
                 m_HighlightedBlock = QPoint(mX/16, mY/16);
+				m_Cursor.setPos(m_HighlightedBlock);
                 needsRepaint = true;
             }
         }
@@ -812,6 +818,7 @@ namespace ame
     {
         Q_UNUSED(event);
         m_ShowCursor = false;
+		m_Cursor.setVisible(false);
         m_HoveredConnection = 0;
 
         repaint();
