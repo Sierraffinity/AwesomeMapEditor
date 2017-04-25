@@ -141,10 +141,16 @@ namespace ame
         const QString fileName = "AME.yaml";
         QString filePath = appFolder + subFolder + fileName;
 
+        if (!QDir().mkpath(appFolder + subFolder))
+        {
+            Messages::showError(NULL, QObject::tr("Error creating config folder.\nConfiguration could not be saved."));
+            return false;
+        }
+
         QFile file(filePath);
         if (!file.open(QIODevice::ReadWrite))
         {
-            Messages::showError(NULL, QObject::tr("Could not write to configuration file AME.yaml."));
+            Messages::showError(NULL, QObject::tr("Error writing to configuration file AME.yaml.\nConfiguration could not be saved."));
             return false;
         }
 

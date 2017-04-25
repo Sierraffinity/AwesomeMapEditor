@@ -73,7 +73,7 @@ namespace ame
 		m_LastBlock(QPoint(-1, -1)),
 		m_HighlightedBlock(QPoint(-1, -1)),
 		m_SelectSize(QSize(1, 1)),
-		m_CurrentTool(AMEMapView::Tool::None),
+		m_CurrentTool(Cursor::Tool::None),
 		m_CursorColor(Qt::GlobalColor::green),
 		m_ShowCursor(false),
 		m_ShowGrid(false),
@@ -238,7 +238,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::setCurrentTool(AMEMapView::Tool tool)
     {
-        m_CurrentTool = tool;
+        m_CurrentTool = static_cast<Cursor::Tool>(tool);
     }
 
     ///////////////////////////////////////////////////////////
@@ -248,25 +248,25 @@ namespace ame
     // Date of edit:   10/24/2016
     //
     ///////////////////////////////////////////////////////////
-    AMEMapView::Tool AMEMapView::getCurrentTool(Qt::MouseButtons buttons)
+    Cursor::Tool AMEMapView::getCurrentTool(Qt::MouseButtons buttons)
     {
         if (buttons != Qt::NoButton)
         {
-            if (m_CurrentTool != AMEMapView::Tool::None)
+            if (m_CurrentTool != Cursor::Tool::None)
                 return m_CurrentTool;
             if (buttons & Qt::LeftButton)
-                return AMEMapView::Tool::Draw;
+                return Cursor::Tool::Draw;
             else if (buttons & Qt::RightButton)
-                return AMEMapView::Tool::Select;
+                return Cursor::Tool::Pick;
             else if (buttons & Qt::MiddleButton)
             {
                 if (QGuiApplication::keyboardModifiers() & Qt::ControlModifier)
-                    return AMEMapView::Tool::FillAll;
+                    return Cursor::Tool::FillAll;
                 else
-                    return AMEMapView::Tool::Fill;
+                    return Cursor::Tool::Fill;
             }
         }
-        return AMEMapView::Tool::None;
+        return Cursor::Tool::None;
     }
 
     ///////////////////////////////////////////////////////////
@@ -278,6 +278,17 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mousePressEvent(QMouseEvent *event)
     {
+		QPoint mapCoords = event->pos() - m_MapPositions.at(0);
+		mapCoords.rx() /= MAP_BLOCK_SIZE;
+		mapCoords.ry() /= MAP_BLOCK_SIZE;
+
+		QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+
+		Cursor::Tool currentTool = getCurrentTool(event->button());
+
+		if (m_Cursor.mousePressEvent(mapCoords, mapBounds, currentTool))
+			repaint();
+		/*
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
         QPoint mp = m_MapPositions.at(0);
@@ -478,6 +489,7 @@ namespace ame
 
         }
         repaint();
+		*/
     }
 
     ///////////////////////////////////////////////////////////
@@ -569,6 +581,15 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseReleaseEvent(QMouseEvent *event)
     {
+		QPoint mapCoords = event->pos() - m_MapPositions.at(0);
+		mapCoords.rx() /= MAP_BLOCK_SIZE;
+		mapCoords.ry() /= MAP_BLOCK_SIZE;
+
+		QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+
+		if (m_Cursor.mouseReleaseEvent(mapCoords, mapBounds))
+			repaint();
+		/*
         m_CursorColor = Qt::GlobalColor::green;
 
         AMEMapView::Tool currentTool = getCurrentTool(event->button());
@@ -619,6 +640,7 @@ namespace ame
         }
         repaint();
         m_ValidPress = false;
+		*/
     }
 
     ///////////////////////////////////////////////////////////
@@ -630,6 +652,16 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseMoveEvent(QMouseEvent *event)
     {
+		QPoint mapCoords = event->pos() - m_MapPositions.at(0);
+		mapCoords.rx() /= MAP_BLOCK_SIZE;
+		mapCoords.ry() /= MAP_BLOCK_SIZE;
+
+		QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+
+		m_Cursor.setVisible(true);
+		if (m_Cursor.mouseMoveEvent(mapCoords, mapBounds))
+			repaint();
+		/*
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
         bool needsRepaint = false;
@@ -778,6 +810,7 @@ namespace ame
 
         if (needsRepaint)
             repaint();
+		*/
     }
 
     ///////////////////////////////////////////////////////////

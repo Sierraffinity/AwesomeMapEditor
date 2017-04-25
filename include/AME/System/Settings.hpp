@@ -108,6 +108,7 @@ namespace ame
     #define SETTINGS(x)           (ame::Settings::x)
     #define CHANGESETTING(x, val) (ame::Settings::x = val)
     #define SETG_ERROR_FILE      "YAML settings file could not be found."
+	#define MAP_BLOCK_SIZE (SETTINGS(ScaleFactor) * 16)
 
 }
 

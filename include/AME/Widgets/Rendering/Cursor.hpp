@@ -44,6 +44,8 @@ namespace ame
 {
 	class Cursor
 	{
+	public:
+
 		enum Tool {
 			None,
 			Draw,
@@ -52,20 +54,25 @@ namespace ame
 			FillAll
 		};
 
-	public:
 		Cursor(const QPoint& pos = QPoint(), Tool tool = None, bool visible = false);
 
 		void setTool(Tool tool);
 
-		void setPos(const QPoint & pos);
+		static QPoint conformToBounds(QPoint pos, const QRect& bounds);
 
-		void beginPick(const QPoint& pos);
+		bool setPos(const QPoint& pos, const QRect& bounds);
 
-		void resizeWithAnchor(const QPoint& pos, const QRect& bounds);
+		void setAnchor(const QPoint& pos, const QRect& bounds);
+
+		bool mousePressEvent(const QPoint& pos, const QRect& bounds, Tool tool);
+
+		bool mouseMoveEvent(const QPoint & pos, const QRect& bounds);
+
+		bool mouseReleaseEvent(const QPoint& pos, const QRect& bounds);
+
+		bool resizeWithAnchor(const QPoint& pos, const QRect& bounds);
 
 		void setVisible(bool visible);
-
-		QRect getAdjustedRect(const QRect& bounds) const;
 
 		///////////////////////////////////////////////////////////
 		/// \brief Paints the cursor.
@@ -74,9 +81,12 @@ namespace ame
 		void paintEvent(QPaintEvent* event, QPainter& painter, const QRect& bounds);
 
 	private:
-		QColor getToolColor();
+		QColor getToolColor() const;
+
+		QRect getAdjustedRect(const QRect& bounds) const;
 
 		QRect m_Rect;
+		QRect m_OldRect;
 		QPoint m_Anchor;
 		Tool m_Tool;
 		bool m_Visible;

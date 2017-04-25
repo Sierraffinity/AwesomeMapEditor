@@ -203,7 +203,7 @@ namespace ame
         /// \brief Retrieves the current editing tool.
         ///
         ///////////////////////////////////////////////////////////
-        AMEMapView::Tool getCurrentTool(Qt::MouseButtons buttons);
+        Cursor::Tool getCurrentTool(Qt::MouseButtons buttons);
 
         ///////////////////////////////////////////////////////////
         /// \brief Sets the current editing tool from the UI.
@@ -325,7 +325,7 @@ namespace ame
         QPoint m_LastBlock;
         QPoint m_HighlightedBlock;
         QSize m_SelectSize;
-        AMEMapView::Tool m_CurrentTool;
+        Cursor::Tool m_CurrentTool;
         QImage m_MovePerm;
         QColor m_CursorColor;
         Boolean m_ShowCursor;

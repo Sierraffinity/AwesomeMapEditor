@@ -43,6 +43,7 @@ namespace ame
 {
 	Cursor::Cursor(const QPoint& pos, Tool tool, bool visible) :
 		m_Rect(pos, QSize(1,1)),
+		m_OldRect(pos, QSize(1, 1)),
 		m_Anchor(pos),
 		m_Tool(tool),
 		m_Visible(visible)
@@ -62,16 +63,23 @@ namespace ame
 		m_Tool = tool;
 	}
 
-	///////////////////////////////////////////////////////////
-	// Function type:  Setter
-	// Contributors:   Diegoisawesome
-	// Last edit by:   Diegoisawesome
-	// Date of edit:   4/21/2017
-	//
-	///////////////////////////////////////////////////////////
-	void Cursor::setPos(const QPoint& pos)
+	QPoint Cursor::conformToBounds(QPoint pos, const QRect& bounds)
 	{
-		m_Rect.moveTo(pos);
+		if (!bounds.contains(pos))
+		{
+			QPoint bottomRight(bounds.left() + bounds.width(), bounds.top() + bounds.height());
+
+			if (pos.x() < bounds.left())
+				pos.setX(bounds.left());
+			else if (pos.x() > bottomRight.x())
+				pos.setX(bottomRight.x());
+
+			if (pos.y() < bounds.top())
+				pos.setY(bounds.top());
+			else if (pos.y() > bottomRight.y())
+				pos.setY(bottomRight.y());
+		}
+		return pos;
 	}
 
 	///////////////////////////////////////////////////////////
@@ -81,26 +89,108 @@ namespace ame
 	// Date of edit:   4/21/2017
 	//
 	///////////////////////////////////////////////////////////
-	void Cursor::beginPick(const QPoint& pos)
+	bool Cursor::setPos(const QPoint& pos, const QRect& bounds)
 	{
-		m_Tool = Pick;
-		m_Anchor = pos;
+		QPoint newPos = conformToBounds(pos, bounds);
+
+		if (m_Rect.topLeft() == newPos)
+			return false;
+		m_Rect.moveTo(newPos);
+		return true;
 	}
 
-	void Cursor::resizeWithAnchor(const QPoint& pos, const QRect& bounds)
+	///////////////////////////////////////////////////////////
+	// Function type:  Setter
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/21/2017
+	//
+	///////////////////////////////////////////////////////////
+	void Cursor::setAnchor(const QPoint& pos, const QRect& bounds)
+	{
+		m_Anchor = conformToBounds(pos, bounds);
+		resizeWithAnchor(pos, bounds);
+	}
+
+	///////////////////////////////////////////////////////////
+	// Function type:  Event
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/24/2017
+	//
+	///////////////////////////////////////////////////////////
+	bool Cursor::mousePressEvent(const QPoint& pos, const QRect& bounds, Tool tool)
+	{
+		if (!bounds.contains(pos))
+			return false;
+
+		if (m_Tool == Pick)
+		{
+			m_Rect = m_OldRect;
+			setPos(pos, bounds);
+		}
+		else
+			m_OldRect = m_Rect;
+
+		m_Tool = tool;
+		
+		if (m_Tool == Pick)
+			setAnchor(pos, bounds);
+		return true;
+	}
+
+	///////////////////////////////////////////////////////////
+	// Function type:  Event
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/24/2017
+	//
+	///////////////////////////////////////////////////////////
+	bool Cursor::mouseMoveEvent(const QPoint& pos, const QRect& bounds)
+	{
+		if (m_Tool == Pick)
+			return resizeWithAnchor(pos, bounds);
+		else
+			return setPos(pos, bounds);
+	}
+
+	///////////////////////////////////////////////////////////
+	// Function type:  Event
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/24/2017
+	//
+	///////////////////////////////////////////////////////////
+	bool Cursor::mouseReleaseEvent(const QPoint& pos, const QRect& bounds)
+	{
+		setPos(pos, bounds);
+		m_Tool = None;
+		return true;
+	}
+
+	bool Cursor::resizeWithAnchor(const QPoint& pos, const QRect& bounds)
 	{
 		QRect rect(m_Anchor, pos);
+
 		if (pos.x() < m_Anchor.x())
 		{
 			rect.setLeft(pos.x());
 			rect.setRight(m_Anchor.x());
 		}
+
 		if (pos.y() < m_Anchor.y())
 		{
 			rect.setTop(pos.y());
 			rect.setBottom(m_Anchor.y());
 		}
-		m_Rect = rect & bounds;
+
+		rect &= bounds;
+
+		if (m_Rect == bounds)
+			return false;
+
+		m_Rect = rect;
+		return true;
 	}
 
 	void Cursor::setVisible(bool visible)
@@ -117,10 +207,10 @@ namespace ame
 	///////////////////////////////////////////////////////////
 	QRect Cursor::getAdjustedRect(const QRect& bounds) const
 	{
-        const int blockSize = SETTINGS(ScaleFactor) * 16;
+        //const int blockSize = SETTINGS(ScaleFactor) * 16;
 		//QRect rect(m_Anchor, m_Position);
 		//rect = rect.normalized();
-		QRect rect(m_Rect.topLeft() * blockSize, m_Rect.size() * blockSize);
+		QRect rect(m_Rect.topLeft() * MAP_BLOCK_SIZE, m_Rect.size() * MAP_BLOCK_SIZE);
 		rect -= QMargins(0, 0, 1, 1);
 		return rect.adjusted(bounds.x(), bounds.y(), bounds.x(), bounds.y()) & (bounds - QMargins(0, 0, 1, 1));;
 	}
@@ -151,7 +241,7 @@ namespace ame
 	// Date of edit:   4/21/2017
 	//
 	///////////////////////////////////////////////////////////
-	QColor Cursor::getToolColor()
+	QColor Cursor::getToolColor() const
 	{
 		switch (m_Tool)
 		{
