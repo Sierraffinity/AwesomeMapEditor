@@ -54,25 +54,27 @@ namespace ame
 			FillAll
 		};
 
-		Cursor(const QPoint& pos = QPoint(), Tool tool = None, bool visible = false);
+		Cursor(const QPoint& pos = QPoint(), const QRect& bounds = QRect(), Tool tool = None, bool visible = false);
 
 		void setTool(Tool tool);
 
 		static QPoint conformToBounds(QPoint pos, const QRect& bounds);
 
-		bool setPos(const QPoint& pos, const QRect& bounds);
+		bool setPos(const QPoint& pos);
 
-		void setAnchor(const QPoint& pos, const QRect& bounds);
+		void setAnchor(const QPoint& pos);
 
-		bool mousePressEvent(const QPoint& pos, const QRect& bounds, Tool tool);
+		bool mousePressEvent(const QPoint& pos, Tool tool);
 
-		bool mouseMoveEvent(const QPoint & pos, const QRect& bounds);
+		bool mouseMoveEvent(const QPoint & pos);
 
-		bool mouseReleaseEvent(const QPoint& pos, const QRect& bounds);
+		bool mouseReleaseEvent(const QPoint& pos);
 
-		bool resizeWithAnchor(const QPoint& pos, const QRect& bounds);
+		bool resizeWithAnchor(const QPoint& pos);
 
 		void setVisible(bool visible);
+
+		void setBounds(const QRect& bounds);
 
 		///////////////////////////////////////////////////////////
 		/// \brief Paints the cursor.
@@ -87,6 +89,7 @@ namespace ame
 
 		QRect m_Rect;
 		QRect m_OldRect;
+		QRect m_Bounds;
 		QPoint m_Anchor;
 		Tool m_Tool;
 		bool m_Visible;

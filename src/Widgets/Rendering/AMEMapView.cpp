@@ -278,15 +278,16 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mousePressEvent(QMouseEvent *event)
     {
-		QPoint mapCoords = event->pos() - m_MapPositions.at(0);
+		QPoint mapCoords = event->pos();
 		mapCoords.rx() /= MAP_BLOCK_SIZE;
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
+		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
 
-		QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+		//QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
 
 		Cursor::Tool currentTool = getCurrentTool(event->button());
 
-		if (m_Cursor.mousePressEvent(mapCoords, mapBounds, currentTool))
+		if (m_Cursor.mousePressEvent(mapCoords, currentTool))
 			repaint();
 		/*
         int mouseX = event->pos().x();
@@ -581,13 +582,14 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseReleaseEvent(QMouseEvent *event)
     {
-		QPoint mapCoords = event->pos() - m_MapPositions.at(0);
+		QPoint mapCoords = event->pos();
 		mapCoords.rx() /= MAP_BLOCK_SIZE;
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
+		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
 
-		QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+		//QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
 
-		if (m_Cursor.mouseReleaseEvent(mapCoords, mapBounds))
+		if (m_Cursor.mouseReleaseEvent(mapCoords))
 			repaint();
 		/*
         m_CursorColor = Qt::GlobalColor::green;
@@ -652,14 +654,15 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseMoveEvent(QMouseEvent *event)
     {
-		QPoint mapCoords = event->pos() - m_MapPositions.at(0);
+		QPoint mapCoords = event->pos();
 		mapCoords.rx() /= MAP_BLOCK_SIZE;
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
+		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
 
-		QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+		//QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
 
 		m_Cursor.setVisible(true);
-		if (m_Cursor.mouseMoveEvent(mapCoords, mapBounds))
+		if (m_Cursor.mouseMoveEvent(mapCoords))
 			repaint();
 		/*
         int mouseX = event->pos().x();
@@ -919,6 +922,7 @@ namespace ame
         m_MapPositions.push_back(QPoint(0, 0));
         m_WidgetSize = QSize(m_MapSizes.at(0));
 
+		m_Cursor.setBounds(QRect(QPoint(0, 0), mainSize));
 
         // Calculates the positions for the maps
         int biggestLeftMap = 0; // width of the biggest left-connected map
