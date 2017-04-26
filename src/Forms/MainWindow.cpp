@@ -50,12 +50,9 @@ namespace ame
 {
     ///////////////////////////////////////////////////////////
     // Function type:  Constructor
-    // Contributors:   Pokedude, Nekaida
-    // Last edit by:   Nekaida
-    // Date of edit:   3/26/2017
-    // Comment:
-    //
-    // Added a function call to set the GUI up.
+    // Contributors:   Pokedude, Diegoisawesome, Nekaida
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   4/25/2017
     //
     ///////////////////////////////////////////////////////////
     MainWindow::MainWindow(QWidget *parent) :
@@ -66,26 +63,29 @@ namespace ame
         m_CurrentTrigger(0),
         m_CurrentSign(0),
         m_lastOpenedMap(NULL),
-        m_MPListener(new MovePermissionListener),
-        m_statusLabel(new QLabel(tr("No ROM loaded."))),
-        m_statusLabelCredit(new QLabel(tr("Created by ") + "<a href=\"http://domoreaweso.me/\">DoMoreAwesome</a>")),
-        m_proxyModel(new QFilterChildrenProxyModel())
+        m_MPListener(),
+        m_statusLabel(tr("No ROM loaded.")),
+        m_statusLabelCredit(tr("Created by ") + "<a href=\"http://domoreaweso.me/\">DoMoreAwesome</a>"),
+        m_proxyModel(),
+		m_BlockManager()
     {
         // Setup GUI
         ui->setupUi(this);
-        ui->lblMovementPerms->installEventFilter(m_MPListener);
+        ui->lblMovementPerms->installEventFilter(&m_MPListener);
+
+
 
         connect(ui->glMapEditor, SIGNAL(loadMapChangeTreeView(Map*)), this, SLOT(loadMapChangeTreeView(Map*)));
         connect(ui->glEntityEditor, SIGNAL(loadMapChangeTreeView(Map*)), this, SLOT(loadMapChangeTreeView(Map*)));
         connect(ui->glEntityEditor, SIGNAL(onMouseClick(QMouseEvent*)), this, SLOT(entity_mouseClick(QMouseEvent*)));
         connect(ui->glEntityEditor, SIGNAL(onDoubleClick(QMouseEvent*)), this, SLOT(entity_doubleClick(QMouseEvent*)));
 
-        ui->statusBar->addWidget(m_statusLabel);
+        ui->statusBar->addWidget(&m_statusLabel);
 
-        m_statusLabelCredit->setTextFormat(Qt::RichText);
-        m_statusLabelCredit->setTextInteractionFlags(Qt::TextBrowserInteraction);
-        m_statusLabelCredit->setOpenExternalLinks(true);
-        ui->statusBar->addPermanentWidget(m_statusLabelCredit);
+        m_statusLabelCredit.setTextFormat(Qt::RichText);
+        m_statusLabelCredit.setTextInteractionFlags(Qt::TextBrowserInteraction);
+        m_statusLabelCredit.setOpenExternalLinks(true);
+        ui->statusBar->addPermanentWidget(&m_statusLabelCredit);
 
         QMenu *mapSortOrderMenu = new QMenu();
         QActionGroup *mapSortOrderActionGroup = new QActionGroup(this);
@@ -137,7 +137,7 @@ namespace ame
             return;         // TODO: create default config file if none exists
 
         ui->glMapEditor->setBlockView(ui->glBlockEditor);
-        ui->glMapEditor->setMPListener(m_MPListener);
+        ui->glMapEditor->setMPListener(&m_MPListener);
         ui->glMapEditor->setGridVisible(SETTINGS(ShowGrid));
         ui->glEntityEditor->setGridVisible(SETTINGS(ShowGrid));
         ui->glBlockEditor->setGridVisible(SETTINGS(ShowGrid));
@@ -158,7 +158,7 @@ namespace ame
         /*QAction* spriteMode = ui->tbSpriteMode->menu()->actions()[SETTINGS(SpriteMode)];
         ui->tbSpriteMode->setIcon(spriteMode->icon());*/
 
-        ui->treeView->setModel(m_proxyModel);
+        ui->treeView->setModel(&m_proxyModel);
 
         setScriptEditorButtonsEnabled(!SETTINGS(ScriptEditor).isEmpty());
     }
@@ -166,13 +166,10 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Destructor
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   6/2/2016
-    // Comment:
-    //
-    // Added a call to delete the GUI.
-    //
+    // Contributors:   Pokedude, Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   4/25/2017
+	//
     ///////////////////////////////////////////////////////////
     MainWindow::~MainWindow()
     {
@@ -183,14 +180,14 @@ namespace ame
     // Function type:  I/O
     // Contributors:   Pokedude, Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   7/5/2016
+    // Date of edit:   4/26/2017
     //
     ///////////////////////////////////////////////////////////
     bool MainWindow::openRomDialog()
     {
         QString file = QFileDialog::getOpenFileName(
                     this,
-                    tr("Open ROM file"),
+                    tr("Open ROM File"),
                     SETTINGS(LastPath),
                     tr("ROMs (*.gba *.bin)")
         );
@@ -198,8 +195,8 @@ namespace ame
         // Determines whether the dialog was successful
         if (!file.isNull() && !file.isEmpty())
         {
-            QFileInfo *info = new QFileInfo(file);
-            CHANGESETTING(LastPath, info->absolutePath());
+            QFileInfo info(file);
+            CHANGESETTING(LastPath, info.absolutePath());
             Settings::write();
             return loadROM(file);
         }
@@ -344,8 +341,9 @@ namespace ame
             return;
         }
 
-        setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
-        m_statusLabel->setText(tr("ROM %1 loaded in %2 ms.").arg(m_Rom.info().name(), QString::number(result)));
+        //setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
+		setWindowFilePath(m_Rom.info().path());
+        m_statusLabel.setText(tr("ROM %1 loaded in %2 ms.").arg(m_Rom.info().name(), QString::number(result)));
 
         setupAfterLoading();
         m_Rom.clearCache();
@@ -732,11 +730,11 @@ namespace ame
                         secondaryItem->appendRow(mapItem->clone());
                     }
                 }
-                m_proxyModel->sort(0, Qt::AscendingOrder);
+                m_proxyModel.sort(0, Qt::AscendingOrder);
                 break;
             }
         }
-        m_proxyModel->setSourceModel(standardModel);
+        m_proxyModel.setSourceModel(standardModel);
 
         // Repaint tree-view
         ui->treeView->setUpdatesEnabled(true);
@@ -1063,13 +1061,13 @@ namespace ame
     {
         if(m_lastOpenedMap != NULL)
         {
-            ui->treeView->setExpanded(m_proxyModel->mapFromSource(*m_lastOpenedMap), false);
+            ui->treeView->setExpanded(m_proxyModel.mapFromSource(*m_lastOpenedMap), false);
             delete m_lastOpenedMap;
         }
 
         ui->treeView->scrollTo(index);
         ui->treeView->setExpanded(index, true);
-        m_lastOpenedMap = new QModelIndex(m_proxyModel->mapToSource(index));
+        m_lastOpenedMap = new QModelIndex(m_proxyModel.mapToSource(index));
     }
 
     ///////////////////////////////////////////////////////////
@@ -1094,7 +1092,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     bool MainWindow::loadMapChangeTreeView(Map *map)
     {
-        const QModelIndex index = m_proxyModel->mapFromSource(*map->getTreeViewIndex());
+        const QModelIndex index = m_proxyModel.mapFromSource(*map->getTreeViewIndex());
         changeTreeViewMap(index);
 
         return loadMap(map, index.data(Qt::DisplayRole).toString());
@@ -1171,13 +1169,15 @@ namespace ame
 
         if (name != NULL)
         {
-            m_statusLabel->setText(tr("Map %1 loaded in %2 ms.").arg(name, QString::number(stopWatch.elapsed())));
-            setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), name));
+            m_statusLabel.setText(tr("Map %1 loaded in %2 ms.").arg(name, QString::number(stopWatch.elapsed())));
+            //setWindowTitle(QString("Awesome Map Editor | %1 | %2").arg(m_Rom.info().name(), name));
+			//setWindowTitle(QString("%1 - %2").arg(name, m_Rom.info().name()));
         }
         else
         {
-            m_statusLabel->setText(tr("Map loaded in %2 ms.").arg(QString::number(stopWatch.elapsed())));
-            setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
+            m_statusLabel.setText(tr("Map loaded in %2 ms.").arg(QString::number(stopWatch.elapsed())));
+            //setWindowTitle(QString("Awesome Map Editor | %1").arg(m_Rom.info().name()));
+			//setWindowTitle(m_Rom.info().name());
         }
 
         // FIX: Scroll to main map
@@ -1946,9 +1946,9 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_lineEdit_textChanged(const QString &arg1)
     {
-        m_proxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive,
+        m_proxyModel.setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive,
                                                                    QRegExp::FixedString));
-        const QModelIndex index = m_proxyModel->mapFromSource(*m_CurrentMap->getTreeViewIndex());
+        const QModelIndex index = m_proxyModel.mapFromSource(*m_CurrentMap->getTreeViewIndex());
         if (index.isValid())
             changeTreeViewMap(index);
     }

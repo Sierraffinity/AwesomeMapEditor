@@ -37,6 +37,7 @@
 ///////////////////////////////////////////////////////////
 #include <AME/Forms/MainWindow.h>
 #include <QApplication>
+#include <QDebug>
 
 
 ///////////////////////////////////////////////////////////
@@ -53,8 +54,35 @@ int main(int argc, char *argv[])
 {
     qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
     QApplication a(argc, argv);
+	QApplication::setOrganizationName("DoMoreAwesome");
+	QApplication::setOrganizationDomain("domoreaweso.me");
+	QApplication::setApplicationName("Awesome Map Editor");
+	QApplication::setApplicationDisplayName("Awesome Map Editor");
+	QApplication::setApplicationVersion("1.0");
+
+	QCommandLineParser parser;
+	parser.setApplicationDescription("Awesome Map Editor - A GBA Pokémon game map editor.");
+	parser.addHelpOption();
+	parser.addVersionOption();
+	parser.addPositionalArgument("file", QObject::tr("The ROM file to open."));
+
+	parser.addOptions({ { { "m", "map" }, QObject::tr("Bank and map to initially load."), QObject::tr("map") }, });
+
+	parser.process(a);
+
+	const QStringList args = parser.positionalArguments();
+
     ame::MainWindow w;
     w.show();
+
+	if (args.length() > 0 && w.loadROM(args.at(0)))
+	{
+		w.loadMapData();
+
+		QStringList map = parser.value("m").split(",");
+		if (map.size() == 2)
+			w.loadMapChangeTreeView(map[0].toInt(), map[1].toInt());
+	}
 
     return a.exec();
 }

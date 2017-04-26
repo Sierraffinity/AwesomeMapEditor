@@ -74,7 +74,6 @@ namespace ame
 		m_HighlightedBlock(QPoint(-1, -1)),
 		m_SelectSize(QSize(1, 1)),
 		m_CurrentTool(Cursor::Tool::None),
-		m_CursorColor(Qt::GlobalColor::green),
 		m_ShowCursor(false),
 		m_ShowGrid(false),
 		m_HoveredConnection(0),
@@ -283,12 +282,15 @@ namespace ame
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
 		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
 
-		//QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+		Cursor::Tool tool = getCurrentTool(event->button());
 
-		Cursor::Tool currentTool = getCurrentTool(event->button());
+		QRect rect = m_Cursor.mousePressEvent(mapCoords, tool);
 
-		if (m_Cursor.mousePressEvent(mapCoords, currentTool))
+		if (!rect.isNull())
+		{
+
 			repaint();
+		}
 		/*
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
@@ -502,7 +504,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void AMEMapView::drawOnMousePress(QPoint pos, QVector<MapBlock> selected,int selectionWidth, int selectionHeight)
     {
-        m_CursorColor = Qt::GlobalColor::red;
+        //m_CursorColor = Qt::GlobalColor::red;
 
         for (int i = 0; i < selectionHeight; i++)
         {
@@ -587,10 +589,13 @@ namespace ame
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
 		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
 
-		//QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+		QRect rect = m_Cursor.mouseReleaseEvent(mapCoords);
 
-		if (m_Cursor.mouseReleaseEvent(mapCoords))
+		if (!rect.isNull())
+		{
+			Cursor::Tool tool = m_Cursor.getTool();
 			repaint();
+		}
 		/*
         m_CursorColor = Qt::GlobalColor::green;
 
@@ -647,23 +652,25 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Virtual
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   9/26/2016
+    // Contributors:   Diegoisawesome
+    // Last edit by:   Diegoisawesome
+    // Date of edit:   4/25/2017
     //
     ///////////////////////////////////////////////////////////
     void AMEMapView::mouseMoveEvent(QMouseEvent *event)
     {
 		QPoint mapCoords = event->pos();
-		mapCoords.rx() /= MAP_BLOCK_SIZE;
+		mapCoords.rx() /= MAP_BLOCK_SIZE;	// needs to be done this way so rounding doesn't mess us up
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
 		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
 
-		//QRect mapBounds(QPoint(0, 0), m_MapSizes.at(0) / MAP_BLOCK_SIZE);
+		QRect rect = m_Cursor.mouseMoveEvent(mapCoords);
 
-		m_Cursor.setVisible(true);
-		if (m_Cursor.mouseMoveEvent(mapCoords))
+		if (!rect.isNull())
+		{
+			Cursor::Tool tool = m_Cursor.getTool();
 			repaint();
+		}
 		/*
         int mouseX = event->pos().x();
         int mouseY = event->pos().y();
@@ -2141,13 +2148,16 @@ namespace ame
     // Function type:  Setter
     // Contributors:   Diegoisawesome
     // Last edit by:   Diegoisawesome
-    // Date of edit:   11/9/2016
+    // Date of edit:   4/25/2017
     //
     ///////////////////////////////////////////////////////////
     void AMEMapView::setGridVisible(bool visible)
     {
-        m_ShowGrid = visible;
-        repaint();
+		if (m_ShowGrid != visible)
+		{
+			m_ShowGrid = visible;
+			repaint();
+		}
     }
 
     ///////////////////////////////////////////////////////////
@@ -2162,4 +2172,15 @@ namespace ame
         m_MPListener = listener;
     }
 
+	///////////////////////////////////////////////////////////
+	// Function type:  Setter
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/25/2017
+	//
+	///////////////////////////////////////////////////////////
+	void AMEMapView::setBlockManager(MapBlockManager *manager)
+	{
+		m_BlockManager = manager;
+	}
 }

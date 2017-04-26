@@ -11,7 +11,7 @@
 //              d88'          '88b  888     '8'     888  888888888888
 //
 //
-// AwesomeMapEditor: A map editor for GBA Pokémon games.
+// AwesomeMapEditor: A map editor for GBA PokÃ©mon games.
 // Copyright (C) 2016-2017 Diegoisawesome, Pokedude
 //
 // This program is free software; you can redistribute it and/or
@@ -30,70 +30,37 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
+#ifndef MAPBLOCKMANAGER_HPP
+#define MAPBLOCKMANAGER_HPP
 
-#ifndef CURSOR_HPP
-#define CURSOR_HPP
 
-#include <QPoint>
-#include <QSize>
-#include <QColor>
-#include <QPaintEvent>
-#include <QPainter>
+///////////////////////////////////////////////////////////
+// Include files
+//
+///////////////////////////////////////////////////////////
+#include <AME/Mapping/Map.hpp>
+
 
 namespace ame
 {
-	class Cursor
+	///////////////////////////////////////////////////////////
+	/// \file    MapToolManager.hpp
+	/// \author  Diegoisawesome
+	/// \version 1.0.0.0
+	/// \date    4/25/2017
+	/// \brief   Manages map editing and blocks.
+	///
+	/// This handles the reading and writing of blocks from the
+	/// various map editor widgets.
+	///
+	///////////////////////////////////////////////////////////
+	class MapBlockManager
 	{
 	public:
-
-		enum Tool {
-			None,
-			Draw,
-			Pick,
-			Fill,
-			FillAll
-		};
-
-		Cursor(const QPoint& pos = QPoint(), const QRect& bounds = QRect(), Tool tool = None, bool visible = false);
-
-		void setTool(Tool tool);
-
-		Tool getTool();
-
-		bool setPos(const QPoint& pos);
-
-		void setAnchor(const QPoint& pos);
-
-		QRect mousePressEvent(const QPoint& pos, Tool tool);
-
-		QRect mouseMoveEvent(const QPoint & pos);
-
-		QRect mouseReleaseEvent(const QPoint& pos);
-
-		bool resizeWithAnchor(const QPoint& pos);
-
-		bool setVisible(bool visible);
-
-		void setBounds(const QRect& bounds);
-
-		///////////////////////////////////////////////////////////
-		/// \brief Paints the cursor.
-		///
-		///////////////////////////////////////////////////////////
-		void paintEvent(QPaintEvent* event, QPainter& painter, const QRect& bounds);
-
+		MapBlockManager();
 	private:
-		QColor getToolColor() const;
-
-		QRect getAdjustedRect(const QRect& bounds) const;
-
-		QRect m_Rect;
-		QRect m_OldRect;
-		QRect m_Bounds;
-		QPoint m_Anchor;
-		Tool m_Tool;
-		bool m_Visible;
+		Map* m_Map;
 	};
 }
 
-#endif // CURSOR_HPP
+#endif // MAPBLOCKMANAGER_HPP

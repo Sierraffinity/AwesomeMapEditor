@@ -45,6 +45,7 @@
 #include <AME/System/LoadedData.hpp>
 #include <AME/Widgets/Listeners/MovePermissionListener.h>
 #include <AME/Widgets/Rendering/Cursor.hpp>
+#include <AME/Mapping/MapBlockManager.hpp>
 
 
 namespace ame
@@ -235,7 +236,11 @@ namespace ame
         ///////////////////////////////////////////////////////////
         void setMPListener(MovePermissionListener *listener);
 
-
+		///////////////////////////////////////////////////////////
+		/// \brief Sets the associated map block manager object.
+		///
+		///////////////////////////////////////////////////////////
+		void setBlockManager(MapBlockManager *manager);
 
     protected:
 
@@ -327,13 +332,13 @@ namespace ame
         QSize m_SelectSize;
         Cursor::Tool m_CurrentTool;
         QImage m_MovePerm;
-        QColor m_CursorColor;
         Boolean m_ShowCursor;
         Boolean m_ShowGrid;
         Boolean m_IsInit;
         Boolean m_ValidPress;
         Int32 m_HoveredConnection;
 		Cursor m_Cursor;
+		MapBlockManager* m_BlockManager;
     };
 }
 

@@ -40,3 +40,4 @@ bin/
 .vs/
 /*.vcxproj*
 /*_resource.*
+*.sln

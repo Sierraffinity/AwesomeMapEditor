@@ -53,6 +53,18 @@ namespace ame
 	}
 
 	///////////////////////////////////////////////////////////
+	// Function type:  Getter
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/25/2017
+	//
+	///////////////////////////////////////////////////////////
+	Cursor::Tool Cursor::getTool()
+	{
+		return m_Tool;
+	}
+
+	///////////////////////////////////////////////////////////
 	// Function type:  Setter
 	// Contributors:   Diegoisawesome
 	// Last edit by:   Diegoisawesome
@@ -62,25 +74,6 @@ namespace ame
 	void Cursor::setTool(Tool tool)
 	{
 		m_Tool = tool;
-	}
-
-	QPoint Cursor::conformToBounds(QPoint pos, const QRect& bounds)
-	{
-		if (!bounds.contains(pos))
-		{
-			QPoint bottomRight(bounds.left() + bounds.width(), bounds.top() + bounds.height());
-
-			if (pos.x() < bounds.left())
-				pos.setX(bounds.left());
-			else if (pos.x() > bottomRight.x())
-				pos.setX(bottomRight.x());
-
-			if (pos.y() < bounds.top())
-				pos.setY(bounds.top());
-			else if (pos.y() > bottomRight.y())
-				pos.setY(bottomRight.y());
-		}
-		return pos;
 	}
 
 	///////////////////////////////////////////////////////////
@@ -104,19 +97,16 @@ namespace ame
 	///////////////////////////////////////////////////////////
 	bool Cursor::setPos(const QPoint& pos)
 	{
-		if (m_Rect.topLeft() == pos)
-			return false;
-
+		bool shouldRedraw = false;
 		if (m_Bounds.contains(pos))
-		{
-			m_Rect.moveTo(pos);
-			setVisible(true);
-		}
-		else if (m_Visible)
-			setVisible(false);
+			shouldRedraw = setVisible(true);
 		else
-			return false;
+			shouldRedraw = setVisible(false);
 
+		if (m_Rect.topLeft() == pos)
+			return shouldRedraw;
+
+		m_Rect.moveTo(pos);
 		return true;
 	}
 
@@ -140,10 +130,10 @@ namespace ame
 	// Date of edit:   4/24/2017
 	//
 	///////////////////////////////////////////////////////////
-	bool Cursor::mousePressEvent(const QPoint& pos, Tool tool)
+	QRect Cursor::mousePressEvent(const QPoint& pos, Tool tool)
 	{
 		if (!m_Bounds.contains(pos))
-			return false;
+			return QRect();
 
 		if (m_Tool == Pick)
 		{
@@ -157,7 +147,7 @@ namespace ame
 		
 		if (m_Tool == Pick)
 			setAnchor(pos);
-		return true;
+		return m_Rect & m_Bounds;
 	}
 
 	///////////////////////////////////////////////////////////
@@ -167,12 +157,22 @@ namespace ame
 	// Date of edit:   4/24/2017
 	//
 	///////////////////////////////////////////////////////////
-	bool Cursor::mouseMoveEvent(const QPoint& pos)
+	QRect Cursor::mouseMoveEvent(const QPoint& pos)
 	{
 		if (m_Tool == Pick)
-			return resizeWithAnchor(pos);
+		{
+			if (resizeWithAnchor(pos))
+				return m_Rect & m_Bounds;
+			else
+				return QRect();
+		}
 		else
-			return setPos(pos);
+		{
+			if (setPos(pos))
+				return m_Rect & m_Bounds;
+			else
+				return QRect();
+		}
 	}
 
 	///////////////////////////////////////////////////////////
@@ -182,13 +182,25 @@ namespace ame
 	// Date of edit:   4/24/2017
 	//
 	///////////////////////////////////////////////////////////
-	bool Cursor::mouseReleaseEvent(const QPoint& pos)
+	QRect Cursor::mouseReleaseEvent(const QPoint& pos)
 	{
 		setPos(pos);
+		Tool tool = m_Tool;
 		m_Tool = None;
-		return true;
+
+		if (tool == Pick)
+			return m_Rect & m_Bounds;
+		else
+			return QRect();
 	}
 
+	///////////////////////////////////////////////////////////
+	// Function type:  Helper
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/25/2017
+	//
+	///////////////////////////////////////////////////////////
 	bool Cursor::resizeWithAnchor(const QPoint& pos)
 	{
 		QRect rect(m_Anchor, pos);
@@ -207,16 +219,26 @@ namespace ame
 
 		rect &= m_Bounds;
 
-		if (m_Rect == m_Bounds)
+		if (m_Rect == rect)
 			return false;
 
 		m_Rect = rect;
 		return true;
 	}
 
-	void Cursor::setVisible(bool visible)
+	///////////////////////////////////////////////////////////
+	// Function type:  Setter
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/25/2017
+	//
+	///////////////////////////////////////////////////////////
+	bool Cursor::setVisible(bool visible)
 	{
+		if (m_Visible == visible)
+			return false;
 		m_Visible = visible;
+		return true;
 	}
 
 	///////////////////////////////////////////////////////////
@@ -228,9 +250,6 @@ namespace ame
 	///////////////////////////////////////////////////////////
 	QRect Cursor::getAdjustedRect(const QRect& bounds) const
 	{
-        //const int blockSize = SETTINGS(ScaleFactor) * 16;
-		//QRect rect(m_Anchor, m_Position);
-		//rect = rect.normalized();
 		QRect rect(m_Rect.topLeft() * MAP_BLOCK_SIZE, m_Rect.size() * MAP_BLOCK_SIZE);
 		rect -= QMargins(0, 0, 1, 1);
 		return rect.adjusted(bounds.x(), bounds.y(), bounds.x(), bounds.y()) & (bounds - QMargins(0, 0, 1, 1));;
@@ -248,7 +267,6 @@ namespace ame
 		if (m_Visible)
 		{
 			QRect rect = getAdjustedRect(bounds);
-			//rect &= (bounds - QMargins(0, 0, 1, 1));
 			painter.setPen(getToolColor());
 			painter.setBrush(Qt::transparent);
 			painter.drawRect(rect);

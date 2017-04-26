@@ -30,70 +30,13 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-
-#ifndef CURSOR_HPP
-#define CURSOR_HPP
-
-#include <QPoint>
-#include <QSize>
-#include <QColor>
-#include <QPaintEvent>
-#include <QPainter>
+#include <AME/Mapping/MapBlockManager.hpp>
 
 namespace ame
 {
-	class Cursor
+	MapBlockManager::MapBlockManager()
+		: m_Map(nullptr)
 	{
-	public:
 
-		enum Tool {
-			None,
-			Draw,
-			Pick,
-			Fill,
-			FillAll
-		};
-
-		Cursor(const QPoint& pos = QPoint(), const QRect& bounds = QRect(), Tool tool = None, bool visible = false);
-
-		void setTool(Tool tool);
-
-		Tool getTool();
-
-		bool setPos(const QPoint& pos);
-
-		void setAnchor(const QPoint& pos);
-
-		QRect mousePressEvent(const QPoint& pos, Tool tool);
-
-		QRect mouseMoveEvent(const QPoint & pos);
-
-		QRect mouseReleaseEvent(const QPoint& pos);
-
-		bool resizeWithAnchor(const QPoint& pos);
-
-		bool setVisible(bool visible);
-
-		void setBounds(const QRect& bounds);
-
-		///////////////////////////////////////////////////////////
-		/// \brief Paints the cursor.
-		///
-		///////////////////////////////////////////////////////////
-		void paintEvent(QPaintEvent* event, QPainter& painter, const QRect& bounds);
-
-	private:
-		QColor getToolColor() const;
-
-		QRect getAdjustedRect(const QRect& bounds) const;
-
-		QRect m_Rect;
-		QRect m_OldRect;
-		QRect m_Bounds;
-		QPoint m_Anchor;
-		Tool m_Tool;
-		bool m_Visible;
-	};
+	}
 }
-
-#endif // CURSOR_HPP

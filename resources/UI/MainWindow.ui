@@ -22,9 +22,6 @@
     <height>600</height>
    </size>
   </property>
-  <property name="windowTitle">
-   <string>Awesome Map Editor</string>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">
     <bool>true</bool>
@@ -549,7 +546,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>145</width>
-                    <height>529</height>
+                    <height>513</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
@@ -649,8 +646,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>81</width>
-                    <height>256</height>
+                    <width>145</width>
+                    <height>513</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -756,8 +753,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>582</width>
-              <height>580</height>
+              <width>587</width>
+              <height>575</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
@@ -905,8 +902,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>451</width>
-              <height>583</height>
+              <width>442</width>
+              <height>575</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
@@ -1257,8 +1254,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>265</width>
-                    <height>710</height>
+                    <width>280</width>
+                    <height>763</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3087,8 +3084,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>227</width>
+                    <height>377</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -3707,8 +3704,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>227</width>
+                    <height>493</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -4532,8 +4529,8 @@ color : red;
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>282</width>
-                    <height>572</height>
+                    <width>229</width>
+                    <height>578</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
@@ -5610,8 +5607,8 @@ color : red;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>737</width>
-                  <height>584</height>
+                  <width>742</width>
+                  <height>576</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_21">
@@ -6350,8 +6347,8 @@ color : red;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>273</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_25">
@@ -6764,8 +6761,8 @@ color : red;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>436</height>
+                  <width>341</width>
+                  <height>475</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_27">
@@ -7486,8 +7483,8 @@ color : red;
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>338</width>
-                  <height>249</height>
+                  <width>341</width>
+                  <height>273</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_30">
@@ -7908,8 +7905,8 @@ color : red;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>743</width>
-              <height>610</height>
+              <width>732</width>
+              <height>669</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_20">
@@ -9085,7 +9082,7 @@ color : red;
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
