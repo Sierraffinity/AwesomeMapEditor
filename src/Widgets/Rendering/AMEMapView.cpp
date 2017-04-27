@@ -591,11 +591,11 @@ namespace ame
 
 		QRect rect = m_Cursor.mouseReleaseEvent(mapCoords);
 
-		if (!rect.isNull())
-		{
+		//if (!rect.isNull())
+		//{
 			Cursor::Tool tool = m_Cursor.getTool();
 			repaint();
-		}
+		//}
 		/*
         m_CursorColor = Qt::GlobalColor::green;
 
@@ -662,7 +662,7 @@ namespace ame
 		QPoint mapCoords = event->pos();
 		mapCoords.rx() /= MAP_BLOCK_SIZE;	// needs to be done this way so rounding doesn't mess us up
 		mapCoords.ry() /= MAP_BLOCK_SIZE;
-		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
+		mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);	// this too
 
 		QRect rect = m_Cursor.mouseMoveEvent(mapCoords);
 

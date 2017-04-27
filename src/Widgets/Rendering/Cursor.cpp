@@ -101,13 +101,78 @@ namespace ame
 		if (m_Bounds.contains(pos))
 			shouldRedraw = setVisible(true);
 		else
-			shouldRedraw = setVisible(false);
+			return setVisible(false);
 
 		if (m_Rect.topLeft() == pos)
 			return shouldRedraw;
 
 		m_Rect.moveTo(pos);
 		return true;
+	}
+
+	///////////////////////////////////////////////////////////
+	// Function type:  Setter
+	// Contributors:   Diegoisawesome
+	// Last edit by:   Diegoisawesome
+	// Date of edit:   4/26/2017
+	//
+	///////////////////////////////////////////////////////////
+	bool Cursor::setPosTiled(QPoint pos)
+	{
+		bool shouldRedraw = false;
+
+		if (m_Bounds.contains(pos))
+			shouldRedraw = setVisible(true);
+		else
+			return setVisible(false);
+
+		int rectWidth = m_Rect.width();
+		int rectHeight = m_Rect.height();
+		QPoint rectOffset(rectWidth - (m_Rect.x() % rectWidth), rectHeight - (m_Rect.y() % rectHeight));
+		pos += rectOffset;
+		pos -= QPoint(pos.x() % rectWidth, pos.y() % rectHeight);
+		pos -= rectOffset;
+
+		if (m_Rect.topLeft() == pos)
+			return shouldRedraw;
+
+		m_Rect.moveTo(pos);
+		return true;
+		
+		/*
+		int posX = pos.x();
+		int posY = pos.y();
+		int rectX = m_Rect.x();
+		int rectY = m_Rect.y();
+
+		int posXOffset = posX % rectWidth;
+		int posYOffset = posY % rectHeight;
+		int rectXOffset = rectX % rectWidth;
+		int rectYOffset = rectY % rectHeight;
+
+		if (posX < rectX)
+		{
+			m_Rect.translate(-rectWidth, 0);
+			shouldRedraw = true;
+		}
+		else if (posX >= (rectX + rectWidth))
+		{
+			m_Rect.translate(rectWidth, 0);
+			shouldRedraw = true;
+		}
+
+		if (posY < rectY)
+		{
+			m_Rect.translate(0, -rectHeight);
+			shouldRedraw = true;
+		}
+		else if (posY >= (rectY + rectHeight))
+		{
+			m_Rect.translate(0, rectHeight);
+			shouldRedraw = true;
+		}
+
+		return shouldRedraw;*/
 	}
 
 	///////////////////////////////////////////////////////////
@@ -162,6 +227,13 @@ namespace ame
 		if (m_Tool == Pick)
 		{
 			if (resizeWithAnchor(pos))
+				return m_Rect & m_Bounds;
+			else
+				return QRect();
+		}
+		else if (m_Tool == Draw)
+		{
+			if (setPosTiled(pos))
 				return m_Rect & m_Bounds;
 			else
 				return QRect();

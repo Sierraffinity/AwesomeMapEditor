@@ -62,6 +62,8 @@ namespace ame
 
 		bool setPos(const QPoint& pos);
 
+		bool setPosTiled(QPoint pos);
+
 		void setAnchor(const QPoint& pos);
 
 		QRect mousePressEvent(const QPoint& pos, Tool tool);
