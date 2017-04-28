@@ -349,7 +349,7 @@ namespace ame
 	// Function type:  Helper
 	// Contributors:   Diegoisawesome
 	// Last edit by:   Diegoisawesome
-	// Date of edit:   4/21/2017
+    // Date of edit:   4/27/2017
 	//
 	///////////////////////////////////////////////////////////
 	QColor Cursor::getToolColor() const
@@ -360,6 +360,9 @@ namespace ame
 			return Qt::GlobalColor::red;
 		case Pick:
 			return Qt::GlobalColor::yellow;
+        case Fill:
+        case FillAll:
+            return Qt::GlobalColor::magenta;
 		default:
 			return Qt::GlobalColor::green;
 		}

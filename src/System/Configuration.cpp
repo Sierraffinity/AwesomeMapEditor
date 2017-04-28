@@ -39,6 +39,7 @@
 #include <AME/System/ErrorStack.hpp>
 #include <yaml-cpp/yaml.h>
 #include <QApplication>
+#include <QFileInfo>
 #include <QFile>
 
 
@@ -98,11 +99,15 @@ namespace ame
         const QString fileExt = ".yaml";
         QString filePath = appFolder + subFolder + fileName + fileExt;
 
-
         // Loads the YAML file
-        YAML::Node configNode = YAML::LoadFile(filePath.toStdString());
+        YAML::Node configNode;
+
+        QFileInfo check_file(filePath);
+        if (check_file.exists() && check_file.isFile())
+            configNode = YAML::LoadFile(filePath.toStdString());
+
         if (configNode.IsNull())
-            AME_THROW2(CFG_ERROR_FILE);
+            AME_THROW2(CFG_ERROR_FILE(fileName));
 
         // Tries to parse all the properties
         RomType         = static_cast<BaseROMType>(configNode["RomType"].as<int>());

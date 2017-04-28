@@ -25,7 +25,7 @@ VERSION = 1.0
 win:QMAKE_TARGET_COMPANY     = DoMoreAwesome
 win:QMAKE_TARGET_PRODUCT     = AwesomeMapEditor
 win:QMAKE_TARGET_DESCRIPTION = A map editor for GBA Pokémon games.
-win:QMAKE_TARGET_COPYRIGHT   = (C) 2016 Diegoisawesome, Pokedude
+win:QMAKE_TARGET_COPYRIGHT   = (C) 2016-2017 Diegoisawesome, Pokedude
 
 
 #
@@ -38,8 +38,12 @@ INCLUDEPATH += include/AME/Widgets
 INCLUDEPATH += include/AME/Widgets/Rendering
 INCLUDEPATH += $$PWD/../QBoy/include
 DEPENDPATH  += $$PWD/../QBoy/include
+INCLUDEPATH += $$PWD/../QBoy/bin
+DEPENDPATH += $$PWD/../QBoy/bin
 INCLUDEPATH += $$PWD/../yaml-cpp/include
 DEPENDPATH += $$PWD/../yaml-cpp/include
+INCLUDEPATH += $$PWD/../yaml-cpp/bin
+DEPENDPATH += $$PWD/../yaml-cpp/bin
 QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 #win32: LIBS += -lopengl32
 #unix:  LIBS += -lGL
@@ -48,12 +52,9 @@ QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 #
 # QMake Settings, 4
 #
-CONFIG(debug, debug|release) {
-    unix|win32: LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
-} else {
-    unix|win32: LIBS += -L$$PWD/../QBoy/bin/release/ -lQBoy
-}
-
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../QBoy/bin/release/ -lQBoy
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QBoy/bin/debug/ -lQBoy
+else:unix: LIBS += -L$$PWD/../QBoy/bin/ -lQBoy
 unix|win32: LIBS += -L$$PWD/../yaml-cpp/bin/ -lyaml-cpp
 
 

@@ -95,11 +95,7 @@ namespace ame
         ui->desc_label->setText(msg.replace("\n", " "));
 
         // Updates the information label
-        ui->info_label->setText(
-                    QString("Showing error %0 out of %1.").
-                    replace("%0", "1").
-                    replace("%1", QString::number(ErrorStack::errors().size()))
-        );
+        ui->info_label->setText(QString("Showing error %0 of %1.").arg(1).arg(ErrorStack::errors().size()));
 
         // Performs some bound checking for the buttons
         ui->pushButton->setEnabled(false);
@@ -138,11 +134,7 @@ namespace ame
         ui->desc_label->setText(msg.replace("\n", " "));
 
         // Updates the information label
-        ui->info_label->setText(
-                    QString("Showing error %0 out of %1.").
-                    replace("%0", "1").
-                    replace("%1", QString::number(ErrorStack::errors().size()))
-        );
+        ui->info_label->setText(QString("Showing error %0 of %1.").arg(m_CurrentIndex).arg(ErrorStack::errors().size()));
     }
 
     ///////////////////////////////////////////////////////////
@@ -175,10 +167,6 @@ namespace ame
         ui->desc_label->setText(msg.replace("\n", " "));
 
         // Updates the information label
-        ui->info_label->setText(
-                    QString("Showing error %0 out of %1.").
-                    replace("%0", "1").
-                    replace("%1", QString::number(ErrorStack::errors().size()))
-        );
+        ui->info_label->setText(QString("Showing error %0 of %1.").arg(m_CurrentIndex).arg(ErrorStack::errors().size()));
     }
 }

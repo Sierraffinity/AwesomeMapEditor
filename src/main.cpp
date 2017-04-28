@@ -79,9 +79,22 @@ int main(int argc, char *argv[])
 	{
 		w.loadMapData();
 
-		QStringList map = parser.value("m").split(",");
-		if (map.size() == 2)
-			w.loadMapChangeTreeView(map[0].toInt(), map[1].toInt());
+        QStringList mapAndBank = parser.value("m").split(",");
+        bool okBank = false;
+        bool okMap = false;
+        int bank = 0;
+        int map = 0;
+
+        if (mapAndBank.size() == 2)
+        {
+            bank = mapAndBank[0].toInt(&okBank, 0x10);
+            map = mapAndBank[1].toInt(&okMap, 0x10);
+        }
+
+        if (okBank && okMap)
+            w.loadMapChangeTreeView(bank, map);
+        //else
+        //    Messages::showError(NULL, QObject::tr("Invalid map specified."));
 	}
 
     return a.exec();

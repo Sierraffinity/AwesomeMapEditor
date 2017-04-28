@@ -126,7 +126,7 @@ namespace ame
 
 
     #define CONFIG(x)           (ame::Configuration::x)
-    #define CFG_ERROR_FILE      "YAML configuration file could not be found."
+    #define CFG_ERROR_FILE(x)   "YAML configuration file for ROM code '" + x + "' was not found."
     #define CFG_ERROR_OFFSET    "YAML configuration contained an invalid offset."
     #define FETCH(name, type)               \
     {                                       \

@@ -39,6 +39,7 @@
 #include <AME/Widgets/Misc/Messages.hpp>
 #include <yaml-cpp/yaml.h>
 #include <QApplication>
+#include <QFileInfo>
 #include <QFile>
 #include <QDebug>
 #include <fstream>
@@ -86,9 +87,7 @@ namespace ame
 
         QFileInfo check_file(filePath);
         if (check_file.exists() && check_file.isFile())
-        {
             settings = YAML::LoadFile(filePath.toStdString());
-        }
 
         if (settings.IsNull())
             Messages::showMessage(NULL, QObject::tr("AME configuration file (AME.yaml) not found.\nLoading default settings."));
