@@ -338,7 +338,6 @@ namespace ame
         Boolean m_ValidPress;
         Int32 m_HoveredConnection;
 		Cursor m_Cursor;
-		MapBlockManager* m_BlockManager;
     };
 }
 

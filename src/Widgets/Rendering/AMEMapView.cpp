@@ -668,7 +668,10 @@ namespace ame
 
 		if (!rect.isNull())
 		{
-			Cursor::Tool tool = m_Cursor.getTool();
+			if (m_Cursor.getTool() == Draw)
+			{
+				m_BlockManager.writeBlocks(rect);
+			}
 			repaint();
 		}
 		/*
@@ -1813,12 +1816,14 @@ namespace ame
 
         if (m_IsInit)
         {
-			// TODO: Refactor code so mouse position can be updated if necessary
-			/*QMouseEvent eve((QEvent::MouseMove), mapFromGlobal(QCursor::pos()),
-				Qt::NoButton,
-				Qt::NoButton,
-				Qt::NoModifier);
-			mouseMoveEvent(&eve);*/
+			/*QPoint mapCoords = mapFromGlobal(QCursor::pos());	// this is meant to catch scrolls and other jumps
+			mapCoords.rx() /= MAP_BLOCK_SIZE;					// but the painter is limited to painting the new area
+			mapCoords.ry() /= MAP_BLOCK_SIZE;
+			mapCoords -= (m_MapPositions.at(0) / MAP_BLOCK_SIZE);
+
+
+			QRect result = m_Cursor.mouseMoveEvent(mapCoords);*/
+
 
             QPoint pmain = mainPos();
             QPainter painter(this);

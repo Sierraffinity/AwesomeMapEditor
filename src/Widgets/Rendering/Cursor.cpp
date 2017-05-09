@@ -138,41 +138,6 @@ namespace ame
 
 		m_Rect.moveTo(pos);
 		return true;
-		
-		/*
-		int posX = pos.x();
-		int posY = pos.y();
-		int rectX = m_Rect.x();
-		int rectY = m_Rect.y();
-
-		int posXOffset = posX % rectWidth;
-		int posYOffset = posY % rectHeight;
-		int rectXOffset = rectX % rectWidth;
-		int rectYOffset = rectY % rectHeight;
-
-		if (posX < rectX)
-		{
-			m_Rect.translate(-rectWidth, 0);
-			shouldRedraw = true;
-		}
-		else if (posX >= (rectX + rectWidth))
-		{
-			m_Rect.translate(rectWidth, 0);
-			shouldRedraw = true;
-		}
-
-		if (posY < rectY)
-		{
-			m_Rect.translate(0, -rectHeight);
-			shouldRedraw = true;
-		}
-		else if (posY >= (rectY + rectHeight))
-		{
-			m_Rect.translate(0, rectHeight);
-			shouldRedraw = true;
-		}
-
-		return shouldRedraw;*/
 	}
 
 	///////////////////////////////////////////////////////////
@@ -200,6 +165,8 @@ namespace ame
 		if (!m_Bounds.contains(pos))
 			return QRect();
 
+		QRect rect = m_Rect;
+
 		if (m_Tool == Pick)
 		{
 			m_Rect = m_OldRect;
@@ -212,7 +179,7 @@ namespace ame
 		
 		if (m_Tool == Pick)
 			setAnchor(pos);
-		return m_Rect & m_Bounds;
+		return rect.united(m_Rect & m_Bounds);
 	}
 
 	///////////////////////////////////////////////////////////
@@ -224,24 +191,26 @@ namespace ame
 	///////////////////////////////////////////////////////////
 	QRect Cursor::mouseMoveEvent(const QPoint& pos)
 	{
+		QRect rect = m_Rect;
+
 		if (m_Tool == Pick)
 		{
 			if (resizeWithAnchor(pos))
-				return m_Rect & m_Bounds;
+				return rect.united(m_Rect & m_Bounds);
 			else
 				return QRect();
 		}
 		else if (m_Tool == Draw)
 		{
 			if (setPosTiled(pos))
-				return m_Rect & m_Bounds;
+				return rect.united(m_Rect & m_Bounds);
 			else
 				return QRect();
 		}
 		else
 		{
 			if (setPos(pos))
-				return m_Rect & m_Bounds;
+				return rect.united(m_Rect & m_Bounds);
 			else
 				return QRect();
 		}
@@ -256,12 +225,14 @@ namespace ame
 	///////////////////////////////////////////////////////////
 	QRect Cursor::mouseReleaseEvent(const QPoint& pos)
 	{
+		QRect rect = m_Rect;
+
 		setPos(pos);
 		Tool tool = m_Tool;
 		m_Tool = None;
 
 		if (tool == Pick)
-			return m_Rect & m_Bounds;
+			return rect.united(m_Rect & m_Bounds);
 		else
 			return QRect();
 	}
@@ -360,9 +331,6 @@ namespace ame
 			return Qt::GlobalColor::red;
 		case Pick:
 			return Qt::GlobalColor::yellow;
-        case Fill:
-        case FillAll:
-            return Qt::GlobalColor::magenta;
 		default:
 			return Qt::GlobalColor::green;
 		}
