@@ -2433,35 +2433,12 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QHexSpinBox" name="npc_trainer">
+                      <widget class="QCheckBox" name="npc_trainer">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <family>Courier New</family>
-                        </font>
-                       </property>
-                       <property name="buttonSymbols">
-                        <enum>QAbstractSpinBox::NoButtons</enum>
-                       </property>
-                       <property name="prefix">
-                        <string notr="true">0x</string>
-                       </property>
-                       <property name="maximum">
-                        <number>255</number>
-                       </property>
-                       <property name="displayIntegerBase">
-                        <number>16</number>
-                       </property>
-                       <property name="upperCase" stdset="0">
-                        <bool>true</bool>
-                       </property>
-                       <property name="byteLength" stdset="0">
-                        <number>1</number>
                        </property>
                       </widget>
                      </item>

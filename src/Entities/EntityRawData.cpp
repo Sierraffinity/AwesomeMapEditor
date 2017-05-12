@@ -63,7 +63,7 @@ namespace ame
         ba.push_back((Int8) behaviour);
         ba.push_back((Int8) ((moveRadiusY << 4) | moveRadiusX));
         ba.push_back((Int8) filler_2);
-        ba.push_back((Int8) property);
+        ba.push_back((Int8) isTrainer);
         ba.push_back((Int8) filler_3);
         ba.append((Int8 *) &viewRadius, 2);
         ptrScript += 0x08000000;

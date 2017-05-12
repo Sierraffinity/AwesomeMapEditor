@@ -226,8 +226,8 @@ namespace ame
             // Draws the selection square
             if (m_Selection.entity)
             {
-                Int32 pX = m_Selection.absPos.x();
-                Int32 pY = m_Selection.absPos.y();
+                Int32 pX = mpos.x() + m_Selection.position.x();
+                Int32 pY = mpos.y() + m_Selection.position.y();
                 painter.setPen(QColor(255, 0, 0));
                 painter.drawRect(pX, pY, 15, 15);
             }
@@ -288,15 +288,27 @@ namespace ame
     }
 
     ///////////////////////////////////////////////////////////
-    // Function type:  Getter
-    // Contributors:   Pokedude
-    // Last edit by:   Pokedude
-    // Date of edit:   1/7/2016
+    // Function type:  Setter
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
     //
     ///////////////////////////////////////////////////////////
-    const CurrentEntity &AMEEntityView::currentEntity() const
+    void AMEEntityView::setCurrentEntityPosX(int x)
     {
-        return m_Selection;
+        m_Selection.position.setX(x);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Setter
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void AMEEntityView::setCurrentEntityPosY(int y)
+    {
+        m_Selection.position.setY(y);
     }
 
     ///////////////////////////////////////////////////////////

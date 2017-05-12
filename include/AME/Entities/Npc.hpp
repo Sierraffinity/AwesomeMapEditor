@@ -66,7 +66,7 @@ namespace ame
         UInt8 moveRadiusX;  ///< Walking radius, vertical
         UInt8 moveRadiusY;  ///< Walking radius, horizontal
         UInt8 filler_2;     ///< Second filler byte
-        UInt8 property;     ///< Npc property (trainer = 1)
+        UInt8 isTrainer;    ///< If npc is trainer = 1
         UInt8 filler_3;     ///< Third filler byte
         UInt16 viewRadius;  ///< View radius for trainers
         UInt32 ptrScript;   ///< Offset of the script

@@ -405,6 +405,7 @@ namespace ame
 
         ui->cmbHeaderMapName->setModel(mapNameModel);
 
+        ui->npc_sprite->setMaximum(CONFIG(OverworldCount) - 1);
         ui->header_mapname->setRange(CONFIG(MapNameTotal) - CONFIG(MapNameCount), CONFIG(MapNameTotal) - 1);
 
         // Updates the treeview
@@ -1166,7 +1167,7 @@ namespace ame
 
         // Populates the header tab
         setupHeader(currentMap);
-        //ui->cmbEntityTypeSelector->setCurrentIndex(0);
+        //workaround to reload current entity
         on_cmbEntityTypeSelector_currentIndexChanged(ui->cmbEntityTypeSelector->currentIndex());
 
         if (name != NULL)
@@ -1331,49 +1332,38 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_cmbEntityTypeSelector_currentIndexChanged(int index)
     {
+        ui->spnEntityScroller->setMinimum(0);
         if (index == 0)
         {
-            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().npcs().size()-1);
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().npcs().size() > 0);
 
             if (m_CurrentMap->entities().npcs().size() > 0)
                 on_spnEntityScroller_valueChanged(m_CurrentNPC);
-            else
-                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
         else if (index == 1)
         {
-            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().warps().size()-1);
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().warps().size() > 0);
 
             if (m_CurrentMap->entities().warps().size() > 0)
                 on_spnEntityScroller_valueChanged(m_CurrentWarp);
-            else
-                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
         else if (index == 2)
         {
-            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().triggers().size()-1);
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().triggers().size() > 0);
 
             if (m_CurrentMap->entities().triggers().size() > 0)
                 on_spnEntityScroller_valueChanged(m_CurrentTrigger);
-            else
-                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
         else
         {
-            ui->spnEntityScroller->setMinimum(0);
             ui->spnEntityScroller->setMaximum(m_CurrentMap->entities().signs().size()-1);
             ui->stckEntityEditor->setEnabled(m_CurrentMap->entities().signs().size() > 0);
 
             if (m_CurrentMap->entities().signs().size() > 0)
                 on_spnEntityScroller_valueChanged(m_CurrentSign);
-            else
-                ui->glEntityEditor->setCurrentEntity(CurrentEntity());
         }
     }
 
@@ -1381,7 +1371,7 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Pokedude, Nekaida
     // Last edit by:   Nekaida
-    // Date of edit:   3/27/2017
+    // Date of edit:   5/11/2017
     //
     /////////////////////////////////////////////////////////
     void MainWindow::on_spnEntityScroller_valueChanged(int arg1)
@@ -1389,8 +1379,6 @@ namespace ame
         if (arg1 < 0)
             return;
 
-
-        QPoint startPos = ui->glMapEditor->mainPos();
         if (ui->cmbEntityTypeSelector->currentIndex() == 0 && m_CurrentMap->entities().npcs().size() > 0)
         {
             if (arg1 >= m_CurrentMap->entities().npcs().size())
@@ -1410,18 +1398,17 @@ namespace ame
             ui->npc_mov_x->setValue(eventN->moveRadiusX);
             ui->npc_mov_y->setValue(eventN->moveRadiusY);
             ui->npc_view_rad->setValue(eventN->viewRadius);
-            ui->npc_trainer->setValue(eventN->property);
+            ui->npc_trainer->setChecked(eventN->isTrainer);
             ui->npc_script->setValue(eventN->ptrScript);
             ui->npc_flag->setValue(eventN->flag);
             ui->npc_raw_data->setData(eventN->rawData());
             ui->spnEntityScroller->setValue(m_CurrentNPC);
-            startPos += QPoint(eventN->positionX*16, eventN->positionY*16);
 
             CurrentEntity entity;
-            entity.absPos = startPos;
+            entity.position.setX(eventN->positionX * 16);
+            entity.position.setY(eventN->positionY * 16);
             entity.type = ET_Npc;
             entity.entity = eventN;
-            entity.index = m_CurrentNPC;
             ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 1 && m_CurrentMap->entities().warps().size() > 0)
@@ -1441,15 +1428,14 @@ namespace ame
             ui->spnWarpHeight->setValue(eventW->level);
             ui->warp_raw_data->setData(eventW->rawData());
             ui->spnEntityScroller->setValue(m_CurrentWarp);
-            startPos += QPoint(eventW->positionX*16, eventW->positionY*16);
 
             checkWarp();
 
             CurrentEntity entity;
-            entity.absPos = startPos;
+            entity.position.setX(eventW->positionX * 16);
+            entity.position.setY(eventW->positionY * 16);
             entity.type = ET_Warp;
             entity.entity = eventW;
-            entity.index = m_CurrentWarp;
             ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (ui->cmbEntityTypeSelector->currentIndex() == 2 && m_CurrentMap->entities().triggers().size() > 0)
@@ -1469,13 +1455,12 @@ namespace ame
             ui->spnTriggerHeight->setValue(eventT->level);
             ui->trigger_raw_data->setData(eventT->rawData());
             ui->spnEntityScroller->setValue(m_CurrentTrigger);
-            startPos += QPoint(eventT->positionX*16, eventT->positionY*16);
 
             CurrentEntity entity;
-            entity.absPos = startPos;
+            entity.position.setX(eventT->positionX * 16);
+            entity.position.setY(eventT->positionY * 16);
             entity.type = ET_Trigger;
             entity.entity = eventT;
-            entity.index = m_CurrentTrigger;
             ui->glEntityEditor->setCurrentEntity(entity);
         }
         else if (m_CurrentMap->entities().signs().size() > 0)
@@ -1494,13 +1479,12 @@ namespace ame
             ui->spnSignHeight->setValue(eventS->level);
             ui->spnSignType->setValue(static_cast<int>(eventS->type));
             ui->spnEntityScroller->setValue(m_CurrentSign);
-            startPos += QPoint(eventS->positionX*16, eventS->positionY*16);
 
             CurrentEntity entity;
-            entity.absPos = startPos;
+            entity.position.setX(eventS->positionX * 16);
+            entity.position.setY(eventS->positionY * 16);
             entity.type = ET_Sign;
             entity.entity = eventS;
-            entity.index = m_CurrentSign;
             ui->glEntityEditor->setCurrentEntity(entity);
 
             showCorrectSignType(eventS);
@@ -1517,6 +1501,7 @@ namespace ame
     void MainWindow::on_cmbSignType_currentIndexChanged(int index)
     {
         Q_UNUSED(index);
+        m_CurrentMap->entities().signs()[m_CurrentSign]->type = static_cast<SignType>(index);
         Sign *eventS = m_CurrentMap->entities().signs()[ui->spnEntityScroller->value()];
         showCorrectSignType(eventS);
     }
@@ -1525,7 +1510,7 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Pokedude, Nekaida
     // Last edit by:   Nekaida
-    // Date of edit:   3/27/2017
+    // Date of edit:   5/11/2017
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::entity_mouseClick(QMouseEvent *event)
@@ -1553,33 +1538,10 @@ namespace ame
         }
         if (eventN != NULL)
         {
-            // Load NPC properties
+            m_CurrentNPC = indexN;
             ui->stckEntityEditor->setCurrentWidget(ui->pageNPCs);
-            ui->npc_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventN->offset, 16).toUpper());
-            ui->npc_num->setValue(eventN->npcID);
-            ui->npc_sprite->setValue(eventN->imageID);
-            ui->npc_pos_x->setValue(eventN->positionX);
-            ui->npc_pos_y->setValue(eventN->positionY);
-            ui->spnNPCHeight->setValue(eventN->level);
-            ui->npc_replacement->setValue(eventN->replacement);
-            ui->spnNPCIdleAnim->setValue(eventN->behaviour);
-            ui->npc_mov_x->setValue(eventN->moveRadiusX);
-            ui->npc_mov_y->setValue(eventN->moveRadiusY);
-            ui->npc_view_rad->setValue(eventN->viewRadius);
-            ui->npc_trainer->setValue(eventN->property);
-            ui->npc_script->setValue(eventN->ptrScript);
-            ui->npc_flag->setValue(eventN->flag);
-            ui->npc_raw_data->setData(eventN->rawData());
+            ui->cmbEntityTypeSelector->setCurrentIndex(0);
             ui->spnEntityScroller->setValue(indexN);
-
-            CurrentEntity entity;
-            entity.absPos.setX((event->pos().x()/16)*16);
-            entity.absPos.setY((event->pos().y()/16)*16);
-            entity.type = ET_Npc;
-            entity.entity = eventN;
-            entity.index = indexN;
-            ui->glEntityEditor->setCurrentEntity(entity);
-
             return;
         }
 
@@ -1596,28 +1558,10 @@ namespace ame
         }
         if (eventW != NULL)
         {
-            // Load warp properties
+            m_CurrentWarp = indexW;
             ui->stckEntityEditor->setCurrentWidget(ui->pageWarps);
-            ui->warp_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventW->offset, 16).toUpper());
-            ui->warp_pos_x->setValue(eventW->positionX);
-            ui->warp_pos_y->setValue(eventW->positionY);
-            ui->warp_number->setValue(eventW->warp);
-            ui->warp_map->setValue(eventW->map);
-            ui->warp_bank->setValue(eventW->bank);
-            ui->spnWarpHeight->setValue(eventW->level);
-            ui->warp_raw_data->setData(eventW->rawData());
+            ui->cmbEntityTypeSelector->setCurrentIndex(1);
             ui->spnEntityScroller->setValue(indexW);
-
-            checkWarp();
-
-            CurrentEntity entity;
-            entity.absPos.setX((event->pos().x()/16)*16);
-            entity.absPos.setY((event->pos().y()/16)*16);
-            entity.type = ET_Warp;
-            entity.entity = eventW;
-            entity.index = indexW;
-            ui->glEntityEditor->setCurrentEntity(entity);
-
             return;
         }
 
@@ -1634,26 +1578,10 @@ namespace ame
         }
         if (eventT != NULL)
         {
-            // Load trigger properties
+            m_CurrentTrigger = indexT;
             ui->stckEntityEditor->setCurrentWidget(ui->pageTriggers);
-            ui->trigger_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventT->offset, 16).toUpper());
-            ui->trigger_pos_x->setValue(eventT->positionX);
-            ui->trigger_pos_y->setValue(eventT->positionY);
-            ui->trigger_var->setValue(eventT->variable);
-            ui->trigger_value->setValue(eventT->value);
-            ui->trigger_script->setValue(eventT->ptrScript);
-            ui->spnTriggerHeight->setValue(eventT->level);
-            ui->trigger_raw_data->setData(eventT->rawData());
+            ui->cmbEntityTypeSelector->setCurrentIndex(2);
             ui->spnEntityScroller->setValue(indexT);
-
-            CurrentEntity entity;
-            entity.absPos.setX((event->pos().x()/16)*16);
-            entity.absPos.setY((event->pos().y()/16)*16);
-            entity.type = ET_Trigger;
-            entity.entity = eventT;
-            entity.index = indexT;
-            ui->glEntityEditor->setCurrentEntity(entity);
-
             return;
         }
 
@@ -1670,27 +1598,10 @@ namespace ame
         }
         if (eventS != NULL)
         {
-            // Load sign properties
+            m_CurrentSign = indexS;
             ui->stckEntityEditor->setCurrentWidget(ui->pageSigns);
-            ui->sign_group_raw->setTitle(tr("Raw Data @ 0x") + QString::number(eventS->offset, 16).toUpper());
-            ui->sign_pos_x->setValue(eventS->positionX);
-            ui->sign_pos_y->setValue(eventS->positionY);
-            ui->sign_script->setValue(eventS->ptrScript);
-            ui->sign_raw_data->setData(eventS->rawData());
-            ui->spnSignHeight->setValue(eventS->level);
-            ui->spnSignType->setValue(static_cast<int>(eventS->type));
+            ui->cmbEntityTypeSelector->setCurrentIndex(3);
             ui->spnEntityScroller->setValue(indexS);
-
-            CurrentEntity entity;
-            entity.absPos.setX((event->pos().x()/16)*16);
-            entity.absPos.setY((event->pos().y()/16)*16);
-            entity.type = ET_Sign;
-            entity.entity = eventS;
-            entity.index = indexS;
-            ui->glEntityEditor->setCurrentEntity(entity);
-
-            showCorrectSignType(eventS);
-
             return;
         }
     }
@@ -1745,8 +1656,7 @@ namespace ame
         }
         if (eventW != NULL)
         {
-            m_CurrentWarp = ui->warp_number->value();
-            loadMapChangeTreeView(ui->warp_bank->value(), ui->warp_map->value());
+            on_btnWarpToDest_clicked();
             return;
         }
 
@@ -1826,11 +1736,78 @@ namespace ame
     // Function type:  Slot
     // Contributors:   Nekaida
     // Last edit by:   Nekaida
+    // Date of edit:   4/2/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_header_mapname_valueChanged(int value)
+        {
+            ui->cmbHeaderMapName->setCurrentIndex(value - (CONFIG(MapNameTotal) - CONFIG(MapNameCount)));
+            m_CurrentMap->m_NameIndex = value;
+        }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   4/2/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_cmbHeaderMapName_currentIndexChanged(int index)
+        {
+            ui->header_mapname->setValue(index + CONFIG(MapNameTotal) - CONFIG(MapNameCount));
+        }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_warp_pos_x_valueChanged(int value)
+    {
+        m_CurrentMap->entities().warps()[m_CurrentWarp]->positionX = value;
+        ui->glEntityEditor->setCurrentEntityPosX(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_warp_pos_y_valueChanged(int value)
+    {
+        m_CurrentMap->entities().warps()[m_CurrentWarp]->positionY = value;
+        ui->glEntityEditor->setCurrentEntityPosY(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/15/2017
+    //
+    ///////////////////////////////////////////////////////////
+
+    void MainWindow::on_spnWarpHeight_valueChanged(int value)
+    {
+        m_CurrentMap->entities().warps()[m_CurrentWarp]->level = value;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
     // Date of edit:   3/27/2017
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::on_warp_number_valueChanged(int value)
     {
+        m_CurrentMap->entities().warps()[m_CurrentWarp]->warp = value;
         checkWarp();
     }
 
@@ -1843,6 +1820,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_warp_map_valueChanged(int value)
     {
+        m_CurrentMap->entities().warps()[m_CurrentWarp]->map = value;
         checkWarp();
     }
 
@@ -1855,6 +1833,7 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_warp_bank_valueChanged(int value)
     {
+        m_CurrentMap->entities().warps()[m_CurrentWarp]->bank = value;
         checkWarp();
     }
 
@@ -1876,6 +1855,75 @@ namespace ame
         ui->btnWarpToDest->setEnabled(true);
     else
         ui->btnWarpToDest->setEnabled(false);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_trigger_pos_x_valueChanged(int value)
+    {
+        m_CurrentMap->entities().triggers()[m_CurrentTrigger]->positionX = value;
+        ui->glEntityEditor->setCurrentEntityPosX(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_trigger_pos_y_valueChanged(int value)
+    {
+        m_CurrentMap->entities().triggers()[m_CurrentTrigger]->positionY = value;
+        ui->glEntityEditor->setCurrentEntityPosY(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_sign_pos_x_valueChanged(int value)
+    {
+        m_CurrentMap->entities().signs()[m_CurrentSign]->positionX = value;
+        ui->glEntityEditor->setCurrentEntityPosX(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_sign_pos_y_valueChanged(int value)
+    {
+        m_CurrentMap->entities().signs()[m_CurrentSign]->positionY = value;
+        ui->glEntityEditor->setCurrentEntityPosY(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/15/2017
+    //
+    ///////////////////////////////////////////////////////////
+
+    void MainWindow::on_spnSignHeight_valueChanged(int value)
+    {
+        m_CurrentMap->entities().signs()[m_CurrentSign]->level = value;
     }
 
     ///////////////////////////////////////////////////////////
@@ -2069,8 +2117,148 @@ namespace ame
     ///////////////////////////////////////////////////////////
     void MainWindow::on_btnWarpToDest_clicked()
     {
-        m_CurrentWarp = ui->warp_number->value();
+        int warpTo = ui->warp_number->value();
         loadMapChangeTreeView(ui->warp_bank->value(), ui->warp_map->value());
+        ui->spnEntityScroller->setValue(warpTo);
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_sprite_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->imageID = value;
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_pos_x_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->positionX = value;
+        ui->glEntityEditor->setCurrentEntityPosX(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_pos_y_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->positionY = value;
+        ui->glEntityEditor->setCurrentEntityPosY(value * 16);
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_spnNPCHeight_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->level = value;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_spnNPCIdleAnim_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->behaviour = value;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_mov_x_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->moveRadiusX = value;
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_mov_y_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->moveRadiusY = value;
+        ui->glEntityEditor->update();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_trainer_toggled(bool checked)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->isTrainer = checked;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_view_rad_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->viewRadius = value;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_script_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->ptrScript = value;
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   5/11/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_npc_flag_valueChanged(int value)
+    {
+        m_CurrentMap->entities().npcs()[m_CurrentNPC]->flag = value;
     }
 
     ///////////////////////////////////////////////////////////
