@@ -1742,7 +1742,9 @@ namespace ame
     void MainWindow::on_header_mapname_valueChanged(int value)
         {
             ui->cmbHeaderMapName->setCurrentIndex(value - (CONFIG(MapNameTotal) - CONFIG(MapNameCount)));
-            m_CurrentMap->m_NameIndex = value;
+            // prevent crash for fr/bg caused by non-zero minimum value
+            if (ui->tabWidget->isEnabled())
+                m_CurrentMap->m_NameIndex = value;
         }
 
     ///////////////////////////////////////////////////////////
