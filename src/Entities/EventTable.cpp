@@ -218,8 +218,8 @@ namespace ame
             tempRadius = rom.readByte();
             npc->moveRadiusX = tempRadius & 15;
             npc->moveRadiusY = tempRadius >> 4;
-            npc->filler_2 = rom.readByte(); // either property is a hword or this isn't a filler
-            npc->property = rom.readByte();
+            npc->filler_2 = rom.readByte();
+            npc->isTrainer = rom.readByte();
             npc->filler_3 = rom.readByte();
             npc->viewRadius = rom.readHWord();
             npc->ptrScript = rom.readPointer();

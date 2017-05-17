@@ -175,7 +175,6 @@ namespace ame
         // Slots
         //
         ///////////////////////////////////////////////////////////
-        void showCorrectSignType(Sign *sign);
         bool loadROM(const QString &file);
         bool loadMapChangeTreeView(Map *map);
         bool loadMapChangeTreeView(int bank, int map);
@@ -192,34 +191,63 @@ namespace ame
         void setScriptEditorButtonsEnabled(bool enabled);
 
         void on_action_Open_ROM_triggered();
+        void on_actionClearRecentFiles_triggered();
+
+        void on_treeView_activated(const QModelIndex &index);
+        void on_lineEdit_textChanged(const QString &arg1);
+        void on_tabWidget_currentChanged(int index);
+        void on_tabWidget_2_currentChanged(int index);
+
+        void on_action_Connection_Editor_triggered();
+        void on_action_Settings_triggered();
+        void on_action_Tileset_Editor_triggered();
+        void on_btnShowSprites_toggled(bool checked);
+        void on_btnMapGrid_toggled(bool checked);
+        void on_btnEntitiesGrid_toggled(bool checked);
+
+        void on_cmbEntityTypeSelector_currentIndexChanged(int index);
+        void on_spnEntityScroller_valueChanged(int arg1);
+
+        void on_npc_sprite_valueChanged(int value);
+        void on_npc_pos_x_valueChanged(int value);
+        void on_npc_pos_y_valueChanged(int value);
+        void on_spnNPCHeight_valueChanged(int value);
+        void on_spnNPCIdleAnim_valueChanged(int value);
+        void on_npc_mov_x_valueChanged(int value);
+        void on_npc_mov_y_valueChanged(int value);
+        void on_npc_trainer_toggled(bool checked);
+        void on_npc_view_rad_valueChanged(int value);
+        void on_npc_script_valueChanged(int value);
+        void on_npc_flag_valueChanged(int value);
+        void on_btnNPCOpenScript_clicked();
+
+        void checkWarp();
+        void on_warp_pos_x_valueChanged(int value);
+        void on_warp_pos_y_valueChanged(int value);
+        void on_spnWarpHeight_valueChanged(int value);
+        void on_warp_number_valueChanged(int value);
+        void on_warp_map_valueChanged(int value);
+        void on_warp_bank_valueChanged(int value);
+        void on_btnWarpToDest_clicked();
+
+        void on_trigger_pos_x_valueChanged(int value);
+        void on_trigger_pos_y_valueChanged(int value);
+        void on_btnTriggerOpenScript_clicked();
+
+        void showCorrectSignType(Sign *sign);
+        void on_sign_pos_x_valueChanged(int value);
+        void on_sign_pos_y_valueChanged(int value);
+        void on_spnSignHeight_valueChanged(int value);
+        void on_cmbSignType_currentIndexChanged(int index);
+        void on_btnSignOpenScript_clicked();
+
         void on_sldWildGrassChance_valueChanged(int value);
         void on_sldWildWaterChance_valueChanged(int value);
         void on_sldWildFishingChance_valueChanged(int value);
         void on_sldWildOtherChance_valueChanged(int value);
-        void on_cmbEntityTypeSelector_currentIndexChanged(int index);
-        void on_spnEntityScroller_valueChanged(int arg1);
-        void on_cmbSignType_currentIndexChanged(int index);
-        void on_warp_number_valueChanged(int value);
-        void on_warp_map_valueChanged(int value);
-        void on_warp_bank_valueChanged(int value);
-        void checkWarp();
-        void on_tabWidget_currentChanged(int index);
-        void on_treeView_activated(const QModelIndex &index);
-        void on_lineEdit_textChanged(const QString &arg1);
-        void on_actionClearRecentFiles_triggered();
-        void on_tabWidget_2_currentChanged(int index);
-        void on_action_Connection_Editor_triggered();
-        void on_action_Settings_triggered();
-        void on_action_Tileset_Editor_triggered();
-        void on_btnWarpToDest_clicked();
-        void on_btnNPCOpenScript_clicked();
-        void on_btnTriggerOpenScript_clicked();
-        void on_btnSignOpenScript_clicked();
-        void on_btnShowSprites_toggled(bool checked);
 
-        void on_btnMapGrid_toggled(bool checked);
-
-        void on_btnEntitiesGrid_toggled(bool checked);
+        void on_header_mapname_valueChanged(int value);
+        void on_cmbHeaderMapName_currentIndexChanged(int index);
 
     private:
 

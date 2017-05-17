@@ -50,10 +50,9 @@ namespace ame
     ///////////////////////////////////////////////////////////
     struct CurrentEntity
     {
-        QPoint absPos;
+        QPoint position;
         EntityType type = ET_Invalid;
         void *entity = NULL;
-        int index = 0;
     };
 
 
@@ -111,10 +110,18 @@ namespace ame
         void setCurrentEntity(CurrentEntity entity);
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the currently selected entity.
+        /// \brief Sets a new x position for the highlighting of the
+        /// currently selected entity.
         ///
         ///////////////////////////////////////////////////////////
-        const CurrentEntity &currentEntity() const;
+        void setCurrentEntityPosX(int x);
+
+        ///////////////////////////////////////////////////////////
+        /// \brief Sets a new y position for the highlighting of the
+        /// currently selected entity.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setCurrentEntityPosY(int y);
 
         ///////////////////////////////////////////////////////////
         /// \brief Sets the visibility of the grid from the UI.
