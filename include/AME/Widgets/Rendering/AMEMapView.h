@@ -45,7 +45,7 @@
 #include <AME/System/LoadedData.hpp>
 #include <AME/Widgets/Listeners/MovePermissionListener.h>
 #include <AME/Widgets/Rendering/Cursor.hpp>
-#include <AME/Mapping/MapBlockManager.hpp>
+#include <AME/Mapping/CurrentMapManager.hpp>
 
 
 namespace ame
@@ -240,7 +240,7 @@ namespace ame
 		/// \brief Sets the associated map block manager object.
 		///
 		///////////////////////////////////////////////////////////
-		void setBlockManager(MapBlockManager *manager);
+		void setBlockManager(CurrentMapManager *manager);
 
     protected:
 
@@ -338,6 +338,7 @@ namespace ame
         Boolean m_ValidPress;
         Int32 m_HoveredConnection;
 		Cursor m_Cursor;
+        CurrentMapManager m_CurrentMap;
     };
 }
 

@@ -114,7 +114,7 @@ SOURCES += \
     src/Widgets/Rendering/AMEEntityView.cpp \
     src/Widgets/Rendering/AMEMapView.cpp \
     src/Widgets/Rendering/Cursor.cpp \
-    src/Mapping/MapBlockManager.cpp
+    src/Mapping/CurrentMapManager.cpp
 
 
 #
@@ -190,7 +190,7 @@ HEADERS  += \
     include/AME/Widgets/Rendering/AMEMapView.h \
     include/AME/Widgets/Listeners/MovePermissionListener.h \
     include/AME/Widgets/Rendering/Cursor.hpp \
-    include/AME/Mapping/MapBlockManager.hpp
+    include/AME/Mapping/CurrentMapManager.hpp
 
 
 #

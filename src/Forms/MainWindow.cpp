@@ -67,7 +67,7 @@ namespace ame
         m_statusLabel(tr("No ROM loaded.")),
         m_statusLabelCredit(tr("Created by ") + "<a href=\"http://domoreaweso.me/\">DoMoreAwesome</a>"),
         m_proxyModel(),
-		m_BlockManager()
+		m_CurrentMapManager()
     {
         // Setup GUI
         ui->setupUi(this);

@@ -30,11 +30,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-#include <AME/Mapping/MapBlockManager.hpp>
+#include <AME/Mapping/CurrentMapManager.hpp>
 
 namespace ame
 {
-	MapBlockManager::MapBlockManager()
+	CurrentMapManager::CurrentMapManager()
 		: m_Map(nullptr)
 	{
 

@@ -670,7 +670,7 @@ namespace ame
 		{
 			if (m_Cursor.getTool() == Draw)
 			{
-				m_BlockManager.writeBlocks(rect);
+				m_CurrentMap.writeBlocks(rect);
 			}
 			repaint();
 		}

@@ -41,7 +41,7 @@
 ///////////////////////////////////////////////////////////
 #include <QBoy/Core/Rom.hpp>
 #include <AME/Mapping/Map.hpp>
-#include <AME/Mapping/MapBlockManager.hpp>
+#include <AME/Mapping/CurrentMapManager.hpp>
 #include <AME/Widgets/QFilterChildrenProxyModel.h>
 #include <AME/Widgets/Listeners/MovePermissionListener.h>
 #include <QMainWindow>
@@ -86,19 +86,19 @@ namespace ame
         ~MainWindow();
 
 
-		bool loadROM(const QString &file);
+        bool loadROM(const QString &file);
 
-		///////////////////////////////////////////////////////////
-		/// \brief Attempts to load all map-related data.
-		///
-		/// Loads the configuration file and reads all data.
-		/// Shows a window with error messages, in case one or
-		/// more errors occured during the loading process.
-		///
-		///////////////////////////////////////////////////////////
-		void loadMapData();
+        ///////////////////////////////////////////////////////////
+        /// \brief Attempts to load all map-related data.
+        ///
+        /// Loads the configuration file and reads all data.
+        /// Shows a window with error messages, in case one or
+        /// more errors occured during the loading process.
+        ///
+        ///////////////////////////////////////////////////////////
+        void loadMapData();
 
-		bool loadMapChangeTreeView(int bank, int map);
+        bool loadMapChangeTreeView(int bank, int map);
 
     protected:
 
@@ -234,16 +234,16 @@ namespace ame
         Ui::MainWindow *ui;                         ///< Gives access to the GUI objects
         qboy::Rom m_Rom;                            ///< Global ROM across the application
         QModelIndex *m_lastOpenedMap;               ///< Pointer to the model index for the last opened map
-        Map *m_CurrentMap;                          ///< Pointer to currently opened map
+        Map *m_CurrentMap;                            ///< Pointer to currently opened map
         QLabel m_statusLabel;                       ///< Status bar label primary segment
         QLabel m_statusLabelCredit;                 ///< Status bar label credit segment
-        QFilterChildrenProxyModel m_proxyModel;    ///< Tree view proxy model reference
-        MovePermissionListener m_MPListener;       ///< Move permission event listener
+        QFilterChildrenProxyModel m_proxyModel;     ///< Tree view proxy model reference
+        MovePermissionListener m_MPListener;        ///< Move permission event listener
         UInt32 m_CurrentNPC;                        ///< Current NPC ID
         UInt32 m_CurrentWarp;                       ///< Current warp ID
         UInt32 m_CurrentTrigger;                    ///< Current trigger ID
         UInt32 m_CurrentSign;                       ///< Current sign ID
-		MapBlockManager m_BlockManager;				///< Map block editing manager
+        CurrentMapManager m_CurrentMapManager;                ///< Map block editing manager
 
     };
 

@@ -30,8 +30,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-#ifndef MAPBLOCKMANAGER_HPP
-#define MAPBLOCKMANAGER_HPP
+#ifndef CURRENTMAPMANAGER_HPP
+#define CURRENTMAPMANAGER_HPP
 
 
 ///////////////////////////////////////////////////////////
@@ -44,23 +44,23 @@
 namespace ame
 {
 	///////////////////////////////////////////////////////////
-	/// \file    MapToolManager.hpp
+	/// \file    CurrentMapManager.hpp
 	/// \author  Diegoisawesome
 	/// \version 1.0.0.0
 	/// \date    4/25/2017
-	/// \brief   Manages map editing and blocks.
+	/// \brief   Manages the currently loaded map.
 	///
 	/// This handles the reading and writing of blocks from the
 	/// various map editor widgets.
 	///
 	///////////////////////////////////////////////////////////
-	class MapBlockManager
+	class CurrentMapManager
 	{
 	public:
-		MapBlockManager();
+        CurrentMapManager();
 	private:
 		Map* m_Map;
 	};
 }
 
-#endif // MAPBLOCKMANAGER_HPP
+#endif // CURRENTMAPMANAGER_HPP
