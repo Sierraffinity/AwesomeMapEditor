@@ -192,6 +192,7 @@ namespace ame
         void setScriptEditorButtonsEnabled(bool enabled);
 
         void on_action_Open_ROM_triggered();
+        void on_action_Reload_ROM_triggered();
         void on_sldWildGrassChance_valueChanged(int value);
         void on_sldWildWaterChance_valueChanged(int value);
         void on_sldWildFishingChance_valueChanged(int value);

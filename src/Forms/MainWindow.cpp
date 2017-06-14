@@ -938,6 +938,19 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   6/14/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_action_Reload_ROM_triggered()
+    {
+        if(loadROM(m_Rom.info().path()))
+            loadMapData();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/19/2016
