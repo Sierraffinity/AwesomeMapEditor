@@ -120,7 +120,7 @@ namespace ame
         bool movementMode() const;
 
         ///////////////////////////////////////////////////////////
-        /// \brief Retrieves the primary blockset size.
+        /// \brief Retrieves the main map position.
         ///
         ///////////////////////////////////////////////////////////
         QPoint mainPos();

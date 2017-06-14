@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0" columnstretch="1,0" columnminimumwidth="300,0">
    <property name="sizeConstraint">

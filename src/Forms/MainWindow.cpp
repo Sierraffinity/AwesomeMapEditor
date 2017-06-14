@@ -938,6 +938,19 @@ namespace ame
 
     ///////////////////////////////////////////////////////////
     // Function type:  Slot
+    // Contributors:   Nekaida
+    // Last edit by:   Nekaida
+    // Date of edit:   6/14/2017
+    //
+    ///////////////////////////////////////////////////////////
+    void MainWindow::on_action_Reload_ROM_triggered()
+    {
+        if(loadROM(m_Rom.info().path()))
+            loadMapData();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // Function type:  Slot
     // Contributors:   Pokedude
     // Last edit by:   Pokedude
     // Date of edit:   6/19/2016
@@ -1020,7 +1033,7 @@ namespace ame
                 MapHeader header;
                 header.read(m_Rom, offset);
                 if (header.primary()->image()->raw().isEmpty() ||
-                    header.primary()->image()->raw().isEmpty())
+                    header.secondary()->image()->raw().isEmpty())
                 {
                     // Tilesets invalid, abort
                     Messages::showMessage(this, "Layout says: \"I don't want to load tilesets!\"");
@@ -2048,11 +2061,13 @@ namespace ame
     // Function type:  Helper
     // Contributors:   Diegoisawesome, Nekaida
     // Last edit by:   Nekaida
-    // Date of edit:   3/26/2017
+    // Date of edit:   5/16/2017
     //
     ///////////////////////////////////////////////////////////
     void MainWindow::toggle_grid(bool checked)
     {
+        ui->btnMapGrid->setChecked(checked);
+        ui->btnEntitiesGrid->setChecked(checked);
         ui->glMapEditor->setGridVisible(checked);
         ui->glBlockEditor->setGridVisible(checked);
         ui->glEntityEditor->setGridVisible(checked);
